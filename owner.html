@@ -876,6 +876,52 @@
         min-width: 100%;
       }
     }
+  
+    /* ===== 2026 UI 优化：管理端 ===== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 14px rgba(0,0,0,.08);
+    }
+    .container { width: min(100%, 1180px); }
+    .card { border: 1px solid #eee; transition: box-shadow .18s ease; }
+    .card:hover { box-shadow: 0 6px 20px rgba(0,0,0,.07); }
+    .summary>div {
+      border: 1px solid #eee;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .summary>div:hover { transform: translateY(-2px); }
+    .filter {
+      position: sticky;
+      top: 70px;
+      z-index: 20;
+      padding: 10px;
+      background: rgba(247,245,240,.94);
+      backdrop-filter: blur(8px);
+      border-radius: 12px;
+    }
+    .filter button {
+      min-height: 38px;
+      transition: all .15s ease;
+    }
+    .filter button:hover { border-color: #999; transform: translateY(-1px); }
+    table { box-shadow: 0 2px 12px rgba(0,0,0,.04); }
+    tbody tr:hover { background: #fafafa; }
+    button { transition: transform .12s ease, opacity .12s ease; }
+    button:active { transform: scale(.97); }
+    .small { min-height: 32px; }
+    @media (max-width:700px) {
+      header { position: sticky; top: 0; }
+      .container { padding: 0 10px; margin-top: 12px; }
+      .card { padding: 16px; border-radius: 12px; }
+      .summary { gap: 8px; }
+      .summary>div { min-width: calc(50% - 8px); padding: 12px 8px; }
+      .summary .num { font-size: 22px; }
+      .filter { top: 58px; overflow-x: auto; flex-wrap: nowrap; }
+      .filter button { flex: 0 0 auto; white-space: nowrap; }
+    }
+
   </style>
 </head>
 
