@@ -941,6 +941,19 @@
       button, .small, .filter-btn, .refresh-btn { touch-action: manipulation; }
     }
 
+  
+    .modal-form{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:1000}
+    .modal-form.open{display:flex}
+    .modal-form-card{width:min(560px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:16px;padding:20px;box-shadow:0 18px 50px rgba(0,0,0,.2)}
+    .modal-form-card h3{margin:0 0 16px;font-size:20px}
+    .modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .modal-grid .full{grid-column:1/-1}
+    .modal-form-card label{display:block;font-size:13px;font-weight:700;color:#555;margin-bottom:5px}
+    .modal-form-card input,.modal-form-card textarea{width:100%;box-sizing:border-box;padding:10px 11px;border:1px solid #ddd;border-radius:9px;font:inherit}
+    .modal-form-card textarea{min-height:70px;resize:vertical}
+    .modal-form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+    @media(max-width:600px){.modal-form{padding:10px;align-items:flex-end}.modal-form-card{max-height:92vh;border-radius:16px 16px 10px 10px;padding:16px}.modal-grid{grid-template-columns:1fr}.modal-grid .full{grid-column:auto}.modal-form-actions button{flex:1}}
+
   </style>
 </head>
 
@@ -973,7 +986,7 @@
         </div>
         <h2>菜单商品</h2>
         <div id="productsBox"><div class="noorders">加载中…</div></div>
-        <button class="primary" style="margin-top:12px" onclick="addProduct()">+ 添加商品</button>
+        <button class="primary" style="margin-top:12px" onclick="openProductModal()">+ 添加商品</button>
       </div>
 
       <div class="card">
@@ -987,7 +1000,7 @@
         <select id="optionProductSelect" onchange="selectOptionProduct(this.value)"
           style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;font-size:15px;margin:6px 0 12px"></select>
         <div id="optionsBox"><div class="noorders">加载中…</div></div>
-        <button class="primary" style="margin-top:12px" onclick="addOption()">+ 添加选项</button>
+        <button class="primary" style="margin-top:12px" onclick="openOptionModal()">+ 添加选项</button>
       </div>
 
       <div class="card">
@@ -1064,6 +1077,34 @@
     <img id="bigImage" src="">
   </div>
 
+  <div class="modal-form" id="productModal" onclick="if(event.target===this)closeProductModal()">
+    <div class="modal-form-card">
+      <h3>添加菜单商品</h3>
+      <div class="modal-grid">
+        <div><label>中文名称 *</label><input id="productZh" placeholder="例如：包子"></div>
+        <div><label>英文名称</label><input id="productEn" placeholder="例如：Steamed Bun"></div>
+        <div><label>中文描述</label><textarea id="productDescZh"></textarea></div>
+        <div><label>英文描述</label><textarea id="productDescEn"></textarea></div>
+        <div><label>价格（RM）</label><input id="productPrice" type="number" min="0" step="0.01"></div>
+        <div><label>最大份数</label><input id="productMax" type="number" min="1" step="1" value="15"></div>
+      </div>
+      <div class="modal-form-actions"><button type="button" class="small" onclick="closeProductModal()">取消</button><button type="button" class="small green" id="productSaveBtn" onclick="addProduct()">保存商品</button></div>
+    </div>
+  </div>
+  <div class="modal-form" id="optionModal" onclick="if(event.target===this)closeOptionModal()">
+    <div class="modal-form-card">
+      <h3>添加商品选项</h3>
+      <div class="modal-grid">
+        <div><label>中文名称 *</label><input id="optionZh" placeholder="例如：牛肉"></div>
+        <div><label>英文名称</label><input id="optionEn" placeholder="例如：Beef"></div>
+        <div><label>中文描述</label><textarea id="optionDescZh"></textarea></div>
+        <div><label>英文描述</label><textarea id="optionDescEn"></textarea></div>
+        <div><label>价格（RM）</label><input id="optionPrice" type="number" min="0" step="0.01"></div>
+        <div><label>最大份数</label><input id="optionMax" type="number" min="1" step="1" value="15"></div>
+      </div>
+      <div class="modal-form-actions"><button type="button" class="small" onclick="closeOptionModal()">取消</button><button type="button" class="small green" id="optionSaveBtn" onclick="addOption()">保存选项</button></div>
+    </div>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL = 'https://kbzspuxrwsuxoyozmvjb.supabase.co';
@@ -1354,49 +1395,76 @@
       });
     }
 
-    function addProduct() {
-      const zh = prompt('商品中文名，例如：包子');
-      if (!zh) return;
-      const en = prompt('商品英文名，例如：Steamed Bun') || zh;
-      const descZh = prompt('中文描述（可选）') || '';
-      const descEn = prompt('英文描述（可选）') || '';
-      const price = Math.max(0, parseFloat(prompt('价格（RM）') || '0') || 0);
-      const maxPortions = Math.max(1, parseInt(prompt('最大份数') || '15', 10) || 15);
+    function closeProductModal() {
+      const modal = document.getElementById('productModal');
+      if (modal) modal.classList.remove('open');
+    }
 
-      supabaseClient.from('menu_products')
-        .select('sort')
-        .eq('menu_type', currentMenuType)
-        .order('sort', {ascending:false})
-        .limit(1)
-        .then(function(sortRes) {
-          if (sortRes.error) {
-            console.error(sortRes.error);
-            alert('读取商品排序失败，请稍后重试。');
-            return;
-          }
-          const nextSort = sortRes.data && sortRes.data.length ? Number(sortRes.data[0].sort || 0) + 1 : 1;
+    function openProductModal() {
+      const modal = document.getElementById('productModal');
+      if (!modal) return;
+      document.getElementById('productZh').value = '';
+      document.getElementById('productEn').value = '';
+      document.getElementById('productDescZh').value = '';
+      document.getElementById('productDescEn').value = '';
+      document.getElementById('productPrice').value = '';
+      document.getElementById('productMax').value = '15';
+      modal.classList.add('open');
+      setTimeout(function () { document.getElementById('productZh').focus(); }, 50);
+    }
 
-          return supabaseClient.from('menu_products').insert({
-            menu_type: currentMenuType,
-            name_zh: zh.trim(),
-            name_en: en.trim(),
-            desc_zh: descZh.trim(),
-            desc_en: descEn.trim(),
-            price: price,
-            max_portions: maxPortions,
-            active: true,
-            sort: nextSort
-          });
-        })
-        .then(function(res) {
-          if (!res) return;
-          if (res.error) {
-            console.error(res.error);
-            alert('添加商品失败，请稍后重试。');
-            return;
-          }
-          loadProducts();
+    async function addProduct() {
+      const zh = document.getElementById('productZh').value.trim();
+      const en = document.getElementById('productEn').value.trim() || zh;
+      const descZh = document.getElementById('productDescZh').value.trim();
+      const descEn = document.getElementById('productDescEn').value.trim();
+      const price = Math.max(0, parseFloat(document.getElementById('productPrice').value) || 0);
+      const maxPortions = Math.max(1, parseInt(document.getElementById('productMax').value, 10) || 15);
+      const saveBtn = document.getElementById('productSaveBtn');
+
+      if (!zh) {
+        alert('请输入商品中文名。');
+        document.getElementById('productZh').focus();
+        return;
+      }
+
+      setButtonBusy(saveBtn, true, '保存中…', '保存商品');
+
+      try {
+        const sortRes = await supabaseClient.from('menu_products')
+          .select('sort')
+          .eq('menu_type', currentMenuType)
+          .order('sort', {ascending:false})
+          .limit(1);
+
+        if (sortRes.error) throw sortRes.error;
+
+        const nextSort = sortRes.data && sortRes.data.length
+          ? Number(sortRes.data[0].sort || 0) + 1
+          : 1;
+
+        const res = await supabaseClient.from('menu_products').insert({
+          menu_type: currentMenuType,
+          name_zh: zh,
+          name_en: en,
+          desc_zh: descZh,
+          desc_en: descEn,
+          price: price,
+          max_portions: maxPortions,
+          active: true,
+          sort: nextSort
         });
+
+        if (res.error) throw res.error;
+
+        closeProductModal();
+        await loadProducts();
+      } catch (err) {
+        safeErrorMessage(err, '添加商品失败，请稍后重试。');
+        alert('添加商品失败，请稍后重试。');
+      } finally {
+        setButtonBusy(saveBtn, false, '保存中…', '保存商品');
+      }
     }
 
     function selectOptionProduct(id) {
@@ -1491,33 +1559,73 @@
       });
     }
 
-    function addOption() {
+    function closeOptionModal() {
+      const modal = document.getElementById('optionModal');
+      if (modal) modal.classList.remove('open');
+    }
+
+    function openOptionModal() {
       if (!selectedOptionProductId) {
         alert('请先选择商品。');
         return;
       }
-      const zh = prompt('选项中文名，例如：牛肉');
-      if (!zh) return;
-      const en = prompt('选项英文名，例如：Beef') || zh;
-      const descZh = prompt('中文描述（可选）') || '';
-      const descEn = prompt('英文描述（可选）') || '';
-      const price = Math.max(0, parseFloat(prompt('价格（RM）') || '0') || 0);
-      const maxPortions = Math.max(1, parseInt(prompt('最大份数') || '15',10) || 15);
+      const modal = document.getElementById('optionModal');
+      if (!modal) return;
+      document.getElementById('optionZh').value = '';
+      document.getElementById('optionEn').value = '';
+      document.getElementById('optionDescZh').value = '';
+      document.getElementById('optionDescEn').value = '';
+      document.getElementById('optionPrice').value = '';
+      document.getElementById('optionMax').value = '15';
+      modal.classList.add('open');
+      setTimeout(function () { document.getElementById('optionZh').focus(); }, 50);
+    }
 
-      supabaseClient.from('product_options').insert({
-        label_zh: zh.trim(),
-        label_en: en.trim(),
-        desc_zh: descZh.trim(),
-        desc_en: descEn.trim(),
-        price: price,
-        max_portions: maxPortions,
-        enabled: true,
-        sort: 99,
-        product_id: selectedOptionProductId
-      }).then(function(res) {
-        if (res.error) { console.error(res.error); alert('操作失败，请稍后重试。'); return; }
-        loadOptions();
-      });
+    async function addOption() {
+      if (!selectedOptionProductId) {
+        alert('请先选择商品。');
+        return;
+      }
+
+      const zh = document.getElementById('optionZh').value.trim();
+      const en = document.getElementById('optionEn').value.trim() || zh;
+      const descZh = document.getElementById('optionDescZh').value.trim();
+      const descEn = document.getElementById('optionDescEn').value.trim();
+      const price = Math.max(0, parseFloat(document.getElementById('optionPrice').value) || 0);
+      const maxPortions = Math.max(1, parseInt(document.getElementById('optionMax').value, 10) || 15);
+      const saveBtn = document.getElementById('optionSaveBtn');
+
+      if (!zh) {
+        alert('请输入选项中文名。');
+        document.getElementById('optionZh').focus();
+        return;
+      }
+
+      setButtonBusy(saveBtn, true, '保存中…', '保存选项');
+
+      try {
+        const res = await supabaseClient.from('product_options').insert({
+          label_zh: zh,
+          label_en: en,
+          desc_zh: descZh,
+          desc_en: descEn,
+          price: price,
+          max_portions: maxPortions,
+          enabled: true,
+          sort: 99,
+          product_id: selectedOptionProductId
+        });
+
+        if (res.error) throw res.error;
+
+        closeOptionModal();
+        await loadOptions();
+      } catch (err) {
+        safeErrorMessage(err, '添加选项失败，请稍后重试。');
+        alert('添加选项失败，请稍后重试。');
+      } finally {
+        setButtonBusy(saveBtn, false, '保存中…', '保存选项');
+      }
     }
 
     function delOption(id) {
