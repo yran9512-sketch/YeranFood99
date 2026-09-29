@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YeranFood · 管理员</title>
+  <style>
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #f7f5f0;
+      color: #222
+    }
+
+    header {
+      background: #111;
+      color: #fff;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px
+    }
+
+    header button {
+      background: transparent;
+      color: #fff;
+      border: 1px solid #777;
+      border-radius: 8px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 14px
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 20px auto;
+      padding: 0 16px
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 3px 12px #0000000d
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 12px
+    }
+
+    button.primary {
+      padding: 12px 24px;
+      border: 0;
+      border-radius: 10px;
+      background: #111;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    button.primary:hover {
+      opacity: .85
+    }
+
+    button.small {
+      padding: 6px 10px;
+      border: 0;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      font-weight: 600
+    }
+
+    button.green {
+      background: #2e7d32;
+      color: #fff
+    }
+
+    button.gray {
+      background: #eee;
+      color: #333
+    }
+
+    button.red {
+      background: #c0392b;
+      color: #fff
+    }
+
+    .summary {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px
+    }
+
+    .summary>div {
+      flex: 1;
+      min-width: 130px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      box-shadow: 0 3px 12px #0000000d
+    }
+
+    .summary .num {
+      font-size: 26px;
+      font-weight: 800;
+      color: #111
+    }
+
+    .summary .lbl {
+      font-size: 13px;
+      color: #666;
+      margin-top: 4px
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden
+    }
+
+    th,
+    td {
+      padding: 10px 8px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+      font-size: 13px
+    }
+
+    th {
+      background: #fafafa;
+      font-weight: 700;
+      color: #555
+    }
+
+    td.note {
+      color: #888;
+      max-width: 140px
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 700
+    }
+
+    .tag.meat {
+      background: #ffe4e1;
+      color: #c0392b
+    }
+
+    .tag.veg {
+      background: #e8f5e9;
+      color: #2e7d32
+    }
+
+    .tag.online {
+      background: #e3f2fd;
+      color: #1565c0
+    }
+
+    .tag.cash {
+      background: #fff8e1;
+      color: #ef6c00
+    }
+
+    .tag.paid {
+      background: #e8f5e9;
+      color: #2e7d32
+    }
+
+    .tag.unpaid {
+      background: #ffebee;
+      color: #c62828
+    }
+
+    .hidden {
+      display: none
+    }
+
+    .err {
+      color: #c0392b;
+      margin-top: 10px
+    }
+
+    h2 {
+      margin: 0 0 12px
+    }
+
+    .noorders {
+      text-align: center;
+      color: #999;
+      padding: 40px
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0009;
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+      padding: 20px
+    }
+
+    .modal.open {
+      display: flex
+    }
+
+    .modal img {
+      max-width: 100%;
+      max-height: 90%;
+      border-radius: 8px;
+      background: #fff
+    }
+
+    .filter {
+      margin-bottom: 12px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap
+    }
+
+    .filter button {
+      padding: 6px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 13px
+    }
+
+    .filter button.active {
+      background: #111;
+      color: #fff;
+      border-color: #111
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .stat-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 3px 12px #0000000d;
+      border: 1px solid #eee;
+    }
+
+    .stat-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .stat-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: #111;
+    }
+
+    .stat-label {
+      margin-top: 4px;
+      font-size: 13px;
+      color: #777;
+    }
+
+    .stat-card.warning {
+      border-left: 4px solid #ef6c00;
+    }
+
+    .stat-card.success {
+      border-left: 4px solid #2e7d32;
+    }
+
+    .stat-card.info {
+      border-left: 4px solid #1565c0;
+    }
+
+    .stat-card.money {
+      border-left: 4px solid #8e44ad;
+    }
+
+    @media (max-width: 700px) {
+      .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 14px;
+      }
+
+      .stat-num {
+        font-size: 23px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .dashboard {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .stat-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 3px 12px #0000000d;
+      border: 1px solid #eee;
+    }
+
+    .stat-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .stat-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: #111;
+    }
+
+    .stat-label {
+      margin-top: 4px;
+      font-size: 13px;
+      color: #777;
+    }
+
+    .stat-card.warning {
+      border-left: 4px solid #ef6c00;
+    }
+
+    .stat-card.success {
+      border-left: 4px solid #2e7d32;
+    }
+
+    .stat-card.info {
+      border-left: 4px solid #1565c0;
+    }
+
+    .stat-card.money {
+      border-left: 4px solid #8e44ad;
+    }
+
+    @media (max-width: 700px) {
+      .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 14px;
+      }
+
+      .stat-num {
+        font-size: 23px;
+      }
+    }
+
+    .order-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: flex-end;
+      margin-bottom: 18px;
+      padding: 14px;
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 14px;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .filter-group>span {
+      font-size: 13px;
+      color: #777;
+      margin-right: 2px;
+    }
+
+    .filter-btn,
+    .refresh-btn {
+      border: 1px solid #ddd;
+      background: #fff;
+      color: #333;
+      border-radius: 8px;
+      padding: 7px 12px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .filter-btn:hover,
+    .refresh-btn:hover {
+      background: #f2f2f2;
+    }
+
+    .filter-btn.active {
+      background: #111;
+      color: #fff;
+      border-color: #111;
+    }
+
+    .refresh-btn {
+      margin-left: auto;
+      font-weight: 600;
+    }
+
+    @media (max-width: 700px) {
+      .order-filters {
+        display: block;
+      }
+
+      .filter-group {
+        margin-bottom: 10px;
+      }
+
+      .refresh-btn {
+        margin-left: 0;
+        width: 100%;
+        margin-top: 4px;
+      }
+    }
+
+    @media (max-width: 700px) {
+
+      body {
+        font-size: 14px;
+      }
+
+      header {
+        padding: 14px 16px;
+      }
+
+      header h1 {
+        font-size: 18px;
+      }
+
+      .container {
+        padding: 12px;
+      }
+
+      .card {
+        padding: 14px;
+        border-radius: 14px;
+      }
+
+      .card h2 {
+        font-size: 18px;
+      }
+
+      /* Dashboard */
+      .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+
+      .stat-card {
+        min-width: 0;
+        padding: 12px;
+        border-radius: 12px;
+      }
+
+      .stat-icon {
+        font-size: 20px;
+        margin-bottom: 5px;
+      }
+
+      .stat-num {
+        font-size: 21px;
+        line-height: 1.2;
+        overflow-wrap: anywhere;
+      }
+
+      .stat-label {
+        font-size: 12px;
+      }
+
+      /* 筛选器 */
+      .order-filters {
+        padding: 10px;
+        border-radius: 12px;
+      }
+
+      .filter-group {
+        gap: 5px;
+      }
+
+      .filter-group>span {
+        width: 100%;
+        margin-bottom: 2px;
+      }
+
+      .filter-btn {
+        padding: 8px 11px;
+        min-height: 36px;
+      }
+
+      .refresh-btn {
+        min-height: 40px;
+      }
+
+      /* 订单表 */
+      #ordersBox {
+        margin-left: -2px;
+        margin-right: -2px;
+      }
+
+      #ordersBox table {
+        min-width: 850px;
+        font-size: 13px;
+      }
+
+      #ordersBox th,
+      #ordersBox td {
+        padding: 9px 7px;
+        white-space: nowrap;
+      }
+
+      /* 操作按钮 */
+      #ordersBox button.small {
+        min-height: 34px;
+        padding: 6px 10px;
+        margin: 2px 0;
+      }
+
+      /* 菜单编辑 */
+      input,
+      textarea,
+      select {
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      /* 菜单选项 */
+      #optionsBox {
+        overflow-x: auto;
+      }
+
+      #optionsBox table {
+        min-width: 800px;
+      }
+
+    }
+
+    @media (max-width: 480px) {
+
+      .filter-btn {
+        flex: 1;
+        min-width: 0;
+        text-align: center;
+      }
+
+      .filter-group {
+        width: 100%;
+      }
+
+      .filter-group>span {
+        font-weight: 600;
+        color: #555;
+      }
+
+      .stat-num {
+        font-size: 19px;
+      }
+
+      .stat-label {
+        white-space: nowrap;
+      }
+
+      #ordersBox button.small {
+        width: auto;
+        min-width: 72px;
+      }
+
+    }
+
+    /* =========================
+   Owner Menu Options
+   ========================= */
+
+    .options-mobile {
+      display: none;
+    }
+
+    .option-card {
+      background: #fff;
+      border: 1px solid #e8e8e8;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px #00000008;
+    }
+
+    .option-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .option-card-title {
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .option-card-status {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .option-card-status.on {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .option-card-status.off {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .option-field {
+      margin-bottom: 10px;
+    }
+
+    .option-field label {
+      display: block;
+      font-size: 12px;
+      color: #777;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .option-field input {
+      margin: 0;
+      padding: 9px 10px;
+      font-size: 14px;
+    }
+
+    .option-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .option-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+    }
+
+    .option-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .option-toggle input {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+    }
+
+    .option-delete {
+      margin-left: auto;
+    }
+
+    @media (max-width: 700px) {
+
+      #optionsBox>table {
+        display: none;
+      }
+
+      .options-mobile {
+        display: block;
+      }
+
+      .option-card {
+        padding: 14px;
+      }
+
+      .option-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .option-card input {
+        width: 100%;
+      }
+
+      .option-delete {
+        min-height: 36px;
+        padding: 7px 14px;
+      }
+    }
+
+    @media (max-width: 420px) {
+
+      .option-row {
+        grid-template-columns: 1fr;
+      }
+
+      .option-card-head {
+        align-items: flex-start;
+      }
+
+    }
+
+    /* =========================
+   Owner 手机端订单卡片
+   ========================= */
+
+    .orders-mobile {
+      display: none;
+    }
+
+    .order-card {
+      background: #fff;
+      border: 1px solid #e8e8e8;
+      border-radius: 14px;
+      padding: 15px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px #00000008;
+    }
+
+    .order-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .order-card-code {
+      font-size: 16px;
+      font-weight: 800;
+      color: #222;
+    }
+
+    .order-card-period {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #fff3e0;
+      color: #e65100;
+      white-space: nowrap;
+    }
+
+    .order-card-name {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .order-card-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 12px;
+      margin-bottom: 12px;
+    }
+
+    .order-card-item {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .order-card-item strong {
+      display: block;
+      margin-top: 2px;
+      color: #222;
+      font-size: 14px;
+    }
+
+    .order-card-payment {
+      padding: 10px;
+      border-radius: 10px;
+      background: #f7f7f7;
+      margin-bottom: 12px;
+    }
+
+    .order-card-payment .payment-status {
+      font-weight: 700;
+    }
+
+    .order-card-payment .paid {
+      color: #2e7d32;
+    }
+
+    .order-card-payment .unpaid {
+      color: #c62828;
+    }
+
+    .order-card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .order-card-actions button {
+      flex: 1;
+      min-width: 90px;
+      min-height: 38px;
+    }
+
+    @media (max-width: 700px) {
+
+      /* 隐藏原来的订单宽表 */
+      #ordersBox>table {
+        display: none;
+      }
+
+      .orders-mobile {
+        display: block;
+      }
+
+      .order-card {
+        padding: 14px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .order-card-info {
+        grid-template-columns: 1fr;
+      }
+
+      .order-card-actions button {
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>YeranFood · 管理员</h1>
+    <button onclick="logout()" id="logoutBtn" class="hidden">退出登录</button>
+  </header>
+
+  <main class="container">
+
+    <section class="card" id="loginCard">
+      <h2>管理员登录</h2>
+      <input type="email" id="email" placeholder="管理员邮箱" autocomplete="username">
+      <input type="password" id="pw" placeholder="密码" autocomplete="current-password"
+        onkeydown="if(event.key==='Enter')login()">
+      <button class="primary" onclick="login()">登录</button>
+      <div class="err" id="err"></div>
+    </section>
+
+    <section id="main" class="hidden">
+
+
+      <div class="card">
+        <div style="margin-bottom:16px">
+          <button id="btnLunchMenu" class="primary" onclick="switchMenuType('lunch')">午餐菜单</button>
+          <button id="btnBreakfastMenu" onclick="switchMenuType('breakfast')"
+            style="margin-left:8px;padding:12px 24px;border:0;border-radius:10px;background:#eee;color:#333;font-size:16px;font-weight:700;cursor:pointer">早餐菜单</button>
+        </div>
+        <h2>今日菜单设置</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div>
+            <label style="font-size:13px;font-weight:600">菜名（中文）</label>
+            <input id="m_name_zh" style="margin-top:4px">
+          </div>
+          <div>
+            <label style="font-size:13px;font-weight:600">菜名（英文）</label>
+            <input id="m_name_en" style="margin-top:4px">
+          </div>
+          <div>
+            <label style="font-size:13px;font-weight:600">描述（中文）</label>
+            <input id="m_desc_zh" style="margin-top:4px">
+          </div>
+          <div>
+            <label style="font-size:13px;font-weight:600">描述（英文）</label>
+            <input id="m_desc_en" style="margin-top:4px">
+          </div>
+          <div>
+            <label style="font-size:13px;font-weight:600">最大份数</label>
+            <input id="m_max_portions" type="number" style="margin-top:4px">
+          </div>
+        </div>
+        <button class="primary" style="margin-top:12px" onclick="saveMenu()">保存菜单</button>
+        <span id="menuSaveMsg" style="margin-left:12px;font-size:13px;color:#2e7d32"></span>
+      </div>
+
+      <div class="card">
+        <div style="margin-bottom:16px">
+          <button id="btnLunchOpt" class="primary" onclick="switchOptType('lunch')">午餐选项</button>
+          <button id="btnBreakfastOpt" onclick="switchOptType('breakfast')"
+            style="margin-left:8px;padding:12px 24px;border:0;border-radius:10px;background:#eee;color:#333;font-size:16px;font-weight:700;cursor:pointer">早餐选项</button>
+        </div>
+        <h2>今日选项设置</h2>
+        <div id="optionsBox">
+          <div class="noorders">加载中…</div>
+        </div>
+        <button class="primary" style="margin-top:12px" onclick="addOption()">+ 添加选项</button>
+      </div>
+
+      <div class="card">
+        <h2>待审核反馈</h2>
+        <div id="pendingFeedbackBox">
+          <div class="noorders">加载中…</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>已通过反馈</h2>
+        <div id="approvedFeedbackBox">
+          <div class="noorders">加载中…</div>
+        </div>
+      </div>
+
+      <div class="dashboard" id="summaryBox"></div>
+
+      <div class="card">
+        <h2>订单列表</h2>
+        <div class="order-filters">
+
+          <div class="filter-group">
+            <span>日期</span>
+            <button class="filter-btn active" id="dateTodayBtn" onclick="setDateFilter('today')">
+              今天
+            </button>
+            <button class="filter-btn" id="dateAllBtn" onclick="setDateFilter('all')">
+              全部
+            </button>
+          </div>
+
+          <div class="filter-group">
+            <span>餐别</span>
+            <button class="filter-btn active" id="periodAllBtn" onclick="setPeriodFilter('all')">
+              全部
+            </button>
+            <button class="filter-btn" id="periodBreakfastBtn" onclick="setPeriodFilter('breakfast')">
+              早餐
+            </button>
+            <button class="filter-btn" id="periodLunchBtn" onclick="setPeriodFilter('lunch')">
+              午餐
+            </button>
+          </div>
+
+          <div class="filter-group">
+            <span>付款</span>
+            <button class="filter-btn active" id="paymentAllBtn" onclick="setPaymentFilter('all')">
+              全部
+            </button>
+            <button class="filter-btn" id="paymentUnpaidBtn" onclick="setPaymentFilter('unpaid')">
+              待确认
+            </button>
+            <button class="filter-btn" id="paymentPaidBtn" onclick="setPaymentFilter('paid')">
+              已付款
+            </button>
+          </div>
+
+          <button class="refresh-btn" onclick="loadOrders()">
+            🔄 刷新
+          </button>
+
+        </div>
+        <div id="ordersBox">
+          <div class="noorders">加载中…</div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <div class="modal" id="imgModal" onclick="closeModal()">
+    <img id="bigImage" src="">
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://kbzspuxrwsuxoyozmvjb.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_oC0S_vWgBt_X8N4Xu4cG4g_ekhGwKXB';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Frontend hardening: never inject database/user text into HTML without escaping it.
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+
+    function safeErrorMessage(error, fallback) {
+      console.error(error);
+      return fallback || '操作失败，请稍后重试。';
+    }
+
+    function setButtonBusy(btn, busy, busyText, normalText) {
+      if (!btn) return;
+      btn.disabled = !!busy;
+      btn.textContent = busy ? busyText : normalText;
+    }
+
+    // SECURITY NOTE:
+    // The publishable Supabase key is safe to ship in frontend code only when
+    // Row Level Security (RLS) policies protect every table/storage action.
+    // Never put a Supabase service_role key or a real admin password in this file.
+    let currentMenuType = 'lunch';
+    let currentOptType = 'lunch';
+
+    let dateFilter = 'today';
+    let periodFilter = 'all';
+    let paymentFilter = 'all';
+
+    async function login() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('pw').value;
+      const err = document.getElementById('err');
+
+      if (!email || !password) {
+        err.textContent = '请输入管理员邮箱和密码';
+        return;
+      }
+
+      err.textContent = '登录中…';
+      const {data, error} = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+      if (error || !data.session) {
+        console.error(error);
+        err.textContent = '登录失败，请检查账号或密码';
+        return;
+      }
+
+      await showAdmin();
+    }
+
+    async function showAdmin() {
+      document.getElementById('loginCard').classList.add('hidden');
+      document.getElementById('main').classList.remove('hidden');
+      document.getElementById('logoutBtn').classList.remove('hidden');
+      await loadOrders();
+      await loadMenuForEdit();
+      await loadFeedback();
+      await loadOptions();
+    }
+
+    async function logout() {
+      await supabaseClient.auth.signOut();
+      location.reload();
+    }
+
+    async function restoreSession() {
+      const {data} = await supabaseClient.auth.getSession();
+      if (data && data.session) {
+        await showAdmin();
+      }
+    }
+
+    supabaseClient.auth.onAuthStateChange(function (event, session) {
+      if (event === 'SIGNED_IN' && session) showAdmin();
+      if (event === 'SIGNED_OUT') location.reload();
+    });
+
+    function setDateFilter(value) {
+      dateFilter = value;
+
+      document.getElementById('dateTodayBtn')
+        .classList.toggle('active', value === 'today');
+
+      document.getElementById('dateAllBtn')
+        .classList.toggle('active', value === 'all');
+
+      loadOrders();
+    }
+
+    function setPeriodFilter(value) {
+      periodFilter = value;
+
+      document.getElementById('periodAllBtn')
+        .classList.toggle('active', value === 'all');
+
+      document.getElementById('periodBreakfastBtn')
+        .classList.toggle('active', value === 'breakfast');
+
+      document.getElementById('periodLunchBtn')
+        .classList.toggle('active', value === 'lunch');
+
+      loadOrders();
+    }
+
+    function setPaymentFilter(value) {
+      paymentFilter = value;
+
+      document.getElementById('paymentAllBtn')
+        .classList.toggle('active', value === 'all');
+
+      document.getElementById('paymentUnpaidBtn')
+        .classList.toggle('active', value === 'unpaid');
+
+      document.getElementById('paymentPaidBtn')
+        .classList.toggle('active', value === 'paid');
+
+      loadOrders();
+    }
+
+    function fmtTime(t) {
+      const d = new Date(t);
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mi = String(d.getMinutes()).padStart(2, '0');
+      return mm + '-' + dd + ' ' + hh + ':' + mi;
+    }
+
+    function switchMenuType(type) {
+      currentMenuType = type;
+      document.getElementById('btnLunchMenu').className = type === 'lunch' ? 'primary' : '';
+      document.getElementById('btnBreakfastMenu').className = type === 'breakfast' ? 'primary' : '';
+      document.getElementById('btnBreakfastMenu').style.background = type === 'breakfast' ? '#111' : '#eee';
+      document.getElementById('btnBreakfastMenu').style.color = type === 'breakfast' ? '#fff' : '#333';
+      loadMenuForEdit();
+    }
+
+    function switchOptType(type) {
+      currentOptType = type;
+      document.getElementById('btnLunchOpt').className = type === 'lunch' ? 'primary' : '';
+      document.getElementById('btnBreakfastOpt').className = type === 'breakfast' ? 'primary' : '';
+      document.getElementById('btnBreakfastOpt').style.background = type === 'breakfast' ? '#111' : '#eee';
+      document.getElementById('btnBreakfastOpt').style.color = type === 'breakfast' ? '#fff' : '#333';
+      loadOptions();
+    }
+    function loadMenuForEdit() {
+      supabaseClient.from('menu').select('*').eq('type', currentMenuType).limit(1).then(function (res) {
+        if (res.error) {console.error(res.error); return;}
+        if (!res.data || !res.data.length) {
+          // 没有这个类型 → 清空输入框
+          document.getElementById('m_name_zh').value = '';
+          document.getElementById('m_name_en').value = '';
+          document.getElementById('m_desc_zh').value = '';
+          document.getElementById('m_desc_en').value = '';
+          document.getElementById('m_max_portions').value = 15;
+          window._menuId = null;
+          return;
+        }
+        const m = res.data[0];
+        window._menuId = m.id;
+        document.getElementById('m_name_zh').value = m.name_zh || '';
+        document.getElementById('m_name_en').value = m.name_en || '';
+        document.getElementById('m_desc_zh').value = m.desc_zh || '';
+        document.getElementById('m_desc_en').value = m.desc_en || '';
+        document.getElementById('m_max_portions').value = m.max_portions || 15;
+      });
+    }
+    function saveMenu() {
+      const data = {
+        name_zh: document.getElementById('m_name_zh').value.trim(),
+        name_en: document.getElementById('m_name_en').value.trim(),
+        desc_zh: document.getElementById('m_desc_zh').value.trim(),
+        desc_en: document.getElementById('m_desc_en').value.trim(),
+        max_portions: Math.max(1, Math.min(500, parseInt(document.getElementById('m_max_portions').value, 10) || 15))
+      };
+
+      if (window._menuId) {
+        supabaseClient.from('menu').update(data).eq('id', window._menuId).then(function (res) {
+          if (res.error) {console.error(res.error); alert('保存失败，请稍后重试。'); return;}
+          const msg = document.getElementById('menuSaveMsg');
+          msg.textContent = '✓ 已保存';
+          setTimeout(function () {msg.textContent = '';}, 2000);
+        });
+      } else {
+        data.type = currentMenuType;
+        data.active = true;
+        supabaseClient.from('menu').insert(data).then(function (res) {
+          if (res.error) {console.error(res.error); alert('创建失败，请稍后重试。'); return;}
+          const msg = document.getElementById('menuSaveMsg');
+          msg.textContent = '✓ 已创建';
+          setTimeout(function () {msg.textContent = '';}, 2000);
+          loadMenuForEdit();
+          loadOptions();
+        });
+      }
+    }
+
+
+    function loadFeedback() {
+      supabaseClient.from('feedback').select('*').order('created_at', {ascending: false}).then(function (res) {
+        if (res.error) {console.error(res.error); return;}
+        const all = res.data || [];
+        const pending = all.filter(function (f) {return !f.approved;});
+        const approved = all.filter(function (f) {return f.approved;});
+
+        let html1 = '';
+        if (!pending.length) {
+          html1 = '<div class="noorders">没有待审核反馈</div>';
+        } else {
+          html1 = '<table><thead><tr><th>时间</th><th>姓名</th><th>内容</th><th>操作</th></tr></thead><tbody>';
+          pending.forEach(function (f) {
+            html1 += '<tr>' +
+              '<td>' + fmtTime(f.created_at) + '</td>' +
+              '<td>' + escapeHtml(f.name || '') + '</td>' +
+              '<td>' + escapeHtml(f.content || '') + '</td>' +
+              '<td>' +
+              '<button class="small green" onclick="approveFeedback(' + f.id + ')">通过</button> ' +
+              '<button class="small red" onclick="delFeedback(' + f.id + ')">删</button>' +
+              '</td>' +
+              '</tr>';
+          });
+          html1 += '</tbody></table>';
+        }
+        document.getElementById('pendingFeedbackBox').innerHTML = html1;
+
+        let html2 = '';
+        if (!approved.length) {
+          html2 = '<div class="noorders">暂无已通过的反馈</div>';
+        } else {
+          html2 = '<table><thead><tr><th>时间</th><th>姓名</th><th>内容</th><th>操作</th></tr></thead><tbody>';
+          approved.forEach(function (f) {
+            html2 += '<tr>' +
+              '<td>' + fmtTime(f.created_at) + '</td>' +
+              '<td>' + escapeHtml(f.name || '') + '</td>' +
+              '<td>' + escapeHtml(f.content || '') + '</td>' +
+              '<td>' +
+              '<button class="small red" onclick="delFeedback(' + f.id + ')">删</button>' +
+              '</td>' +
+              '</tr>';
+          });
+          html2 += '</tbody></table>';
+        }
+        document.getElementById('approvedFeedbackBox').innerHTML = html2;
+      });
+    }
+
+    function approveFeedback(id) {
+      supabaseClient.from('feedback').update({approved: true}).eq('id', id).then(function (res) {
+        if (res.error) {console.error(res.error); alert('操作失败，请稍后重试。'); return;}
+        loadFeedback();
+      });
+    }
+
+    function delFeedback(id) {
+      if (!confirm('确认删除？')) return;
+      supabaseClient.from('feedback').delete().eq('id', id).then(function (res) {
+        if (res.error) {console.error(res.error); alert('操作失败，请稍后重试。'); return;}
+        loadFeedback();
+      });
+    }
+    function loadOptions() {
+      const box = document.getElementById('optionsBox');
+
+      box.innerHTML =
+        '<div class="noorders">加载中…</div>';
+
+      supabaseClient
+        .from('menu_options')
+        .select('*')
+        .eq('menu_type', currentOptType)
+        .order('sort', {ascending: true})
+        .then(function (res) {
+
+          if (res.error) {
+            console.error(res.error);
+
+            box.innerHTML =
+              '<div class="noorders" style="color:#c0392b;">' +
+              '加载选项失败，请稍后重试。' +
+              '</div>';
+
+            return;
+          }
+
+          const opts = res.data || [];
+
+          if (!opts.length) {
+            box.innerHTML =
+              '<div class="noorders">暂无选项</div>';
+            return;
+          }
+
+          /*
+           * =========================
+           * Desktop table
+           * =========================
+           */
+
+          let tableHtml =
+            '<table>' +
+            '<thead>' +
+            '<tr>' +
+            '<th>排序</th>' +
+            '<th>中文</th>' +
+            '<th>英文</th>' +
+            '<th>中文描述</th>' +
+            '<th>英文描述</th>' +
+            '<th>价格</th>' +
+            '<th>最大份数</th>' +
+            '<th>今天有吗</th>' +
+            '<th>操作</th>' +
+            '</tr>' +
+            '</thead>' +
+            '<tbody>';
+
+          opts.forEach(function (o) {
+
+            tableHtml +=
+              '<tr>' +
+
+              '<td>' +
+              '<input type="number" ' +
+              'value="' + Number(o.sort || 0) + '" ' +
+              'style="width:60px;padding:4px" ' +
+              'onchange="updateOption(' +
+              o.id +
+              ', \'sort\', this.value)">' +
+              '</td>' +
+
+              '<td>' +
+              '<input value="' +
+              escapeHtml(o.label_zh || '') +
+              '" ' +
+              'style="width:100px;padding:4px" ' +
+              'onchange="updateOption(' +
+              o.id +
+              ', \'label_zh\', this.value)">' +
+              '</td>' +
+
+              '<td>' +
+              '<input value="' +
+              escapeHtml(o.label_en || '') +
+              '" ' +
+              'style="width:100px;padding:4px" ' +
+              'onchange="updateOption(' +
+              o.id +
+              ', \'label_en\', this.value)">' +
+              '</td>' +
+
+              '<td>' +
+              '<input value="' +
+              escapeHtml(o.desc_zh || '') +
+              '" ' +
+              'style="width:140px;padding:4px" ' +
+              'onchange="updateOption(' +
+              o.id +
+              ', \'desc_zh\', this.value)">' +
+              '</td>' +
+
+              '<td>' +
+              '<input value="' +
+              escapeHtml(o.desc_en || '') +
+              '" ' +
+              'style="width:140px;padding:4px" ' +
+              'onchange="updateOption(' +
+              o.id +
+              ', \'desc_en\', this.value)">' +
+              '</td>' +
+
+              '<td>' +
+              '<input type="number" ' +
+              'value="' + Number(o.price || 0) + '" ' +
+              'style="width:70px;padding:4px" ' +
+              'onchange="updateOption(' +
+              o.id +
+              ', \'price\', this.value)">' +
+              '</td>' +
+
+              '<td>' +
+              '<input type="number" ' +
+              'value="' + Number(o.max_portions || 15) + '" ' +
+              'style="width:70px;padding:4px" ' +
+              'onchange="updateOption(' +
+              o.id +
+              ', \'max_portions\', this.value)">' +
+              '</td>' +
+
+              '<td>' +
+              '<input type="checkbox" ' +
+              (o.enabled ? 'checked' : '') +
+              ' onchange="updateOption(' +
+              o.id +
+              ', \'enabled\', this.checked)">' +
+              '</td>' +
+
+              '<td>' +
+              '<button class="small red" ' +
+              'onclick="delOption(' +
+              o.id +
+              ')">删</button>' +
+              '</td>' +
+
+              '</tr>';
+          });
+
+          tableHtml +=
+            '</tbody>' +
+            '</table>';
+
+
+          /*
+           * =========================
+           * Mobile cards
+           * =========================
+           */
+
+          let mobileHtml =
+            '<div class="options-mobile">';
+
+          opts.forEach(function (o) {
+
+            const statusText =
+              o.enabled ? '今天供应' : '已停用';
+
+            const statusClass =
+              o.enabled ? 'on' : 'off';
+
+            mobileHtml +=
+
+              '<div class="option-card">' +
+
+              '<div class="option-card-head">' +
+
+              '<div class="option-card-title">' +
+              escapeHtml(o.label_zh || '未命名选项') +
+              '</div>' +
+
+              '<div class="option-card-status ' +
+              statusClass +
+              '">' +
+              statusText +
+              '</div>' +
+
+              '</div>' +
+
+
+              '<div class="option-row">' +
+
+              '<div class="option-field">' +
+              '<label>中文名称</label>' +
+              '<input value="' +
+              escapeHtml(o.label_zh || '') +
+              '" ' +
+              'onchange="updateOption(' +
+              o.id +
+              ', \'label_zh\', this.value)">' +
+              '</div>' +
+
+              '<div class="option-field">' +
+              '<label>英文名称</label>' +
+              '<input value="' +
+              escapeHtml(o.label_en || '') +
+              '" ' +
+              'onchange="updateOption(' +
+              o.id +
+              ', \'label_en\', this.value)">' +
+              '</div>' +
+
+              '</div>' +
+
+
+              '<div class="option-field">' +
+              '<label>中文描述</label>' +
+              '<input value="' +
+              escapeHtml(o.desc_zh || '') +
+              '" ' +
+              'onchange="updateOption(' +
+              o.id +
+              ', \'desc_zh\', this.value)">' +
+              '</div>' +
+
+
+              '<div class="option-field">' +
+              '<label>英文描述</label>' +
+              '<input value="' +
+              escapeHtml(o.desc_en || '') +
+              '" ' +
+              'onchange="updateOption(' +
+              o.id +
+              ', \'desc_en\', this.value)">' +
+              '</div>' +
+
+
+              '<div class="option-row">' +
+
+              '<div class="option-field">' +
+              '<label>价格 RM</label>' +
+              '<input type="number" ' +
+              'value="' + Number(o.price || 0) + '" ' +
+              'onchange="updateOption(' +
+              o.id +
+              ', \'price\', this.value)">' +
+              '</div>' +
+
+              '<div class="option-field">' +
+              '<label>最大份数</label>' +
+              '<input type="number" ' +
+              'value="' + Number(o.max_portions || 15) + '" ' +
+              'onchange="updateOption(' +
+              o.id +
+              ', \'max_portions\', this.value)">' +
+              '</div>' +
+
+              '</div>' +
+
+
+              '<div class="option-row">' +
+
+              '<div class="option-field">' +
+              '<label>排序</label>' +
+              '<input type="number" ' +
+              'value="' + Number(o.sort || 0) + '" ' +
+              'onchange="updateOption(' +
+              o.id +
+              ', \'sort\', this.value)">' +
+              '</div>' +
+
+              '<div class="option-toggle-row">' +
+
+              '<label class="option-toggle">' +
+              '<input type="checkbox" ' +
+              (o.enabled ? 'checked' : '') +
+              ' onchange="updateOption(' +
+              o.id +
+              ', \'enabled\', this.checked)">' +
+              '<span>今天供应</span>' +
+              '</label>' +
+
+              '</div>' +
+
+              '</div>' +
+
+
+              '<div class="option-toggle-row">' +
+
+              '<button class="small red option-delete" ' +
+              'onclick="delOption(' +
+              o.id +
+              ')">' +
+              '删除这个选项' +
+              '</button>' +
+
+              '</div>' +
+
+              '</div>';
+          });
+
+          mobileHtml += '</div>';
+
+
+          /*
+           * 最终输出
+           */
+
+          box.innerHTML =
+            tableHtml +
+            mobileHtml;
+        });
+    }
+    function updateOption(id, field, value) {
+      const data = {};
+      if (field === 'price' || field === 'sort' || field === 'max_portions') {
+        data[field] = parseInt(value) || 0;
+      } else if (field === 'enabled') {
+        data[field] = value;
+      } else {
+        data[field] = value;
+      }
+      supabaseClient.from('menu_options').update(data).eq('id', id).then(function (res) {
+        if (res.error) {console.error(res.error); alert('操作失败，请稍后重试。'); return;}
+        loadOptions();
+      });
+    }
+
+    function addOption() {
+      const zh = prompt('中文名（如：鸭肉）');
+      if (!zh) return;
+      const en = prompt('英文名（如：Duck）') || zh;
+      const descZh = prompt('中文描述（可选）') || '';
+      const descEn = prompt('英文描述（可选）') || '';
+      const price = Math.max(0, parseFloat(prompt('价格（RM）') || '0') || 0);
+      const maxPortions = parseInt(prompt('最大份数') || '15');
+      supabaseClient.from('menu_options').insert({
+        label_zh: zh, label_en: en,
+        desc_zh: descZh, desc_en: descEn,
+        price: price, max_portions: maxPortions,
+        enabled: true, sort: 99, menu_type: currentOptType
+      }).then(function (res) {
+        if (res.error) {console.error(res.error); alert('操作失败，请稍后重试。'); return;}
+        loadOptions();
+      });
+    }
+
+    function delOption(id) {
+      if (!confirm('确认删除这个选项？')) return;
+      supabaseClient.from('menu_options').delete().eq('id', id).then(function (res) {
+        if (res.error) {console.error(res.error); alert('操作失败，请稍后重试。'); return;}
+        loadOptions();
+      });
+    }
+    function getMealDate() {
+      const now = new Date();
+      const h = now.getHours();
+      if (h >= 15) {now.setDate(now.getDate() + 1);}
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, '0');
+      const d = String(now.getDate()).padStart(2, '0');
+      return y + '-' + m + '-' + d;
+    }
+
+    async function loadOrders() {
+      const box = document.getElementById('ordersBox');
+
+      box.innerHTML =
+        '<div style="padding:25px;text-align:center;color:#888;">加载订单中...</div>';
+
+      let q = supabaseClient
+        .from('orders')
+        .select('*')
+        .order('created_at', {ascending: false});
+
+      // 日期
+      if (dateFilter === 'today') {
+        q = q.eq('meal_date', getMealDate());
+      }
+
+      // 餐别
+      if (periodFilter !== 'all') {
+        q = q.eq('meal_period', periodFilter);
+      }
+
+      // 付款状态
+      if (paymentFilter === 'paid') {
+        q = q.eq('paid', true);
+      }
+
+      if (paymentFilter === 'unpaid') {
+        q = q.eq('paid', false);
+      }
+
+      const {data, error} = await q;
+
+      if (error) {
+        console.error('加载订单失败:', error);
+
+        box.innerHTML =
+          '<div style="padding:25px;text-align:center;color:#c0392b;">' +
+          '订单加载失败：' +
+          escapeHtml(error.message) +
+          '</div>';
+
+        return;
+      }
+
+      renderOrders(data || []);
+    }
+
+    function renderOrders(list) {
+      const box = document.getElementById('ordersBox');
+
+      if (!list || !list.length) {
+        box.innerHTML =
+          '<div class="noorders">暂无订单</div>';
+        return;
+      }
+
+      /* =========================
+         桌面版表格
+         ========================= */
+
+      let tableHtml =
+        '<table>' +
+        '<thead>' +
+        '<tr>' +
+        '<th>订单号</th>' +
+        '<th>日期</th>' +
+        '<th>时段</th>' +
+        '<th>姓名</th>' +
+        '<th>数量</th>' +
+        '<th>金额</th>' +
+        '<th>付款方式</th>' +
+        '<th>付款状态</th>' +
+        '<th>操作</th>' +
+        '</tr>' +
+        '</thead>' +
+        '<tbody>';
+
+      /* =========================
+         手机版卡片
+         ========================= */
+
+      let mobileHtml =
+        '<div class="orders-mobile">';
+
+      list.forEach(function (o) {
+        const periodText =
+          o.meal_period === 'breakfast'
+            ? '早餐'
+            : '午餐';
+
+        const paymentMethod =
+          o.payment_metho === 'online'
+            ? '线上付款'
+            : '现金';
+
+        const paid = !!o.paid;
+
+        const paymentStatus = paid
+          ? '<span class="payment-status paid">已付款</span>'
+          : '<span class="payment-status unpaid">待付款</span>';
+
+        const mealDate =
+          o.meal_date
+            ? o.meal_date
+            : '-';
+
+        const note =
+          o.note
+            ? escapeHtml(o.note)
+            : '—';
+
+        /* ===== 桌面 ===== */
+
+        tableHtml +=
+          '<tr>' +
+          '<td><strong>' + escapeHtml(o.order_code || '') + '</strong></td>' +
+          '<td>' + escapeHtml(mealDate) + '</td>' +
+          '<td>' + periodText + '</td>' +
+          '<td>' + escapeHtml(o.name || '') + '</td>' +
+          '<td>' + Number(o.quantity || 0) + '</td>' +
+          '<td>RM ' + Number(o.total || 0).toFixed(2) + '</td>' +
+          '<td>' + paymentMethod + '</td>' +
+          '<td>' + paymentStatus + '</td>' +
+          '<td>' +
+          '<button class="small" onclick="viewImg(\'' +
+          escapeHtml(o.payment_proof || '') +
+          '\')">付款证明</button> ' +
+
+          (!paid
+            ? '<button class="small green" onclick="confirmPaid(\'' +
+            o.id +
+            '\')">确认</button> '
+            : '') +
+
+          '<button class="small red" onclick="deleteOrder(\'' +
+          o.id +
+          '\')">删除</button>' +
+          '</td>' +
+          '</tr>';
+
+        /* ===== 手机 ===== */
+
+        mobileHtml +=
+          '<div class="order-card">' +
+
+          '<div class="order-card-head">' +
+          '<div class="order-card-code">' +
+          escapeHtml(o.order_code || '') +
+          '</div>' +
+
+          '<div class="order-card-period">' +
+          periodText +
+          '</div>' +
+          '</div>' +
+
+          '<div class="order-card-name">' +
+          escapeHtml(o.name || '') +
+          '</div>' +
+
+          '<div class="order-card-info">' +
+
+          '<div class="order-card-item">' +
+          '日期' +
+          '<strong>' +
+          escapeHtml(mealDate) +
+          '</strong>' +
+          '</div>' +
+
+          '<div class="order-card-item">' +
+          '数量' +
+          '<strong>' +
+          Number(o.quantity || 0) +
+          '</strong>' +
+          '</div>' +
+
+          '<div class="order-card-item">' +
+          '订单金额' +
+          '<strong>RM ' +
+          Number(o.total || 0).toFixed(2) +
+          '</strong>' +
+          '</div>' +
+
+          '<div class="order-card-item">' +
+          '付款方式' +
+          '<strong>' +
+          paymentMethod +
+          '</strong>' +
+          '</div>' +
+
+          '</div>' +
+
+          '<div class="order-card-payment">' +
+          '付款状态：' +
+          paymentStatus +
+          '</div>' +
+
+          '<div class="order-card-item" style="margin-bottom:12px;">' +
+          '备注' +
+          '<strong>' +
+          note +
+          '</strong>' +
+          '</div>' +
+
+          '<div class="order-card-actions">' +
+
+          (o.payment_proof
+            ? '<button class="small" onclick="viewImg(\'' +
+            escapeHtml(o.payment_proof) +
+            '\')">查看付款证明</button>'
+            : '') +
+
+          (!paid
+            ? '<button class="small green" onclick="confirmPaid(\'' +
+            o.id +
+            '\')">确认付款</button>'
+            : '') +
+
+          '<button class="small red" onclick="deleteOrder(\'' +
+          o.id +
+          '\')">删除</button>' +
+
+          '</div>' +
+
+          '</div>';
+      });
+
+      tableHtml +=
+        '</tbody>' +
+        '</table>';
+
+      mobileHtml +=
+        '</div>';
+
+      box.innerHTML =
+        tableHtml +
+        mobileHtml;
+    }
+    async function viewImg(url) {
+      const rawUrl = String(url || '').trim();
+
+      if (!rawUrl) {
+        alert('无效的付款凭证');
+        return;
+      }
+
+      let path = rawUrl;
+
+      const marker = '/storage/v1/object/public/payments/';
+      const index = rawUrl.indexOf(marker);
+
+      if (index !== -1) {
+        path = rawUrl.substring(index + marker.length);
+      }
+
+      if (!path || path.includes('..') || path.startsWith('/')) {
+        alert('无效的付款凭证');
+        return;
+      }
+
+      const result = await supabaseClient.storage
+        .from('payments')
+        .createSignedUrl(path, 300);
+
+      if (result.error || !result.data?.signedUrl) {
+        console.error('付款凭证错误:', result.error);
+        alert('无法打开付款凭证');
+        return;
+      }
+
+      const safeUrl = result.data.signedUrl;
+
+      document.getElementById('imgModal').innerHTML =
+        '<button onclick="closeImg()" ' +
+        'style="position:absolute;top:20px;right:25px;' +
+        'font-size:32px;background:#fff;border:0;border-radius:50%;' +
+        'width:45px;height:45px;cursor:pointer;z-index:10;">×</button>' +
+        '<img src="' + escapeHtml(safeUrl) + '" ' +
+        'style="max-width:90%;max-height:85%;border-radius:8px;background:#fff">';
+
+      document.getElementById('imgModal').classList.add('open');
+    }
+
+    function closeImg() {
+      const modal = document.getElementById('imgModal');
+
+      if (!modal) return;
+
+      modal.classList.remove('open');
+      modal.innerHTML = '';
+    }
+
+    document.getElementById('imgModal')?.addEventListener('click', function (e) {
+      if (e.target === this) {
+        closeImg();
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        closeImg();
+      }
+    });
+    async function delOrder(id) {
+      if (!confirm('确认删除？不可恢复。')) return;
+      const res = await supabaseClient.rpc('delete_order', {p_order_id: id});
+      if (res.error) {
+        console.error(res.error);
+        alert('操作失败，请稍后重试。');
+        return;
+      }
+      loadOrders();
+      loadMenuForEdit();
+    }
+
+    restoreSession();
+    function closeModal() {
+      const modal = document.getElementById('imgModal');
+
+      if (!modal) return;
+
+      modal.classList.remove('open');
+      modal.innerHTML = '';
+    }
+
+    async function confirmPaid(id) {
+      if (!id) {
+        alert('无效的订单 ID');
+        return;
+      }
+
+      if (!confirm('确认这个订单已经付款吗？')) {
+        return;
+      }
+
+      const {data, error} = await supabaseClient.rpc(
+        'confirm_order_paid',
+        {p_order_id: Number(id)}
+      );
+
+      console.log('确认订单:', data, error);
+
+      if (error) {
+        console.error('确认订单失败:', error);
+        alert('确认失败：' + error.message);
+        return;
+      }
+
+      if (data !== true) {
+        alert('订单不存在或没有更新成功');
+        return;
+      }
+
+      alert('订单已确认付款');
+
+      await loadOrders();
+      await loadMenuForEdit();
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,2800 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YeranFood｜校园点餐</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #f7f5f0;
+      color: #222
+    }
+
+    header {
+      background: #111;
+      color: #fff;
+      padding: 32px 20px;
+      text-align: center;
+      position: relative
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 36px;
+      letter-spacing: 2px;
+      font-weight: 800
+    }
+
+    header p {
+      margin: 8px 0 0;
+      color: #999;
+      font-size: 14px;
+      letter-spacing: 1px
+    }
+
+    .lang button {
+      border: 1.5px solid #444;
+      background: transparent;
+      color: #fff;
+      border-radius: 24px;
+      padding: 8px 16px;
+      margin: 0 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all .15s;
+      font-weight: 500
+    }
+
+    .lang button:hover {
+      border-color: #fff
+    }
+
+    .lang button.active {
+      background: #fff;
+      color: #111;
+      border-color: #fff
+    }
+
+    .container {
+      max-width: 620px;
+      margin: 25px auto;
+      padding: 0 16px
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, .06);
+      border: 1px solid #f0f0f0
+    }
+
+    .food {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #f0f0f0;
+      margin-bottom: 20px
+    }
+
+    .qty button {
+      width: 42px;
+      height: 42px;
+      border: 1.5px solid #e5e5e5;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      background: #fff;
+      transition: all .15s;
+      font-weight: 700;
+      color: #111
+    }
+
+    .qty button:hover {
+      background: #111;
+      color: #fff;
+      border-color: #111
+    }
+
+    .qty button:active {
+      transform: scale(.92)
+    }
+
+    .qty span {
+      font-size: 22px;
+      font-weight: 800;
+      min-width: 32px;
+      text-align: center
+    }
+
+    label {
+      display: block;
+      margin: 14px 0 6px;
+      font-weight: 600
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 14px;
+      border: 1.5px solid #e5e5e5;
+      border-radius: 12px;
+      font-size: 16px;
+      font-family: inherit;
+      transition: border-color .2s;
+      background: #fafafa
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #111;
+      background: #fff
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 60px
+    }
+
+    .opt label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0;
+      padding: 12px 16px;
+      border: 1.5px solid #e5e5e5;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all .15s;
+      background: #fafafa
+    }
+
+    .opt label:hover {
+      border-color: #999
+    }
+
+    .opt label:has(input:checked) {
+      border-color: #111;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .08)
+    }
+
+    .payBox {
+      margin-top: 6px;
+      padding: 14px;
+      border: 1px dashed #ddd;
+      border-radius: 10px;
+      background: #fafafa
+    }
+
+    .uploadBtn {
+      display: inline-block;
+      padding: 10px 18px;
+      background: #111;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700
+    }
+
+    .uploadBtn:hover {
+      opacity: .85
+    }
+
+    .preview {
+      margin-top: 10px;
+      display: none
+    }
+
+    .preview img {
+      max-width: 200px;
+      border-radius: 8px;
+      border: 1px solid #ddd
+    }
+
+    .fileName {
+      font-size: 13px;
+      color: #666;
+      margin-top: 6px
+    }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 21px;
+      font-weight: 700;
+      margin-top: 20px
+    }
+
+    .submit {
+      width: 100%;
+      margin-top: 20px;
+      padding: 16px;
+      border: 0;
+      border-radius: 14px;
+      background: #111;
+      color: #fff;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .2s;
+      letter-spacing: .5px
+    }
+
+    .submit:hover {
+      background: #000;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, .2)
+    }
+
+    .submit:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .15)
+    }
+
+    .submit:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none
+    }
+
+    .notice {
+      font-size: 13px;
+      color: #777;
+      margin-top: 10px;
+      line-height: 1.5
+    }
+
+    .success {
+      display: none;
+      text-align: center
+    }
+
+    .success .check {
+      font-size: 52px
+    }
+
+    .orderid {
+      font-weight: 700;
+      font-size: 20px
+    }
+
+    footer {
+      text-align: center;
+      color: #888;
+      padding: 20px
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 28px 24px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, .06);
+      border: 1px solid #f0f0f0
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    h1 {
+      animation: fadeIn .6s ease
+    }
+
+    .feedbackBtn {
+      background: transparent;
+      border: 1.5px solid #ddd;
+      color: #666;
+      padding: 10px 22px;
+      border-radius: 24px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: inherit
+    }
+
+    .feedbackBtn:hover {
+      border-color: #111;
+      color: #111;
+      transform: translateY(-1px)
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid #ddd;
+      border-top-color: #111;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      vertical-align: middle
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    @media (max-width:640px) {
+      .submit {
+        position: sticky;
+        bottom: 12px;
+        z-index: 10;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, .15)
+      }
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0)
+      }
+
+      25% {
+        transform: translateX(-2px)
+      }
+
+      75% {
+        transform: translateX(2px)
+      }
+    }
+
+    .stock-low {
+      color: #e67e22 !important;
+      animation: shake 1.2s infinite
+    }
+
+    .stock-zero {
+      color: #c0392b !important;
+      font-weight: 800
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0);
+        opacity: 0
+      }
+
+      50% {
+        transform: scale(1.2)
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1
+      }
+    }
+
+    .success.show .check {
+      animation: popIn .5s cubic-bezier(.34, 1.56, .64, 1)
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .success.show h2,
+    .success.show p,
+    .success.show .orderid {
+      animation: slideUp .5s ease forwards;
+      opacity: 0
+    }
+
+    .success.show h2 {
+      animation-delay: .15s
+    }
+
+    .success.show .orderid {
+      animation-delay: .25s
+    }
+
+    .success.show p {
+      animation-delay: .35s
+    }
+
+    .price {
+      font-weight: 700;
+      font-size: 20px;
+      color: #1a7f37
+    }
+
+    #total {
+      color: #1a7f37
+    }
+
+    .opt label:has(input:checked) {
+      border-color: #1a73e8;
+      background: #f0f7ff;
+      box-shadow: 0 2px 8px rgba(26, 115, 232, .15)
+    }
+
+    .opt label:has(input:checked) input {
+      accent-color: #1a73e8
+    }
+
+    .food h2 {
+      margin: 0 0 6px;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -.5px
+    }
+
+    #foodDesc {
+      font-size: 14px;
+      color: #888;
+      line-height: 1.5
+    }
+
+    #stockInfo {
+      font-size: 13px;
+      margin-top: 10px
+    }
+
+    #menuTitle {
+      font-size: 14px;
+      font-weight: 600;
+      color: #888;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px
+    }
+
+    .skeleton {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 8px
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 200% 0
+      }
+
+      100% {
+        background-position: -200% 0
+      }
+    }
+
+    .sk-title {
+      height: 28px;
+      width: 60%;
+      margin-bottom: 8px
+    }
+
+    .sk-desc {
+      height: 16px;
+      width: 80%;
+      margin-bottom: 16px
+    }
+
+    .sk-row {
+      height: 42px;
+      width: 100%;
+      margin-bottom: 10px
+    }
+
+    body.dark {
+      background: #0a0a0a;
+      color: #eee
+    }
+
+    body.dark .card {
+      background: #1a1a1a;
+      border-color: #2a2a2a;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, .5)
+    }
+
+    body.dark input,
+    body.dark textarea {
+      background: #222;
+      border-color: #333;
+      color: #eee
+    }
+
+    body.dark input:focus,
+    body.dark textarea:focus {
+      border-color: #fff;
+      background: #2a2a2a
+    }
+
+    body.dark .opt label {
+      background: #222;
+      border-color: #333
+    }
+
+    body.dark .opt label:has(input:checked) {
+      background: #1a2a3a;
+      border-color: #1a73e8
+    }
+
+    body.dark .qty button {
+      background: #222;
+      border-color: #333;
+      color: #eee
+    }
+
+    body.dark .qty button:hover {
+      background: #fff;
+      color: #111
+    }
+
+    body.dark #menuTitle {
+      color: #666
+    }
+
+    body.dark .food {
+      border-bottom-color: #2a2a2a
+    }
+
+    body.dark #foodDesc {
+      color: #666
+    }
+
+    body.dark .total {
+      border-top-color: #2a2a2a
+    }
+
+    body.dark footer {
+      color: #666
+    }
+
+    body.dark .skeleton {
+      background: linear-gradient(90deg, #222 25%, #2a2a2a 50%, #222 75%);
+      background-size: 200% 100%
+    }
+
+    body.dark .feedbackBtn {
+      border-color: #333;
+      color: #999
+    }
+
+    body.dark .feedbackBtn:hover {
+      border-color: #fff;
+      color: #fff
+    }
+
+    #bottomNav {
+      display: none
+    }
+
+    @media (max-width:640px) {
+      #bottomNav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-top: 1px solid #eee;
+        justify-content: space-around;
+        padding: 8px 0;
+        z-index: 100;
+        box-shadow: 0 -2px 12px rgba(0, 0, 0, .04)
+      }
+
+      .navBtn {
+        background: transparent;
+        border: 0;
+        color: #999;
+        cursor: pointer;
+        padding: 6px 20px;
+        font-family: inherit;
+        transition: color .2s
+      }
+
+      .navBtn.active {
+        color: #111
+      }
+
+      body {
+        padding-bottom: 70px
+      }
+
+      body.dark #bottomNav {
+        background: #1a1a1a;
+        border-top-color: #2a2a2a
+      }
+
+      body.dark .navBtn.active {
+        color: #fff
+      }
+    }
+
+    .periodBtn {
+      flex: 1;
+      padding: 12px;
+      border: 1.5px solid #e5e5e5;
+      background: #fff;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+      font-family: inherit;
+      margin: 0 4px
+    }
+
+    .periodBtn.active {
+      background: #111;
+      color: #fff;
+      border-color: #111
+    }
+
+    body.dark #feedbackListModal>div {
+      background: #1a1a1a !important;
+      color: #eee;
+    }
+
+    body.dark #feedbackListModal button {
+      background: #333 !important;
+      color: #eee !important;
+    }
+
+    body.dark #feedbackListModal [style*="background:#fafafa"] {
+      background: #222 !important;
+      border-color: #333 !important;
+    }
+
+    body.dark #feedbackListModal [style*="color:#444"] {
+      color: #ddd !important;
+    }
+
+    /* =========================
+   早餐商品卡片
+========================= */
+
+    .breakfast-product {
+      display: none;
+      margin-bottom: 24px;
+    }
+
+    .breakfast-product-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      padding: 24px;
+      background: linear-gradient(145deg, #fffdf8, #fff);
+      border: 1px solid #eee7da;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, .06);
+    }
+
+    .breakfast-product-card::before {
+      content: '🥪';
+      position: absolute;
+      right: 18px;
+      top: 12px;
+      font-size: 58px;
+      opacity: .12;
+    }
+
+    .breakfast-badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      background: #fff1d6;
+      color: #9a6500;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .breakfast-product-name {
+      margin: 0;
+      font-size: 27px;
+      font-weight: 800;
+      letter-spacing: -.6px;
+    }
+
+    .breakfast-product-desc {
+      margin-top: 8px;
+      color: #777;
+      font-size: 14px;
+      line-height: 1.6;
+      max-width: 85%;
+    }
+
+    .breakfast-price {
+      margin-top: 18px;
+      font-size: 24px;
+      font-weight: 800;
+      color: #1a7f37;
+    }
+
+    .breakfast-choice-title {
+      margin: 20px 0 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #888;
+      letter-spacing: .5px;
+    }
+
+    .breakfast-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .breakfast-option {
+      display: flex !important;
+      align-items: center !important;
+      padding: 14px 16px !important;
+      border-radius: 14px !important;
+      background: #fafafa !important;
+      border: 1.5px solid #e5e5e5 !important;
+      transition: all .18s ease;
+    }
+
+    .breakfast-option:hover {
+      border-color: #bbb !important;
+      transform: translateY(-1px);
+    }
+
+    .breakfast-option:has(input:checked) {
+      border-color: #1a73e8 !important;
+      background: #f0f7ff !important;
+      box-shadow: 0 4px 14px rgba(26, 115, 232, .12);
+    }
+
+    .breakfast-option-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .breakfast-option-text {
+      flex: 1;
+    }
+
+    .breakfast-option-name {
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .breakfast-option-desc {
+      margin-top: 3px;
+      font-size: 12px;
+      color: #888;
+      line-height: 1.4;
+    }
+
+    .breakfast-option-price {
+      font-weight: 800;
+      font-size: 16px;
+      color: #1a7f37;
+      white-space: nowrap;
+    }
+
+    .breakfast-qty {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid #eee;
+    }
+
+    .breakfast-qty-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #555;
+    }
+
+    body.dark .breakfast-product-card {
+      background: linear-gradient(145deg, #202020, #181818);
+      border-color: #333;
+    }
+
+    body.dark .breakfast-badge {
+      background: #3a2d17;
+      color: #f2c66d;
+    }
+
+    body.dark .breakfast-product-desc,
+    body.dark .breakfast-qty-title {
+      color: #999;
+    }
+
+    body.dark .breakfast-option {
+      background: #222 !important;
+      border-color: #333 !important;
+    }
+
+    body.dark .breakfast-option:has(input:checked) {
+      background: #1a2a3a !important;
+      border-color: #1a73e8 !important;
+    }
+
+    body.dark .breakfast-option-desc {
+      color: #777;
+    }
+
+    @media (max-width:640px) {
+      .breakfast-product-card {
+        padding: 20px;
+        border-radius: 18px;
+      }
+
+      .breakfast-product-name {
+        font-size: 24px;
+      }
+
+      .breakfast-product-desc {
+        max-width: 92%;
+      }
+    }
+
+    /* =========================
+   早餐选择卡片优化
+========================= */
+
+    .breakfast-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .breakfast-option {
+      position: relative;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 15px 16px;
+      border: 2px solid #eee;
+      border-radius: 16px;
+      background: #fff;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+
+    .breakfast-option:hover {
+      border-color: #f0b35a;
+      transform: translateY(-1px);
+    }
+
+    .breakfast-option:has(input:checked) {
+      border-color: #e89b32;
+      background: #fff8ed;
+      box-shadow: 0 4px 14px rgba(232, 155, 50, .12);
+    }
+
+    .breakfast-option input {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      accent-color: #e89b32;
+      flex-shrink: 0;
+    }
+
+    .breakfast-option-main {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .breakfast-option-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .breakfast-option-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #333;
+      line-height: 1.4;
+    }
+
+    .breakfast-option-desc {
+      margin-top: 4px;
+      font-size: 13px;
+      color: #888;
+      line-height: 1.5;
+    }
+
+    .breakfast-option-price {
+      font-size: 16px;
+      font-weight: 700;
+      color: #d98200;
+      white-space: nowrap;
+    }
+
+    /* 选中提示 */
+    .breakfast-option:has(input:checked)::after {
+      display: none;
+    }
+
+    /* =========================
+   早餐数量区域
+========================= */
+
+    .breakfast-qty {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .breakfast-qty-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #555;
+    }
+
+    /* =========================
+   早餐库存
+========================= */
+
+    #breakfastStock {
+      text-align: right;
+      min-height: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    #breakfastStock.stock-low {
+      color: #d98200 !important;
+    }
+
+    #breakfastStock.stock-zero {
+      color: #c0392b !important;
+    }
+
+    /* =========================
+   深色模式
+========================= */
+
+    body.dark .breakfast-product-card {
+      background: linear-gradient(145deg, #242424, #1d1d1d);
+      border-color: #3a3a3a;
+    }
+
+    body.dark .breakfast-option {
+      background: #252525;
+      border-color: #3b3b3b;
+    }
+
+    body.dark .breakfast-option:has(input:checked) {
+      background: #30291f;
+      border-color: #e89b32;
+    }
+
+    body.dark .breakfast-option-name {
+      color: #f1f1f1;
+    }
+
+    body.dark .breakfast-option-desc {
+      color: #aaa;
+    }
+
+    body.dark .breakfast-qty {
+      border-top-color: #3b3b3b;
+    }
+
+    body.dark .breakfast-qty-title {
+      color: #ddd;
+    }
+
+    /* =========================
+   手机端
+========================= */
+
+    @media (max-width: 600px) {
+
+      .breakfast-product-card {
+        padding: 18px;
+        border-radius: 18px;
+      }
+
+      .breakfast-product-name {
+        font-size: 22px;
+        padding-right: 45px;
+      }
+
+      .breakfast-product-desc {
+        font-size: 14px;
+      }
+
+      .breakfast-price {
+        font-size: 22px;
+        margin-top: 12px;
+      }
+
+      .breakfast-option {
+        padding: 14px;
+      }
+
+      .breakfast-option-main {
+        gap: 9px;
+      }
+
+      .breakfast-option-name {
+        font-size: 15px;
+      }
+
+      .breakfast-option-price {
+        font-size: 15px;
+      }
+
+      .breakfast-qty {
+        align-items: center;
+      }
+    }
+
+    /* =========================
+   早餐商品顶部视觉区
+========================= */
+
+    .breakfast-hero {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .breakfast-hero-icon {
+      width: 78px;
+      height: 78px;
+      flex-shrink: 0;
+      border-radius: 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 42px;
+
+      background: linear-gradient(135deg,
+          #fff1d6,
+          #ffe3b0);
+
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .8),
+        0 6px 18px rgba(220, 150, 50, .12);
+    }
+
+    .breakfast-hero-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .breakfast-badge {
+      display: inline-flex;
+      align-items: center;
+
+      padding: 5px 10px;
+      margin-bottom: 8px;
+
+      border-radius: 999px;
+
+      background: #fff0d7;
+      color: #b86b00;
+
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .breakfast-product-name {
+      margin: 0;
+
+      font-size: 25px;
+      font-weight: 800;
+
+      color: #292929;
+
+      line-height: 1.25;
+    }
+
+    .breakfast-product-desc {
+      margin-top: 7px;
+
+      font-size: 14px;
+      line-height: 1.6;
+
+      color: #777;
+    }
+
+    .breakfast-price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 15px 0;
+
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+    }
+
+    .breakfast-price-label {
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 2px;
+    }
+
+    .breakfast-price {
+      font-size: 25px;
+      font-weight: 800;
+      color: #d98200;
+    }
+
+    .breakfast-section {
+      margin-top: 20px;
+    }
+
+    .breakfast-choice-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    /* =========================
+   深色模式
+========================= */
+
+    body.dark .breakfast-hero-icon {
+      background: linear-gradient(135deg,
+          #40321f,
+          #342819);
+    }
+
+    body.dark .breakfast-badge {
+      background: #40321f;
+      color: #ffc66d;
+    }
+
+    body.dark .breakfast-product-name {
+      color: #f1f1f1;
+    }
+
+    body.dark .breakfast-product-desc {
+      color: #aaa;
+    }
+
+    body.dark .breakfast-price-row {
+      border-color: #3b3b3b;
+    }
+
+    body.dark .breakfast-choice-title {
+      color: #eee;
+    }
+
+    /* =========================
+   手机端
+========================= */
+
+    @media (max-width: 600px) {
+
+      .breakfast-hero {
+        gap: 13px;
+      }
+
+      .breakfast-hero-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 17px;
+        font-size: 34px;
+      }
+
+      .breakfast-product-name {
+        font-size: 21px;
+      }
+
+      .breakfast-product-desc {
+        font-size: 13px;
+      }
+
+      .breakfast-price {
+        font-size: 22px;
+      }
+    }
+
+    .breakfast-product-card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 16px;
+      border: 1px solid #eee;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .06);
+    }
+
+    .breakfast-product-name {
+      font-size: 21px;
+      font-weight: 800;
+      margin-top: 8px;
+    }
+
+    .breakfast-product-desc {
+      color: #777;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-top: 6px;
+    }
+
+    .breakfast-product-price {
+      font-size: 20px;
+      font-weight: 800;
+      margin-top: 12px;
+    }
+
+    .breakfast-stock {
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .breakfast-quantity-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid #eee;
+    }
+
+    .breakfast-quantity-title {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .breakfast-quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .breakfast-quantity-controls button {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid #ddd;
+      background: #fff;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .breakfast-quantity-controls button:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+    }
+
+    .breakfast-quantity-controls span {
+      min-width: 20px;
+      text-align: center;
+      font-weight: 700;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+  <header>
+    <h1>YeranFood</h1>
+    <p id="subtitle">校园点餐 · School Food Ordering</p>
+    <button onclick="toggleDark()" id="darkBtn"
+      style="position:absolute;top:16px;right:16px;background:transparent;border:1px solid #444;color:#fff;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:16px;z-index:10">🌙</button>
+    <div class="lang">
+      <button id="zhBtn" class="active" onclick="setLang('zh')">中文</button>
+      <button id="enBtn" onclick="setLang('en')">English</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card" id="orderCard">
+      <div id="closedBox" style="display:none;text-align:center;padding:20px">
+        <div style="font-size:44px">🕒</div>
+        <h3 id="closedTitle" style="margin:12px 0 6px">暂停接单</h3>
+        <p id="closedText" style="color:#666">今天下午 3 点再订</p>
+      </div>
+      <div id="periodSwitch" style="display:none;margin-bottom:16px">
+        <button id="btnLunchOrder" class="periodBtn active" onclick="switchPeriod('lunch')">午餐</button>
+        <button id="btnBreakfastOrder" class="periodBtn" onclick="switchPeriod('breakfast')">早餐</button>
+      </div>
+      <h2 id="menuTitle">今日菜单</h2>
+      <div class="food">
+        <div>
+          <h2 id="foodName" class="skeleton sk-title"></h2>
+          <div id="foodDesc" class="skeleton sk-desc"></div>
+          <div id="stockInfo" class="skeleton sk-row"></div>
+        </div>
+
+        <div>
+          <div class="qty">
+            <button onclick="changeQty(-1)">−</button>
+            <span id="qty">1</span>
+            <button onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 早餐专用商品卡片 -->
+      <div id="breakfastProduct" class="breakfast-product">
+        <div class="breakfast-product-card">
+
+          <div class="breakfast-hero">
+            <div class="breakfast-hero-icon">🥪</div>
+
+            <div class="breakfast-hero-info">
+              <div class="breakfast-badge" id="breakfastBadge">
+                早餐 Breakfast
+              </div>
+
+              <h2 id="breakfastProductName" class="breakfast-product-name"></h2>
+
+              <div id="breakfastProductDesc" class="breakfast-product-desc"></div>
+            </div>
+          </div>
+
+          <div class="breakfast-price-row">
+            <div>
+              <div class="breakfast-price-label">
+                <span id="breakfastPriceLabel">价格</span>
+              </div>
+
+              <div id="breakfastPrice" class="breakfast-price">
+                RM 0
+              </div>
+            </div>
+          </div>
+
+          <div class="breakfast-section">
+            <div class="breakfast-choice-title" id="breakfastChoiceTitle">
+              选择
+            </div>
+
+            <div id="breakfastOptions" class="breakfast-options">
+            </div>
+          </div>
+
+          <div class="breakfast-qty">
+            <span class="breakfast-qty-title" id="breakfastQtyTitle">
+              数量
+            </span>
+
+            <div class="qty">
+              <button onclick="changeQty(-1)">−</button>
+
+              <span id="breakfastQty">1</span>
+
+              <button onclick="changeQty(1)">+</button>
+            </div>
+          </div>
+
+          <div id="breakfastStock"></div>
+
+        </div>
+      </div>
+
+      <label id="typeLabel">选择</label>
+      <div class="opt" id="mealOptionsBox">
+        <div class="skeleton sk-row"></div>
+        <div class="skeleton sk-row"></div>
+      </div>
+      <label id="nameLabel" for="name">姓名</label>
+      <input id="name" placeholder="请输入姓名">
+
+      <label id="noteLabel" for="note">备注</label>
+      <textarea id="note" placeholder="如：不要辣、多饭"></textarea>
+
+      <label id="payMethodLabel">付款方式</label>
+      <div class="opt">
+        <label><input type="radio" name="payMethod" value="online" checked onchange="onPayMethodChange()"> <span
+            id="optOnline">线上付款</span></label>
+        <label><input type="radio" name="payMethod" value="cash" onchange="onPayMethodChange()"> <span
+            id="optCash">现金</span></label>
+      </div>
+
+
+
+
+
+      <div class="total">
+        <span id="totalLabel">总计</span>
+        <span id="total">RM 0</span>
+      </div>
+
+      <button class="submit" onclick="goToPayment()" id="submitBtn">下一步：付款</button>
+      <div class="notice" id="notice">目前没有配送，请在指定地点领取订单。</div>
+    </section>
+
+    <section class="card" id="payCard" style="display:none">
+      <h2 id="payPageTitle">付款</h2>
+      <div id="payPageOrderId" style="font-weight:700;font-size:18px;margin-bottom:6px"></div>
+      <div id="payPageAmount" style="font-size:22px;font-weight:800;color:#c0392b;margin-bottom:14px"></div>
+      <div id="payPageHint" style="font-size:14px;color:#555;margin-bottom:10px">请扫码付款，然后上传付款截图</div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:16px">
+        <div style="text-align:center">
+          <img src="https://kbzspuxrwsuxoyozmvjb.supabase.co/storage/v1/object/public/qrcodes/IMG_5111.jpeg"
+            style="width:120px;height:120px;object-fit:contain;border:1px solid #eee;border-radius:8px;background:#fff">
+          <div style="font-size:13px;margin-top:4px">支付宝/Alipay</div>
+        </div>
+        <div style="text-align:center">
+          <img src="https://kbzspuxrwsuxoyozmvjb.supabase.co/storage/v1/object/public/qrcodes/IMG_5113.jpeg"
+            style="width:120px;height:120px;object-fit:contain;border:1px solid #eee;border-radius:8px;background:#fff">
+          <div style="font-size:13px;margin-top:4px">微信/wechatPay</div>
+        </div>
+        <div style="text-align:center">
+          <img src="https://kbzspuxrwsuxoyozmvjb.supabase.co/storage/v1/object/public/qrcodes/IMG_5114.jpeg"
+            style="width:120px;height:120px;object-fit:contain;border:1px solid #eee;border-radius:8px;background:#fff">
+          <div style="font-size:13px;margin-top:4px">TNG</div>
+        </div>
+      </div>
+
+      <label id="proofLabel">付款截图（必传）</label>
+      <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="onFileSelected(event)">
+      <span class="uploadBtn" onclick="document.getElementById('fileInput').click()" id="chooseBtn">选择图片</span>
+      <span class="uploadBtn" style="background:#666;margin-left:8px;display:none"
+        onclick="document.getElementById('fileInput').click()" id="rechooseBtn">重新选择</span>
+      <div class="fileName" id="fileName"></div>
+      <div class="preview" id="preview"><img id="previewImg" src=""></div>
+
+      <button class="submit" onclick="submitPayment()" id="paySubmitBtn">提交付款凭证</button>
+      <button class="submit" style="background:#666;margin-top:8px" onclick="backToOrder()" id="backBtn">返回修改</button>
+    </section>
+    <section class="card success" id="successCard" style="display:none">
+      <div class="check">✓</div>
+      <h2 id="successTitle">订单已提交</h2>
+      <p id="successText">请保存你的订单编号。</p>
+      <div class="orderid" id="orderId"></div>
+      <p id="successTotal"></p>
+
+      <button class="submit" onclick="newOrder()" id="newBtn">再次点餐</button>
+    </section>
+  </main>
+  <div style="text-align:center;padding:16px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
+    <button onclick="openFeedback()" id="feedbackBtn" class="feedbackBtn">💬 意见反馈</button>
+
+    <button onclick="openFeedbackList()" id="viewFeedbackBtn" class="feedbackBtn">
+      👀 查看反馈
+    </button>
+  </div>
+  <footer>© 2026 YeranFood</footer>
+  <div id="feedbackModal"
+    style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#0009;z-index:100;justify-content:center;align-items:center;padding:20px">
+    <div style="background:#fff;border-radius:14px;padding:24px;max-width:460px;width:100%">
+      <h3 id="fbTitle" style="margin:0 0 16px">意见反馈</h3>
+      <label id="fbNameLabel" style="display:block;font-size:14px;font-weight:600;margin-bottom:6px">姓名</label>
+      <input id="fbName" placeholder="请输入姓名"
+        style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:15px;margin-bottom:14px">
+      <label id="fbContentLabel" style="display:block;font-size:14px;font-weight:600;margin-bottom:6px">反馈内容</label>
+      <textarea id="fbContent" placeholder="写下你的建议或意见..."
+        style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:15px;min-height:100px;font-family:inherit;resize:vertical"></textarea>
+      <div style="display:flex;gap:10px;margin-top:16px">
+        <button onclick="submitFeedback()" id="fbSubmit"
+          style="flex:1;padding:12px;border:0;border-radius:8px;background:#111;color:#fff;font-size:15px;font-weight:700;cursor:pointer">提交</button>
+        <button onclick="closeFeedback()" id="fbCancel"
+          style="flex:1;padding:12px;border:0;border-radius:8px;background:#eee;color:#333;font-size:15px;font-weight:700;cursor:pointer">取消</button>
+      </div>
+      <div id="fbMsg" style="margin-top:10px;font-size:14px;text-align:center"></div>
+    </div>
+  </div>
+  <div id="feedbackListModal"
+    style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#0009;z-index:101;justify-content:center;align-items:center;padding:20px">
+
+    <div
+      style="background:#fff;border-radius:14px;padding:24px;max-width:520px;width:100%;max-height:80vh;overflow-y:auto">
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h3 id="feedbackListTitle" style="margin:0">大家的反馈</h3>
+
+        <button onclick="closeFeedbackList()"
+          style="border:0;background:#eee;border-radius:50%;width:34px;height:34px;font-size:18px;cursor:pointer">
+          ×
+        </button>
+      </div>
+
+      <div id="feedbackList">
+        <div style="text-align:center;color:#888;padding:20px">
+          加载中…
+        </div>
+      </div>
+
+      <button onclick="closeFeedbackList()" id="feedbackListClose"
+        style="width:100%;margin-top:16px;padding:12px;border:0;border-radius:8px;background:#111;color:#fff;font-size:15px;font-weight:700;cursor:pointer">
+        关闭
+      </button>
+
+    </div>
+  </div>
+  <nav id="bottomNav">
+    <button class="navBtn" onclick="scrollToTop()">
+      <div style="font-size:20px">🍱</div>
+      <div style="font-size:11px;margin-top:2px" id="navOrder">点餐</div>
+    </button>
+    <button class="navBtn" onclick="location.href='/orders.html'">
+      <div style="font-size:20px">📋</div>
+      <div style="font-size:11px;margin-top:2px" id="navMyOrders">订单</div>
+    </button>
+    <button class="navBtn" onclick="openFeedback()">
+      <div style="font-size:20px">💬</div>
+      <div style="font-size:11px;margin-top:2px" id="navFeedback">反馈</div>
+    </button>
+  </nav>
+  <script>
+    const SUPABASE_URL = 'https://kbzspuxrwsuxoyozmvjb.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_oC0S_vWgBt_X8N4Xu4cG4g_ekhGwKXB';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Frontend hardening: never inject database/user text into HTML without escaping it.
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+
+    function safeErrorMessage(error, fallback) {
+      console.error(error);
+      return fallback || '操作失败，请稍后重试。';
+    }
+
+    function setButtonBusy(btn, busy, busyText, normalText) {
+      if (!btn) return;
+      btn.disabled = !!busy;
+      btn.textContent = busy ? busyText : normalText;
+    }
+
+    // SECURITY NOTE:
+    // The publishable Supabase key is safe to ship in frontend code only when
+    // Row Level Security (RLS) policies protect every table/storage action.
+    // Never put a Supabase service_role key or a real admin password in this file.
+
+
+    let qty = 1;
+    let lang = localStorage.getItem('lang') || 'zh';
+    let currentPeriod = 'lunch';   // 当前点餐时段
+    let menu = null;
+    let products = [];
+    let breakfastQty = {};
+    let orderedQty = 0;
+    let selectedFile = null;
+    let uploadedUrl = '';
+
+    const text = {
+      zh: {
+        subtitle: '校园点餐 · School Food Ordering',
+        menu: '今日菜单',
+        name: '姓名', namePh: '请输入姓名',
+        total: '总计', submit: '提交订单', soldOutBtn: '已售完',
+        notice: '目前没有配送，请在指定地点领取订单。',
+        success: '订单已提交', save: '请保存你的订单编号。',
+        again: '再次点餐', error: '请填写姓名和班级。',
+        pickup: '订单已记录，请按Yeran安排领取。',
+        payTitle: '请付款',
+        payCash: '现金：请交给 Yeran',
+        typeLabel: '选择',
+        noteLabel: '备注', notePh: '如：不要辣、多饭',
+        loading: '加载中…', noMenu: '今天暂无菜单',
+        stock: '剩余', stockLeft: '份', soldOut: '已售完',
+        payMethodLabel: '付款方式', optOnline: '线上付款（支付宝/微信/TNG）', optCash: '现金',
+        payPageTitle: '付款',
+        payPageHint: '请扫码付款，然后上传付款截图',
+        proofLabel: '付款截图（必传）',
+        chooseBtn: '选择图片',
+        rechooseBtn: '重新选择',
+        paySubmitBtn: '提交付款凭证',
+        backBtn: '返回修改',
+        uploadFail: '上传失败：',
+        closedTitle: '暂停接单',
+        closedText: '今天下午 3 点再订',
+        closedWeekend: '周末休息，周天下午三点见',
+        feedbackBtn: '💬 意见反馈',
+        fbTitle: '意见反馈',
+        viewFeedback: '👀 查看反馈',
+        feedbackListTitle: '大家的反馈',
+        feedbackLoading: '加载中…',
+        feedbackEmpty: '目前还没有公开的反馈。',
+        feedbackLoadFail: '反馈加载失败，请稍后重试。',
+        feedbackListClose: '关闭',
+        fbNameLabel: '姓名',
+        fbContentLabel: '反馈内容',
+        fbSubmit: '提交',
+        fbCancel: '取消',
+        fbNamePh: '请输入姓名',
+        fbContentPh: '写下你的建议或意见...',
+        navOrder: '点餐',
+        navMyOrders: '我的订单',
+        navFeedback: '反馈',
+        sessionExpired: '会话失效，请重新下单',
+        saveFail: '保存失败：',
+        periodLunch: '午餐',
+        periodBreakfast: '早餐',
+      },
+      en: {
+        subtitle: 'School Food Ordering',
+        menu: "Today's Menu",
+        name: 'Name', namePh: 'Enter your name',
+        total: 'Total', submit: 'Place Order', soldOutBtn: 'Sold Out',
+        notice: 'No delivery. Please collect your order at the designated location.',
+        success: 'Order Submitted', save: 'Please keep your order number.',
+        again: 'Order Again', error: 'Please enter your name.',
+        pickup: 'Your order has been recorded. Please collect it as instructed by Yeran.',
+        payTitle: 'Please pay',
+        payCash: 'Cash: Please pay Yeran',
+        typeLabel: 'Choice',
+        noteLabel: 'Note', notePh: 'e.g. no spicy, extra rice',
+        loading: 'Loading…', noMenu: 'No menu today',
+        stock: 'Left ', stockLeft: '', soldOut: 'Sold out',
+        payMethodLabel: 'Payment', optOnline: 'Online (Alipay/WeChat/TNG)', optCash: 'Cash',
+        payPageTitle: 'Payment',
+        payPageHint: 'Scan to pay, then upload your screenshot',
+        proofLabel: 'Payment screenshot (required)',
+        chooseBtn: 'Choose Image',
+        rechooseBtn: 'Choose Another',
+        paySubmitBtn: 'Submit Payment',
+        backBtn: 'Back',
+        uploadHint: 'Pay first, then upload your payment screenshot (required)',
+        needProof: 'Please upload a payment screenshot, or choose Cash',
+        uploading: 'Uploading…',
+        uploadOk: '✓ Screenshot uploaded',
+        uploadFail: 'Upload failed: ',
+        closedTitle: 'Ordering Paused',
+        closedText: 'Come back at 3 PM today',
+        closedWeekend: 'Closed on weekends. See you Sunday 3 PM!',
+        feedbackBtn: '💬 Feedback',
+        fbTitle: 'Feedback',
+        viewFeedback: '👀 View Feedback',
+        feedbackListTitle: 'Community Feedback',
+        feedbackLoading: 'Loading…',
+        feedbackEmpty: 'There is no public feedback yet.',
+        feedbackLoadFail: 'Failed to load feedback. Please try again later.',
+        feedbackListClose: 'Close',
+        fbNameLabel: 'Name',
+        fbContentLabel: 'Your feedback',
+        fbSubmit: 'Submit',
+        fbCancel: 'Cancel',
+        fbNamePh: 'Enter your name',
+        fbContentPh: 'Write your feedback...',
+        navOrder: 'Order',
+        navMyOrders: 'My Orders',
+        navFeedback: 'Feedback',
+        sessionExpired: 'Session expired. Please place the order again.',
+        saveFail: 'Save failed: ',
+        periodLunch: 'Lunch',
+        periodBreakfast: 'Breakfast',
+      }
+    };
+
+    function fmt(n) {return 'RM ' + n;}
+    function currentPayMethod() {return document.querySelector('input[name="payMethod"]:checked').value;}
+    function maxPortions() {return (menu && menu.max_portions) ? menu.max_portions : 15;}
+    function portionsLeft() {return Math.max(0, maxPortions() - orderedQty);}
+
+    function updateTotal() {
+      document.getElementById('total').textContent = fmt(currentPrice() * qty);
+    }
+
+    function changeQty(n) {
+      let newQty = qty + n;
+      if (newQty < 1) newQty = 1;
+      if (newQty > portionsLeft()) newQty = portionsLeft();
+      if (newQty < 1) newQty = 1;
+      qty = newQty;
+      document.getElementById('qty').textContent = qty;
+
+      const breakfastQty = document.getElementById('breakfastQty');
+
+      if (breakfastQty) {
+        breakfastQty.textContent = qty;
+      }
+      updateTotal();
+    }
+
+    function renderStock() {
+      const el = document.getElementById('stockInfo');
+      const left = portionsLeft();
+      const t = text[lang];
+      if (left <= 0) {
+        el.textContent = t.soldOut;
+        el.className = 'stock-zero';
+        document.getElementById('submitBtn').disabled = true;
+        document.getElementById('submitBtn').textContent = t.soldOutBtn;
+      } else if (left <= 5) {
+        el.textContent = t.stock + ' ' + left + ' ' + t.stockLeft;
+        el.className = 'stock-low';
+        document.getElementById('submitBtn').disabled = false;
+        document.getElementById('submitBtn').textContent = t.submit;
+      } else {
+        el.textContent = t.stock + ' ' + left + ' ' + t.stockLeft;
+        el.className = '';
+        el.style.color = '#2e7d32';
+        document.getElementById('submitBtn').disabled = false;
+        document.getElementById('submitBtn').textContent = t.submit;
+      }
+    }
+
+    function renderMenu() {
+      if (!menu) {
+        document.getElementById('foodName').classList.remove('skeleton', 'sk-title');
+        document.getElementById('foodDesc').classList.remove('skeleton', 'sk-desc');
+        document.getElementById('foodName').textContent = text[lang].noMenu;
+        document.getElementById('foodDesc').textContent = '';
+        document.getElementById('stockInfo').textContent = '';
+
+        document.getElementById('breakfastProduct').style.display = 'none';
+        document.querySelector('.food').style.display = 'flex';
+
+        return;
+      }
+
+      const nameField = lang === 'zh' ? 'name_zh' : 'name_en';
+      const descField = lang === 'zh' ? 'desc_zh' : 'desc_en';
+
+      if (currentPeriod === 'breakfast') {
+
+        document.querySelector('.food').style.display = 'none';
+
+        const breakfastCard =
+          document.getElementById('breakfastProduct');
+
+        breakfastCard.style.display = 'block';
+
+        document.getElementById('breakfastProductName').textContent =
+          menu[nameField] || '';
+
+        document.getElementById('breakfastProductDesc').textContent =
+          menu[descField] || '';
+
+        document.getElementById('breakfastQty').textContent = qty;
+
+        document.getElementById('breakfastPrice').textContent =
+          fmt(menu.price || 0);
+
+        renderOptions();
+        renderStock();
+
+        const breakfastStock =
+          document.getElementById('breakfastStock');
+
+        const left = portionsLeft();
+
+        if (left <= 0) {
+          breakfastStock.textContent = text[lang].soldOut;
+          breakfastStock.className = 'stock-zero';
+        } else {
+          breakfastStock.textContent =
+            text[lang].stock + ' ' +
+            left + ' ' +
+            text[lang].stockLeft;
+
+          breakfastStock.className =
+            left <= 5 ? 'stock-low' : '';
+
+          if (left > 5) {
+            breakfastStock.style.color = '#2e7d32';
+          }
+        }
+
+        return;
+      }
+
+      document.querySelector('.food').style.display = 'flex';
+      document.getElementById('breakfastProduct').style.display = 'none';
+
+      document.getElementById('foodName').classList.remove(
+        'skeleton',
+        'sk-title'
+      );
+
+      document.getElementById('foodDesc').classList.remove(
+        'skeleton',
+        'sk-desc'
+      );
+
+      document.getElementById('foodName').textContent =
+        menu[nameField];
+
+      document.getElementById('foodDesc').textContent =
+        menu[descField];
+
+      updateTotal();
+      renderStock();
+    }
+    function changeBreakfastQty(productId, change) {
+
+      const product = products.find(function (p) {
+        return Number(p.id) === Number(productId);
+      });
+
+      if (!product) return;
+
+      const left = Number(
+        product.stockRemaining != null
+          ? product.stockRemaining
+          : product.max_portions || 0
+      );
+
+      let current = Number(
+        breakfastQty[productId] || 1
+      );
+
+      current += change;
+
+      if (current < 1) {
+        current = 1;
+      }
+
+      if (current > left) {
+        current = left;
+      }
+
+      if (left <= 0) {
+        current = 1;
+      }
+
+      breakfastQty[productId] = current;
+
+      const qtyEl =
+        document.getElementById(
+          'breakfastQty_' + productId
+        );
+
+      if (qtyEl) {
+        qtyEl.textContent = current;
+      }
+    }
+    function onPayMethodChange() {
+    }
+
+
+    function uploadProof(callback) {
+      if (!selectedFile) {callback(''); return;}
+      const ext = selectedFile.name.split('.').pop();
+      const path = 'proof_' + crypto.randomUUID() + '.' + ext;
+      const fileNameEl = document.getElementById('fileName');
+      fileNameEl.textContent = text[lang].uploading;
+
+      supabaseClient.storage.from('payments').upload(path, selectedFile).then(function (res) {
+        if (res.error) {
+          fileNameEl.textContent = text[lang].uploadFail + res.error.message;
+          callback(null);
+          return;
+        }
+        uploadedUrl = path;
+        fileNameEl.textContent = text[lang].uploadOk;
+        callback(path);
+      });
+    }
+
+    function setLang(l) {
+      lang = l;
+      localStorage.setItem('lang', l);
+      document.getElementById('zhBtn').classList.toggle('active', l === 'zh');
+      document.getElementById('enBtn').classList.toggle('active', l === 'en');
+      const t = text[l];
+      document.getElementById('subtitle').textContent = t.subtitle;
+      document.getElementById('menuTitle').textContent = t.menu;
+      document.getElementById('nameLabel').textContent = t.name;
+      document.getElementById('name').placeholder = t.namePh;
+      document.getElementById('totalLabel').textContent = t.total;
+      document.getElementById('notice').textContent = t.notice;
+      document.getElementById('successTitle').textContent = t.success;
+      document.getElementById('successText').textContent = t.save;
+      document.getElementById('newBtn').textContent = t.again;
+      document.getElementById('typeLabel').textContent = t.typeLabel;
+      document.getElementById('noteLabel').textContent = t.noteLabel;
+      document.getElementById('note').placeholder = t.notePh;
+      document.getElementById('payMethodLabel').textContent = t.payMethodLabel;
+      document.getElementById('optOnline').textContent = t.optOnline;
+      document.getElementById('optCash').textContent = t.optCash;
+      document.getElementById('chooseBtn').textContent = t.chooseBtn;
+      document.getElementById('rechooseBtn').textContent = t.rechooseBtn;
+      document.getElementById('payPageTitle').textContent = t.payPageTitle;
+      document.getElementById('payPageHint').textContent = t.payPageHint;
+      document.getElementById('proofLabel').textContent = t.proofLabel;
+      document.getElementById('chooseBtn').textContent = t.chooseBtn;
+      document.getElementById('rechooseBtn').textContent = t.rechooseBtn;
+      document.getElementById('paySubmitBtn').textContent = t.paySubmitBtn;
+      document.getElementById('backBtn').textContent = t.backBtn;
+      document.getElementById('closedTitle').textContent = t.closedTitle;
+      document.getElementById('closedText').textContent = isWeekendBreak() ? t.closedWeekend : t.closedText;
+      document.getElementById('feedbackBtn').textContent = t.feedbackBtn;
+      document.getElementById('fbTitle').textContent = t.fbTitle;
+      document.getElementById('fbNameLabel').textContent = t.fbNameLabel;
+      document.getElementById('fbContentLabel').textContent = t.fbContentLabel;
+      document.getElementById('fbSubmit').textContent = t.fbSubmit;
+      document.getElementById('fbCancel').textContent = t.fbCancel;
+      document.getElementById('fbName').placeholder = t.fbNamePh;
+      document.getElementById('fbContent').placeholder = t.fbContentPh;
+      document.getElementById('navOrder').textContent = t.navOrder;
+      document.getElementById('navMyOrders').textContent = t.navMyOrders;
+      document.getElementById('navFeedback').textContent = t.navFeedback;
+      document.getElementById('btnLunchOrder').textContent = t.periodLunch;
+      document.getElementById('btnBreakfastOrder').textContent = t.periodBreakfast;
+      document.getElementById('viewFeedbackBtn').textContent = t.viewFeedback;
+      document.getElementById('feedbackListTitle').textContent = t.feedbackListTitle;
+      document.getElementById('feedbackListClose').textContent = t.feedbackListClose;
+      renderOptions();
+      renderMenu();
+    }
+    function getMealDate() {
+      const now = new Date();
+      const h = now.getHours();
+
+      /*
+       * 早餐：
+       * 15:00 后订的是第二天早餐
+       */
+      if (currentPeriod === 'breakfast' && h >= 15) {
+        now.setDate(now.getDate() + 1);
+      }
+
+      /*
+       * 午餐：
+       * 15:00 后订的是第二天午餐
+       */
+      if (currentPeriod === 'lunch' && h >= 15) {
+        now.setDate(now.getDate() + 1);
+      }
+
+      return now.getFullYear() + '-' +
+        String(now.getMonth() + 1).padStart(2, '0') + '-' +
+        String(now.getDate()).padStart(2, '0');
+    }
+
+
+    function isOrderingOpen() {
+      const now = new Date();
+      const h = now.getHours();
+
+      /*
+       * 早餐：
+       * 15:00 开始接受第二天早餐订单
+       * 00:00 截止
+       */
+      if (currentPeriod === 'breakfast') {
+        return h >= 15;
+      }
+
+      /*
+       * 午餐：
+       * 00:00 - 14:59 接受今天午餐
+       * 15:00 后接受第二天午餐
+       */
+      if (currentPeriod === 'lunch') {
+        return true;
+      }
+
+      return false;
+    }
+    function openFeedback() {
+      document.getElementById('feedbackModal').style.display = 'flex';
+      document.getElementById('fbMsg').textContent = '';
+    }
+
+    function closeFeedback() {
+      document.getElementById('feedbackModal').style.display = 'none';
+      document.getElementById('fbName').value = '';
+      document.getElementById('fbContent').value = '';
+      document.getElementById('fbMsg').textContent = '';
+    }
+
+    function submitFeedback() {
+      const name = document.getElementById('fbName').value.trim();
+      const content = document.getElementById('fbContent').value.trim();
+      const msg = document.getElementById('fbMsg');
+      if (!name || !content) {
+        msg.style.color = '#c0392b';
+        msg.textContent = '请填写姓名和内容';
+        return;
+      }
+      const submitBtn = document.getElementById('fbSubmit');
+      setButtonBusy(submitBtn, true, '提交中…', text[lang].fbSubmit);
+      msg.style.color = '#666';
+      msg.textContent = '提交中…';
+      supabaseClient.from('feedback').insert({
+        name: name,
+        content: content,
+        approved: false
+      }).then(function (res) {
+        if (res.error) {
+          setButtonBusy(submitBtn, false, '', text[lang].fbSubmit);
+          msg.style.color = '#c0392b';
+          msg.textContent = safeErrorMessage(res.error, '提交失败，请稍后重试。');
+          return;
+        }
+        setButtonBusy(submitBtn, false, '', text[lang].fbSubmit);
+        msg.style.color = '#2e7d32';
+        msg.textContent = '✓ 已提交，谢谢你的反馈！';
+        document.getElementById('fbName').value = '';
+        document.getElementById('fbContent').value = '';
+        setTimeout(closeFeedback, 1500);
+      });
+    }
+    function openFeedbackList() {
+      const modal = document.getElementById('feedbackListModal');
+      const list = document.getElementById('feedbackList');
+
+      modal.style.display = 'flex';
+
+      list.innerHTML =
+        '<div style="text-align:center;color:#888;padding:20px">' +
+        escapeHtml(text[lang].feedbackLoading) +
+        '</div>';
+
+      supabaseClient
+        .from('feedback')
+        .select('name, content, created_at')
+        .eq('approved', true)
+        .order('created_at', {ascending: false})
+        .then(function (res) {
+
+          if (res.error) {
+            console.error('加载反馈失败:', res.error);
+
+            list.innerHTML =
+              '<div style="text-align:center;color:#c0392b;padding:20px">' +
+              escapeHtml(text[lang].feedbackLoadFail) +
+              '</div>';
+
+            return;
+          }
+
+          const rows = res.data || [];
+
+          if (!rows.length) {
+            list.innerHTML =
+              '<div style="text-align:center;color:#888;padding:30px 10px">' +
+              escapeHtml(text[lang].feedbackEmpty) +
+              '</div>';
+
+            return;
+          }
+
+          let html = '';
+
+          rows.forEach(function (item) {
+            const name = escapeHtml(item.name || '');
+            const content = escapeHtml(item.content || '');
+
+            let date = '';
+
+            if (item.created_at) {
+              const d = new Date(item.created_at);
+
+              if (!isNaN(d.getTime())) {
+                date = d.toLocaleDateString(
+                  lang === 'zh' ? 'zh-CN' : 'en-US',
+                  {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                  }
+                );
+              }
+            }
+
+            html +=
+              '<div style="' +
+              'border:1px solid #eee;' +
+              'border-radius:12px;' +
+              'padding:14px;' +
+              'margin-bottom:12px;' +
+              'background:#fafafa;' +
+              '">' +
+
+              '<div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:8px">' +
+
+              '<strong>' +
+              name +
+              '</strong>' +
+
+              '<span style="font-size:12px;color:#999">' +
+              escapeHtml(date) +
+              '</span>' +
+
+              '</div>' +
+
+              '<div style="font-size:14px;line-height:1.6;white-space:pre-wrap;color:#444">' +
+              content +
+              '</div>' +
+
+              '</div>';
+          });
+
+          list.innerHTML = html;
+        });
+    }
+
+    function closeFeedbackList() {
+      document.getElementById('feedbackListModal').style.display = 'none';
+    }
+
+    function isWeekendBreak() {
+      const now = new Date();
+      const h = now.getHours();
+      let mealDay = new Date(now);
+      if (h >= 15) {mealDay.setDate(mealDay.getDate() + 1);}
+      const n = mealDay.getDay();
+      return n === 0 || n === 6;
+    }
+    let menuOptions = [];
+    let selectedOptionId = null;
+
+    function loadOptions() {
+      supabaseClient.from('menu_options').select('*').eq('enabled', true).eq('menu_type', currentPeriod).order('sort', {ascending: true}).then(function (res) {
+        if (res.error) {console.error(res.error); return;}
+        menuOptions = res.data || [];
+        if (menuOptions.length > 0) {
+          selectedOptionId = menuOptions[0].id;
+        }
+        renderOptions();
+      });
+    }
+
+    function renderOptions() {
+      const normalBox = document.getElementById('mealOptionsBox');
+      const breakfastBox = document.getElementById('breakfastOptions');
+      const typeLabel = document.getElementById('typeLabel');
+
+      // 现在午餐是独立商品，不需要选择
+      if (currentPeriod === 'lunch') {
+        selectedOptionId = null;
+
+        normalBox.innerHTML = '';
+        normalBox.style.display = 'none';
+
+        breakfastBox.innerHTML = '';
+        breakfastBox.style.display = 'none';
+
+        typeLabel.style.display = 'none';
+
+        updateTotal();
+        return;
+      }
+
+      // 早餐也是独立商品，不需要选择
+      if (currentPeriod === 'breakfast') {
+        selectedOptionId = null;
+
+        normalBox.innerHTML = '';
+        normalBox.style.display = 'none';
+
+        breakfastBox.innerHTML = '';
+        breakfastBox.style.display = 'none';
+
+        typeLabel.style.display = 'none';
+
+        updateTotal();
+        return;
+      }
+    }
+    function selectOption(id) {
+      selectedOptionId = id;
+      updateTotal();
+    }
+
+    function currentPrice() {
+      if (!menuOptions.length) return 0;
+      const opt = menuOptions.find(function (o) {return o.id === selectedOptionId;});
+      return opt ? opt.price : 0;
+    }
+
+    function currentMealType() {
+      return selectedOptionId;
+    }
+    function currentOptionLabel() {
+      const opt = menuOptions.find(function (o) {return o.id === selectedOptionId;});
+      return opt ? (opt.label_zh || '') : '';
+    }
+    function switchPeriod(p) {
+      currentPeriod = p;
+      document.getElementById('btnLunchOrder').classList.toggle('active', p === 'lunch');
+      document.getElementById('btnBreakfastOrder').classList.toggle('active', p === 'breakfast');
+
+      window.addEventListener('beforeunload', function (e) {
+        if (selectedFile && document.getElementById('payCard').style.display !== 'none') {
+          e.preventDefault();
+          e.returnValue = '';
+        }
+      });
+
+      loadMenu();
+    }
+
+    function isBreakfast() {
+      return currentPeriod === 'breakfast';
+    }
+    function loadMenu() {
+      alert(
+        'loadMenu执行\n' +
+        'currentPeriod=' + currentPeriod + '\n' +
+        'isOrderingOpen=' + isOrderingOpen() + '\n' +
+        'mealDate=' + getMealDate()
+      );
+      console.log('开始加载菜单，currentPeriod =', currentPeriod);
+
+      // =========================
+      // 先检查当前餐别有没有商品
+      // =========================
+
+      supabaseClient
+        .from('menu_products')
+        .select('id')
+        .eq('menu_type', 'breakfast')
+        .eq('active', true)
+        .limit(1)
+        .then(function (r) {
+
+          if (r.data && r.data.length) {
+            document.getElementById('periodSwitch').style.display = 'flex';
+          }
+
+        });
+
+
+      // =========================
+      // 恢复正常显示状态
+      // =========================
+
+      document.getElementById('closedBox').style.display = 'none';
+      document.getElementById('menuTitle').style.display = 'block';
+
+      document.getElementById('noteLabel').style.display = 'block';
+      document.getElementById('note').style.display = 'block';
+
+      document.getElementById('payMethodLabel').style.display = 'block';
+
+      document.getElementById('nameLabel').style.display = 'block';
+      document.getElementById('name').style.display = 'block';
+
+      document.getElementById('totalLabel').style.display = 'block';
+      document.getElementById('total').style.display = 'inline';
+
+      document.getElementById('submitBtn').style.display = 'block';
+      document.querySelector('.total').style.display = 'flex';
+
+      document.getElementById('notice').style.display = 'block';
+
+      document.querySelectorAll('.opt')[1].style.display = 'block';
+
+
+      // =========================
+      // 早餐 / 午餐 UI
+      // =========================
+
+      if (currentPeriod === 'breakfast') {
+
+        document.querySelector('.food').style.display = 'none';
+        document.getElementById('breakfastProduct').style.display = 'block';
+
+        document.getElementById('typeLabel').style.display = 'none';
+        document.getElementById('mealOptionsBox').style.display = 'none';
+
+      } else {
+
+        document.querySelector('.food').style.display = 'flex';
+        document.getElementById('breakfastProduct').style.display = 'none';
+
+        document.getElementById('typeLabel').style.display = 'block';
+        document.getElementById('mealOptionsBox').style.display = 'block';
+
+      }
+
+
+      // =========================
+      // 检查当前是否可以下单
+      // =========================
+
+      if (!isOrderingOpen()) {
+
+        document.getElementById('closedBox').style.display = 'block';
+
+        if (isWeekendBreak()) {
+
+          document.getElementById('closedTitle').textContent =
+            text[lang].closedTitle;
+
+          document.getElementById('closedText').textContent =
+            text[lang].closedWeekend;
+        }
+
+        document.getElementById('menuTitle').style.display = 'none';
+
+        document.querySelector('.food').style.display = 'none';
+        document.getElementById('breakfastProduct').style.display = 'none';
+
+        document.getElementById('typeLabel').style.display = 'none';
+        document.getElementById('mealOptionsBox').style.display = 'none';
+
+        document.getElementById('noteLabel').style.display = 'none';
+        document.getElementById('note').style.display = 'none';
+
+        document.getElementById('payMethodLabel').style.display = 'none';
+
+        document.querySelectorAll('.opt')[1].style.display = 'none';
+
+        document.getElementById('nameLabel').style.display = 'none';
+        document.getElementById('name').style.display = 'none';
+
+        document.getElementById('totalLabel').style.display = 'none';
+        document.getElementById('total').style.display = 'none';
+
+        document.getElementById('submitBtn').style.display = 'none';
+
+        document.querySelector('.total').style.display = 'none';
+
+        document.getElementById('notice').style.display = 'none';
+
+        products = [];
+        menu = null;
+
+        return;
+      }
+
+
+      // =========================
+      // 新架构：加载当前餐别所有商品
+      // =========================
+
+      supabaseClient
+        .from('menu_products')
+        .select('*')
+        .eq('active', true)
+        .eq('menu_type', currentPeriod)
+        .order('sort', {ascending: true})
+        .order('id', {ascending: true})
+        .then(function (res) {
+
+          alert(
+            '商品查询结果：\n' +
+            '数量=' + ((res.data && res.data.length) || 0) + '\n' +
+            '错误=' + (res.error ? res.error.message : '无') + '\n' +
+            '商品=' + JSON.stringify(res.data)
+          );
+
+          // ↓↓↓ 这里继续放你原来的代码
+          console.log('menu_products 查询结果:', res.data, res.error);
+          if (res.error) {
+
+
+            console.error('加载商品失败:', res.error);
+
+            products = [];
+            menu = null;
+
+            renderMenu();
+
+            return;
+          }
+
+
+          products = res.data || [];
+
+          // 保留旧代码兼容：
+          // 当前 UI 暂时还是一个主商品
+          menu = products.length ? products[0] : null;
+
+
+          // 没有商品
+          if (!products.length) {
+
+            menu = null;
+
+            renderMenu();
+
+            return;
+          }
+
+
+          // =========================
+          // 加载所有商品的 options
+          // =========================
+
+          const productIds = products.map(function (p) {
+            return p.id;
+          });
+
+
+          supabaseClient
+            .from('product_options')
+            .select('*')
+            .in('product_id', productIds)
+            .eq('enabled', true)
+            .order('sort', {ascending: true})
+            .order('id', {ascending: true})
+
+            .then(function (optionRes) {
+
+              if (optionRes.error) {
+
+                console.error('加载商品选项失败:', optionRes.error);
+
+                products.forEach(function (p) {
+                  p.options = [];
+                });
+
+              } else {
+
+                const allOptions = optionRes.data || [];
+
+                products.forEach(function (p) {
+
+                  p.options = allOptions.filter(function (o) {
+                    return Number(o.product_id) === Number(p.id);
+                  });
+
+                });
+
+              }
+
+
+              // 兼容现有代码
+              menuOptions = menu && Array.isArray(menu.options)
+                ? menu.options
+                : [];
+
+              console.log('当前商品:', menu);
+              console.log('当前选择项:', menuOptions);
+
+              loadOrdersToday();
+            });
+        });
+    }
+    function loadOrdersToday() {
+
+      const targetDate = getMealDate();
+
+      if (!products || !products.length) {
+        console.log('当前没有商品，products =', products);
+        orderedQty = 0;
+        renderMenu();
+        return;
+      }
+
+      Promise.all(
+        products.map(function (product) {
+
+          return supabaseClient.rpc('get_product_stock', {
+            p_product_id: product.id,
+            p_meal_date: targetDate
+          }).then(function (res) {
+
+            if (res.error) {
+              console.error(
+                '读取商品库存失败:',
+                product.id,
+                res.error
+              );
+
+              product.stockTotal = Number(product.max_portions || 0);
+              product.stockOrdered = 0;
+              product.stockRemaining = Number(product.max_portions || 0);
+
+              return;
+            }
+
+            const row = res.data && res.data[0]
+              ? res.data[0]
+              : null;
+
+            product.stockTotal = row
+              ? Number(row.total || 0)
+              : Number(product.max_portions || 0);
+
+            product.stockOrdered = row
+              ? Number(row.ordered || 0)
+              : 0;
+
+            product.stockRemaining = row
+              ? Number(row.remaining || 0)
+              : Number(product.max_portions || 0);
+
+          });
+
+        })
+      )
+        .then(function () {
+
+          console.log('商品库存加载完成:', products);
+
+          // 只给旧版 UI 兼容使用
+          if (menu) {
+            orderedQty = Number(menu.stockOrdered || 0);
+          } else {
+            orderedQty = 0;
+          }
+
+          renderMenu();
+
+        })
+        .catch(function (err) {
+
+          console.error('库存加载异常:', err);
+
+          orderedQty = 0;
+          renderMenu();
+
+        });
+
+    }
+
+    function goToPayment() {
+      if (currentPayMethod() === 'cash') {
+        submitCashOrder();
+        return;
+      }
+      const name = document.getElementById('name').value.trim();
+      const note = document.getElementById('note').value.trim();
+      if (!name) {alert(text[lang].error); return;}
+      if (!menu) {alert(text[lang].noMenu); return;}
+
+      const max = maxPortions();
+      if (orderedQty + qty > max) {
+        alert(lang === 'zh'
+          ? '今天最多 ' + max + ' 份，已订 ' + orderedQty + ' 份，剩余 ' + portionsLeft() + ' 份。'
+          : 'Max ' + max + ' portions today. Ordered: ' + orderedQty + ', left: ' + portionsLeft() + '.');
+        return;
+      }
+
+      const requestId = crypto.randomUUID();
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = '处理中…';
+
+      supabaseClient.rpc('create_order', {
+        p_request_id: requestId,
+        p_name: name,
+        p_quantity: qty,
+        p_note: note,
+        p_meal_date: getMealDate(),
+        p_meal_period: currentPeriod,
+        p_payment_method: 'online',
+        p_option_id: selectedOptionId
+      }).then(function (res) {
+        btn.disabled = false;
+        btn.textContent = text[lang].submit;
+        if (res.error) {
+          console.error(res.error);
+          const msg = String(res.error.message || '');
+          alert(msg.includes('OUT_OF_STOCK') ? '库存刚刚被抢完，请减少数量或刷新页面。' : text[lang].saveFail);
+          loadOrdersToday();
+          return;
+        }
+        const row = res.data && res.data[0];
+        if (!row) {
+          alert(text[lang].saveFail);
+          return;
+        }
+
+        window._pendingOrder = {
+          request_id: requestId,
+          order_code: row.order_code,
+          name: name,
+          quantity: row.quantity,
+          total: row.total,
+          meal_type: row.meal_type,
+          note: note,
+          meal_date: getMealDate(),
+          meal_period: currentPeriod
+        };
+
+        document.getElementById('payPageOrderId').textContent = '订单号：' + row.order_code;
+        document.getElementById('payPageAmount').textContent = '应付：RM ' + row.total;
+        document.getElementById('fileName').textContent = '';
+        document.getElementById('preview').style.display = 'none';
+        document.getElementById('rechooseBtn').style.display = 'none';
+        document.getElementById('fileInput').value = '';
+        selectedFile = null;
+        document.getElementById('orderCard').style.display = 'none';
+        document.getElementById('payCard').style.display = 'block';
+      });
+    }
+    function submitCashOrder() {
+      const name = document.getElementById('name').value.trim();
+      const note = document.getElementById('note').value.trim();
+      if (!name) {alert(text[lang].error); return;}
+      if (!menu) {alert(text[lang].noMenu); return;}
+
+      const max = maxPortions();
+      if (orderedQty + qty > max) {
+        alert(lang === 'zh'
+          ? '今天最多 ' + max + ' 份，已订 ' + orderedQty + ' 份，剩余 ' + portionsLeft() + ' 份。'
+          : 'Max ' + max + ' portions today. Ordered: ' + orderedQty + ', left: ' + portionsLeft() + '.');
+        return;
+      }
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = '处理中…';
+
+      const requestId = crypto.randomUUID();
+      supabaseClient.rpc('create_order', {
+        p_request_id: requestId,
+        p_name: name,
+        p_quantity: qty,
+        p_note: note,
+        p_meal_date: getMealDate(),
+        p_meal_period: currentPeriod,
+        p_payment_method: 'cash',
+        p_option_id: selectedOptionId
+      }).then(function (res) {
+        btn.disabled = false;
+        btn.textContent = text[lang].submit;
+        if (res.error) {
+          console.error(res.error);
+          const msg = String(res.error.message || '');
+          alert(msg.includes('OUT_OF_STOCK') ? '库存刚刚被抢完，请减少数量或刷新页面。' : text[lang].saveFail);
+          loadOrdersToday();
+          return;
+        }
+        const row = res.data && res.data[0];
+        if (!row) {
+          alert(text[lang].saveFail);
+          return;
+        }
+
+        document.getElementById('orderCard').style.display = 'none';
+        document.getElementById('successCard').style.display = 'block';
+        document.getElementById('successCard').classList.add('show');
+        document.getElementById('orderId').textContent = row.order_code;
+        document.getElementById('successTotal').textContent = 'RM ' + row.total + ' · ' + (lang === 'zh' ? '现金请交给 Yeran' : 'Please pay Yeran in cash');
+      });
+    }
+    function backToOrder() {
+      document.getElementById('payCard').style.display = 'none';
+      document.getElementById('orderCard').style.display = 'block';
+    }
+
+    function onFileSelected(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+      const maxBytes = 5 * 1024 * 1024;
+      if (!allowedTypes.includes(file.type)) {
+        alert(lang === 'zh' ? '只支持 JPG、PNG、WEBP 图片。' : 'Only JPG, PNG, or WEBP images are allowed.');
+        event.target.value = '';
+        return;
+      }
+      if (file.size > maxBytes) {
+        alert(lang === 'zh' ? '图片不能超过 5MB。' : 'Image must be 5MB or smaller.');
+        event.target.value = '';
+        return;
+      }
+      selectedFile = file;
+      document.getElementById('fileName').textContent = escapeHtml(file.name);
+      document.getElementById('rechooseBtn').style.display = 'inline-block';
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        document.getElementById('previewImg').src = e.target.result;
+        document.getElementById('preview').style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function submitPayment() {
+      if (!selectedFile) {alert(text[lang].needProof); return;}
+      const o = window._pendingOrder;
+      if (!o || !o.request_id) {
+        alert(text[lang].sessionExpired);
+        return;
+      }
+
+      const btn = document.getElementById('paySubmitBtn');
+      btn.disabled = true;
+      btn.textContent = text[lang].uploading;
+
+      try {
+        const extMap = {
+          'image/jpeg': 'jpg',
+          'image/png': 'png',
+          'image/webp': 'webp'
+        };
+        const ext = extMap[selectedFile.type];
+        if (!ext) throw new Error('INVALID_FILE');
+
+        const path = 'proof_' + o.order_code + '_' + crypto.randomUUID() + '.' + ext;
+
+        const up = await supabaseClient.storage.from('payments').upload(path, selectedFile, {
+          contentType: selectedFile.type,
+          upsert: false
+        });
+        if (up.error) throw up.error;
+
+        const attached = await supabaseClient.rpc('attach_payment_proof', {
+          p_request_id: o.request_id,
+          p_path: path
+        });
+        if (attached.error) throw attached.error;
+
+        window._pendingOrder = null;
+        selectedFile = null;
+        document.getElementById('payCard').style.display = 'none';
+        document.getElementById('successCard').style.display = 'block';
+        document.getElementById('successCard').classList.add('show');
+        document.getElementById('orderId').textContent = o.order_code;
+        document.getElementById('successTotal').textContent = 'RM ' + o.total + ' · ' + text[lang].pickup;
+      } catch (err) {
+        console.error(err);
+        alert(err && err.message === 'INVALID_FILE' ? '只支持 JPG、PNG、WEBP 图片。' : text[lang].uploadFail);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = text[lang].paySubmitBtn;
+      }
+    }
+
+    function newOrder() {
+      qty = 1;
+      selectedFile = null;
+      uploadedUrl = '';
+      document.getElementById('qty').textContent = '1';
+      document.getElementById('name').value = '';
+      document.getElementById('note').value = '';
+      document.getElementById('fileInput').value = '';
+      document.getElementById('fileName').textContent = '';
+      document.getElementById('preview').style.display = 'none';
+      document.getElementById('rechooseBtn').style.display = 'none';
+      const onlineRadio = document.querySelector('input[name="payMethod"][value="online"]');
+      if (onlineRadio) onlineRadio.checked = true;
+      selectedOptionId = menuOptions.length > 0 ? menuOptions[0].id : null;
+      renderOptions();
+      onPayMethodChange();
+      loadOrdersToday();
+      document.getElementById('orderCard').style.display = 'block';
+      document.getElementById('successCard').style.display = 'none';
+      document.getElementById('successCard').classList.remove('show');
+    }
+
+    loadMenu();
+    function toggleDark() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      document.getElementById('darkBtn').textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('darkMode', isDark ? '1' : '0');
+    }
+
+    // 页面加载时恢复
+    if (localStorage.getItem('darkMode') === '1') {
+      document.body.classList.add('dark');
+      document.getElementById('darkBtn').textContent = '☀️';
+    }
+    setLang('zh');
+    function scrollToTop() {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+  </script>
+</body>
+
+</html>

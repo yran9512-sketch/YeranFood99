@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YeranFood · 我的订单</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #fafafa;
+      color: #111;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 70px
+    }
+
+    header {
+      background: #111;
+      color: #fff;
+      padding: 24px 20px;
+      text-align: center;
+      position: relative
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: 1.5px;
+      font-weight: 800
+    }
+
+    header p {
+      margin: 6px 0 0;
+      color: #999;
+      font-size: 13px
+    }
+
+    .back {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: 0;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 8px
+    }
+
+    .container {
+      max-width: 620px;
+      margin: 24px auto;
+      padding: 0 16px
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 28px 24px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, .06);
+      border: 1px solid #f0f0f0;
+      animation: fadeIn .4s ease
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      font-size: 18px;
+      font-weight: 800
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1.5px solid #e5e5e5;
+      border-radius: 12px;
+      font-size: 16px;
+      font-family: inherit;
+      transition: border-color .2s;
+      background: #fafafa
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #111;
+      background: #fff
+    }
+
+    button.primary {
+      width: 100%;
+      margin-top: 14px;
+      padding: 16px;
+      border: 0;
+      border-radius: 14px;
+      background: #111;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: inherit
+    }
+
+    button.primary:hover {
+      background: #000;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, .2)
+    }
+
+    button.primary:active {
+      transform: translateY(0)
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 15px
+    }
+
+    .row:last-child {
+      border-bottom: 0
+    }
+
+    .row .label {
+      color: #888
+    }
+
+    .row .value {
+      font-weight: 600;
+      color: #111;
+      text-align: right
+    }
+
+    .orderCard {
+      margin-bottom: 14px;
+      padding: 18px;
+      background: #fafafa;
+      border-radius: 14px;
+      border: 1px solid #f0f0f0
+    }
+
+    .orderCard .oid {
+      font-weight: 800;
+      font-size: 16px;
+      margin-bottom: 8px
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-left: 6px
+    }
+
+    .tag.paid {
+      background: #e8f5e9;
+      color: #2e7d32
+    }
+
+    .tag.unpaid {
+      background: #fff3e0;
+      color: #e65100
+    }
+
+    .tag.cash {
+      background: #fff8e1;
+      color: #ef6c00
+    }
+
+    .tag.online {
+      background: #e3f2fd;
+      color: #1565c0
+    }
+
+    .noorders {
+      text-align: center;
+      color: #999;
+      padding: 30px;
+      font-size: 14px
+    }
+
+    footer {
+      text-align: center;
+      color: #888;
+      padding: 20px;
+      font-size: 13px
+    }
+
+    .langToggle {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: 1.5px solid #444;
+      color: #fff;
+      border-radius: 20px;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: inherit
+    }
+
+    .langToggle:hover {
+      border-color: #fff
+    }
+
+    #bottomNav {
+      display: none
+    }
+
+    @media (max-width:640px) {
+      #bottomNav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-top: 1px solid #eee;
+        justify-content: space-around;
+        padding: 8px 0;
+        z-index: 100;
+        box-shadow: 0 -2px 12px rgba(0, 0, 0, .04)
+      }
+
+      .navBtn {
+        background: transparent;
+        border: 0;
+        color: #999;
+        cursor: pointer;
+        padding: 6px 20px;
+        font-family: inherit;
+        transition: color .2s
+      }
+
+      .navBtn.active {
+        color: #111
+      }
+    }
+
+    body.dark {
+      background: #0a0a0a;
+      color: #eee
+    }
+
+    body.dark .card {
+      background: #1a1a1a;
+      border-color: #2a2a2a
+    }
+
+    body.dark .orderCard {
+      background: #222;
+      border-color: #2a2a2a
+    }
+
+    body.dark input {
+      background: #222;
+      border-color: #333;
+      color: #eee
+    }
+
+    body.dark input:focus {
+      border-color: #fff;
+      background: #2a2a2a
+    }
+
+    body.dark .row {
+      border-bottom-color: #2a2a2a
+    }
+
+    body.dark .row .label {
+      color: #666
+    }
+
+    body.dark .row .value {
+      color: #eee
+    }
+
+    body.dark #bottomNav {
+      background: #1a1a1a;
+      border-top-color: #2a2a2a
+    }
+
+    body.dark .navBtn.active {
+      color: #fff
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <button class="back" onclick="location.href='/'">←</button>
+    <h1 id="pageTitle">我的订单</h1>
+    <p id="pageSub">My Orders</p>
+    <button class="langToggle" id="langBtn" onclick="toggleLang()">EN</button>
+  </header>
+
+  <main class="container">
+
+    <div class="card">
+      <h2 id="searchTitle">查订单</h2>
+      <input id="codeInput" onkeydown="if(event.key==='Enter')search()">
+      <button class="primary" id="searchBtn" onclick="search()">查询</button>
+    </div>
+
+    <div id="resultBox"></div>
+
+  </main>
+
+  <nav id="bottomNav">
+    <button class="navBtn" onclick="location.href='/'">
+      <div style="font-size:20px">🍱</div>
+      <div style="font-size:11px;margin-top:2px" id="navOrder">点餐</div>
+    </button>
+    <button class="navBtn active" onclick="location.href='/orders.html'">
+      <div style="font-size:20px">📋</div>
+      <div style="font-size:11px;margin-top:2px" id="navMyOrder">订单</div>
+    </button>
+    <button class="navBtn" onclick="location.href='/'">
+      <div style="font-size:20px">💬</div>
+      <div style="font-size:11px;margin-top:2px" id="navFeedback">反馈</div>
+    </button>
+  </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://kbzspuxrwsuxoyozmvjb.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_oC0S_vWgBt_X8N4Xu4cG4g_ekhGwKXB';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Frontend hardening: never inject database/user text into HTML without escaping it.
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+    
+
+    function safeErrorMessage(error, fallback) {
+      console.error(error);
+      return fallback || '操作失败，请稍后重试。';
+    }
+
+    function setButtonBusy(btn, busy, busyText, normalText) {
+      if (!btn) return;
+      btn.disabled = !!busy;
+      btn.textContent = busy ? busyText : normalText;
+    }
+    
+    // SECURITY NOTE:
+    // The publishable Supabase key is safe to ship in frontend code only when
+    // Row Level Security (RLS) policies protect every table/storage action.
+    // Never put a Supabase service_role key or a real admin password in this file.
+    
+
+    let lang = localStorage.getItem('lang') || 'zh';
+
+    const text = {
+      zh: {
+        pageTitle: '我的订单',
+        pageSub: 'My Orders',
+        searchTitle: '查订单',
+        inputPh: '输入订单号（如 YF-123456）',
+        searchBtn: '查询',
+        searchEmpty: '请输入订单号',
+        searching: '查询中…',
+        notFound: '没找到这个订单号',
+        queryFail: '查询失败：',
+        labelTime: '时间',
+        labelName: '姓名',
+        labelOption: '选项',
+        labelQty: '数量',
+        labelTotal: '金额',
+        labelPayment: '付款',
+        labelNote: '备注',
+        tagPaid: '已付款',
+        tagUnpaid: '待确认',
+        tagCash: '现金',
+        tagOnline: '线上',
+        navOrder: '点餐',
+        navMyOrder: '订单',
+        navFeedback: '反馈',
+        langBtn: 'EN'
+      },
+      en: {
+        pageTitle: 'My Orders',
+        pageSub: '',
+        searchTitle: 'Search Order',
+        inputPh: 'Order code (e.g. YF-123456)',
+        searchBtn: 'Search',
+        searchEmpty: 'Please enter order code',
+        searching: 'Searching…',
+        notFound: 'Order not found',
+        queryFail: 'Error: ',
+        labelTime: 'Time',
+        labelName: 'Name',
+        labelOption: 'Option',
+        labelQty: 'Qty',
+        labelTotal: 'Total',
+        labelPayment: 'Payment',
+        labelNote: 'Note',
+        tagPaid: 'Paid',
+        tagUnpaid: 'Pending',
+        tagCash: 'Cash',
+        tagOnline: 'Online',
+        navOrder: 'Order',
+        navMyOrder: 'My Orders',
+        navFeedback: 'Feedback',
+        langBtn: '中'
+      }
+    };
+
+    function applyLang() {
+      const t = text[lang];
+      document.getElementById('pageTitle').textContent = t.pageTitle;
+      document.getElementById('pageSub').textContent = t.pageSub;
+      document.getElementById('searchTitle').textContent = t.searchTitle;
+      document.getElementById('codeInput').placeholder = t.inputPh;
+      document.getElementById('searchBtn').textContent = t.searchBtn;
+      document.getElementById('navOrder').textContent = t.navOrder;
+      document.getElementById('navMyOrder').textContent = t.navMyOrder;
+      document.getElementById('navFeedback').textContent = t.navFeedback;
+      document.getElementById('langBtn').textContent = t.langBtn;
+    }
+
+    function toggleLang() {
+      lang = lang === 'zh' ? 'en' : 'zh';
+      localStorage.setItem('lang', lang);
+      applyLang();
+    }
+
+    function fmtTime(t) {
+      const d = new Date(t);
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mi = String(d.getMinutes()).padStart(2, '0');
+      return mm + '-' + dd + ' ' + hh + ':' + mi;
+    }
+
+    function search() {
+      const t = text[lang];
+      const code = document.getElementById('codeInput').value.trim().toUpperCase();
+      if (code) sessionStorage.setItem('lastOrderCode', code);
+      const box = document.getElementById('resultBox');
+      if (!code) {
+        box.innerHTML = '<div class="card noorders">' + t.searchEmpty + '</div>';
+        return;
+      }
+      box.innerHTML = '<div class="card noorders">' + t.searching + '</div>';
+
+      supabaseClient.rpc('get_order_by_code', { p_order_code: code }).then(function (res) {
+        if (res.error) {
+          console.error(res.error); box.innerHTML = '<div class="card noorders">' + t.queryFail + '</div>';
+          return;
+        }
+        if (!res.data || !res.data.length) {
+          box.innerHTML = '<div class="card noorders">' + t.notFound + '</div>';
+          return;
+        }
+        const o = res.data[0];
+        const statusTag = o.paid
+          ? '<span class="tag paid">' + t.tagPaid + '</span>'
+          : '<span class="tag unpaid">' + t.tagUnpaid + '</span>';
+        const payTag = o.payment_method === 'cash'
+          ? '<span class="tag cash">' + t.tagCash + '</span>'
+          : '<span class="tag online">' + t.tagOnline + '</span>';
+
+        let html = '<div class="card">' +
+          '<div class="orderCard">' +
+          '<div class="oid">' + escapeHtml(o.order_code || '') + ' ' + statusTag + '</div>' +
+          '<div class="row"><span class="label">' + t.labelTime + '</span><span class="value">' + fmtTime(o.created_at) + '</span></div>' +
+          '<div class="row"><span class="label">' + t.labelName + '</span><span class="value">' + escapeHtml(o.name || '') + '</span></div>' +
+          '<div class="row"><span class="label">' + t.labelOption + '</span><span class="value">' + escapeHtml(o.meal_type || '') + '</span></div>' +
+          '<div class="row"><span class="label">' + t.labelQty + '</span><span class="value">' + o.quantity + '</span></div>' +
+          '<div class="row"><span class="label">' + t.labelTotal + '</span><span class="value">RM ' + o.total + '</span></div>' +
+          '<div class="row"><span class="label">' + t.labelPayment + '</span><span class="value">' + payTag + '</span></div>' +
+          (o.note ? '<div class="row"><span class="label">' + t.labelNote + '</span><span class="value">' + o.note + '</span></div>' : '') +
+          '</div>' +
+          '</div>';
+        box.innerHTML = html;
+      });
+    }
+
+    // 恢复深色模式
+    if (localStorage.getItem('darkMode') === '1') {
+      document.body.classList.add('dark');
+    }
+
+    // 初始化
+    applyLang();
+  </script>
+</body>
+
+</html>
