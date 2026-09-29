@@ -316,6 +316,7 @@
 
 
     let currentPeriod = 'lunch';
+    let ordersLoadSeq = 0;
 
     function switchPeriod(p) {
       currentPeriod = p;
@@ -365,6 +366,7 @@
     }
 
     function loadOrders() {
+      const loadSeq = ++ordersLoadSeq;
       const targetDate = getMealDate();
       supabaseClient.from('orders')
         .select('*')
@@ -372,6 +374,7 @@
         .eq('meal_period', currentPeriod)
         .order('created_at', {ascending: true})
         .then(function (res) {
+          if (loadSeq !== ordersLoadSeq) return;
           if (res.error) {
             document.getElementById('ordersBox').innerHTML =
               '<div class="noorders">读取失败，请稍后重试。</div>';
@@ -395,7 +398,7 @@
       });
       const totalQty = orders.reduce(function (s, o) {return s + (o.quantity || 0);}, 0);
       summaryHtml += '<div><div class="num">' + totalQty + '</div><div class="lbl">总份数</div></div>';
-      summaryHtml += '<div><div class="num">' + paidCount + '</div><div class="lbl">已付款</div></div>';
+      summaryHtml += '<div><div class="num">' + paidCount + '</div><div class="lbl">已付款订单</div></div>';
       document.getElementById('summaryBox').innerHTML = summaryHtml;
 
       // 下面接着你原来的表格代码（从 if(!orders.length) 开始）
