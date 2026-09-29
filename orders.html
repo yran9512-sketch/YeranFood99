@@ -478,6 +478,8 @@
       lang = lang === 'zh' ? 'en' : 'zh';
       localStorage.setItem('lang', lang);
       applyLang();
+      const lastCode = document.getElementById('codeInput').value.trim();
+      if (lastCode) search();
     }
 
     function fmtTime(t) {
@@ -526,7 +528,7 @@
           '<div class="row"><span class="label">' + t.labelQty + '</span><span class="value">' + o.quantity + '</span></div>' +
           '<div class="row"><span class="label">' + t.labelTotal + '</span><span class="value">RM ' + o.total + '</span></div>' +
           '<div class="row"><span class="label">' + t.labelPayment + '</span><span class="value">' + payTag + '</span></div>' +
-          (o.note ? '<div class="row"><span class="label">' + t.labelNote + '</span><span class="value">' + o.note + '</span></div>' : '') +
+          (o.note ? '<div class="row"><span class="label">' + t.labelNote + '</span><span class="value">' + escapeHtml(o.note) + '</span></div>' : '') +
           '</div>' +
           '</div>';
         box.innerHTML = html;
