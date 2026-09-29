@@ -1347,11 +1347,33 @@
         '<div class="noorders">加载中…</div>';
 
       supabaseClient
-        .from('menu_options')
-        .select('*')
+        .from('menu_products')
+        .select('id')
         .eq('menu_type', currentOptType)
+        .eq('active', true)
         .order('sort', {ascending: true})
-        .then(function (res) {
+        .limit(1)
+        .then(function (productRes) {
+          if (productRes.error) {
+            console.error(productRes.error);
+            box.innerHTML =
+              '<div class="noorders" style="color:#c0392b;">加载菜单失败，请稍后重试。</div>';
+            return;
+          }
+
+          if (!productRes.data || !productRes.data.length) {
+            box.innerHTML = '<div class="noorders">暂无可编辑菜单</div>';
+            return;
+          }
+
+          const productId = productRes.data[0].id;
+
+          return supabaseClient
+            .from('product_options')
+            .select('*')
+            .eq('product_id', productId)
+            .order('sort', {ascending: true})
+            .then(function (res) {
 
           if (res.error) {
             console.error(res.error);
@@ -1672,12 +1694,29 @@
       const descEn = prompt('英文描述（可选）') || '';
       const price = Math.max(0, parseFloat(prompt('价格（RM）') || '0') || 0);
       const maxPortions = parseInt(prompt('最大份数') || '15');
-      supabaseClient.from('menu_options').insert({
-        label_zh: zh, label_en: en,
-        desc_zh: descZh, desc_en: descEn,
-        price: price, max_portions: maxPortions,
-        enabled: true, sort: 99, menu_type: currentOptType
-      }).then(function (res) {
+      supabaseClient.from('menu_products')
+        .select('id')
+        .eq('menu_type', currentOptType)
+        .eq('active', true)
+        .order('sort', {ascending: true})
+        .limit(1)
+        .then(function (productRes) {
+          if (productRes.error || !productRes.data || !productRes.data.length) {
+            alert('暂无可编辑菜单');
+            return;
+          }
+
+          const productId = productRes.data[0].id;
+
+          return supabaseClient.from('product_options').insert({
+            label_zh: zh, label_en: en,
+            desc_zh: descZh, desc_en: descEn,
+            price: price, max_portions: maxPortions,
+            enabled: true, sort: 99, product_id: productId
+          });
+        })
+        .then(function (res) {
+          if (!res) return;
         if (res.error) {console.error(res.error); alert('操作失败，请稍后重试。'); return;}
         loadOptions();
       });
@@ -1685,7 +1724,7 @@
 
     function delOption(id) {
       if (!confirm('确认删除这个选项？')) return;
-      supabaseClient.from('menu_options').delete().eq('id', id).then(function (res) {
+      supabaseClient.from('product_options').delete().eq('id', id).then(function (res) {
         if (res.error) {console.error(res.error); alert('操作失败，请稍后重试。'); return;}
         loadOptions();
       });
