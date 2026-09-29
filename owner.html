@@ -1653,10 +1653,12 @@
           '<td>' + paymentMethod + '</td>' +
           '<td>' + paymentStatus + '</td>' +
           '<td>' +
-          (o.payment_method === 'online' && o.payment_proof
-            ? '<button class="small" onclick="viewImg(\'' +
-            escapeHtml(o.payment_proof) +
-            '\')">付款证明</button> '
+          (o.payment_method === 'online'
+            ? (o.payment_proof
+              ? '<button class="small" onclick="viewImg(\'' +
+              escapeHtml(o.payment_proof) +
+              '\')">付款证明</button> '
+              : '<button class="small gray" onclick="alert(\'这笔订单还没有上传付款凭证。\')">未上传凭证</button> ')
             : '') +
 
           (!paid
@@ -1736,10 +1738,12 @@
 
           '<div class="order-card-actions">' +
 
-          (o.payment_method === 'online' && o.payment_proof
-            ? '<button class="small" onclick="viewImg(\'' +
-            escapeHtml(o.payment_proof) +
-            '\')">查看付款证明</button>'
+          (o.payment_method === 'online'
+            ? (o.payment_proof
+              ? '<button class="small" onclick="viewImg(\'' +
+              escapeHtml(o.payment_proof) +
+              '\')">查看付款证明</button>'
+              : '<button class="small gray" onclick="alert(\'这笔订单还没有上传付款凭证。\')">未上传凭证</button>')
             : '') +
 
           (!paid
