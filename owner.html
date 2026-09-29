@@ -1128,10 +1128,16 @@
       await showAdmin();
     }
 
+    let adminViewReady = false;
+
     async function showAdmin() {
+      if (adminViewReady) return;
+      adminViewReady = true;
+
       document.getElementById('loginCard').classList.add('hidden');
       document.getElementById('main').classList.remove('hidden');
       document.getElementById('logoutBtn').classList.remove('hidden');
+
       await loadOrders();
       await loadProducts();
       await loadFeedback();
