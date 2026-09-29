@@ -922,6 +922,25 @@
       .filter button { flex: 0 0 auto; white-space: nowrap; }
     }
 
+  
+    /* ===== 全局 UI 稳定性增强 ===== */
+    button, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+      outline: 3px solid rgba(26,115,232,.28);
+      outline-offset: 2px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+    @media (max-width: 700px) {
+      button, .small, .filter-btn, .refresh-btn { touch-action: manipulation; }
+    }
+
   </style>
 </head>
 
@@ -1187,23 +1206,6 @@
       return mm + '-' + dd + ' ' + hh + ':' + mi;
     }
 
-    function switchMenuType(type) {
-      currentMenuType = type;
-      document.getElementById('btnLunchMenu').className = type === 'lunch' ? 'primary' : '';
-      document.getElementById('btnBreakfastMenu').className = type === 'breakfast' ? 'primary' : '';
-      document.getElementById('btnBreakfastMenu').style.background = type === 'breakfast' ? '#111' : '#eee';
-      document.getElementById('btnBreakfastMenu').style.color = type === 'breakfast' ? '#fff' : '#333';
-      loadProducts();
-    }
-
-    function switchOptType(type) {
-      currentOptType = type;
-      document.getElementById('btnLunchOpt').className = type === 'lunch' ? 'primary' : '';
-      document.getElementById('btnBreakfastOpt').className = type === 'breakfast' ? 'primary' : '';
-      document.getElementById('btnBreakfastOpt').style.background = type === 'breakfast' ? '#111' : '#eee';
-      document.getElementById('btnBreakfastOpt').style.color = type === 'breakfast' ? '#fff' : '#333';
-      loadProducts();
-    }
     function loadFeedback() {
       supabaseClient.from('feedback').select('*').order('created_at', {ascending: false}).then(function (res) {
         if (res.error) {console.error(res.error); return;}
@@ -1846,7 +1848,8 @@
         return;
       }
       loadOrders();
-      loadMenuForEdit();
+      loadProducts();
+      loadOptions();
     }
 
     restoreSession();
@@ -1890,7 +1893,6 @@
       alert('订单已确认付款');
 
       await loadOrders();
-      await loadMenuForEdit();
     }
   </script>
 </body>
