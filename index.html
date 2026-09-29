@@ -255,13 +255,6 @@
       transform: none
     }
 
-    .notice {
-      font-size: 13px;
-      color: #777;
-      margin-top: 10px;
-      line-height: 1.5
-    }
-
     .success {
       display: none;
       text-align: center
@@ -1729,10 +1722,6 @@
       background: #000;
     }
 
-    .checkoutBar .notice {
-      display: none;
-    }
-
     #name, #note {
       background: #fbfaf8;
     }
@@ -2093,7 +2082,6 @@
           <div class="checkoutTotalValue" id="total">RM 0</div>
         </div>
         <button class="submit" onclick="goToPayment()" id="submitBtn">下一步：付款</button>
-        <div class="notice" id="notice">目前没有配送，请在指定地点领取订单。</div>
       </div>
     </section>
 
@@ -2260,7 +2248,6 @@
         menu: '今日菜单',
         name: '姓名', namePh: '请输入姓名',
         total: '总计', submit: '提交订单', soldOutBtn: '已售完',
-        notice: '目前没有配送，请在指定地点领取订单。',
         success: '订单已提交', save: '请保存你的订单编号。',
         again: '再次点餐', error: '请填写姓名和班级。',
         pickup: '订单已记录，请按Yeran安排领取。',
@@ -2309,7 +2296,6 @@
         menu: "Today's Menu",
         name: 'Name', namePh: 'Enter your name',
         total: 'Total', submit: 'Place Order', soldOutBtn: 'Sold Out',
-        notice: 'No delivery. Please collect your order at the designated location.',
         success: 'Order Submitted', save: 'Please keep your order number.',
         again: 'Order Again', error: 'Please enter your name.',
         pickup: 'Your order has been recorded. Please collect it as instructed by Yeran.',
@@ -2620,7 +2606,6 @@
       document.getElementById('nameLabel').textContent = t.name;
       document.getElementById('name').placeholder = t.namePh;
       document.getElementById('totalLabel').textContent = t.total;
-      document.getElementById('notice').textContent = t.notice;
       document.getElementById('successTitle').textContent = t.success;
       document.getElementById('successText').textContent = t.save;
       document.getElementById('newBtn').textContent = t.again;
@@ -3022,8 +3007,6 @@
       const checkoutBar = document.getElementById('checkoutBar');
       if (checkoutBar) checkoutBar.style.display = 'flex';
 
-      document.getElementById('notice').style.display = 'block';
-
       const optionSection = document.querySelectorAll('.opt')[1];
       if (optionSection) optionSection.style.display = 'block';
 
@@ -3082,8 +3065,6 @@
 
         const checkoutBar = document.getElementById('checkoutBar');
         if (checkoutBar) checkoutBar.style.display = 'none';
-
-        document.getElementById('notice').style.display = 'none';
 
         products = [];
         menu = null;
