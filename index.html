@@ -1387,6 +1387,538 @@
       #productList > button { min-height: 82px; padding: 12px 13px !important; }
     }
 
+
+    /* ===== 第三轮学生端视觉升级：1-4 全部 ===== */
+    :root {
+      --yf-orange: #e89b32;
+      --yf-orange-soft: #fff7e8;
+      --yf-green: #2e7d32;
+      --yf-text: #202020;
+      --yf-muted: #777;
+      --yf-border: #ece7df;
+      --yf-shadow: 0 10px 30px rgba(31, 24, 15, .07);
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 15% 0%, rgba(255, 222, 169, .28), transparent 28%),
+        #f7f5f0;
+    }
+
+    header {
+      padding: 34px 20px 30px;
+      background:
+        radial-gradient(circle at 50% -30%, rgba(255,255,255,.14), transparent 45%),
+        #111;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 24px auto 40px;
+    }
+
+    #orderCard {
+      padding: 22px;
+      border-radius: 24px;
+      box-shadow: var(--yf-shadow);
+    }
+
+    #periodSwitch {
+      padding: 5px;
+      border-radius: 16px;
+      background: #f4f1eb;
+    }
+
+    .periodBtn {
+      margin: 0 2px;
+      border: 0;
+      min-height: 46px;
+      border-radius: 12px;
+      color: #777;
+    }
+
+    .periodBtn.active {
+      background: #fff;
+      color: #111;
+      border: 1px solid #e8e1d5;
+      box-shadow: 0 3px 12px rgba(0,0,0,.07);
+    }
+
+    #productList {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px !important;
+      margin-bottom: 18px !important;
+    }
+
+    #productList > button.yf-product-card {
+      position: relative;
+      min-height: 142px;
+      padding: 16px !important;
+      border: 1.5px solid var(--yf-border) !important;
+      border-radius: 18px !important;
+      background: #fff !important;
+      box-shadow: 0 3px 12px rgba(0,0,0,.035);
+      opacity: 1 !important;
+      overflow: hidden;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    #productList > button.yf-product-card:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(31,24,15,.09);
+      border-color: #e2c99f !important;
+    }
+
+    #productList > button.yf-product-card:active:not(:disabled) {
+      transform: scale(.985);
+    }
+
+    #productList > button.yf-product-card.yf-selected {
+      border: 2px solid var(--yf-orange) !important;
+      background: linear-gradient(145deg, #fffaf1, #fff7e8) !important;
+      box-shadow: 0 8px 22px rgba(232,155,50,.12);
+    }
+
+    #productList > button.yf-product-card.yf-soldout {
+      background: #f5f5f5 !important;
+      filter: grayscale(.2);
+      cursor: not-allowed;
+    }
+
+    .yf-product-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      min-width: 0;
+    }
+
+    .yf-product-icon {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 13px;
+      background: #fff1d6;
+      font-size: 23px;
+    }
+
+    .yf-product-card.yf-selected .yf-product-icon {
+      background: #ffe4b3;
+    }
+
+    .yf-product-main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .yf-product-name {
+      font-size: 16px;
+      line-height: 1.35;
+      font-weight: 800;
+      color: var(--yf-text);
+      word-break: break-word;
+    }
+
+    .yf-product-desc {
+      margin-top: 5px;
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--yf-muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .yf-product-price {
+      margin-top: 13px;
+      font-size: 18px;
+      font-weight: 800;
+      color: #c97800;
+    }
+
+    .yf-stock-badge {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 10px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #f3f8f2;
+      color: var(--yf-green);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .yf-stock-badge.low {
+      background: #fff4df;
+      color: #c97800;
+    }
+
+    .yf-stock-badge.sold {
+      background: #f0f0f0;
+      color: #a33a32;
+    }
+
+    .breakfast-product {
+      margin-bottom: 18px;
+    }
+
+    .breakfast-product-card {
+      border-radius: 22px;
+      padding: 22px;
+      border: 1px solid #eee5d8;
+      background: linear-gradient(145deg, #fffdf9, #fff);
+      box-shadow: var(--yf-shadow);
+    }
+
+    .breakfast-hero {
+      margin-bottom: 17px;
+    }
+
+    .breakfast-hero-icon {
+      width: 74px;
+      height: 74px;
+      border-radius: 19px;
+      background: linear-gradient(135deg, #fff0d2, #ffe2ad);
+      box-shadow: 0 7px 18px rgba(220,150,50,.13);
+    }
+
+    .breakfast-badge {
+      margin-bottom: 7px;
+    }
+
+    .breakfast-product-name {
+      font-size: 26px;
+    }
+
+    .breakfast-price-row {
+      padding: 14px 0;
+      border-color: #efe8dd;
+    }
+
+    .breakfast-price {
+      font-size: 25px;
+    }
+
+    #breakfastStock {
+      margin-top: 12px;
+      min-height: 0;
+      padding: 6px 10px;
+      background: #f5f8f4;
+      color: var(--yf-green);
+    }
+
+    .breakfast-section {
+      margin-top: 19px;
+    }
+
+    .breakfast-choice-title {
+      margin-bottom: 9px;
+    }
+
+    .breakfast-options {
+      gap: 10px;
+      margin-top: 0;
+    }
+
+    .breakfast-option {
+      border-radius: 15px !important;
+      padding: 14px 15px !important;
+      background: #fff !important;
+    }
+
+    .breakfast-option:has(input:checked) {
+      border-color: var(--yf-orange) !important;
+      background: var(--yf-orange-soft) !important;
+      box-shadow: 0 5px 16px rgba(232,155,50,.12);
+    }
+
+    .breakfast-option-name {
+      color: #2d2d2d;
+    }
+
+    .breakfast-qty {
+      margin-top: 18px;
+      padding-top: 16px;
+    }
+
+    .breakfast-qty .qty {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 4px;
+      border-radius: 999px;
+      background: #f6f3ee;
+    }
+
+    .breakfast-qty .qty button {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      background: #fff;
+      box-shadow: 0 2px 7px rgba(0,0,0,.07);
+    }
+
+    .breakfast-qty .qty button:hover {
+      background: #111;
+      color: #fff;
+    }
+
+    .breakfast-qty .qty span {
+      font-size: 18px;
+    }
+
+    .checkoutBar {
+      position: sticky;
+      bottom: 12px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 20px;
+      padding: 12px 12px 12px 18px;
+      border: 1px solid rgba(232,155,50,.25);
+      border-radius: 18px;
+      background: rgba(255,255,255,.94);
+      box-shadow: 0 12px 32px rgba(30,24,15,.14);
+      backdrop-filter: blur(12px);
+    }
+
+    .checkoutTotal {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .checkoutTotalLabel {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 2px;
+    }
+
+    .checkoutTotalValue {
+      font-size: 23px;
+      font-weight: 850;
+      color: #c97800;
+      line-height: 1.15;
+    }
+
+    .checkoutBar .submit {
+      flex: 1.25;
+      width: auto;
+      margin: 0;
+      min-height: 52px;
+      border-radius: 14px;
+      background: #111;
+    }
+
+    .checkoutBar .submit:hover {
+      background: #000;
+    }
+
+    .checkoutBar .notice {
+      display: none;
+    }
+
+    #name, #note {
+      background: #fbfaf8;
+    }
+
+    .opt > label {
+      border-radius: 14px;
+      background: #fbfaf8;
+    }
+
+    .opt > label:has(input:checked) {
+      border-color: var(--yf-orange);
+      background: var(--yf-orange-soft);
+      box-shadow: 0 3px 12px rgba(232,155,50,.1);
+    }
+
+    #payCard, #successCard {
+      border-radius: 24px;
+      box-shadow: var(--yf-shadow);
+    }
+
+    body.dark {
+      background:
+        radial-gradient(circle at 15% 0%, rgba(125,85,30,.18), transparent 28%),
+        #0a0a0a;
+    }
+
+    body.dark #periodSwitch {
+      background: #24211d;
+    }
+
+    body.dark .periodBtn {
+      background: transparent;
+      color: #999;
+    }
+
+    body.dark .periodBtn.active {
+      background: #33302b;
+      color: #fff;
+      border-color: #49433b;
+    }
+
+    body.dark #productList > button.yf-product-card {
+      background: #1b1a18 !important;
+      border-color: #35312b !important;
+      box-shadow: none;
+    }
+
+    body.dark #productList > button.yf-product-card.yf-selected {
+      background: #30271b !important;
+      border-color: var(--yf-orange) !important;
+    }
+
+    body.dark .yf-product-name,
+    body.dark .breakfast-option-name {
+      color: #f2f2f2;
+    }
+
+    body.dark .yf-product-desc {
+      color: #999;
+    }
+
+    body.dark .yf-product-icon {
+      background: #40321f;
+    }
+
+    body.dark .yf-stock-badge {
+      background: #203021;
+    }
+
+    body.dark .yf-stock-badge.low {
+      background: #3a2d17;
+    }
+
+    body.dark .yf-stock-badge.sold {
+      background: #302222;
+    }
+
+    body.dark .breakfast-product-card {
+      background: linear-gradient(145deg, #24211d, #1b1a18);
+      border-color: #3a3530;
+    }
+
+    body.dark .breakfast-hero-icon {
+      background: linear-gradient(135deg, #40321f, #342819);
+    }
+
+    body.dark .breakfast-option {
+      background: #252525 !important;
+      border-color: #3b3b3b !important;
+    }
+
+    body.dark .breakfast-option:has(input:checked) {
+      background: #30271b !important;
+      border-color: var(--yf-orange) !important;
+    }
+
+    body.dark .breakfast-qty {
+      border-top-color: #3b3b3b;
+    }
+
+    body.dark .breakfast-qty .qty {
+      background: #252525;
+    }
+
+    body.dark .breakfast-qty .qty button {
+      background: #333;
+      color: #eee;
+    }
+
+    body.dark .checkoutBar {
+      background: rgba(28,27,25,.94);
+      border-color: #4a3924;
+      box-shadow: 0 12px 32px rgba(0,0,0,.45);
+    }
+
+    body.dark .checkoutTotalLabel {
+      color: #999;
+    }
+
+    @media (max-width: 700px) {
+      .container {
+        margin-top: 14px;
+        margin-bottom: 22px;
+      }
+
+      #orderCard {
+        padding: 16px 13px;
+        border-radius: 20px;
+      }
+
+      #productList {
+        grid-template-columns: 1fr;
+        gap: 10px !important;
+      }
+
+      #productList > button.yf-product-card {
+        min-height: 112px;
+        padding: 14px !important;
+      }
+
+      .breakfast-product-card {
+        padding: 18px;
+        border-radius: 19px;
+      }
+
+      .breakfast-hero {
+        gap: 12px;
+      }
+
+      .breakfast-hero-icon {
+        width: 62px;
+        height: 62px;
+        border-radius: 16px;
+        font-size: 32px;
+      }
+
+      .breakfast-product-name {
+        font-size: 21px;
+      }
+
+      .breakfast-product-desc {
+        font-size: 13px;
+      }
+
+      .checkoutBar {
+        position: fixed;
+        left: 10px;
+        right: 10px;
+        bottom: calc(76px + env(safe-area-inset-bottom));
+        margin: 0;
+        padding: 9px 9px 9px 14px;
+        border-radius: 17px;
+      }
+
+      .checkoutTotalValue {
+        font-size: 20px;
+      }
+
+      .checkoutBar .submit {
+        min-height: 48px;
+        font-size: 15px;
+      }
+
+      body {
+        padding-bottom: 145px;
+      }
+
+      #bottomNav {
+        z-index: 100;
+      }
+    }
+
+    @media (min-width: 701px) {
+      .checkoutBar {
+        bottom: 16px;
+      }
+    }
+
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -1513,13 +2045,14 @@
 
 
 
-      <div class="total">
-        <span id="totalLabel">总计</span>
-        <span id="total">RM 0</span>
+      <div class="checkoutBar" id="checkoutBar">
+        <div class="checkoutTotal">
+          <div class="checkoutTotalLabel" id="totalLabel">总计</div>
+          <div class="checkoutTotalValue" id="total">RM 0</div>
+        </div>
+        <button class="submit" onclick="goToPayment()" id="submitBtn">下一步：付款</button>
+        <div class="notice" id="notice">目前没有配送，请在指定地点领取订单。</div>
       </div>
-
-      <button class="submit" onclick="goToPayment()" id="submitBtn">下一步：付款</button>
-      <div class="notice" id="notice">目前没有配送，请在指定地点领取订单。</div>
     </section>
 
     <section class="card" id="payCard" style="display:none">
@@ -1867,6 +2400,8 @@
 
       box.style.display = 'grid';
 
+      const icon = currentPeriod === 'breakfast' ? '🥪' : '🍱';
+
       box.innerHTML = products.map(function(p) {
         const name = escapeHtml(lang === 'zh'
           ? (p.name_zh || p.name_en || '')
@@ -1876,25 +2411,29 @@
           : (p.desc_en || p.desc_zh || ''));
         const selected = Number(p.id) === Number(selectedProductId);
         const left = Number(p.stockRemaining != null ? p.stockRemaining : p.max_portions || 0);
-
         const disabled = left <= 0;
-        return '<button type="button" onclick="selectProduct(' + Number(p.id) + ')" ' +
-          (disabled ? 'disabled ' : '') +
-          'style="text-align:left;border:2px solid ' + (selected ? '#e89b32' : '#e5e5e5') + ';background:' + (selected ? '#fff8ed' : '#fafafa') + ';border-radius:12px;padding:13px 15px;cursor:' + (disabled ? 'not-allowed' : 'pointer') + ';opacity:' + (disabled ? '.62' : '1') + ';box-shadow:' + (selected ? '0 2px 8px rgba(0,0,0,.08)' : 'none') + '">' +
-          '<div style="display:flex;justify-content:space-between;gap:12px;align-items:center">' +
-          '<div>' +
-          '<div style="font-size:16px;font-weight:800;color:#222">' + name + '</div>' +
-          (desc ? '<div style="font-size:12px;color:#777;margin-top:3px">' + desc + '</div>' : '') +
+        const stockClass = disabled ? 'sold' : (left <= 5 ? 'low' : '');
+        const stockText = disabled
+          ? text[lang].soldOut
+          : text[lang].stock + ' ' + left + ' ' + text[lang].stockLeft;
+
+        return '<button type="button" class="yf-product-card ' +
+          (selected ? 'yf-selected ' : '') +
+          (disabled ? 'yf-soldout' : '') +
+          '" onclick="selectProduct(' + Number(p.id) + ')" ' +
+          (disabled ? 'disabled' : '') + '>' +
+          '<div class="yf-product-top">' +
+            '<div class="yf-product-icon">' + icon + '</div>' +
+            '<div class="yf-product-main">' +
+              '<div class="yf-product-name">' + name + '</div>' +
+              (desc ? '<div class="yf-product-desc">' + desc + '</div>' : '') +
+              '<div class="yf-product-price">RM ' + Number(p.price || 0).toFixed(2) + '</div>' +
+              '<div class="yf-stock-badge ' + stockClass + '">' + escapeHtml(stockText) + '</div>' +
+            '</div>' +
           '</div>' +
-          '<div style="font-weight:800;white-space:nowrap">RM ' + Number(p.price || 0).toFixed(2) + '</div>' +
-          '</div>' +
-          '<div style="font-size:12px;color:' + (left <= 0 ? '#c0392b' : '#2e7d32') + ';margin-top:6px">' +
-          (left <= 0 ? text[lang].soldOut : text[lang].stock + ' ' + left + ' ' + text[lang].stockLeft) +
-          '</div>' +
-          '</button>';
+        '</button>';
       }).join('');
     }
-
     function renderMenu() {
       renderProductList();
 
@@ -1929,6 +2468,23 @@
       document.getElementById('breakfastProductDesc').textContent = menu[descField] || '';
       document.getElementById('breakfastQty').textContent = qty;
       document.getElementById('breakfastPrice').textContent = fmt(currentPrice());
+
+      const priceLabel = document.getElementById('breakfastPriceLabel');
+      if (priceLabel) {
+        priceLabel.textContent = lang === 'zh' ? '单价' : 'Unit price';
+      }
+
+      const choiceTitle = document.getElementById('breakfastChoiceTitle');
+      if (choiceTitle) {
+        choiceTitle.textContent = menuOptions.length
+          ? (lang === 'zh' ? '选择口味 / 选项' : 'Choose option')
+          : (lang === 'zh' ? '商品' : 'Product');
+      }
+
+      const qtyTitle = document.getElementById('breakfastQtyTitle');
+      if (qtyTitle) {
+        qtyTitle.textContent = lang === 'zh' ? '数量' : 'Quantity';
+      }
 
       renderOptions();
       renderStock();
