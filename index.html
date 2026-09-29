@@ -1373,6 +1373,20 @@
       #productList > button { min-height: 82px; }
     }
 
+  
+    /* ===== 学生端第二轮商品卡片优化 ===== */
+    #productList > button {
+      width: 100%;
+      min-height: 86px;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    #productList > button:not(:disabled):active { transform: scale(.985); }
+    #productList > button:disabled { filter: grayscale(.15); }
+    @media (max-width: 640px) {
+      #productList { gap: 10px !important; }
+      #productList > button { min-height: 82px; padding: 12px 13px !important; }
+    }
+
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -1863,8 +1877,10 @@
         const selected = Number(p.id) === Number(selectedProductId);
         const left = Number(p.stockRemaining != null ? p.stockRemaining : p.max_portions || 0);
 
+        const disabled = left <= 0;
         return '<button type="button" onclick="selectProduct(' + Number(p.id) + ')" ' +
-          'style="text-align:left;border:1.5px solid ' + (selected ? '#111' : '#e5e5e5') + ';background:' + (selected ? '#fff' : '#fafafa') + ';border-radius:12px;padding:13px 15px;cursor:pointer;box-shadow:' + (selected ? '0 2px 8px rgba(0,0,0,.08)' : 'none') + '">' +
+          (disabled ? 'disabled ' : '') +
+          'style="text-align:left;border:1.5px solid ' + (selected ? '#111' : '#e5e5e5') + ';background:' + (selected ? '#fff' : '#fafafa') + ';border-radius:12px;padding:13px 15px;cursor:' + (disabled ? 'not-allowed' : 'pointer') + ';opacity:' + (disabled ? '.62' : '1') + ';box-shadow:' + (selected ? '0 2px 8px rgba(0,0,0,.08)' : 'none') + '">' +
           '<div style="display:flex;justify-content:space-between;gap:12px;align-items:center">' +
           '<div>' +
           '<div style="font-size:16px;font-weight:800;color:#222">' + name + '</div>' +
