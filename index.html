@@ -1361,6 +1361,18 @@
       }
     }
 
+  
+    /* ===== 第二轮学生端 UI 优化 ===== */
+    #productList > button { min-height: 86px; }
+    #productList > button:focus-visible {
+      outline: 3px solid rgba(26,115,232,.28);
+      outline-offset: 2px;
+    }
+    @media (max-width:640px) {
+      #productList { gap: 10px !important; }
+      #productList > button { min-height: 82px; }
+    }
+
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -1817,9 +1829,14 @@
       menuOptions = Array.isArray(product.options) ? product.options : [];
       selectedOptionId = menuOptions.length ? menuOptions[0].id : null;
 
+      // 切换商品时必须同步当前商品库存，不能继续使用上一个商品的 orderedQty。
+      orderedQty = Number(product.stockOrdered || 0);
+
       qty = Math.max(1, Number(breakfastQty[product.id] || 1));
       const left = Number(product.stockRemaining != null ? product.stockRemaining : product.max_portions || 0);
+
       if (left > 0 && qty > left) qty = left;
+      if (left <= 0) qty = 1;
 
       renderMenu();
     }
@@ -2239,17 +2256,6 @@
     }
     let menuOptions = [];
     let selectedOptionId = null;
-
-    function loadOptions() {
-      supabaseClient.from('menu_options').select('*').eq('enabled', true).eq('menu_type', currentPeriod).order('sort', {ascending: true}).then(function (res) {
-        if (res.error) {console.error(res.error); return;}
-        menuOptions = res.data || [];
-        if (menuOptions.length > 0) {
-          selectedOptionId = menuOptions[0].id;
-        }
-        renderOptions();
-      });
-    }
 
     function renderOptions() {
       const normalBox = document.getElementById('mealOptionsBox');
