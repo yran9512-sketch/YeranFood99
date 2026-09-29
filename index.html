@@ -1880,7 +1880,7 @@
         const disabled = left <= 0;
         return '<button type="button" onclick="selectProduct(' + Number(p.id) + ')" ' +
           (disabled ? 'disabled ' : '') +
-          'style="text-align:left;border:1.5px solid ' + (selected ? '#111' : '#e5e5e5') + ';background:' + (selected ? '#fff' : '#fafafa') + ';border-radius:12px;padding:13px 15px;cursor:' + (disabled ? 'not-allowed' : 'pointer') + ';opacity:' + (disabled ? '.62' : '1') + ';box-shadow:' + (selected ? '0 2px 8px rgba(0,0,0,.08)' : 'none') + '">' +
+          'style="text-align:left;border:2px solid ' + (selected ? '#e89b32' : '#e5e5e5') + ';background:' + (selected ? '#fff8ed' : '#fafafa') + ';border-radius:12px;padding:13px 15px;cursor:' + (disabled ? 'not-allowed' : 'pointer') + ';opacity:' + (disabled ? '.62' : '1') + ';box-shadow:' + (selected ? '0 2px 8px rgba(0,0,0,.08)' : 'none') + '">' +
           '<div style="display:flex;justify-content:space-between;gap:12px;align-items:center">' +
           '<div>' +
           '<div style="font-size:16px;font-weight:800;color:#222">' + name + '</div>' +
@@ -1898,59 +1898,52 @@
     function renderMenu() {
       renderProductList();
 
+      const food = document.querySelector('.food');
+      const breakfastCard = document.getElementById('breakfastProduct');
+
       if (!menu) {
         document.getElementById('foodName').classList.remove('skeleton', 'sk-title');
         document.getElementById('foodDesc').classList.remove('skeleton', 'sk-desc');
         document.getElementById('foodName').textContent = text[lang].noMenu;
         document.getElementById('foodDesc').textContent = '';
         document.getElementById('stockInfo').textContent = '';
-        document.getElementById('breakfastProduct').style.display = 'none';
-        document.querySelector('.food').style.display = 'flex';
+        food.style.display = 'none';
+        breakfastCard.style.display = 'none';
         return;
       }
 
       const nameField = lang === 'zh' ? 'name_zh' : 'name_en';
       const descField = lang === 'zh' ? 'desc_zh' : 'desc_en';
+      const isLunch = currentPeriod === 'lunch';
 
-      if (currentPeriod === 'breakfast') {
-        document.querySelector('.food').style.display = 'none';
-        const breakfastCard = document.getElementById('breakfastProduct');
-        breakfastCard.style.display = 'block';
+      // 早餐、午餐统一使用早餐风格的商品详情卡片。
+      food.style.display = 'none';
+      breakfastCard.style.display = 'block';
 
-        document.getElementById('breakfastProductName').textContent = menu[nameField] || '';
-        document.getElementById('breakfastProductDesc').textContent = menu[descField] || '';
-        document.getElementById('breakfastQty').textContent = qty;
-        document.getElementById('breakfastPrice').textContent = fmt(currentPrice());
+      document.querySelector('.breakfast-hero-icon').textContent = isLunch ? '🍱' : '🥪';
+      document.getElementById('breakfastBadge').textContent =
+        isLunch ? (lang === 'zh' ? '午餐 Lunch' : 'Lunch 午餐') :
+        (lang === 'zh' ? '早餐 Breakfast' : 'Breakfast 早餐');
 
-        renderOptions();
-        renderStock();
-
-        const breakfastStock = document.getElementById('breakfastStock');
-        const left = portionsLeft();
-
-        if (left <= 0) {
-          breakfastStock.textContent = text[lang].soldOut;
-          breakfastStock.className = 'stock-zero';
-        } else {
-          breakfastStock.textContent = text[lang].stock + ' ' + left + ' ' + text[lang].stockLeft;
-          breakfastStock.className = left <= 5 ? 'stock-low' : '';
-          if (left > 5) breakfastStock.style.color = '#2e7d32';
-        }
-
-        return;
-      }
-
-      document.querySelector('.food').style.display = 'flex';
-      document.getElementById('breakfastProduct').style.display = 'none';
-
-      document.getElementById('foodName').classList.remove('skeleton', 'sk-title');
-      document.getElementById('foodDesc').classList.remove('skeleton', 'sk-desc');
-      document.getElementById('foodName').textContent = menu[nameField] || '';
-      document.getElementById('foodDesc').textContent = menu[descField] || '';
+      document.getElementById('breakfastProductName').textContent = menu[nameField] || '';
+      document.getElementById('breakfastProductDesc').textContent = menu[descField] || '';
+      document.getElementById('breakfastQty').textContent = qty;
+      document.getElementById('breakfastPrice').textContent = fmt(currentPrice());
 
       renderOptions();
-      updateTotal();
       renderStock();
+
+      const breakfastStock = document.getElementById('breakfastStock');
+      const left = portionsLeft();
+
+      if (left <= 0) {
+        breakfastStock.textContent = text[lang].soldOut;
+        breakfastStock.className = 'stock-zero';
+      } else {
+        breakfastStock.textContent = text[lang].stock + ' ' + left + ' ' + text[lang].stockLeft;
+        breakfastStock.className = left <= 5 ? 'stock-low' : '';
+        if (left > 5) breakfastStock.style.color = '#2e7d32';
+      }
     }
     function changeBreakfastQty(productId, change) {
 
@@ -2280,7 +2273,7 @@
 
       const options = Array.isArray(menuOptions) ? menuOptions : [];
 
-      // 没有可选项时，不显示空的“选择”区域。
+      // 早餐和午餐统一使用同一种选择卡片。
       if (!options.length) {
         selectedOptionId = null;
         normalBox.innerHTML = '';
@@ -2292,66 +2285,36 @@
         return;
       }
 
-      // 早餐使用早餐专用选择卡片。
-      if (currentPeriod === 'breakfast') {
-        if (selectedOptionId == null ||
-            !options.some(function (o) { return Number(o.id) === Number(selectedOptionId); })) {
-          selectedOptionId = options[0].id;
-        }
-
-        normalBox.innerHTML = '';
-        normalBox.style.display = 'none';
-        typeLabel.style.display = 'none';
-
-        breakfastBox.style.display = 'flex';
-        breakfastBox.innerHTML = options.map(function (opt) {
-          const label = escapeHtml(lang === 'zh'
-            ? (opt.label_zh || opt.label_en || '')
-            : (opt.label_en || opt.label_zh || ''));
-          const desc = escapeHtml(lang === 'zh'
-            ? (opt.desc_zh || '')
-            : (opt.desc_en || opt.desc_zh || ''));
-          const price = Number(opt.price || 0);
-
-          return '<label class="breakfast-option">' +
-            '<div class="breakfast-option-main">' +
-            '<input type="radio" name="breakfastOption" value="' + Number(opt.id) + '"' +
-            (Number(opt.id) === Number(selectedOptionId) ? ' checked' : '') +
-            ' onchange="selectOption(' + Number(opt.id) + ')">' +
-            '<div class="breakfast-option-text">' +
-            '<div class="breakfast-option-name">' + label + '</div>' +
-            (desc ? '<div class="breakfast-option-desc">' + desc + '</div>' : '') +
-            '</div>' +
-            '<div class="breakfast-option-price">RM ' + price.toFixed(2) + '</div>' +
-            '</div>' +
-            '</label>';
-        }).join('');
-
-        updateTotal();
-        return;
+      if (selectedOptionId == null ||
+          !options.some(function (o) { return Number(o.id) === Number(selectedOptionId); })) {
+        selectedOptionId = options[0].id;
       }
 
-      // 午餐如果未来有多个商品选项，则显示普通选择区。
-      selectedOptionId = options.some(function (o) {
-        return Number(o.id) === Number(selectedOptionId);
-      }) ? selectedOptionId : options[0].id;
+      normalBox.innerHTML = '';
+      normalBox.style.display = 'none';
+      typeLabel.style.display = 'none';
 
-      breakfastBox.innerHTML = '';
-      breakfastBox.style.display = 'none';
-      typeLabel.style.display = 'block';
-
-      normalBox.style.display = 'block';
-      normalBox.innerHTML = options.map(function (opt) {
+      breakfastBox.style.display = 'flex';
+      breakfastBox.innerHTML = options.map(function (opt) {
         const label = escapeHtml(lang === 'zh'
           ? (opt.label_zh || opt.label_en || '')
           : (opt.label_en || opt.label_zh || ''));
+        const desc = escapeHtml(lang === 'zh'
+          ? (opt.desc_zh || '')
+          : (opt.desc_en || opt.desc_zh || ''));
         const price = Number(opt.price || 0);
 
-        return '<label>' +
+        return '<label class="breakfast-option">' +
+          '<div class="breakfast-option-main">' +
           '<input type="radio" name="mealOption" value="' + Number(opt.id) + '"' +
           (Number(opt.id) === Number(selectedOptionId) ? ' checked' : '') +
-          ' onchange="selectOption(' + Number(opt.id) + ')"> ' +
-          label + ' · RM ' + price.toFixed(2) +
+          ' onchange="selectOption(' + Number(opt.id) + ')">' +
+          '<div class="breakfast-option-text">' +
+          '<div class="breakfast-option-name">' + label + '</div>' +
+          (desc ? '<div class="breakfast-option-desc">' + desc + '</div>' : '') +
+          '</div>' +
+          '<div class="breakfast-option-price">RM ' + price.toFixed(2) + '</div>' +
+          '</div>' +
           '</label>';
       }).join('');
 
@@ -2470,23 +2433,12 @@
       // 早餐 / 午餐 UI
       // =========================
 
-      if (currentPeriod === 'breakfast') {
+      // 早餐、午餐统一使用同一种商品卡片视图。
+      document.querySelector('.food').style.display = 'none';
+      document.getElementById('breakfastProduct').style.display = 'block';
 
-        document.querySelector('.food').style.display = 'none';
-        document.getElementById('breakfastProduct').style.display = 'block';
-
-        document.getElementById('typeLabel').style.display = 'none';
-        document.getElementById('mealOptionsBox').style.display = 'none';
-
-      } else {
-
-        document.querySelector('.food').style.display = 'flex';
-        document.getElementById('breakfastProduct').style.display = 'none';
-
-        document.getElementById('typeLabel').style.display = 'none';
-        document.getElementById('mealOptionsBox').style.display = 'none';
-
-      }
+      document.getElementById('typeLabel').style.display = 'none';
+      document.getElementById('mealOptionsBox').style.display = 'none';
 
 
       // =========================
