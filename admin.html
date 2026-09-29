@@ -179,7 +179,36 @@
       #bottomNav {
         padding-bottom: max(8px, env(safe-area-inset-bottom));
       }
+      .container { padding: 0 10px; margin-top: 12px; }
+      .card { padding: 14px; border-radius: 12px; }
+      #main > .card { margin-top: 12px; }
+      .period-switch { display:flex; gap:8px; }
+      .period-switch button { flex:1; margin-left:0 !important; }
+      .summary { gap:8px; }
+      .summary>div { min-width: calc(50% - 4px); padding:12px 8px; }
+      .summary .num { font-size:24px; }
+      .kitchen-refresh { min-height:40px; padding:8px 12px !important; }
+      .kitchen-table { display:none; }
+      .kitchen-cards { display:grid !important; gap:10px; }
     }
+    .kitchen-cards { display:none; }
+    .kitchen-order {
+      border:1px solid #e5e5e5;
+      border-radius:12px;
+      padding:13px;
+      background:#fff;
+    }
+    .kitchen-order-top {
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .kitchen-order-code { font-weight:800; font-size:17px; }
+    .kitchen-order-name { font-size:15px; font-weight:700; margin-top:4px; }
+    .kitchen-order-meta { color:#777; font-size:13px; margin-top:8px; line-height:1.6; }
+    .kitchen-order-note { margin-top:8px; padding:8px 10px; background:#f7f7f7; border-radius:8px; font-size:13px; color:#666; }
+
 
   </style>
 </head>
@@ -205,7 +234,7 @@
     <!-- 订单页 -->
     <section id="main" style="display:none">
       <button onclick="adminLogout()" style="float:right;margin-bottom:12px">退出登录</button>
-      <div style="margin-bottom:16px">
+      <div class="period-switch" style="margin-bottom:16px">
         <button id="btnLunch" class="primary" onclick="switchPeriod('lunch')">午餐</button>
         <button id="btnBreakfast" onclick="switchPeriod('breakfast')"
           style="margin-left:8px;padding:12px 24px;border:0;border-radius:10px;background:#eee;color:#333;font-size:16px;font-weight:700;cursor:pointer">早餐</button>
@@ -213,9 +242,8 @@
       <div class="summary" id="summaryBox"></div>
 
       <div class="card" style="margin-top:16px">
-        <h2>订单列表 <button onclick="loadOrders();loadFeedback()"
-            style="float:right;font-size:13px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer">🔄
-            刷新</button></h2>
+        <h2>订单列表 <button class="kitchen-refresh" onclick="refreshKitchen(this)"
+            style="float:right;font-size:13px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#333">🔄 刷新</button></h2>
         <div id="ordersBox">
           <div class="noorders">加载中…</div>
         </div>
@@ -365,6 +393,19 @@
       return y + '-' + m + '-' + d;
     }
 
+    function refreshKitchen(btn) {
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = '刷新中…';
+      }
+      Promise.all([loadOrders(), loadFeedback()]).finally(function () {
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = '🔄 刷新';
+        }
+      });
+    }
+
     function loadOrders() {
       const loadSeq = ++ordersLoadSeq;
       const targetDate = getMealDate();
@@ -407,7 +448,7 @@
         return;
       }
 
-      let html = '<table><thead><tr>' +
+      let html = '<div class="kitchen-table"><table><thead><tr>' +
         '<th>时间</th><th>订单号</th><th>姓名</th><th>类型</th><th>数量</th><th>备注</th>' +
         '</tr></thead><tbody>';
 
@@ -418,11 +459,26 @@
           '<td>' + escapeHtml(o.order_code || '') + '</td>' +
           '<td>' + escapeHtml(o.name || '') + '</td>' +
           '<td>' + mealTag + '</td>' +
-          '<td>' + o.quantity + '</td>' +
+          '<td><strong>' + Number(o.quantity || 0) + '</strong></td>' +
           '<td class="note">' + escapeHtml(o.note || '') + '</td>' +
           '</tr>';
       });
-      html += '</tbody></table>';
+      html += '</tbody></table></div>';
+
+      html += '<div class="kitchen-cards">';
+      orders.forEach(function (o) {
+        const note = String(o.note || '').trim();
+        html += '<div class="kitchen-order">' +
+          '<div class="kitchen-order-top">' +
+          '<div><div class="kitchen-order-code">' + escapeHtml(o.order_code || '') + '</div>' +
+          '<div class="kitchen-order-name">' + escapeHtml(o.name || '未填写姓名') + '</div></div>' +
+          '<span class="tag" style="background:#e3f2fd;color:#1565c0">' + escapeHtml(o.meal_type || '—') + '</span>' +
+          '</div>' +
+          '<div class="kitchen-order-meta">时间：' + fmtTime(o.created_at) + '　数量：<strong>' + Number(o.quantity || 0) + '</strong></div>' +
+          (note ? '<div class="kitchen-order-note">备注：' + escapeHtml(note) + '</div>' : '') +
+          '</div>';
+      });
+      html += '</div>';
       document.getElementById('ordersBox').innerHTML = html;
     }
     restoreAdminSession();
