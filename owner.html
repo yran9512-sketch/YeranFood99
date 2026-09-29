@@ -1824,9 +1824,11 @@
           '<td>' + paymentMethod + '</td>' +
           '<td>' + paymentStatus + '</td>' +
           '<td>' +
-          '<button class="small" onclick="viewImg(\'' +
-          escapeHtml(o.payment_proof || '') +
-          '\')">付款证明</button> ' +
+          (o.payment_method === 'online' && o.payment_proof
+            ? '<button class="small" onclick="viewImg(\\'' +
+            escapeHtml(o.payment_proof) +
+            '\\')">付款证明</button> '
+            : '') +
 
           (!paid
             ? '<button class="small green" onclick="confirmPaid(\'' +
@@ -1905,11 +1907,11 @@
 
           '<div class="order-card-actions">' +
 
-          (o.payment_proof
-            ? '<button class="small" onclick="viewImg(\'' +
+          (o.payment_method === 'online' && o.payment_proof
+            ? '<button class="small" onclick="viewImg(\\'' +
             escapeHtml(o.payment_proof) +
-            '\')">查看付款证明</button>'
-            : '') +
+            '\\')">查看付款证明</button>'
+            : '')
 
           (!paid
             ? '<button class="small green" onclick="confirmPaid(\'' +
