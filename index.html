@@ -2170,37 +2170,84 @@
       const breakfastBox = document.getElementById('breakfastOptions');
       const typeLabel = document.getElementById('typeLabel');
 
-      // 现在午餐是独立商品，不需要选择
-      if (currentPeriod === 'lunch') {
-        selectedOptionId = null;
+      const options = Array.isArray(menuOptions) ? menuOptions : [];
 
+      // 没有可选项时，不显示空的“选择”区域。
+      if (!options.length) {
+        selectedOptionId = null;
         normalBox.innerHTML = '';
         normalBox.style.display = 'none';
-
         breakfastBox.innerHTML = '';
         breakfastBox.style.display = 'none';
-
         typeLabel.style.display = 'none';
-
         updateTotal();
         return;
       }
 
-      // 早餐也是独立商品，不需要选择
+      // 早餐使用早餐专用选择卡片。
       if (currentPeriod === 'breakfast') {
-        selectedOptionId = null;
+        if (selectedOptionId == null ||
+            !options.some(function (o) { return Number(o.id) === Number(selectedOptionId); })) {
+          selectedOptionId = options[0].id;
+        }
 
         normalBox.innerHTML = '';
         normalBox.style.display = 'none';
-
-        breakfastBox.innerHTML = '';
-        breakfastBox.style.display = 'none';
-
         typeLabel.style.display = 'none';
+
+        breakfastBox.style.display = 'flex';
+        breakfastBox.innerHTML = options.map(function (opt) {
+          const label = escapeHtml(lang === 'zh'
+            ? (opt.label_zh || opt.label_en || '')
+            : (opt.label_en || opt.label_zh || ''));
+          const desc = escapeHtml(lang === 'zh'
+            ? (opt.desc_zh || '')
+            : (opt.desc_en || opt.desc_zh || ''));
+          const price = Number(opt.price || 0);
+
+          return '<label class="breakfast-option">' +
+            '<div class="breakfast-option-main">' +
+            '<input type="radio" name="breakfastOption" value="' + Number(opt.id) + '"' +
+            (Number(opt.id) === Number(selectedOptionId) ? ' checked' : '') +
+            ' onchange="selectOption(' + Number(opt.id) + ')">' +
+            '<div class="breakfast-option-text">' +
+            '<div class="breakfast-option-name">' + label + '</div>' +
+            (desc ? '<div class="breakfast-option-desc">' + desc + '</div>' : '') +
+            '</div>' +
+            '<div class="breakfast-option-price">RM ' + price.toFixed(2) + '</div>' +
+            '</div>' +
+            '</label>';
+        }).join('');
 
         updateTotal();
         return;
       }
+
+      // 午餐如果未来有多个商品选项，则显示普通选择区。
+      selectedOptionId = options.some(function (o) {
+        return Number(o.id) === Number(selectedOptionId);
+      }) ? selectedOptionId : options[0].id;
+
+      breakfastBox.innerHTML = '';
+      breakfastBox.style.display = 'none';
+      typeLabel.style.display = 'block';
+
+      normalBox.style.display = 'block';
+      normalBox.innerHTML = options.map(function (opt) {
+        const label = escapeHtml(lang === 'zh'
+          ? (opt.label_zh || opt.label_en || '')
+          : (opt.label_en || opt.label_zh || ''));
+        const price = Number(opt.price || 0);
+
+        return '<label>' +
+          '<input type="radio" name="mealOption" value="' + Number(opt.id) + '"' +
+          (Number(opt.id) === Number(selectedOptionId) ? ' checked' : '') +
+          ' onchange="selectOption(' + Number(opt.id) + ')"> ' +
+          label + ' · RM ' + price.toFixed(2) +
+          '</label>';
+      }).join('');
+
+      updateTotal();
     }
     function selectOption(id) {
       selectedOptionId = id;
@@ -2498,310 +2545,3 @@
 
             if (res.error) {
               console.error(
-                '读取商品库存失败:',
-                product.id,
-                res.error
-              );
-
-              product.stockTotal = Number(product.max_portions || 0);
-              product.stockOrdered = 0;
-              product.stockRemaining = Number(product.max_portions || 0);
-
-              return;
-            }
-
-            const row = res.data && res.data[0]
-              ? res.data[0]
-              : null;
-
-            product.stockTotal = row
-              ? Number(row.total || 0)
-              : Number(product.max_portions || 0);
-
-            product.stockOrdered = row
-              ? Number(row.ordered || 0)
-              : 0;
-
-            product.stockRemaining = row
-              ? Number(row.remaining || 0)
-              : Number(product.max_portions || 0);
-
-          });
-
-        })
-      )
-        .then(function () {
-
-          console.log('商品库存加载完成:', products);
-
-          // 只给旧版 UI 兼容使用
-          if (menu) {
-            orderedQty = Number(menu.stockOrdered || 0);
-          } else {
-            orderedQty = 0;
-          }
-
-          renderMenu();
-
-        })
-        .catch(function (err) {
-
-          console.error('库存加载异常:', err);
-
-          orderedQty = 0;
-          renderMenu();
-
-        });
-
-    }
-
-    function goToPayment() {
-      if (currentPayMethod() === 'cash') {
-        submitCashOrder();
-        return;
-      }
-      const name = document.getElementById('name').value.trim();
-      const note = document.getElementById('note').value.trim();
-      if (!name) {alert(text[lang].error); return;}
-      if (!menu) {alert(text[lang].noMenu); return;}
-
-      const max = maxPortions();
-      if (orderedQty + qty > max) {
-        alert(lang === 'zh'
-          ? '今天最多 ' + max + ' 份，已订 ' + orderedQty + ' 份，剩余 ' + portionsLeft() + ' 份。'
-          : 'Max ' + max + ' portions today. Ordered: ' + orderedQty + ', left: ' + portionsLeft() + '.');
-        return;
-      }
-
-      const requestId = crypto.randomUUID();
-      const btn = document.getElementById('submitBtn');
-      btn.disabled = true;
-      btn.textContent = '处理中…';
-
-      supabaseClient.rpc('create_order_v2', {
-        p_request_id: requestId,
-        p_name: name,
-        p_quantity: qty,
-        p_note: note,
-        p_meal_date: getMealDate(),
-        p_meal_period: currentPeriod,
-        p_payment_method: 'online',
-        p_product_id: menu.id,
-        p_option_id: selectedOptionId
-      }).then(function (res) {
-        btn.disabled = false;
-        btn.textContent = text[lang].submit;
-        if (res.error) {
-          console.error(res.error);
-          const msg = String(res.error.message || '');
-          alert(msg.includes('OUT_OF_STOCK') ? '库存刚刚被抢完，请减少数量或刷新页面。' : text[lang].saveFail);
-          loadOrdersToday();
-          return;
-        }
-        const row = res.data && res.data[0];
-        if (!row) {
-          alert(text[lang].saveFail);
-          return;
-        }
-
-        window._pendingOrder = {
-          request_id: requestId,
-          order_code: row.order_code,
-          name: name,
-          quantity: row.quantity,
-          total: row.total,
-          meal_type: row.meal_type,
-          note: note,
-          meal_date: getMealDate(),
-          meal_period: currentPeriod
-        };
-
-        document.getElementById('payPageOrderId').textContent = '订单号：' + row.order_code;
-        document.getElementById('payPageAmount').textContent = '应付：RM ' + row.total;
-        document.getElementById('fileName').textContent = '';
-        document.getElementById('preview').style.display = 'none';
-        document.getElementById('rechooseBtn').style.display = 'none';
-        document.getElementById('fileInput').value = '';
-        selectedFile = null;
-        document.getElementById('orderCard').style.display = 'none';
-        document.getElementById('payCard').style.display = 'block';
-      });
-    }
-    function submitCashOrder() {
-      const name = document.getElementById('name').value.trim();
-      const note = document.getElementById('note').value.trim();
-      if (!name) {alert(text[lang].error); return;}
-      if (!menu) {alert(text[lang].noMenu); return;}
-
-      const max = maxPortions();
-      if (orderedQty + qty > max) {
-        alert(lang === 'zh'
-          ? '今天最多 ' + max + ' 份，已订 ' + orderedQty + ' 份，剩余 ' + portionsLeft() + ' 份。'
-          : 'Max ' + max + ' portions today. Ordered: ' + orderedQty + ', left: ' + portionsLeft() + '.');
-        return;
-      }
-
-      const btn = document.getElementById('submitBtn');
-      btn.disabled = true;
-      btn.textContent = '处理中…';
-
-      const requestId = crypto.randomUUID();
-      supabaseClient.rpc('create_order_v2', {
-        p_request_id: requestId,
-        p_name: name,
-        p_quantity: qty,
-        p_note: note,
-        p_meal_date: getMealDate(),
-        p_meal_period: currentPeriod,
-        p_payment_method: 'cash',
-        p_product_id: menu.id,
-        p_option_id: selectedOptionId
-      }).then(function (res) {
-        btn.disabled = false;
-        btn.textContent = text[lang].submit;
-        if (res.error) {
-          console.error(res.error);
-          const msg = String(res.error.message || '');
-          alert(msg.includes('OUT_OF_STOCK') ? '库存刚刚被抢完，请减少数量或刷新页面。' : text[lang].saveFail);
-          loadOrdersToday();
-          return;
-        }
-        const row = res.data && res.data[0];
-        if (!row) {
-          alert(text[lang].saveFail);
-          return;
-        }
-
-        document.getElementById('orderCard').style.display = 'none';
-        document.getElementById('successCard').style.display = 'block';
-        document.getElementById('successCard').classList.add('show');
-        document.getElementById('orderId').textContent = row.order_code;
-        document.getElementById('successTotal').textContent = 'RM ' + row.total + ' · ' + (lang === 'zh' ? '现金请交给 Yeran' : 'Please pay Yeran in cash');
-      });
-    }
-    function backToOrder() {
-      document.getElementById('payCard').style.display = 'none';
-      document.getElementById('orderCard').style.display = 'block';
-    }
-
-    function onFileSelected(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-      const maxBytes = 5 * 1024 * 1024;
-      if (!allowedTypes.includes(file.type)) {
-        alert(lang === 'zh' ? '只支持 JPG、PNG、WEBP 图片。' : 'Only JPG, PNG, or WEBP images are allowed.');
-        event.target.value = '';
-        return;
-      }
-      if (file.size > maxBytes) {
-        alert(lang === 'zh' ? '图片不能超过 5MB。' : 'Image must be 5MB or smaller.');
-        event.target.value = '';
-        return;
-      }
-      selectedFile = file;
-      document.getElementById('fileName').textContent = escapeHtml(file.name);
-      document.getElementById('rechooseBtn').style.display = 'inline-block';
-
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        document.getElementById('previewImg').src = e.target.result;
-        document.getElementById('preview').style.display = 'block';
-      };
-      reader.readAsDataURL(file);
-    }
-
-    async function submitPayment() {
-      if (!selectedFile) {alert(text[lang].needProof); return;}
-      const o = window._pendingOrder;
-      if (!o || !o.request_id) {
-        alert(text[lang].sessionExpired);
-        return;
-      }
-
-      const btn = document.getElementById('paySubmitBtn');
-      btn.disabled = true;
-      btn.textContent = text[lang].uploading;
-
-      try {
-        const extMap = {
-          'image/jpeg': 'jpg',
-          'image/png': 'png',
-          'image/webp': 'webp'
-        };
-        const ext = extMap[selectedFile.type];
-        if (!ext) throw new Error('INVALID_FILE');
-
-        const path = 'proof_' + o.order_code + '_' + crypto.randomUUID() + '.' + ext;
-
-        const up = await supabaseClient.storage.from('payments').upload(path, selectedFile, {
-          contentType: selectedFile.type,
-          upsert: false
-        });
-        if (up.error) throw up.error;
-
-        const attached = await supabaseClient.rpc('attach_payment_proof', {
-          p_request_id: o.request_id,
-          p_path: path
-        });
-        if (attached.error) throw attached.error;
-
-        window._pendingOrder = null;
-        selectedFile = null;
-        document.getElementById('payCard').style.display = 'none';
-        document.getElementById('successCard').style.display = 'block';
-        document.getElementById('successCard').classList.add('show');
-        document.getElementById('orderId').textContent = o.order_code;
-        document.getElementById('successTotal').textContent = 'RM ' + o.total + ' · ' + text[lang].pickup;
-      } catch (err) {
-        console.error(err);
-        alert(err && err.message === 'INVALID_FILE' ? '只支持 JPG、PNG、WEBP 图片。' : text[lang].uploadFail);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = text[lang].paySubmitBtn;
-      }
-    }
-
-    function newOrder() {
-      qty = 1;
-      selectedFile = null;
-      uploadedUrl = '';
-      document.getElementById('qty').textContent = '1';
-      document.getElementById('name').value = '';
-      document.getElementById('note').value = '';
-      document.getElementById('fileInput').value = '';
-      document.getElementById('fileName').textContent = '';
-      document.getElementById('preview').style.display = 'none';
-      document.getElementById('rechooseBtn').style.display = 'none';
-      const onlineRadio = document.querySelector('input[name="payMethod"][value="online"]');
-      if (onlineRadio) onlineRadio.checked = true;
-      selectedOptionId = menuOptions.length > 0 ? menuOptions[0].id : null;
-      renderOptions();
-      onPayMethodChange();
-      loadOrdersToday();
-      document.getElementById('orderCard').style.display = 'block';
-      document.getElementById('successCard').style.display = 'none';
-      document.getElementById('successCard').classList.remove('show');
-    }
-
-    loadMenu();
-    function toggleDark() {
-      document.body.classList.toggle('dark');
-      const isDark = document.body.classList.contains('dark');
-      document.getElementById('darkBtn').textContent = isDark ? '☀️' : '🌙';
-      localStorage.setItem('darkMode', isDark ? '1' : '0');
-    }
-
-    // 页面加载时恢复
-    if (localStorage.getItem('darkMode') === '1') {
-      document.body.classList.add('dark');
-      document.getElementById('darkBtn').textContent = '☀️';
-    }
-    setLang('zh');
-    function scrollToTop() {
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    }
-  </script>
-</body>
-
-</html>
