@@ -952,31 +952,9 @@
           <button id="btnBreakfastMenu" onclick="switchMenuType('breakfast')"
             style="margin-left:8px;padding:12px 24px;border:0;border-radius:10px;background:#eee;color:#333;font-size:16px;font-weight:700;cursor:pointer">早餐菜单</button>
         </div>
-        <h2>今日菜单设置</h2>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div>
-            <label style="font-size:13px;font-weight:600">菜名（中文）</label>
-            <input id="m_name_zh" style="margin-top:4px">
-          </div>
-          <div>
-            <label style="font-size:13px;font-weight:600">菜名（英文）</label>
-            <input id="m_name_en" style="margin-top:4px">
-          </div>
-          <div>
-            <label style="font-size:13px;font-weight:600">描述（中文）</label>
-            <input id="m_desc_zh" style="margin-top:4px">
-          </div>
-          <div>
-            <label style="font-size:13px;font-weight:600">描述（英文）</label>
-            <input id="m_desc_en" style="margin-top:4px">
-          </div>
-          <div>
-            <label style="font-size:13px;font-weight:600">最大份数</label>
-            <input id="m_max_portions" type="number" style="margin-top:4px">
-          </div>
-        </div>
-        <button class="primary" style="margin-top:12px" onclick="saveMenu()">保存菜单</button>
-        <span id="menuSaveMsg" style="margin-left:12px;font-size:13px;color:#2e7d32"></span>
+        <h2>菜单商品</h2>
+        <div id="productsBox"><div class="noorders">加载中…</div></div>
+        <button class="primary" style="margin-top:12px" onclick="addProduct()">+ 添加商品</button>
       </div>
 
       <div class="card">
@@ -985,10 +963,11 @@
           <button id="btnBreakfastOpt" onclick="switchOptType('breakfast')"
             style="margin-left:8px;padding:12px 24px;border:0;border-radius:10px;background:#eee;color:#333;font-size:16px;font-weight:700;cursor:pointer">早餐选项</button>
         </div>
-        <h2>今日选项设置</h2>
-        <div id="optionsBox">
-          <div class="noorders">加载中…</div>
-        </div>
+        <h2>商品选项设置</h2>
+        <label style="font-size:13px;font-weight:600">先选择商品</label>
+        <select id="optionProductSelect" onchange="selectOptionProduct(this.value)"
+          style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;font-size:15px;margin:6px 0 12px"></select>
+        <div id="optionsBox"><div class="noorders">加载中…</div></div>
         <button class="primary" style="margin-top:12px" onclick="addOption()">+ 添加选项</button>
       </div>
 
@@ -1135,7 +1114,7 @@
       document.getElementById('main').classList.remove('hidden');
       document.getElementById('logoutBtn').classList.remove('hidden');
       await loadOrders();
-      await loadMenuForEdit();
+      await loadProducts();
       await loadFeedback();
       await loadOptions();
     }
@@ -1214,7 +1193,7 @@
       document.getElementById('btnBreakfastMenu').className = type === 'breakfast' ? 'primary' : '';
       document.getElementById('btnBreakfastMenu').style.background = type === 'breakfast' ? '#111' : '#eee';
       document.getElementById('btnBreakfastMenu').style.color = type === 'breakfast' ? '#fff' : '#333';
-      loadMenuForEdit();
+      loadProducts();
     }
 
     function switchOptType(type) {
@@ -1223,513 +1202,260 @@
       document.getElementById('btnBreakfastOpt').className = type === 'breakfast' ? 'primary' : '';
       document.getElementById('btnBreakfastOpt').style.background = type === 'breakfast' ? '#111' : '#eee';
       document.getElementById('btnBreakfastOpt').style.color = type === 'breakfast' ? '#fff' : '#333';
-      loadOptions();
+      loadProducts();
     }
-    function loadMenuForEdit() {
-      supabaseClient.from('menu').select('*').eq('type', currentMenuType).limit(1).then(function (res) {
-        if (res.error) {console.error(res.error); return;}
-        if (!res.data || !res.data.length) {
-          // 没有这个类型 → 清空输入框
-          document.getElementById('m_name_zh').value = '';
-          document.getElementById('m_name_en').value = '';
-          document.getElementById('m_desc_zh').value = '';
-          document.getElementById('m_desc_en').value = '';
-          document.getElementById('m_max_portions').value = 15;
-          window._menuId = null;
-          return;
-        }
-        const m = res.data[0];
-        window._menuId = m.id;
-        document.getElementById('m_name_zh').value = m.name_zh || '';
-        document.getElementById('m_name_en').value = m.name_en || '';
-        document.getElementById('m_desc_zh').value = m.desc_zh || '';
-        document.getElementById('m_desc_en').value = m.desc_en || '';
-        document.getElementById('m_max_portions').value = m.max_portions || 15;
-      });
-    }
-    function saveMenu() {
-      const data = {
-        name_zh: document.getElementById('m_name_zh').value.trim(),
-        name_en: document.getElementById('m_name_en').value.trim(),
-        desc_zh: document.getElementById('m_desc_zh').value.trim(),
-        desc_en: document.getElementById('m_desc_en').value.trim(),
-        max_portions: Math.max(1, Math.min(500, parseInt(document.getElementById('m_max_portions').value, 10) || 15))
-      };
+    let selectedOptionProductId = null;
 
-      if (window._menuId) {
-        supabaseClient.from('menu').update(data).eq('id', window._menuId).then(function (res) {
-          if (res.error) {console.error(res.error); alert('保存失败，请稍后重试。'); return;}
-          const msg = document.getElementById('menuSaveMsg');
-          msg.textContent = '✓ 已保存';
-          setTimeout(function () {msg.textContent = '';}, 2000);
-        });
-      } else {
-        data.type = currentMenuType;
-        data.active = true;
-        supabaseClient.from('menu').insert(data).then(function (res) {
-          if (res.error) {console.error(res.error); alert('创建失败，请稍后重试。'); return;}
-          const msg = document.getElementById('menuSaveMsg');
-          msg.textContent = '✓ 已创建';
-          setTimeout(function () {msg.textContent = '';}, 2000);
-          loadMenuForEdit();
-          loadOptions();
-        });
-      }
-    }
+    function loadProducts() {
+      const box = document.getElementById('productsBox');
+      if (!box) return;
 
+      box.innerHTML = '<div class="noorders">加载中…</div>';
 
-    function loadFeedback() {
-      supabaseClient.from('feedback').select('*').order('created_at', {ascending: false}).then(function (res) {
-        if (res.error) {console.error(res.error); return;}
-        const all = res.data || [];
-        const pending = all.filter(function (f) {return !f.approved;});
-        const approved = all.filter(function (f) {return f.approved;});
-
-        let html1 = '';
-        if (!pending.length) {
-          html1 = '<div class="noorders">没有待审核反馈</div>';
-        } else {
-          html1 = '<table><thead><tr><th>时间</th><th>姓名</th><th>内容</th><th>操作</th></tr></thead><tbody>';
-          pending.forEach(function (f) {
-            html1 += '<tr>' +
-              '<td>' + fmtTime(f.created_at) + '</td>' +
-              '<td>' + escapeHtml(f.name || '') + '</td>' +
-              '<td>' + escapeHtml(f.content || '') + '</td>' +
-              '<td>' +
-              '<button class="small green" onclick="approveFeedback(' + f.id + ')">通过</button> ' +
-              '<button class="small red" onclick="delFeedback(' + f.id + ')">删</button>' +
-              '</td>' +
-              '</tr>';
-          });
-          html1 += '</tbody></table>';
-        }
-        document.getElementById('pendingFeedbackBox').innerHTML = html1;
-
-        let html2 = '';
-        if (!approved.length) {
-          html2 = '<div class="noorders">暂无已通过的反馈</div>';
-        } else {
-          html2 = '<table><thead><tr><th>时间</th><th>姓名</th><th>内容</th><th>操作</th></tr></thead><tbody>';
-          approved.forEach(function (f) {
-            html2 += '<tr>' +
-              '<td>' + fmtTime(f.created_at) + '</td>' +
-              '<td>' + escapeHtml(f.name || '') + '</td>' +
-              '<td>' + escapeHtml(f.content || '') + '</td>' +
-              '<td>' +
-              '<button class="small red" onclick="delFeedback(' + f.id + ')">删</button>' +
-              '</td>' +
-              '</tr>';
-          });
-          html2 += '</tbody></table>';
-        }
-        document.getElementById('approvedFeedbackBox').innerHTML = html2;
-      });
-    }
-
-    function approveFeedback(id) {
-      supabaseClient.from('feedback').update({approved: true}).eq('id', id).then(function (res) {
-        if (res.error) {console.error(res.error); alert('操作失败，请稍后重试。'); return;}
-        loadFeedback();
-      });
-    }
-
-    function delFeedback(id) {
-      if (!confirm('确认删除？')) return;
-      supabaseClient.from('feedback').delete().eq('id', id).then(function (res) {
-        if (res.error) {console.error(res.error); alert('操作失败，请稍后重试。'); return;}
-        loadFeedback();
-      });
-    }
-    function loadOptions() {
-      const box = document.getElementById('optionsBox');
-
-      box.innerHTML =
-        '<div class="noorders">加载中…</div>';
-
-      supabaseClient
-        .from('menu_products')
-        .select('id')
-        .eq('menu_type', currentOptType)
-        .eq('active', true)
-        .order('sort', {ascending: true})
-        .limit(1)
-        .then(function (productRes) {
-          if (productRes.error) {
-            console.error(productRes.error);
-            box.innerHTML =
-              '<div class="noorders" style="color:#c0392b;">加载菜单失败，请稍后重试。</div>';
-            return;
-          }
-
-          if (!productRes.data || !productRes.data.length) {
-            box.innerHTML = '<div class="noorders">暂无可编辑菜单</div>';
-            return;
-          }
-
-          const productId = productRes.data[0].id;
-
-          return supabaseClient
-            .from('product_options')
-            .select('*')
-            .eq('product_id', productId)
-            .order('sort', {ascending: true})
-            .then(function (res) {
-
+      supabaseClient.from('menu_products')
+        .select('*')
+        .eq('menu_type', currentMenuType)
+        .order('sort', {ascending:true})
+        .order('id', {ascending:true})
+        .then(function(res) {
           if (res.error) {
             console.error(res.error);
+            box.innerHTML = '<div class="noorders" style="color:#c0392b;">加载商品失败，请稍后重试。</div>';
+            return;
+          }
 
-            box.innerHTML =
-              '<div class="noorders" style="color:#c0392b;">' +
-              '加载选项失败，请稍后重试。' +
-              '</div>';
+          const rows = res.data || [];
 
+          if (!rows.length) {
+            box.innerHTML = '<div class="noorders">暂无商品，请先添加商品。</div>';
+          } else {
+            let html = '<div style="display:grid;gap:10px">';
+            rows.forEach(function(p) {
+              html += '<div style="border:1px solid #eee;border-radius:12px;padding:12px">' +
+                '<div style="display:grid;grid-template-columns:1.2fr 1fr 100px 100px auto;gap:8px;align-items:center">' +
+                '<input value="' + escapeHtml(p.name_zh || '') + '" onchange="updateProduct(' + p.id + ',\'name_zh\',this.value)" placeholder="中文名">' +
+                '<input value="' + escapeHtml(p.name_en || '') + '" onchange="updateProduct(' + p.id + ',\'name_en\',this.value)" placeholder="英文名">' +
+                '<input type="number" step="0.01" value="' + Number(p.price || 0) + '" onchange="updateProduct(' + p.id + ',\'price\',this.value)" placeholder="价格">' +
+                '<input type="number" value="' + Number(p.max_portions || 15) + '" onchange="updateProduct(' + p.id + ',\'max_portions\',this.value)" placeholder="库存">' +
+                '<label style="margin:0;display:flex;align-items:center;gap:5px"><input type="checkbox" ' + (p.active ? 'checked' : '') + ' onchange="updateProduct(' + p.id + ',\'active\',this.checked)">启用</label>' +
+                '</div>' +
+                '<div style="font-size:12px;color:#888;margin-top:7px">排序 ' + Number(p.sort || 0) + ' · ID ' + p.id + '</div>' +
+                '</div>';
+            });
+            html += '</div>';
+            box.innerHTML = html;
+          }
+
+          const select = document.getElementById('optionProductSelect');
+          if (select) {
+            const previous = String(selectedOptionProductId || '');
+            select.innerHTML = rows.map(function(p) {
+              return '<option value="' + p.id + '">' + escapeHtml((p.name_zh || p.name_en || '未命名商品')) + '</option>';
+            }).join('');
+            if (rows.some(function(p){return String(p.id) === previous;})) {
+              select.value = previous;
+            } else if (rows.length) {
+              selectedOptionProductId = rows[0].id;
+              select.value = String(rows[0].id);
+            } else {
+              selectedOptionProductId = null;
+            }
+          }
+        });
+    }
+
+    function updateProduct(id, field, value) {
+      const data = {};
+      if (field === 'price') data[field] = Math.max(0, parseFloat(value) || 0);
+      else if (field === 'max_portions' || field === 'sort') data[field] = Math.max(0, parseInt(value, 10) || 0);
+      else if (field === 'active') data[field] = !!value;
+      else data[field] = String(value || '').trim();
+
+      supabaseClient.from('menu_products').update(data).eq('id', id).then(function(res) {
+        if (res.error) {
+          console.error(res.error);
+          alert('商品保存失败，请稍后重试。');
+          return;
+        }
+        loadProducts();
+        if (Number(selectedOptionProductId) === Number(id)) loadOptions();
+      });
+    }
+
+    function addProduct() {
+      const zh = prompt('商品中文名，例如：包子');
+      if (!zh) return;
+      const en = prompt('商品英文名，例如：Steamed Bun') || zh;
+      const descZh = prompt('中文描述（可选）') || '';
+      const descEn = prompt('英文描述（可选）') || '';
+      const price = Math.max(0, parseFloat(prompt('价格（RM）') || '0') || 0);
+      const maxPortions = Math.max(1, parseInt(prompt('最大份数') || '15', 10) || 15);
+
+      supabaseClient.from('menu_products')
+        .select('sort')
+        .eq('menu_type', currentMenuType)
+        .order('sort', {ascending:false})
+        .limit(1)
+        .then(function(sortRes) {
+          if (sortRes.error) {
+            console.error(sortRes.error);
+            alert('读取商品排序失败，请稍后重试。');
+            return;
+          }
+          const nextSort = sortRes.data && sortRes.data.length ? Number(sortRes.data[0].sort || 0) + 1 : 1;
+
+          return supabaseClient.from('menu_products').insert({
+            menu_type: currentMenuType,
+            name_zh: zh.trim(),
+            name_en: en.trim(),
+            desc_zh: descZh.trim(),
+            desc_en: descEn.trim(),
+            price: price,
+            max_portions: maxPortions,
+            active: true,
+            sort: nextSort
+          });
+        })
+        .then(function(res) {
+          if (!res) return;
+          if (res.error) {
+            console.error(res.error);
+            alert('添加商品失败，请稍后重试。');
+            return;
+          }
+          loadProducts();
+        });
+    }
+
+    function selectOptionProduct(id) {
+      selectedOptionProductId = Number(id) || null;
+      loadOptions();
+    }
+
+    function switchMenuType(type) {
+      currentMenuType = type;
+      document.getElementById('btnLunchMenu').className = type === 'lunch' ? 'primary' : '';
+      document.getElementById('btnBreakfastMenu').className = type === 'breakfast' ? 'primary' : '';
+      document.getElementById('btnBreakfastMenu').style.background = type === 'breakfast' ? '#111' : '#eee';
+      document.getElementById('btnBreakfastMenu').style.color = type === 'breakfast' ? '#fff' : '#333';
+      selectedOptionProductId = null;
+      loadProducts();
+      if (currentOptType === type) loadOptions();
+    }
+
+    function switchOptType(type) {
+      currentOptType = type;
+      document.getElementById('btnLunchOpt').className = type === 'lunch' ? 'primary' : '';
+      document.getElementById('btnBreakfastOpt').className = type === 'breakfast' ? 'primary' : '';
+      document.getElementById('btnBreakfastOpt').style.background = type === 'breakfast' ? '#111' : '#eee';
+      document.getElementById('btnBreakfastOpt').style.color = type === 'breakfast' ? '#fff' : '#333';
+      selectedOptionProductId = null;
+      loadProducts();
+      loadOptions();
+    }
+
+    function loadOptions() {
+      const box = document.getElementById('optionsBox');
+      box.innerHTML = '<div class="noorders">加载中…</div>';
+
+      const select = document.getElementById('optionProductSelect');
+      if (!selectedOptionProductId) {
+        const first = select && select.options.length ? select.options[0].value : null;
+        selectedOptionProductId = first ? Number(first) : null;
+      }
+
+      if (!selectedOptionProductId) {
+        box.innerHTML = '<div class="noorders">请先添加商品。</div>';
+        return;
+      }
+
+      supabaseClient.from('product_options')
+        .select('*')
+        .eq('product_id', selectedOptionProductId)
+        .order('sort', {ascending:true})
+        .order('id', {ascending:true})
+        .then(function(res) {
+          if (res.error) {
+            console.error(res.error);
+            box.innerHTML = '<div class="noorders" style="color:#c0392b;">加载选项失败，请稍后重试。</div>';
             return;
           }
 
           const opts = res.data || [];
-
           if (!opts.length) {
-            box.innerHTML =
-              '<div class="noorders">暂无选项</div>';
+            box.innerHTML = '<div class="noorders">这个商品暂无选项。你可以直接添加。</div>';
             return;
           }
 
-          /*
-           * =========================
-           * Desktop table
-           * =========================
-           */
-
-          let tableHtml =
-            '<table>' +
-            '<thead>' +
-            '<tr>' +
-            '<th>排序</th>' +
-            '<th>中文</th>' +
-            '<th>英文</th>' +
-            '<th>中文描述</th>' +
-            '<th>英文描述</th>' +
-            '<th>价格</th>' +
-            '<th>最大份数</th>' +
-            '<th>今天有吗</th>' +
-            '<th>操作</th>' +
-            '</tr>' +
-            '</thead>' +
-            '<tbody>';
-
-          opts.forEach(function (o) {
-
-            tableHtml +=
-              '<tr>' +
-
-              '<td>' +
-              '<input type="number" ' +
-              'value="' + Number(o.sort || 0) + '" ' +
-              'style="width:60px;padding:4px" ' +
-              'onchange="updateOption(' +
-              o.id +
-              ', \'sort\', this.value)">' +
-              '</td>' +
-
-              '<td>' +
-              '<input value="' +
-              escapeHtml(o.label_zh || '') +
-              '" ' +
-              'style="width:100px;padding:4px" ' +
-              'onchange="updateOption(' +
-              o.id +
-              ', \'label_zh\', this.value)">' +
-              '</td>' +
-
-              '<td>' +
-              '<input value="' +
-              escapeHtml(o.label_en || '') +
-              '" ' +
-              'style="width:100px;padding:4px" ' +
-              'onchange="updateOption(' +
-              o.id +
-              ', \'label_en\', this.value)">' +
-              '</td>' +
-
-              '<td>' +
-              '<input value="' +
-              escapeHtml(o.desc_zh || '') +
-              '" ' +
-              'style="width:140px;padding:4px" ' +
-              'onchange="updateOption(' +
-              o.id +
-              ', \'desc_zh\', this.value)">' +
-              '</td>' +
-
-              '<td>' +
-              '<input value="' +
-              escapeHtml(o.desc_en || '') +
-              '" ' +
-              'style="width:140px;padding:4px" ' +
-              'onchange="updateOption(' +
-              o.id +
-              ', \'desc_en\', this.value)">' +
-              '</td>' +
-
-              '<td>' +
-              '<input type="number" ' +
-              'value="' + Number(o.price || 0) + '" ' +
-              'style="width:70px;padding:4px" ' +
-              'onchange="updateOption(' +
-              o.id +
-              ', \'price\', this.value)">' +
-              '</td>' +
-
-              '<td>' +
-              '<input type="number" ' +
-              'value="' + Number(o.max_portions || 15) + '" ' +
-              'style="width:70px;padding:4px" ' +
-              'onchange="updateOption(' +
-              o.id +
-              ', \'max_portions\', this.value)">' +
-              '</td>' +
-
-              '<td>' +
-              '<input type="checkbox" ' +
-              (o.enabled ? 'checked' : '') +
-              ' onchange="updateOption(' +
-              o.id +
-              ', \'enabled\', this.checked)">' +
-              '</td>' +
-
-              '<td>' +
-              '<button class="small red" ' +
-              'onclick="delOption(' +
-              o.id +
-              ')">删</button>' +
-              '</td>' +
-
+          let tableHtml = '<table><thead><tr><th>排序</th><th>中文</th><th>英文</th><th>中文描述</th><th>英文描述</th><th>价格</th><th>最大份数</th><th>启用</th><th>操作</th></tr></thead><tbody>';
+          opts.forEach(function(o) {
+            tableHtml += '<tr>' +
+              '<td><input type="number" value="' + Number(o.sort || 0) + '" style="width:60px;padding:4px" onchange="updateOption(' + o.id + ',\'sort\',this.value)"></td>' +
+              '<td><input value="' + escapeHtml(o.label_zh || '') + '" style="width:100px;padding:4px" onchange="updateOption(' + o.id + ',\'label_zh\',this.value)"></td>' +
+              '<td><input value="' + escapeHtml(o.label_en || '') + '" style="width:100px;padding:4px" onchange="updateOption(' + o.id + ',\'label_en\',this.value)"></td>' +
+              '<td><input value="' + escapeHtml(o.desc_zh || '') + '" style="width:140px;padding:4px" onchange="updateOption(' + o.id + ',\'desc_zh\',this.value)"></td>' +
+              '<td><input value="' + escapeHtml(o.desc_en || '') + '" style="width:140px;padding:4px" onchange="updateOption(' + o.id + ',\'desc_en\',this.value)"></td>' +
+              '<td><input type="number" step="0.01" value="' + Number(o.price || 0) + '" style="width:80px;padding:4px" onchange="updateOption(' + o.id + ',\'price\',this.value)"></td>' +
+              '<td><input type="number" value="' + Number(o.max_portions || 15) + '" style="width:80px;padding:4px" onchange="updateOption(' + o.id + ',\'max_portions\',this.value)"></td>' +
+              '<td><input type="checkbox" ' + (o.enabled ? 'checked' : '') + ' onchange="updateOption(' + o.id + ',\'enabled\',this.checked)"></td>' +
+              '<td><button class="small red" onclick="delOption(' + o.id + ')">删</button></td>' +
               '</tr>';
           });
-
-          tableHtml +=
-            '</tbody>' +
-            '</table>';
-
-
-          /*
-           * =========================
-           * Mobile cards
-           * =========================
-           */
-
-          let mobileHtml =
-            '<div class="options-mobile">';
-
-          opts.forEach(function (o) {
-
-            const statusText =
-              o.enabled ? '今天供应' : '已停用';
-
-            const statusClass =
-              o.enabled ? 'on' : 'off';
-
-            mobileHtml +=
-
-              '<div class="option-card">' +
-
-              '<div class="option-card-head">' +
-
-              '<div class="option-card-title">' +
-              escapeHtml(o.label_zh || '未命名选项') +
-              '</div>' +
-
-              '<div class="option-card-status ' +
-              statusClass +
-              '">' +
-              statusText +
-              '</div>' +
-
-              '</div>' +
-
-
-              '<div class="option-row">' +
-
-              '<div class="option-field">' +
-              '<label>中文名称</label>' +
-              '<input value="' +
-              escapeHtml(o.label_zh || '') +
-              '" ' +
-              'onchange="updateOption(' +
-              o.id +
-              ', \'label_zh\', this.value)">' +
-              '</div>' +
-
-              '<div class="option-field">' +
-              '<label>英文名称</label>' +
-              '<input value="' +
-              escapeHtml(o.label_en || '') +
-              '" ' +
-              'onchange="updateOption(' +
-              o.id +
-              ', \'label_en\', this.value)">' +
-              '</div>' +
-
-              '</div>' +
-
-
-              '<div class="option-field">' +
-              '<label>中文描述</label>' +
-              '<input value="' +
-              escapeHtml(o.desc_zh || '') +
-              '" ' +
-              'onchange="updateOption(' +
-              o.id +
-              ', \'desc_zh\', this.value)">' +
-              '</div>' +
-
-
-              '<div class="option-field">' +
-              '<label>英文描述</label>' +
-              '<input value="' +
-              escapeHtml(o.desc_en || '') +
-              '" ' +
-              'onchange="updateOption(' +
-              o.id +
-              ', \'desc_en\', this.value)">' +
-              '</div>' +
-
-
-              '<div class="option-row">' +
-
-              '<div class="option-field">' +
-              '<label>价格 RM</label>' +
-              '<input type="number" ' +
-              'value="' + Number(o.price || 0) + '" ' +
-              'onchange="updateOption(' +
-              o.id +
-              ', \'price\', this.value)">' +
-              '</div>' +
-
-              '<div class="option-field">' +
-              '<label>最大份数</label>' +
-              '<input type="number" ' +
-              'value="' + Number(o.max_portions || 15) + '" ' +
-              'onchange="updateOption(' +
-              o.id +
-              ', \'max_portions\', this.value)">' +
-              '</div>' +
-
-              '</div>' +
-
-
-              '<div class="option-row">' +
-
-              '<div class="option-field">' +
-              '<label>排序</label>' +
-              '<input type="number" ' +
-              'value="' + Number(o.sort || 0) + '" ' +
-              'onchange="updateOption(' +
-              o.id +
-              ', \'sort\', this.value)">' +
-              '</div>' +
-
-              '<div class="option-toggle-row">' +
-
-              '<label class="option-toggle">' +
-              '<input type="checkbox" ' +
-              (o.enabled ? 'checked' : '') +
-              ' onchange="updateOption(' +
-              o.id +
-              ', \'enabled\', this.checked)">' +
-              '<span>今天供应</span>' +
-              '</label>' +
-
-              '</div>' +
-
-              '</div>' +
-
-
-              '<div class="option-toggle-row">' +
-
-              '<button class="small red option-delete" ' +
-              'onclick="delOption(' +
-              o.id +
-              ')">' +
-              '删除这个选项' +
-              '</button>' +
-
-              '</div>' +
-
-              '</div>';
-          });
-
-          mobileHtml += '</div>';
-
-
-          /*
-           * 最终输出
-           */
-
-          box.innerHTML =
-            tableHtml +
-            mobileHtml;
+          tableHtml += '</tbody></table>';
+          box.innerHTML = tableHtml;
         });
-      });
     }
+
     function updateOption(id, field, value) {
       const data = {};
-      if (field === 'price' || field === 'sort' || field === 'max_portions') {
-        data[field] = parseInt(value) || 0;
-      } else if (field === 'enabled') {
-        data[field] = value;
-      } else {
-        data[field] = value;
-      }
-      supabaseClient.from('product_options').update(data).eq('id', id).then(function (res) {
-        if (res.error) {console.error(res.error); alert('操作失败，请稍后重试。'); return;}
+      if (field === 'price') data[field] = Math.max(0, parseFloat(value) || 0);
+      else if (field === 'sort' || field === 'max_portions') data[field] = Math.max(0, parseInt(value,10) || 0);
+      else if (field === 'enabled') data[field] = !!value;
+      else data[field] = String(value || '').trim();
+
+      supabaseClient.from('product_options').update(data).eq('id', id).then(function(res) {
+        if (res.error) { console.error(res.error); alert('操作失败，请稍后重试。'); return; }
         loadOptions();
       });
     }
 
     function addOption() {
-      const zh = prompt('中文名（如：鸭肉）');
+      if (!selectedOptionProductId) {
+        alert('请先选择商品。');
+        return;
+      }
+      const zh = prompt('选项中文名，例如：牛肉');
       if (!zh) return;
-      const en = prompt('英文名（如：Duck）') || zh;
+      const en = prompt('选项英文名，例如：Beef') || zh;
       const descZh = prompt('中文描述（可选）') || '';
       const descEn = prompt('英文描述（可选）') || '';
       const price = Math.max(0, parseFloat(prompt('价格（RM）') || '0') || 0);
-      const maxPortions = parseInt(prompt('最大份数') || '15');
-      supabaseClient.from('menu_products')
-        .select('id')
-        .eq('menu_type', currentOptType)
-        .eq('active', true)
-        .order('sort', {ascending: true})
-        .limit(1)
-        .then(function (productRes) {
-          if (productRes.error || !productRes.data || !productRes.data.length) {
-            alert('暂无可编辑菜单');
-            return;
-          }
+      const maxPortions = Math.max(1, parseInt(prompt('最大份数') || '15',10) || 15);
 
-          const productId = productRes.data[0].id;
-
-          return supabaseClient.from('product_options').insert({
-            label_zh: zh, label_en: en,
-            desc_zh: descZh, desc_en: descEn,
-            price: price, max_portions: maxPortions,
-            enabled: true, sort: 99, product_id: productId
-          });
-        })
-        .then(function (res) {
-          if (!res) return;
-        if (res.error) {console.error(res.error); alert('操作失败，请稍后重试。'); return;}
+      supabaseClient.from('product_options').insert({
+        label_zh: zh.trim(),
+        label_en: en.trim(),
+        desc_zh: descZh.trim(),
+        desc_en: descEn.trim(),
+        price: price,
+        max_portions: maxPortions,
+        enabled: true,
+        sort: 99,
+        product_id: selectedOptionProductId
+      }).then(function(res) {
+        if (res.error) { console.error(res.error); alert('操作失败，请稍后重试。'); return; }
         loadOptions();
       });
     }
 
     function delOption(id) {
       if (!confirm('确认删除这个选项？')) return;
-      supabaseClient.from('product_options').delete().eq('id', id).then(function (res) {
+      supabaseClient.from('product_options').delete().eq('id', id).then(function(res) {
         if (res.error) {console.error(res.error); alert('操作失败，请稍后重试。'); return;}
         loadOptions();
       });
     }
+
     function getMealDate() {
       const now = new Date();
       const h = now.getHours();
