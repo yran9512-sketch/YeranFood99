@@ -1367,6 +1367,7 @@
         <button id="btnBreakfastOrder" class="periodBtn" onclick="switchPeriod('breakfast')">早餐</button>
       </div>
       <h2 id="menuTitle">今日菜单</h2>
+      <div id="productList" style="display:grid;gap:10px;margin-bottom:16px"></div>
       <div class="food">
         <div>
           <h2 id="foodName" class="skeleton sk-title"></h2>
@@ -1624,6 +1625,7 @@
     let currentPeriod = 'lunch';   // 当前点餐时段
     let menu = null;
     let products = [];
+    let selectedProductId = null;
     let breakfastQty = {};
     let orderedQty = 0;
     let selectedFile = null;
@@ -1782,17 +1784,73 @@
       }
     }
 
+    function selectProduct(productId) {
+      const product = products.find(function(p) {
+        return Number(p.id) === Number(productId);
+      });
+      if (!product) return;
+
+      selectedProductId = product.id;
+      menu = product;
+      menuOptions = Array.isArray(product.options) ? product.options : [];
+      selectedOptionId = menuOptions.length ? menuOptions[0].id : null;
+
+      qty = Math.max(1, Number(breakfastQty[product.id] || 1));
+      const left = Number(product.stockRemaining != null ? product.stockRemaining : product.max_portions || 0);
+      if (left > 0 && qty > left) qty = left;
+
+      renderMenu();
+    }
+
+    function renderProductList() {
+      const box = document.getElementById('productList');
+      if (!box) return;
+
+      if (!products || !products.length) {
+        box.innerHTML = '';
+        box.style.display = 'none';
+        return;
+      }
+
+      box.style.display = 'grid';
+
+      box.innerHTML = products.map(function(p) {
+        const name = escapeHtml(lang === 'zh'
+          ? (p.name_zh || p.name_en || '')
+          : (p.name_en || p.name_zh || ''));
+        const desc = escapeHtml(lang === 'zh'
+          ? (p.desc_zh || '')
+          : (p.desc_en || p.desc_zh || ''));
+        const selected = Number(p.id) === Number(selectedProductId);
+        const left = Number(p.stockRemaining != null ? p.stockRemaining : p.max_portions || 0);
+
+        return '<button type="button" onclick="selectProduct(' + Number(p.id) + ')" ' +
+          'style="text-align:left;border:1.5px solid ' + (selected ? '#111' : '#e5e5e5') + ';background:' + (selected ? '#fff' : '#fafafa') + ';border-radius:12px;padding:13px 15px;cursor:pointer;box-shadow:' + (selected ? '0 2px 8px rgba(0,0,0,.08)' : 'none') + '">' +
+          '<div style="display:flex;justify-content:space-between;gap:12px;align-items:center">' +
+          '<div>' +
+          '<div style="font-size:16px;font-weight:800;color:#222">' + name + '</div>' +
+          (desc ? '<div style="font-size:12px;color:#777;margin-top:3px">' + desc + '</div>' : '') +
+          '</div>' +
+          '<div style="font-weight:800;white-space:nowrap">RM ' + Number(p.price || 0).toFixed(2) + '</div>' +
+          '</div>' +
+          '<div style="font-size:12px;color:' + (left <= 0 ? '#c0392b' : '#2e7d32') + ';margin-top:6px">' +
+          (left <= 0 ? text[lang].soldOut : text[lang].stock + ' ' + left + ' ' + text[lang].stockLeft) +
+          '</div>' +
+          '</button>';
+      }).join('');
+    }
+
     function renderMenu() {
+      renderProductList();
+
       if (!menu) {
         document.getElementById('foodName').classList.remove('skeleton', 'sk-title');
         document.getElementById('foodDesc').classList.remove('skeleton', 'sk-desc');
         document.getElementById('foodName').textContent = text[lang].noMenu;
         document.getElementById('foodDesc').textContent = '';
         document.getElementById('stockInfo').textContent = '';
-
         document.getElementById('breakfastProduct').style.display = 'none';
         document.querySelector('.food').style.display = 'flex';
-
         return;
       }
 
@@ -1800,48 +1858,28 @@
       const descField = lang === 'zh' ? 'desc_zh' : 'desc_en';
 
       if (currentPeriod === 'breakfast') {
-
         document.querySelector('.food').style.display = 'none';
-
-        const breakfastCard =
-          document.getElementById('breakfastProduct');
-
+        const breakfastCard = document.getElementById('breakfastProduct');
         breakfastCard.style.display = 'block';
 
-        document.getElementById('breakfastProductName').textContent =
-          menu[nameField] || '';
-
-        document.getElementById('breakfastProductDesc').textContent =
-          menu[descField] || '';
-
+        document.getElementById('breakfastProductName').textContent = menu[nameField] || '';
+        document.getElementById('breakfastProductDesc').textContent = menu[descField] || '';
         document.getElementById('breakfastQty').textContent = qty;
-
-        document.getElementById('breakfastPrice').textContent =
-          fmt(menu.price || 0);
+        document.getElementById('breakfastPrice').textContent = fmt(currentPrice());
 
         renderOptions();
         renderStock();
 
-        const breakfastStock =
-          document.getElementById('breakfastStock');
-
+        const breakfastStock = document.getElementById('breakfastStock');
         const left = portionsLeft();
 
         if (left <= 0) {
           breakfastStock.textContent = text[lang].soldOut;
           breakfastStock.className = 'stock-zero';
         } else {
-          breakfastStock.textContent =
-            text[lang].stock + ' ' +
-            left + ' ' +
-            text[lang].stockLeft;
-
-          breakfastStock.className =
-            left <= 5 ? 'stock-low' : '';
-
-          if (left > 5) {
-            breakfastStock.style.color = '#2e7d32';
-          }
+          breakfastStock.textContent = text[lang].stock + ' ' + left + ' ' + text[lang].stockLeft;
+          breakfastStock.className = left <= 5 ? 'stock-low' : '';
+          if (left > 5) breakfastStock.style.color = '#2e7d32';
         }
 
         return;
@@ -1850,23 +1888,11 @@
       document.querySelector('.food').style.display = 'flex';
       document.getElementById('breakfastProduct').style.display = 'none';
 
-      document.getElementById('foodName').classList.remove(
-        'skeleton',
-        'sk-title'
-      );
+      document.getElementById('foodName').classList.remove('skeleton', 'sk-title');
+      document.getElementById('foodDesc').classList.remove('skeleton', 'sk-desc');
+      document.getElementById('foodName').textContent = menu[nameField] || '';
+      document.getElementById('foodDesc').textContent = menu[descField] || '';
 
-      document.getElementById('foodDesc').classList.remove(
-        'skeleton',
-        'sk-desc'
-      );
-
-      document.getElementById('foodName').textContent =
-        menu[nameField];
-
-      document.getElementById('foodDesc').textContent =
-        menu[descField];
-
-      // 午餐也是独立商品，不显示荤/素选择
       renderOptions();
       updateTotal();
       renderStock();
@@ -2492,8 +2518,8 @@
 
           products = res.data || [];
 
-          // 保留旧代码兼容：
-          // 当前 UI 暂时还是一个主商品
+          // 默认选择第一个商品；用户可以在商品列表中切换
+          selectedProductId = products.length ? products[0].id : null;
           menu = products.length ? products[0] : null;
 
 
@@ -2550,10 +2576,18 @@
               }
 
 
-              // 兼容现有代码
+              // 当前选中的商品及其选项
+              menu = products.find(function(p) {
+                return Number(p.id) === Number(selectedProductId);
+              }) || products[0] || null;
+
+              selectedProductId = menu ? menu.id : null;
+
               menuOptions = menu && Array.isArray(menu.options)
                 ? menu.options
                 : [];
+
+              selectedOptionId = menuOptions.length ? menuOptions[0].id : null;
 
               console.log('当前商品:', menu);
               console.log('当前选择项:', menuOptions);
