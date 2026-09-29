@@ -364,7 +364,7 @@
     }
 
     function loadFeedback() {
-      supabaseClient.from('feedback').select('*').eq('approved', true).order('created_at', {ascending: false}).then(function (res) {
+      return supabaseClient.from('feedback').select('*').eq('approved', true).order('created_at', {ascending: false}).then(function (res) {
         if (res.error) {console.error(res.error); return;}
         const list = res.data || [];
         if (!list.length) {
@@ -409,7 +409,7 @@
     function loadOrders() {
       const loadSeq = ++ordersLoadSeq;
       const targetDate = getMealDate();
-      supabaseClient.from('orders')
+      return supabaseClient.from('orders')
         .select('*')
         .eq('meal_date', targetDate)
         .eq('meal_period', currentPeriod)
