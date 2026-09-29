@@ -1301,6 +1301,44 @@
       text-align: center;
       font-weight: 700;
     }
+  
+    /* ===== 2026 UI 优化：学生端 ===== */
+    .container { width: min(100%, 680px); }
+    .card { transition: transform .18s ease, box-shadow .18s ease; }
+    .card:hover { box-shadow: 0 8px 28px rgba(0,0,0,.08); }
+    .periodBtn { min-height: 46px; }
+    .food { align-items: center; }
+    .food > div:first-child { min-width: 0; flex: 1; }
+    .price { white-space: nowrap; }
+    #stockInfo, #breakfastStock {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #f6f6f6;
+      display: inline-block;
+    }
+    .opt { display: grid; gap: 10px; }
+    .opt label { min-height: 50px; }
+    .submit { min-height: 54px; }
+    .payBox { margin-top: 12px; }
+    .success { animation: fadeIn .35s ease; }
+    @media (max-width:640px) {
+      header { padding: 24px 16px; }
+      header h1 { font-size: 30px; }
+      .container { margin: 14px auto; padding: 0 12px; }
+      .card { padding: 20px 16px; border-radius: 18px; }
+      .food h2 { font-size: 23px; }
+      .qty button { width: 44px; height: 44px; }
+      .periodBtn { font-size: 14px; padding: 11px 8px; }
+      .submit { bottom: 10px; margin-top: 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
