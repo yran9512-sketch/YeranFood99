@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" href="data:,">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YeranFood｜校园点餐</title>
   <style>
@@ -2977,7 +2978,8 @@
       document.getElementById('total').style.display = 'inline';
 
       document.getElementById('submitBtn').style.display = 'block';
-      document.getElementById('checkoutBar').style.display = 'flex';
+      const checkoutBar = document.getElementById('checkoutBar');
+      if (checkoutBar) checkoutBar.style.display = 'flex';
 
       document.getElementById('notice').style.display = 'block';
 
@@ -3037,7 +3039,8 @@
 
         document.getElementById('submitBtn').style.display = 'none';
 
-        document.getElementById('checkoutBar').style.display = 'none';
+        const checkoutBar = document.getElementById('checkoutBar');
+        if (checkoutBar) checkoutBar.style.display = 'none';
 
         document.getElementById('notice').style.display = 'none';
 
