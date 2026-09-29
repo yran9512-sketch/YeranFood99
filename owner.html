@@ -1204,6 +1204,69 @@
       document.getElementById('btnBreakfastOpt').style.color = type === 'breakfast' ? '#fff' : '#333';
       loadProducts();
     }
+    function loadFeedback() {
+      supabaseClient.from('feedback').select('*').order('created_at', {ascending: false}).then(function (res) {
+        if (res.error) {console.error(res.error); return;}
+        const all = res.data || [];
+        const pending = all.filter(function (f) {return !f.approved;});
+        const approved = all.filter(function (f) {return f.approved;});
+
+        let html1 = '';
+        if (!pending.length) {
+          html1 = '<div class="noorders">没有待审核反馈</div>';
+        } else {
+          html1 = '<table><thead><tr><th>时间</th><th>姓名</th><th>内容</th><th>操作</th></tr></thead><tbody>';
+          pending.forEach(function (f) {
+            html1 += '<tr>' +
+              '<td>' + fmtTime(f.created_at) + '</td>' +
+              '<td>' + escapeHtml(f.name || '') + '</td>' +
+              '<td>' + escapeHtml(f.content || '') + '</td>' +
+              '<td>' +
+              '<button class="small green" onclick="approveFeedback(' + f.id + ')">通过</button> ' +
+              '<button class="small red" onclick="delFeedback(' + f.id + ')">删</button>' +
+              '</td>' +
+              '</tr>';
+          });
+          html1 += '</tbody></table>';
+        }
+        document.getElementById('pendingFeedbackBox').innerHTML = html1;
+
+        let html2 = '';
+        if (!approved.length) {
+          html2 = '<div class="noorders">暂无已通过的反馈</div>';
+        } else {
+          html2 = '<table><thead><tr><th>时间</th><th>姓名</th><th>内容</th><th>操作</th></tr></thead><tbody>';
+          approved.forEach(function (f) {
+            html2 += '<tr>' +
+              '<td>' + fmtTime(f.created_at) + '</td>' +
+              '<td>' + escapeHtml(f.name || '') + '</td>' +
+              '<td>' + escapeHtml(f.content || '') + '</td>' +
+              '<td>' +
+              '<button class="small red" onclick="delFeedback(' + f.id + ')">删</button>' +
+              '</td>' +
+              '</tr>';
+          });
+          html2 += '</tbody></table>';
+        }
+        document.getElementById('approvedFeedbackBox').innerHTML = html2;
+      });
+    }
+
+    function approveFeedback(id) {
+      supabaseClient.from('feedback').update({approved: true}).eq('id', id).then(function (res) {
+        if (res.error) {console.error(res.error); alert('操作失败，请稍后重试。'); return;}
+        loadFeedback();
+      });
+    }
+
+    function delFeedback(id) {
+      if (!confirm('确认删除？')) return;
+      supabaseClient.from('feedback').delete().eq('id', id).then(function (res) {
+        if (res.error) {console.error(res.error); alert('操作失败，请稍后重试。'); return;}
+        loadFeedback();
+      });
+    }
+
     let selectedOptionProductId = null;
 
     function loadProducts() {
