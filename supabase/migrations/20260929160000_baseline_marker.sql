@@ -1,0 +1,4 @@
+-- YeranFood production baseline marker
+-- The production schema already exists in Supabase.
+-- This migration directory is now established for future migrations.
+-- Do not reset or rebuild the production database.
