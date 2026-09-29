@@ -2248,13 +2248,14 @@
       return currentPeriod === 'breakfast';
     }
     function loadMenu() {
-      alert(
-        'loadMenu执行\n' +
-        'currentPeriod=' + currentPeriod + '\n' +
-        'isOrderingOpen=' + isOrderingOpen() + '\n' +
-        'mealDate=' + getMealDate()
+      console.log(
+        '开始加载菜单，currentPeriod =',
+        currentPeriod,
+        'isOrderingOpen =',
+        isOrderingOpen(),
+        'mealDate =',
+        getMealDate()
       );
-      console.log('开始加载菜单，currentPeriod =', currentPeriod);
 
       // =========================
       // 先检查当前餐别有没有商品
@@ -2298,7 +2299,8 @@
 
       document.getElementById('notice').style.display = 'block';
 
-      document.querySelectorAll('.opt')[1].style.display = 'block';
+      const optionSection = document.querySelectorAll('.opt')[1];
+      if (optionSection) optionSection.style.display = 'block';
 
 
       // =========================
@@ -2318,8 +2320,8 @@
         document.querySelector('.food').style.display = 'flex';
         document.getElementById('breakfastProduct').style.display = 'none';
 
-        document.getElementById('typeLabel').style.display = 'block';
-        document.getElementById('mealOptionsBox').style.display = 'block';
+        document.getElementById('typeLabel').style.display = 'none';
+        document.getElementById('mealOptionsBox').style.display = 'none';
 
       }
 
@@ -2388,14 +2390,6 @@
         .order('id', {ascending: true})
         .then(function (res) {
 
-          alert(
-            '商品查询结果：\n' +
-            '数量=' + ((res.data && res.data.length) || 0) + '\n' +
-            '错误=' + (res.error ? res.error.message : '无') + '\n' +
-            '商品=' + JSON.stringify(res.data)
-          );
-
-          // ↓↓↓ 这里继续放你原来的代码
           console.log('menu_products 查询结果:', res.data, res.error);
           if (res.error) {
 
