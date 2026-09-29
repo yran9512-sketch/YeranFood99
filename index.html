@@ -1964,6 +1964,10 @@
       <button id="zhBtn" class="active" onclick="setLang('zh')">中文</button>
       <button id="enBtn" onclick="setLang('en')">English</button>
     </div>
+    <button id="notifyBtn" onclick="enablePushNotifications()"
+      style="margin-top:14px;background:#fff;color:#111;border:0;border-radius:999px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.12)">
+      🔔 开启点餐提醒
+    </button>
   </header>
 
   <main class="container">
@@ -2290,6 +2294,11 @@
         saveFail: '保存失败：',
         periodLunch: '午餐',
         periodBreakfast: '早餐',
+        notifyEnable: '🔔 开启点餐提醒',
+        notifyEnabled: '🔔 点餐提醒已开启',
+        notifyDenied: '🔕 通知已关闭',
+        notifyUnsupported: '此浏览器不支持通知',
+        notifyError: '通知开启失败，请稍后重试。',
       },
       en: {
         subtitle: 'School Food Ordering',
@@ -2342,6 +2351,11 @@
         saveFail: 'Save failed: ',
         periodLunch: 'Lunch',
         periodBreakfast: 'Breakfast',
+        notifyEnable: '🔔 Enable ordering reminders',
+        notifyEnabled: '🔔 Ordering reminders are on',
+        notifyDenied: '🔕 Notifications are blocked',
+        notifyUnsupported: 'Notifications are not supported',
+        notifyError: 'Could not enable notifications. Please try again.',
       }
     };
 
@@ -2642,9 +2656,116 @@
       document.getElementById('viewFeedbackBtn').textContent = t.viewFeedback;
       document.getElementById('feedbackListTitle').textContent = t.feedbackListTitle;
       document.getElementById('feedbackListClose').textContent = t.feedbackListClose;
+      const notifyBtn = document.getElementById('notifyBtn');
+      if (notifyBtn) notifyBtn.textContent = getPushButtonText();
       renderOptions();
       renderMenu();
     }
+    const VAPID_PUBLIC_KEY = 'BLHcf3kJydxitQ0-FUC9zLUIrVVfevE58TjcjNqHFCUSfvx2GX0JptQCyzopH5RSxoSmiZYAuJSP7mCURXJdHtU';
+
+    function urlBase64ToUint8Array(base64String) {
+      const padding = '='.repeat((4 - base64String.length % 4) % 4);
+      const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+      const rawData = window.atob(base64);
+      const outputArray = new Uint8Array(rawData.length);
+      for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+      }
+      return outputArray;
+    }
+
+    function isPushSupported() {
+      return 'serviceWorker' in navigator &&
+        'PushManager' in window &&
+        'Notification' in window;
+    }
+
+    function getPushButtonText() {
+      if (!isPushSupported()) return text[lang].notifyUnsupported;
+      if (Notification.permission === 'granted') return text[lang].notifyEnabled;
+      if (Notification.permission === 'denied') return text[lang].notifyDenied;
+      return text[lang].notifyEnable;
+    }
+
+    async function refreshPushButton() {
+      const btn = document.getElementById('notifyBtn');
+      if (!btn) return;
+      btn.textContent = getPushButtonText();
+      btn.disabled = !isPushSupported() || Notification.permission === 'denied';
+      btn.style.opacity = btn.disabled ? '.65' : '1';
+    }
+
+    async function enablePushNotifications() {
+      if (!isPushSupported()) {
+        alert(text[lang].notifyUnsupported);
+        return;
+      }
+
+      try {
+        const btn = document.getElementById('notifyBtn');
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = lang === 'zh' ? '开启中…' : 'Enabling…';
+        }
+
+        const registration = await navigator.serviceWorker.register('/sw.js');
+        const permission = await Notification.requestPermission();
+
+        if (permission !== 'granted') {
+          await refreshPushButton();
+          if (permission === 'denied') alert(text[lang].notifyDenied);
+          return;
+        }
+
+        let subscription = await registration.pushManager.getSubscription();
+
+        if (!subscription) {
+          subscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+          });
+        }
+
+        const json = subscription.toJSON();
+        const endpoint = json.endpoint;
+        const p256dh = json.keys && json.keys.p256dh;
+        const auth = json.keys && json.keys.auth;
+
+        if (!endpoint || !p256dh || !auth) {
+          throw new Error('INVALID_PUSH_SUBSCRIPTION');
+        }
+
+        const { error } = await supabaseClient.rpc('save_push_subscription', {
+          p_endpoint: endpoint,
+          p_p256dh: p256dh,
+          p_auth: auth
+        });
+
+        if (error) throw error;
+
+        await refreshPushButton();
+      } catch (err) {
+        console.error('开启通知失败:', err);
+        alert(text[lang].notifyError);
+        await refreshPushButton();
+      }
+    }
+
+    async function initPushNotifications() {
+      if (!isPushSupported()) {
+        await refreshPushButton();
+        return;
+      }
+
+      try {
+        await navigator.serviceWorker.register('/sw.js');
+      } catch (err) {
+        console.error('Service Worker 注册失败:', err);
+      }
+
+      await refreshPushButton();
+    }
+
     function getMealDate() {
       const now = new Date();
       const h = now.getHours();
@@ -3501,7 +3622,8 @@
       document.body.classList.add('dark');
       document.getElementById('darkBtn').textContent = '☀️';
     }
-    setLang('zh');
+    setLang(lang);
+    initPushNotifications();
     function scrollToTop() {
       window.scrollTo({top: 0, behavior: 'smooth'});
     }
