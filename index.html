@@ -1711,16 +1711,18 @@
     }
 
     .checkoutBar .submit {
-      flex: 0 0 auto;
+      flex: 0 1 auto;
       width: auto;
-      min-width: 120px;
+      min-width: 0;
       margin: 0;
       min-height: 52px;
-      padding: 16px 20px;
+      padding: 16px 18px;
       border-radius: 14px;
       background: #111;
       white-space: nowrap;
       word-break: keep-all;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .checkoutBar .submit:hover {
@@ -1916,12 +1918,15 @@
       }
 
       .checkoutBar .submit {
-        flex: 0 0 auto;
-        min-width: 112px;
+        flex: 0 1 auto;
+        min-width: 0;
+        max-width: 58%;
         min-height: 48px;
-        padding: 13px 14px;
-        font-size: 15px;
+        padding: 13px 12px;
+        font-size: 14px;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       body {
@@ -1930,6 +1935,23 @@
 
       #bottomNav {
         z-index: 100;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .checkoutBar {
+        gap: 6px;
+        padding-left: 10px;
+      }
+
+      .checkoutTotalValue {
+        font-size: 18px;
+      }
+
+      .checkoutBar .submit {
+        max-width: 55%;
+        padding-left: 10px;
+        padding-right: 10px;
       }
     }
 
