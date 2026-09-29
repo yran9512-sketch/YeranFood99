@@ -2681,7 +2681,7 @@
        * 00:00 截止
        */
       if (currentPeriod === 'breakfast') {
-        return h >= 15;
+        return h >= 15 && h < 24;
       }
 
       /*
