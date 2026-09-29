@@ -1828,6 +1828,8 @@
       document.getElementById('foodDesc').textContent =
         menu[descField];
 
+      // 午餐也是独立商品，不显示荤/素选择
+      renderOptions();
       updateTotal();
       renderStock();
     }
@@ -2206,9 +2208,18 @@
     }
 
     function currentPrice() {
-      if (!menuOptions.length) return 0;
-      const opt = menuOptions.find(function (o) {return o.id === selectedOptionId;});
-      return opt ? opt.price : 0;
+      if (!menu) return 0;
+
+      // 午餐/早餐都是独立商品时，直接使用商品价格
+      if (!menuOptions.length || selectedOptionId == null) {
+        return Number(menu.price || 0);
+      }
+
+      const opt = menuOptions.find(function (o) {
+        return o.id === selectedOptionId;
+      });
+
+      return opt ? Number(opt.price || 0) : Number(menu.price || 0);
     }
 
     function currentMealType() {
@@ -2573,7 +2584,7 @@
       btn.disabled = true;
       btn.textContent = '处理中…';
 
-      supabaseClient.rpc('create_order', {
+      supabaseClient.rpc('create_order_v2', {
         p_request_id: requestId,
         p_name: name,
         p_quantity: qty,
@@ -2581,6 +2592,7 @@
         p_meal_date: getMealDate(),
         p_meal_period: currentPeriod,
         p_payment_method: 'online',
+        p_product_id: menu.id,
         p_option_id: selectedOptionId
       }).then(function (res) {
         btn.disabled = false;
@@ -2640,7 +2652,7 @@
       btn.textContent = '处理中…';
 
       const requestId = crypto.randomUUID();
-      supabaseClient.rpc('create_order', {
+      supabaseClient.rpc('create_order_v2', {
         p_request_id: requestId,
         p_name: name,
         p_quantity: qty,
@@ -2648,6 +2660,7 @@
         p_meal_date: getMealDate(),
         p_meal_period: currentPeriod,
         p_payment_method: 'cash',
+        p_product_id: menu.id,
         p_option_id: selectedOptionId
       }).then(function (res) {
         btn.disabled = false;
