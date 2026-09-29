@@ -1745,7 +1745,7 @@
             : '午餐';
 
         const paymentMethod =
-          o.payment_metho === 'online'
+          o.payment_method === 'online'
             ? '线上付款'
             : '现金';
 
@@ -1956,9 +1956,9 @@
         closeImg();
       }
     });
-    async function delOrder(id) {
+    async function deleteOrder(id) {
       if (!confirm('确认删除？不可恢复。')) return;
-      const res = await supabaseClient.rpc('delete_order', {p_order_id: id});
+      const res = await supabaseClient.rpc('delete_order', {p_order_id: Number(id)});
       if (res.error) {
         console.error(res.error);
         alert('操作失败，请稍后重试。');
