@@ -1105,6 +1105,40 @@
       <div class="modal-form-actions"><button type="button" class="small" onclick="closeOptionModal()">取消</button><button type="button" class="small green" id="optionSaveBtn" onclick="addOption()">保存选项</button></div>
     </div>
   </div>
+  <div class="modal-form" id="productEditModal" onclick="if(event.target===this)closeProductEditModal()">
+    <div class="modal-form-card">
+      <h3>编辑菜单商品</h3>
+      <div class="modal-grid">
+        <div><label>中文名称 *</label><input id="editProductZh" placeholder="例如：包子"></div>
+        <div><label>英文名称</label><input id="editProductEn" placeholder="例如：Steamed Bun"></div>
+        <div><label>中文描述</label><textarea id="editProductDescZh"></textarea></div>
+        <div><label>英文描述</label><textarea id="editProductDescEn"></textarea></div>
+        <div><label>价格（RM）</label><input id="editProductPrice" type="number" min="0" step="0.01"></div>
+        <div><label>最大份数</label><input id="editProductMax" type="number" min="1" step="1"></div>
+        <div><label>排序</label><input id="editProductSort" type="number" min="0" step="1"></div>
+        <div style="display:flex;align-items:center;gap:8px;padding-top:24px"><input id="editProductActive" type="checkbox" style="width:18px;height:18px;margin:0"><label for="editProductActive" style="margin:0">启用商品</label></div>
+      </div>
+      <div class="modal-form-actions"><button type="button" class="small" onclick="closeProductEditModal()">取消</button><button type="button" class="small green" id="productEditSaveBtn" onclick="saveProductEdit()">保存修改</button></div>
+    </div>
+  </div>
+
+  <div class="modal-form" id="optionEditModal" onclick="if(event.target===this)closeOptionEditModal()">
+    <div class="modal-form-card">
+      <h3>编辑商品选项</h3>
+      <div class="modal-grid">
+        <div><label>中文名称 *</label><input id="editOptionZh" placeholder="例如：牛肉"></div>
+        <div><label>英文名称</label><input id="editOptionEn" placeholder="例如：Beef"></div>
+        <div><label>中文描述</label><textarea id="editOptionDescZh"></textarea></div>
+        <div><label>英文描述</label><textarea id="editOptionDescEn"></textarea></div>
+        <div><label>价格（RM）</label><input id="editOptionPrice" type="number" min="0" step="0.01"></div>
+        <div><label>最大份数</label><input id="editOptionMax" type="number" min="1" step="1"></div>
+        <div><label>排序</label><input id="editOptionSort" type="number" min="0" step="1"></div>
+        <div style="display:flex;align-items:center;gap:8px;padding-top:24px"><input id="editOptionEnabled" type="checkbox" style="width:18px;height:18px;margin:0"><label for="editOptionEnabled" style="margin:0">启用选项</label></div>
+      </div>
+      <div class="modal-form-actions"><button type="button" class="small" onclick="closeOptionEditModal()">取消</button><button type="button" class="small green" id="optionEditSaveBtn" onclick="saveOptionEdit()">保存修改</button></div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL = 'https://kbzspuxrwsuxoyozmvjb.supabase.co';
@@ -1344,15 +1378,18 @@
           } else {
             let html = '<div style="display:grid;gap:10px">';
             rows.forEach(function(p) {
-              html += '<div style="border:1px solid #eee;border-radius:12px;padding:12px">' +
-                '<div style="display:grid;grid-template-columns:1.2fr 1fr 100px 100px auto;gap:8px;align-items:center">' +
-                '<input value="' + escapeHtml(p.name_zh || '') + '" onchange="updateProduct(' + p.id + ',\'name_zh\',this.value)" placeholder="中文名">' +
-                '<input value="' + escapeHtml(p.name_en || '') + '" onchange="updateProduct(' + p.id + ',\'name_en\',this.value)" placeholder="英文名">' +
-                '<input type="number" step="0.01" value="' + Number(p.price || 0) + '" onchange="updateProduct(' + p.id + ',\'price\',this.value)" placeholder="价格">' +
-                '<input type="number" value="' + Number(p.max_portions || 15) + '" onchange="updateProduct(' + p.id + ',\'max_portions\',this.value)" placeholder="库存">' +
-                '<label style="margin:0;display:flex;align-items:center;gap:5px"><input type="checkbox" ' + (p.active ? 'checked' : '') + ' onchange="updateProduct(' + p.id + ',\'active\',this.checked)">启用</label>' +
+              html += '<div style="border:1px solid #eee;border-radius:12px;padding:14px">' +
+                '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
+                '<div style="min-width:0;flex:1">' +
+                '<div style="font-size:16px;font-weight:800">' + escapeHtml(p.name_zh || '未命名商品') + '</div>' +
+                '<div style="font-size:13px;color:#777;margin-top:3px">' + escapeHtml(p.name_en || '') + '</div>' +
+                '<div style="font-size:13px;color:#666;margin-top:8px">RM ' + Number(p.price || 0).toFixed(2) +
+                ' · 最大 ' + Number(p.max_portions || 0) + ' 份 · 排序 ' + Number(p.sort || 0) + '</div>' +
+                '<div style="font-size:12px;color:' + (p.active ? '#2e7d32' : '#c0392b') + ';margin-top:4px">' +
+                (p.active ? '已启用' : '已停用') + '</div>' +
                 '</div>' +
-                '<div style="font-size:12px;color:#888;margin-top:7px">排序 ' + Number(p.sort || 0) + ' · ID ' + p.id + '</div>' +
+                '<button class="small" onclick="openProductEditModal(' + p.id + ')">编辑商品</button>' +
+                '</div>' +
                 '</div>';
             });
             html += '</div>';
@@ -1377,22 +1414,91 @@
         });
     }
 
-    function updateProduct(id, field, value) {
-      const data = {};
-      if (field === 'price') data[field] = Math.max(0, parseFloat(value) || 0);
-      else if (field === 'max_portions' || field === 'sort') data[field] = Math.max(0, parseInt(value, 10) || 0);
-      else if (field === 'active') data[field] = !!value;
-      else data[field] = String(value || '').trim();
+    let editingProductId = null;
 
-      supabaseClient.from('menu_products').update(data).eq('id', id).then(function(res) {
-        if (res.error) {
-          console.error(res.error);
-          alert('商品保存失败，请稍后重试。');
-          return;
-        }
-        loadProducts();
-        if (Number(selectedOptionProductId) === Number(id)) loadOptions();
-      });
+    function openProductEditModal(id) {
+      editingProductId = Number(id) || null;
+      if (!editingProductId) return;
+
+      supabaseClient.from('menu_products')
+        .select('*')
+        .eq('id', editingProductId)
+        .maybeSingle()
+        .then(function(res) {
+          if (res.error || !res.data) {
+            console.error(res.error);
+            alert('无法读取商品资料，请稍后重试。');
+            return;
+          }
+
+          const p = res.data;
+          document.getElementById('editProductZh').value = p.name_zh || '';
+          document.getElementById('editProductEn').value = p.name_en || '';
+          document.getElementById('editProductDescZh').value = p.desc_zh || '';
+          document.getElementById('editProductDescEn').value = p.desc_en || '';
+          document.getElementById('editProductPrice').value = Number(p.price || 0);
+          document.getElementById('editProductMax').value = Number(p.max_portions || 15);
+          document.getElementById('editProductSort').value = Number(p.sort || 0);
+          document.getElementById('editProductActive').checked = !!p.active;
+
+          document.getElementById('productEditModal').classList.add('open');
+          setTimeout(function () { document.getElementById('editProductZh').focus(); }, 50);
+        });
+    }
+
+    function closeProductEditModal() {
+      const modal = document.getElementById('productEditModal');
+      if (modal) modal.classList.remove('open');
+      editingProductId = null;
+    }
+
+    async function saveProductEdit() {
+      if (!editingProductId) return;
+
+      const zh = document.getElementById('editProductZh').value.trim();
+      const en = document.getElementById('editProductEn').value.trim() || zh;
+      const descZh = document.getElementById('editProductDescZh').value.trim();
+      const descEn = document.getElementById('editProductDescEn').value.trim();
+      const price = Math.max(0, parseFloat(document.getElementById('editProductPrice').value) || 0);
+      const maxPortions = Math.max(1, parseInt(document.getElementById('editProductMax').value, 10) || 15);
+      const sort = Math.max(0, parseInt(document.getElementById('editProductSort').value, 10) || 0);
+      const active = document.getElementById('editProductActive').checked;
+      const saveBtn = document.getElementById('productEditSaveBtn');
+
+      if (!zh) {
+        alert('请输入商品中文名。');
+        document.getElementById('editProductZh').focus();
+        return;
+      }
+
+      setButtonBusy(saveBtn, true, '保存中…', '保存修改');
+
+      try {
+        const res = await supabaseClient.from('menu_products')
+          .update({
+            name_zh: zh,
+            name_en: en,
+            desc_zh: descZh,
+            desc_en: descEn,
+            price: price,
+            max_portions: maxPortions,
+            sort: sort,
+            active: active
+          })
+          .eq('id', editingProductId);
+
+        if (res.error) throw res.error;
+
+        const editedId = editingProductId;
+        closeProductEditModal();
+        await loadProducts();
+        if (Number(selectedOptionProductId) === Number(editedId)) await loadOptions();
+      } catch (err) {
+        safeErrorMessage(err, '商品保存失败，请稍后重试。');
+        alert('商品保存失败，请稍后重试。');
+      } finally {
+        setButtonBusy(saveBtn, false, '保存中…', '保存修改');
+      }
     }
 
     function closeProductModal() {
@@ -1527,18 +1633,16 @@
             return;
           }
 
-          let tableHtml = '<table><thead><tr><th>排序</th><th>中文</th><th>英文</th><th>中文描述</th><th>英文描述</th><th>价格</th><th>最大份数</th><th>启用</th><th>操作</th></tr></thead><tbody>';
+          let tableHtml = '<table><thead><tr><th>排序</th><th>中文</th><th>英文</th><th>价格</th><th>最大份数</th><th>启用</th><th>操作</th></tr></thead><tbody>';
           opts.forEach(function(o) {
             tableHtml += '<tr>' +
-              '<td><input type="number" value="' + Number(o.sort || 0) + '" style="width:60px;padding:4px" onchange="updateOption(' + o.id + ',\'sort\',this.value)"></td>' +
-              '<td><input value="' + escapeHtml(o.label_zh || '') + '" style="width:100px;padding:4px" onchange="updateOption(' + o.id + ',\'label_zh\',this.value)"></td>' +
-              '<td><input value="' + escapeHtml(o.label_en || '') + '" style="width:100px;padding:4px" onchange="updateOption(' + o.id + ',\'label_en\',this.value)"></td>' +
-              '<td><input value="' + escapeHtml(o.desc_zh || '') + '" style="width:140px;padding:4px" onchange="updateOption(' + o.id + ',\'desc_zh\',this.value)"></td>' +
-              '<td><input value="' + escapeHtml(o.desc_en || '') + '" style="width:140px;padding:4px" onchange="updateOption(' + o.id + ',\'desc_en\',this.value)"></td>' +
-              '<td><input type="number" step="0.01" value="' + Number(o.price || 0) + '" style="width:80px;padding:4px" onchange="updateOption(' + o.id + ',\'price\',this.value)"></td>' +
-              '<td><input type="number" value="' + Number(o.max_portions || 15) + '" style="width:80px;padding:4px" onchange="updateOption(' + o.id + ',\'max_portions\',this.value)"></td>' +
-              '<td><input type="checkbox" ' + (o.enabled ? 'checked' : '') + ' onchange="updateOption(' + o.id + ',\'enabled\',this.checked)"></td>' +
-              '<td><button class="small red" onclick="delOption(' + o.id + ')">删</button></td>' +
+              '<td>' + Number(o.sort || 0) + '</td>' +
+              '<td><strong>' + escapeHtml(o.label_zh || '') + '</strong><div style="font-size:12px;color:#888">' + escapeHtml(o.desc_zh || '') + '</div></td>' +
+              '<td>' + escapeHtml(o.label_en || '') + '<div style="font-size:12px;color:#888">' + escapeHtml(o.desc_en || '') + '</div></td>' +
+              '<td>RM ' + Number(o.price || 0).toFixed(2) + '</td>' +
+              '<td>' + Number(o.max_portions || 0) + '</td>' +
+              '<td>' + (o.enabled ? '<span style="color:#2e7d32">已启用</span>' : '<span style="color:#c0392b">已停用</span>') + '</td>' +
+              '<td><button class="small" onclick="openOptionEditModal(' + o.id + ')">编辑</button> <button class="small red" onclick="delOption(' + o.id + ')">删</button></td>' +
               '</tr>';
           });
           tableHtml += '</tbody></table>';
@@ -1546,17 +1650,89 @@
         });
     }
 
-    function updateOption(id, field, value) {
-      const data = {};
-      if (field === 'price') data[field] = Math.max(0, parseFloat(value) || 0);
-      else if (field === 'sort' || field === 'max_portions') data[field] = Math.max(0, parseInt(value,10) || 0);
-      else if (field === 'enabled') data[field] = !!value;
-      else data[field] = String(value || '').trim();
+    let editingOptionId = null;
 
-      supabaseClient.from('product_options').update(data).eq('id', id).then(function(res) {
-        if (res.error) { console.error(res.error); alert('操作失败，请稍后重试。'); return; }
-        loadOptions();
-      });
+    function openOptionEditModal(id) {
+      editingOptionId = Number(id) || null;
+      if (!editingOptionId) return;
+
+      supabaseClient.from('product_options')
+        .select('*')
+        .eq('id', editingOptionId)
+        .maybeSingle()
+        .then(function(res) {
+          if (res.error || !res.data) {
+            console.error(res.error);
+            alert('无法读取选项资料，请稍后重试。');
+            return;
+          }
+
+          const o = res.data;
+          document.getElementById('editOptionZh').value = o.label_zh || '';
+          document.getElementById('editOptionEn').value = o.label_en || '';
+          document.getElementById('editOptionDescZh').value = o.desc_zh || '';
+          document.getElementById('editOptionDescEn').value = o.desc_en || '';
+          document.getElementById('editOptionPrice').value = Number(o.price || 0);
+          document.getElementById('editOptionMax').value = Number(o.max_portions || 15);
+          document.getElementById('editOptionSort').value = Number(o.sort || 0);
+          document.getElementById('editOptionEnabled').checked = !!o.enabled;
+
+          document.getElementById('optionEditModal').classList.add('open');
+          setTimeout(function () { document.getElementById('editOptionZh').focus(); }, 50);
+        });
+    }
+
+    function closeOptionEditModal() {
+      const modal = document.getElementById('optionEditModal');
+      if (modal) modal.classList.remove('open');
+      editingOptionId = null;
+    }
+
+    async function saveOptionEdit() {
+      if (!editingOptionId) return;
+
+      const zh = document.getElementById('editOptionZh').value.trim();
+      const en = document.getElementById('editOptionEn').value.trim() || zh;
+      const descZh = document.getElementById('editOptionDescZh').value.trim();
+      const descEn = document.getElementById('editOptionDescEn').value.trim();
+      const price = Math.max(0, parseFloat(document.getElementById('editOptionPrice').value) || 0);
+      const maxPortions = Math.max(1, parseInt(document.getElementById('editOptionMax').value, 10) || 15);
+      const sort = Math.max(0, parseInt(document.getElementById('editOptionSort').value, 10) || 0);
+      const enabled = document.getElementById('editOptionEnabled').checked;
+      const saveBtn = document.getElementById('optionEditSaveBtn');
+
+      if (!zh) {
+        alert('请输入选项中文名。');
+        document.getElementById('editOptionZh').focus();
+        return;
+      }
+
+      setButtonBusy(saveBtn, true, '保存中…', '保存修改');
+
+      try {
+        const res = await supabaseClient.from('product_options')
+          .update({
+            label_zh: zh,
+            label_en: en,
+            desc_zh: descZh,
+            desc_en: descEn,
+            price: price,
+            max_portions: maxPortions,
+            sort: sort,
+            enabled: enabled
+          })
+          .eq('id', editingOptionId);
+
+        if (res.error) throw res.error;
+
+        closeOptionEditModal();
+        await loadOptions();
+      } catch (err) {
+        safeErrorMessage(err, '选项保存失败，请稍后重试。');
+        alert('选项保存失败，请稍后重试。');
+      } finally {
+        setButtonBusy(saveBtn, false, '保存中…', '保存修改');
+      }
     }
 
     function closeOptionModal() {
