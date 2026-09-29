@@ -1396,20 +1396,10 @@
             box.innerHTML = html;
           }
 
-          const select = document.getElementById('optionProductSelect');
-          if (select) {
-            const previous = String(selectedOptionProductId || '');
-            select.innerHTML = rows.map(function(p) {
-              return '<option value="' + p.id + '">' + escapeHtml((p.name_zh || p.name_en || '未命名商品')) + '</option>';
-            }).join('');
-            if (rows.some(function(p){return String(p.id) === previous;})) {
-              select.value = previous;
-            } else if (rows.length) {
-              selectedOptionProductId = rows[0].id;
-              select.value = String(rows[0].id);
-            } else {
-              selectedOptionProductId = null;
-            }
+          // 商品列表只跟随“菜单商品”自己的早餐/午餐标签。
+          // “商品选项设置”有独立的 currentOptType，不能共用 currentMenuType。
+          if (currentOptType === currentMenuType) {
+            refreshOptionProductSelect();
           }
         });
     }
@@ -1573,6 +1563,52 @@
       }
     }
 
+    function refreshOptionProductSelect() {
+      const select = document.getElementById('optionProductSelect');
+      if (!select) return;
+
+      const previous = String(selectedOptionProductId || '');
+
+      supabaseClient.from('menu_products')
+        .select('id,name_zh,name_en')
+        .eq('menu_type', currentOptType)
+        .order('sort', {ascending:true})
+        .order('id', {ascending:true})
+        .then(function(res) {
+          if (res.error) {
+            console.error(res.error);
+            select.innerHTML = '<option value="">加载失败</option>';
+            selectedOptionProductId = null;
+            document.getElementById('optionsBox').innerHTML =
+              '<div class="noorders" style="color:#c0392b;">商品加载失败，请稍后重试。</div>';
+            return;
+          }
+
+          const rows = res.data || [];
+          select.innerHTML = rows.map(function(p) {
+            return '<option value="' + p.id + '">' +
+              escapeHtml((p.name_zh || p.name_en || '未命名商品')) +
+              '</option>';
+          }).join('');
+
+          if (rows.some(function(p) { return String(p.id) === previous; })) {
+            selectedOptionProductId = Number(previous);
+            select.value = previous;
+          } else if (rows.length) {
+            selectedOptionProductId = Number(rows[0].id);
+            select.value = String(rows[0].id);
+          } else {
+            selectedOptionProductId = null;
+            document.getElementById('optionsBox').innerHTML =
+              '<div class="noorders">这个时段暂无商品，请先添加商品。</div>';
+          }
+
+          if (rows.length) {
+            loadOptions();
+          }
+        });
+    }
+
     function selectOptionProduct(id) {
       selectedOptionProductId = Number(id) || null;
       loadOptions();
@@ -1596,8 +1632,7 @@
       document.getElementById('btnBreakfastOpt').style.background = type === 'breakfast' ? '#111' : '#eee';
       document.getElementById('btnBreakfastOpt').style.color = type === 'breakfast' ? '#fff' : '#333';
       selectedOptionProductId = null;
-      loadProducts();
-      loadOptions();
+      refreshOptionProductSelect();
     }
 
     function loadOptions() {
