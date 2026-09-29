@@ -2660,6 +2660,7 @@
       if (notifyBtn) notifyBtn.textContent = getPushButtonText();
       renderOptions();
       renderMenu();
+      syncPushLanguage();
     }
     const VAPID_PUBLIC_KEY = 'BLHcf3kJydxitQ0-FUC9zLUIrVVfevE58TjcjNqHFCUSfvx2GX0JptQCyzopH5RSxoSmiZYAuJSP7mCURXJdHtU';
 
@@ -2738,7 +2739,8 @@
         const { error } = await supabaseClient.rpc('save_push_subscription', {
           p_endpoint: endpoint,
           p_p256dh: p256dh,
-          p_auth: auth
+          p_auth: auth,
+          p_language: lang
         });
 
         if (error) throw error;
@@ -2764,6 +2766,33 @@
       }
 
       await refreshPushButton();
+    }
+
+    async function syncPushLanguage() {
+      if (!isPushSupported() || Notification.permission !== 'granted') return;
+
+      try {
+        const registration = await navigator.serviceWorker.ready;
+        const subscription = await registration.pushManager.getSubscription();
+        if (!subscription) return;
+
+        const json = subscription.toJSON();
+        const endpoint = json.endpoint;
+        const p256dh = json.keys && json.keys.p256dh;
+        const auth = json.keys && json.keys.auth;
+        if (!endpoint || !p256dh || !auth) return;
+
+        const { error } = await supabaseClient.rpc('save_push_subscription', {
+          p_endpoint: endpoint,
+          p_p256dh: p256dh,
+          p_auth: auth,
+          p_language: lang
+        });
+
+        if (error) console.error('同步通知语言失败:', error);
+      } catch (err) {
+        console.error('同步通知语言异常:', err);
+      }
     }
 
     function getMealDate() {
