@@ -1671,32 +1671,19 @@
             mobileHtml;
         });
     }
-    async function updateOption(id, field, value) {
-      let sendValue = String(value);
-      if (field === 'enabled') {
-        sendValue = value ? 'true' : 'false';
-      } else if (field === 'price' || field === 'sort' || field === 'max_portions') {
-        sendValue = String(parseInt(value) || 0);
+    function updateOption(id, field, value) {
+      const data = {};
+      if (field === 'price' || field === 'sort' || field === 'max_portions') {
+        data[field] = parseInt(value) || 0;
+      } else if (field === 'enabled') {
+        data[field] = value;
+      } else {
+        data[field] = value;
       }
-
-      const { data, error } = await supabaseClient.rpc('update_product_option', {
-        p_option_id: Number(id),
-        p_field: field,
-        p_value: sendValue
+      supabaseClient.from('product_options').update(data).eq('id', id).then(function (res) {
+        if (res.error) {console.error(res.error); alert('操作失败，请稍后重试。'); return;}
+        loadOptions();
       });
-
-      if (error) {
-        console.error('更新选项失败:', error);
-        alert('操作失败，请稍后重试。');
-        return;
-      }
-
-      if (data !== true) {
-        alert('选项不存在或更新失败。');
-        return;
-      }
-
-      await loadOptions();
     }
 
     function addOption() {
