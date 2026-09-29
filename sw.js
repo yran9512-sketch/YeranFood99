@@ -11,7 +11,6 @@ self.addEventListener('push', function (event) {
     body: data.body || '',
     tag: data.tag || 'ordering-open',
     data: { url: data.url || '/' },
-    icon: '/favicon.ico'
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
