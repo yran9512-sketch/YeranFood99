@@ -1680,7 +1680,7 @@
       } else {
         data[field] = value;
       }
-      supabaseClient.from('menu_options').update(data).eq('id', id).then(function (res) {
+      supabaseClient.from('product_options').update(data).eq('id', id).then(function (res) {
         if (res.error) {console.error(res.error); alert('操作失败，请稍后重试。'); return;}
         loadOptions();
       });
