@@ -256,7 +256,12 @@
       showAdmin();
     }
 
+    let adminViewReady = false;
+
     function showAdmin() {
+      if (adminViewReady) return;
+      adminViewReady = true;
+
       document.getElementById('adminLogin').style.display = 'none';
       document.getElementById('main').style.display = 'block';
       loadOrders();
@@ -404,7 +409,7 @@
         '</tr></thead><tbody>';
 
       orders.forEach(function (o) {
-        const mealTag = '<span class="tag" style="background:#e3f2fd;color:#1565c0">' + (o.meal_type || '—') + '</span>';
+        const mealTag = '<span class="tag" style="background:#e3f2fd;color:#1565c0">' + escapeHtml(o.meal_type || '—') + '</span>';
         html += '<tr>' +
           '<td>' + fmtTime(o.created_at) + '</td>' +
           '<td>' + escapeHtml(o.order_code || '') + '</td>' +
