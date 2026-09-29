@@ -1102,6 +1102,7 @@
     let dateFilter = 'today';
     let periodFilter = 'all';
     let paymentFilter = 'all';
+    let ordersLoadSeq = 0;
 
     async function login() {
       const email = document.getElementById('email').value.trim();
@@ -1538,6 +1539,7 @@
     }
 
     async function loadOrders() {
+      const loadSeq = ++ordersLoadSeq;
       const box = document.getElementById('ordersBox');
 
       box.innerHTML =
@@ -1568,6 +1570,8 @@
       }
 
       const {data, error} = await q;
+
+      if (loadSeq !== ordersLoadSeq) return;
 
       if (error) {
         console.error('加载订单失败:', error);
