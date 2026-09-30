@@ -182,8 +182,31 @@
       .container { padding: 0 10px; margin-top: 12px; }
       .card { padding: 14px; border-radius: 12px; }
       #main > .card { margin-top: 12px; }
-      .period-switch { display:flex; gap:8px; }
-      .period-switch button { flex:1; margin-left:0 !important; }
+      .kitchen-top-actions {
+        float:none !important;
+        display:grid !important;
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+        width:100%;
+        margin:0 0 12px !important;
+      }
+      .kitchen-top-actions button {
+        width:100%;
+        min-width:0;
+        padding:10px 8px !important;
+        font-size:14px !important;
+      }
+      .period-switch {
+        display:flex;
+        gap:8px;
+        width:100%;
+      }
+      .period-switch button {
+        flex:1;
+        margin-left:0 !important;
+        width:0;
+        padding:12px 8px !important;
+      }
       .summary { gap:8px; }
       .summary>div { min-width: calc(50% - 4px); padding:12px 8px; }
       .summary .num { font-size:24px; }
@@ -233,7 +256,7 @@
 
     <!-- 订单页 -->
     <section id="main" style="display:none">
-      <div style="float:right;display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;justify-content:flex-end"><button onclick="enableKitchenPush()" id="kitchenPushBtn" style="margin:0">🔔 开启新订单提醒</button><button onclick="adminLogout()" style="margin:0">退出登录</button></div>
+      <div class="kitchen-top-actions" style="float:right;display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;justify-content:flex-end"><button onclick="enableKitchenPush()" id="kitchenPushBtn" style="margin:0">🔔 开启新订单提醒</button><button onclick="adminLogout()" style="margin:0">退出登录</button></div>
       <div class="period-switch" style="margin-bottom:16px">
         <button id="btnLunch" class="primary" onclick="switchPeriod('lunch')">午餐</button>
         <button id="btnBreakfast" onclick="switchPeriod('breakfast')"
