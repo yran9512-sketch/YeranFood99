@@ -3332,11 +3332,13 @@
               console.log('当前商品:', menu);
               console.log('当前选择项:', menuOptions);
 
-              loadOrdersToday();
+              loadOrdersToday(loadSeq);
             });
         });
     }
-    function loadOrdersToday() {
+    function loadOrdersToday(loadSeq) {
+
+      if (loadSeq != null && loadSeq !== menuLoadSeq) return;
 
       const targetDate = getMealDate();
 
@@ -3390,6 +3392,8 @@
         })
       )
         .then(function () {
+
+          if (loadSeq != null && loadSeq !== menuLoadSeq) return;
 
           console.log('商品库存加载完成:', products);
 
