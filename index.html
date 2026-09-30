@@ -2237,7 +2237,8 @@
 
     let qty = 1;
     let lang = localStorage.getItem('lang') || 'zh';
-    let currentPeriod = 'lunch';   // 当前点餐时段
+    let currentPeriod = 'lunch';
+    let menuLoadSeq = 0;   // 当前点餐时段
     let menu = null;
     let products = [];
     let selectedProductId = null;
@@ -3107,6 +3108,7 @@
       return currentPeriod === 'breakfast';
     }
     function loadMenu() {
+      const loadSeq = ++menuLoadSeq;
       console.log(
         '开始加载菜单，currentPeriod =',
         currentPeriod,
@@ -3236,6 +3238,7 @@
         .order('id', {ascending: true})
         .then(function (res) {
 
+          if (loadSeq !== menuLoadSeq) return;
           console.log('menu_products 查询结果:', res.data, res.error);
           if (res.error) {
 
@@ -3287,6 +3290,8 @@
             .order('id', {ascending: true})
 
             .then(function (optionRes) {
+
+              if (loadSeq !== menuLoadSeq) return;
 
               if (optionRes.error) {
 
