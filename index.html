@@ -3441,14 +3441,13 @@
       btn.disabled = true;
       btn.textContent = '处理中…';
 
-      supabaseClient.rpc('create_order_v2', {
+      supabaseClient.rpc('create_online_order_pending', {
         p_request_id: requestId,
         p_name: name,
         p_quantity: qty,
         p_note: note,
         p_meal_date: getMealDate(),
         p_meal_period: currentPeriod,
-        p_payment_method: 'online',
         p_product_id: menu.id,
         p_option_id: selectedOptionId
       }).then(function (res) {
