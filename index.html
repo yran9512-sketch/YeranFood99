@@ -2841,7 +2841,7 @@
        * 15:00 后接受第二天午餐
        */
       if (currentPeriod === 'lunch') {
-        return true;
+        return h >= 15 || h < 10;
       }
 
       return false;
