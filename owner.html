@@ -1669,7 +1669,11 @@
           }
 
           let tableHtml = '<table><thead><tr><th>排序</th><th>中文</th><th>英文</th><th>价格</th><th>最大份数</th><th>启用</th><th>操作</th></tr></thead><tbody>';
+          let mobileHtml = '<div class="options-mobile">';
           opts.forEach(function(o) {
+            const statusText = o.enabled ? '已启用' : '已停用';
+            const statusClass = o.enabled ? 'on' : 'off';
+
             tableHtml += '<tr>' +
               '<td>' + Number(o.sort || 0) + '</td>' +
               '<td><strong>' + escapeHtml(o.label_zh || '') + '</strong><div style="font-size:12px;color:#888">' + escapeHtml(o.desc_zh || '') + '</div></td>' +
@@ -1679,9 +1683,29 @@
               '<td>' + (o.enabled ? '<span style="color:#2e7d32">已启用</span>' : '<span style="color:#c0392b">已停用</span>') + '</td>' +
               '<td><button class="small" onclick="openOptionEditModal(' + o.id + ')">编辑</button> <button class="small red" onclick="delOption(' + o.id + ')">删</button></td>' +
               '</tr>';
+
+            mobileHtml += '<div class="option-card">' +
+              '<div class="option-card-head">' +
+                '<div class="option-card-title">' + escapeHtml(o.label_zh || o.label_en || '未命名选项') + '</div>' +
+                '<div class="option-card-status ' + statusClass + '">' + statusText + '</div>' +
+              '</div>' +
+              '<div class="option-row">' +
+                '<div class="option-field"><label>英文</label><div>' + escapeHtml(o.label_en || '—') + '</div></div>' +
+                '<div class="option-field"><label>价格</label><div>RM ' + Number(o.price || 0).toFixed(2) + '</div></div>' +
+                '<div class="option-field"><label>最大份数</label><div>' + Number(o.max_portions || 0) + '</div></div>' +
+                '<div class="option-field"><label>排序</label><div>' + Number(o.sort || 0) + '</div></div>' +
+              '</div>' +
+              (o.desc_zh ? '<div class="option-field"><label>中文说明</label><div>' + escapeHtml(o.desc_zh) + '</div></div>' : '') +
+              (o.desc_en ? '<div class="option-field"><label>英文说明</label><div>' + escapeHtml(o.desc_en) + '</div></div>' : '') +
+              '<div class="option-toggle-row">' +
+                '<button class="small" onclick="openOptionEditModal(' + o.id + ')">编辑选项</button>' +
+                '<button class="small red option-delete" onclick="delOption(' + o.id + ')">删除</button>' +
+              '</div>' +
+            '</div>';
           });
           tableHtml += '</tbody></table>';
-          box.innerHTML = tableHtml;
+          mobileHtml += '</div>';
+          box.innerHTML = tableHtml + mobileHtml;
         });
     }
 
