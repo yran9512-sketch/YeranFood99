@@ -261,6 +261,8 @@
         <button id="btnLunch" class="primary" onclick="switchPeriod('lunch')">午餐</button>
         <button id="btnBreakfast" onclick="switchPeriod('breakfast')"
           style="margin-left:8px;padding:12px 24px;border:0;border-radius:10px;background:#eee;color:#333;font-size:16px;font-weight:700;cursor:pointer">早餐</button>
+        <button id="btnDrink" onclick="switchPeriod('drink')"
+          style="margin-left:8px;padding:12px 24px;border:0;border-radius:10px;background:#eee;color:#333;font-size:16px;font-weight:700;cursor:pointer">饮料</button>
       </div>
       <div class="summary" id="summaryBox"></div>
 
@@ -458,6 +460,9 @@
       document.getElementById('btnBreakfast').className = p === 'breakfast' ? 'primary' : '';
       document.getElementById('btnBreakfast').style.background = p === 'breakfast' ? '#111' : '#eee';
       document.getElementById('btnBreakfast').style.color = p === 'breakfast' ? '#fff' : '#333';
+      document.getElementById('btnDrink').className = p === 'drink' ? 'primary' : '';
+      document.getElementById('btnDrink').style.background = p === 'drink' ? '#111' : '#eee';
+      document.getElementById('btnDrink').style.color = p === 'drink' ? '#fff' : '#333';
       loadOrders();
     }
     function fmtTime(t) {
