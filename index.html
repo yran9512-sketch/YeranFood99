@@ -2826,6 +2826,11 @@
       const now = new Date();
       const h = now.getHours();
 
+      // 周五 10:00 到周日 15:00 全部暂停点餐。
+      if (isWeekendBreak()) {
+        return false;
+      }
+
       /*
        * 早餐：
        * 15:00 开始接受第二天早餐订单
@@ -2837,8 +2842,8 @@
 
       /*
        * 午餐：
-       * 00:00 - 14:59 接受今天午餐
-       * 15:00 后接受第二天午餐
+       * 15:00 - 23:59 接受第二天午餐
+       * 00:00 - 09:59 接受今天午餐
        */
       if (currentPeriod === 'lunch') {
         return h >= 15 || h < 10;
@@ -2991,11 +2996,15 @@
 
     function isWeekendBreak() {
       const now = new Date();
+      const day = now.getDay();
       const h = now.getHours();
-      let mealDay = new Date(now);
-      if (h >= 15) {mealDay.setDate(mealDay.getDate() + 1);}
-      const n = mealDay.getDay();
-      return n === 0 || n === 6;
+
+      // 周五 10:00 到周日 15:00 全部暂停点餐。
+      if (day === 5 && h >= 10) return true;
+      if (day === 6) return true;
+      if (day === 0 && h < 15) return true;
+
+      return false;
     }
     let menuOptions = [];
     let selectedOptionId = null;
