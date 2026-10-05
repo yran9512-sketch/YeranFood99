@@ -635,19 +635,33 @@
       padding: 12px;
       border: 1.5px solid #e5e5e5;
       background: #fff;
+      color: #333;
       border-radius: 12px;
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      transition: all .15s;
+      transition: background .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease;
       font-family: inherit;
-      margin: 0 4px
+      margin: 0 4px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .periodBtn:hover {
+      border-color: #bbb;
+      transform: translateY(-1px);
     }
 
     .periodBtn.active {
       background: #111;
       color: #fff;
-      border-color: #111
+      border-color: #111;
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .16);
+      transform: translateY(-1px);
+    }
+
+    .periodBtn:active {
+      transform: scale(.98);
     }
 
     body.dark #feedbackListModal>div {
