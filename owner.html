@@ -983,6 +983,8 @@
           <button id="btnLunchMenu" class="primary" onclick="switchMenuType('lunch')">午餐菜单</button>
           <button id="btnBreakfastMenu" onclick="switchMenuType('breakfast')"
             style="margin-left:8px;padding:12px 24px;border:0;border-radius:10px;background:#eee;color:#333;font-size:16px;font-weight:700;cursor:pointer">早餐菜单</button>
+          <button id="btnDrinkMenu" onclick="switchMenuType('drink')"
+            style="margin-left:8px;padding:12px 24px;border:0;border-radius:10px;background:#eee;color:#333;font-size:16px;font-weight:700;cursor:pointer">饮料菜单</button>
         </div>
         <h2>菜单商品</h2>
         <div id="productsBox"><div class="noorders">加载中…</div></div>
@@ -994,6 +996,8 @@
           <button id="btnLunchOpt" class="primary" onclick="switchOptType('lunch')">午餐选项</button>
           <button id="btnBreakfastOpt" onclick="switchOptType('breakfast')"
             style="margin-left:8px;padding:12px 24px;border:0;border-radius:10px;background:#eee;color:#333;font-size:16px;font-weight:700;cursor:pointer">早餐选项</button>
+          <button id="btnDrinkOpt" onclick="switchOptType('drink')"
+            style="margin-left:8px;padding:12px 24px;border:0;border-radius:10px;background:#eee;color:#333;font-size:16px;font-weight:700;cursor:pointer">饮料选项</button>
         </div>
         <h2>商品选项设置</h2>
         <label style="font-size:13px;font-weight:600">先选择商品</label>
@@ -1620,6 +1624,9 @@
       document.getElementById('btnBreakfastMenu').className = type === 'breakfast' ? 'primary' : '';
       document.getElementById('btnBreakfastMenu').style.background = type === 'breakfast' ? '#111' : '#eee';
       document.getElementById('btnBreakfastMenu').style.color = type === 'breakfast' ? '#fff' : '#333';
+      document.getElementById('btnDrinkMenu').className = type === 'drink' ? 'primary' : '';
+      document.getElementById('btnDrinkMenu').style.background = type === 'drink' ? '#111' : '#eee';
+      document.getElementById('btnDrinkMenu').style.color = type === 'drink' ? '#fff' : '#333';
       selectedOptionProductId = null;
       loadProducts();
       if (currentOptType === type) loadOptions();
@@ -1631,6 +1638,9 @@
       document.getElementById('btnBreakfastOpt').className = type === 'breakfast' ? 'primary' : '';
       document.getElementById('btnBreakfastOpt').style.background = type === 'breakfast' ? '#111' : '#eee';
       document.getElementById('btnBreakfastOpt').style.color = type === 'breakfast' ? '#fff' : '#333';
+      document.getElementById('btnDrinkOpt').className = type === 'drink' ? 'primary' : '';
+      document.getElementById('btnDrinkOpt').style.background = type === 'drink' ? '#111' : '#eee';
+      document.getElementById('btnDrinkOpt').style.color = type === 'drink' ? '#fff' : '#333';
       selectedOptionProductId = null;
       refreshOptionProductSelect();
     }
