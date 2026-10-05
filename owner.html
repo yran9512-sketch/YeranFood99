@@ -1048,6 +1048,9 @@
             <button class="filter-btn" id="periodLunchBtn" onclick="setPeriodFilter('lunch')">
               午餐
             </button>
+            <button class="filter-btn" id="periodDrinkBtn" onclick="setPeriodFilter('drink')">
+              饮料
+            </button>
           </div>
 
           <div class="filter-group">
@@ -1264,6 +1267,9 @@
 
       document.getElementById('periodLunchBtn')
         .classList.toggle('active', value === 'lunch');
+
+      document.getElementById('periodDrinkBtn')
+        .classList.toggle('active', value === 'drink');
 
       loadOrders();
     }
@@ -1982,7 +1988,7 @@
         const periodText =
           o.meal_period === 'breakfast'
             ? '早餐'
-            : '午餐';
+            : (o.meal_period === 'drink' ? '饮料' : '午餐');
 
         const paymentMethod =
           o.payment_method === 'online'
