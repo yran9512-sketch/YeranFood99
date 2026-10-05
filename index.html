@@ -1980,6 +1980,7 @@
       <div id="periodSwitch" style="display:none;margin-bottom:16px">
         <button id="btnLunchOrder" class="periodBtn active" onclick="switchPeriod('lunch')">午餐</button>
         <button id="btnBreakfastOrder" class="periodBtn" onclick="switchPeriod('breakfast')">早餐</button>
+        <button id="btnDrinkOrder" class="periodBtn" onclick="switchPeriod('drink')">饮料</button>
       </div>
       <h2 id="menuTitle">今日菜单</h2>
       <div id="productList" style="display:grid;gap:10px;margin-bottom:16px"></div>
@@ -2443,7 +2444,7 @@
 
       box.style.display = 'grid';
 
-      const icon = currentPeriod === 'breakfast' ? '🥪' : '🍱';
+      const icon = currentPeriod === 'breakfast' ? '🥪' : (currentPeriod === 'drink' ? '🥤' : '🍱');
 
       box.innerHTML = products.map(function(p) {
         const name = escapeHtml(lang === 'zh'
@@ -2497,15 +2498,17 @@
       const nameField = lang === 'zh' ? 'name_zh' : 'name_en';
       const descField = lang === 'zh' ? 'desc_zh' : 'desc_en';
       const isLunch = currentPeriod === 'lunch';
+      const isDrink = currentPeriod === 'drink';
 
-      // 早餐、午餐统一使用早餐风格的商品详情卡片。
+      // 早餐、午餐、饮料统一使用同一种商品详情卡片。
       food.style.display = 'none';
       breakfastCard.style.display = 'block';
 
-      document.querySelector('.breakfast-hero-icon').textContent = isLunch ? '🍱' : '🥪';
+      document.querySelector('.breakfast-hero-icon').textContent = isLunch ? '🍱' : (isDrink ? '🥤' : '🥪');
       document.getElementById('breakfastBadge').textContent =
         isLunch ? (lang === 'zh' ? '午餐 Lunch' : 'Lunch 午餐') :
-        (lang === 'zh' ? '早餐 Breakfast' : 'Breakfast 早餐');
+        (isDrink ? (lang === 'zh' ? '饮料 Drinks' : 'Drinks 饮料') :
+        (lang === 'zh' ? '早餐 Breakfast' : 'Breakfast 早餐'));
 
       document.getElementById('breakfastProductName').textContent = menu[nameField] || '';
       document.getElementById('breakfastProductDesc').textContent = menu[descField] || '';
@@ -2812,7 +2815,7 @@
        * 午餐：
        * 15:00 后订的是第二天午餐
        */
-      if (currentPeriod === 'lunch' && h >= 15) {
+      if ((currentPeriod === 'lunch' || currentPeriod === 'drink') && h >= 15) {
         now.setDate(now.getDate() + 1);
       }
 
@@ -2845,7 +2848,7 @@
        * 15:00 - 23:59 接受第二天午餐
        * 00:00 - 09:59 接受今天午餐
        */
-      if (currentPeriod === 'lunch') {
+      if (currentPeriod === 'lunch' || currentPeriod === 'drink') {
         return h >= 15 || h < 10;
       }
 
@@ -3108,6 +3111,7 @@
       currentPeriod = p;
       document.getElementById('btnLunchOrder').classList.toggle('active', p === 'lunch');
       document.getElementById('btnBreakfastOrder').classList.toggle('active', p === 'breakfast');
+      document.getElementById('btnDrinkOrder').classList.toggle('active', p === 'drink');
 
       installBeforeUnloadGuard();
       loadMenu();
@@ -3134,7 +3138,7 @@
       supabaseClient
         .from('menu_products')
         .select('id')
-        .eq('menu_type', 'breakfast')
+        .in('menu_type', ['breakfast', 'drink'])
         .eq('active', true)
         .limit(1)
         .then(function (r) {
