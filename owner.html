@@ -1017,6 +1017,14 @@
       #productsBox > div > div{padding:0 !important}
     }
 
+    .product-edit-actions{justify-content:space-between}
+    .product-edit-actions>button{min-height:38px}
+    @media(max-width:600px){
+      .product-edit-actions{flex-wrap:wrap}
+      .product-edit-actions .red{flex:0 0 100%}
+      .product-edit-actions .small:not(.red){flex:1}
+    }
+
     .modal-form{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:1000}
     .modal-form.open{display:flex}
     .modal-form-card{width:min(560px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:16px;padding:20px;box-shadow:0 18px 50px rgba(0,0,0,.2)}
@@ -1257,7 +1265,11 @@
         </div>
         <div style="display:flex;align-items:center;gap:8px;padding-top:24px"><input id="editProductActive" type="checkbox" style="width:18px;height:18px;margin:0"><label for="editProductActive" style="margin:0">启用商品</label></div>
       </div>
-      <div class="modal-form-actions"><button type="button" class="small" onclick="closeProductEditModal()">取消</button><button type="button" class="small green" id="productEditSaveBtn" onclick="saveProductEdit()">保存修改</button></div>
+      <div class="modal-form-actions product-edit-actions">
+        <button type="button" class="small red" id="productDeleteBtn" onclick="deleteProduct()">删除商品</button>
+        <button type="button" class="small" onclick="closeProductEditModal()">取消</button>
+        <button type="button" class="small green" id="productEditSaveBtn" onclick="saveProductEdit()">保存修改</button>
+      </div>
     </div>
   </div>
 
@@ -1592,6 +1604,80 @@
       const modal = document.getElementById('productEditModal');
       if (modal) modal.classList.remove('open');
       editingProductId = null;
+    }
+
+    async function deleteProduct() {
+      if (!editingProductId) return;
+
+      const id = Number(editingProductId);
+      const name = document.getElementById('editProductZh').value.trim() || '这个商品';
+
+      if (!confirm('确定删除「' + name + '」吗？\n\n商品及其选项会被删除，历史订单不会被删除。')) return;
+
+      const deleteBtn = document.getElementById('productDeleteBtn');
+      setButtonBusy(deleteBtn, true, '删除中…', '删除商品');
+
+      try {
+        const current = await supabaseClient.from('menu_products')
+          .select('id,image_url')
+          .eq('id', id)
+          .maybeSingle();
+
+        if (current.error) throw current.error;
+        if (!current.data) {
+          throw new Error('商品不存在，可能已经被删除。');
+        }
+
+        const imageUrl = current.data.image_url || '';
+
+        const res = await supabaseClient.from('menu_products')
+          .delete()
+          .eq('id', id);
+
+        if (res.error) throw res.error;
+
+        // 删除数据库商品成功后，再尝试清理 Storage 里的旧图片。
+        if (imageUrl) {
+          try {
+            const marker = '/storage/v1/object/public/menu-images/';
+            const pos = imageUrl.indexOf(marker);
+            if (pos !== -1) {
+              const path = decodeURIComponent(imageUrl.slice(pos + marker.length));
+              if (path) {
+                await supabaseClient.storage.from('menu-images').remove([path]);
+              }
+            }
+          } catch (imageErr) {
+            console.warn('旧菜单图片清理失败：', imageErr);
+          }
+        }
+
+        const deletedId = id;
+        closeProductEditModal();
+
+        if (Number(selectedOptionProductId) === deletedId) {
+          selectedOptionProductId = null;
+        }
+
+        await loadProducts();
+        await refreshOptionProductSelect();
+
+        const select = document.getElementById('optionProductSelect');
+        if (select && select.value) {
+          selectedOptionProductId = Number(select.value);
+          await loadOptions();
+        } else {
+          document.getElementById('optionsBox').innerHTML =
+            '<div class="noorders">请选择商品查看选项。</div>';
+        }
+
+        alert('商品已删除。');
+      } catch (err) {
+        console.error(err);
+        alert('删除商品失败：' + (err.message || '请稍后重试。'));
+      } finally {
+        setButtonBusy(deleteBtn, false, '删除中…', '删除商品');
+      }
     }
 
     async function saveProductEdit() {
