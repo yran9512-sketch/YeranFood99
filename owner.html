@@ -942,6 +942,81 @@
     }
 
   
+    .menu-product-card{
+      border:1px solid #eee;
+      border-radius:12px;
+      padding:14px;
+      background:#fff;
+    }
+    .menu-product-row{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      width:100%;
+      min-width:0;
+    }
+    .menu-product-info{
+      flex:1 1 auto;
+      min-width:0;
+      overflow-wrap:anywhere;
+    }
+    .menu-product-name{
+      font-size:16px;
+      font-weight:800;
+      line-height:1.3;
+    }
+    .menu-product-en{
+      font-size:13px;
+      color:#777;
+      margin-top:3px;
+      line-height:1.3;
+    }
+    .menu-product-meta{
+      font-size:13px;
+      color:#666;
+      margin-top:8px;
+      line-height:1.4;
+    }
+    .menu-product-status{
+      font-size:12px;
+      margin-top:4px;
+      line-height:1.3;
+    }
+    .menu-product-status.on{color:#2e7d32}
+    .menu-product-status.off{color:#c0392b}
+    .menu-product-edit{
+      flex:0 0 auto;
+      width:auto;
+      min-width:72px;
+      min-height:38px;
+      height:38px;
+      padding:7px 10px;
+      white-space:nowrap;
+      align-self:center;
+    }
+    @media(max-width:600px){
+      .menu-product-card{padding:10px}
+      .menu-product-row{
+        gap:9px;
+        align-items:center;
+      }
+      .menu-product-info{min-width:0}
+      .menu-product-name{font-size:15px}
+      .menu-product-en{font-size:12px}
+      .menu-product-meta{font-size:12px;margin-top:6px}
+      .menu-product-status{font-size:11px}
+      .menu-product-edit{
+        min-width:68px;
+        width:68px;
+        height:40px;
+        min-height:40px;
+        padding:5px 6px;
+        font-size:12px;
+        line-height:1.15;
+      }
+      #productsBox > div > div{padding:0 !important}
+    }
+
     .modal-form{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:1000}
     .modal-form.open{display:flex}
     .modal-form-card{width:min(560px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:16px;padding:20px;box-shadow:0 18px 50px rgba(0,0,0,.2)}
@@ -1448,19 +1523,18 @@
               const imageHtml = p.image_url
                 ? '<img class="menu-image-thumb" src="' + escapeHtml(p.image_url) + '" alt="">'
                 : '<div class="menu-image-thumb" style="display:flex;align-items:center;justify-content:center;color:#aaa;font-size:11px">无图片</div>';
-              html += '<div style="border:1px solid #eee;border-radius:12px;padding:14px">' +
-                '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
-                '<div style="display:flex;gap:12px;min-width:0;flex:1">' +
+              html += '<div class="menu-product-card">' +
+                '<div class="menu-product-row">' +
                 imageHtml +
-                '<div style="min-width:0;flex:1">' +
-                '<div style="font-size:16px;font-weight:800">' + escapeHtml(p.name_zh || '未命名商品') + '</div>' +
-                '<div style="font-size:13px;color:#777;margin-top:3px">' + escapeHtml(p.name_en || '') + '</div>' +
-                '<div style="font-size:13px;color:#666;margin-top:8px">RM ' + Number(p.price || 0).toFixed(2) +
+                '<div class="menu-product-info">' +
+                '<div class="menu-product-name">' + escapeHtml(p.name_zh || '未命名商品') + '</div>' +
+                '<div class="menu-product-en">' + escapeHtml(p.name_en || '') + '</div>' +
+                '<div class="menu-product-meta">RM ' + Number(p.price || 0).toFixed(2) +
                 ' · 最大 ' + Number(p.max_portions || 0) + ' 份 · 排序 ' + Number(p.sort || 0) + '</div>' +
-                '<div style="font-size:12px;color:' + (p.active ? '#2e7d32' : '#c0392b') + ';margin-top:4px">' +
+                '<div class="menu-product-status ' + (p.active ? 'on' : 'off') + '">' +
                 (p.active ? '已启用' : '已停用') + '</div>' +
                 '</div>' +
-                '<button class="small" onclick="openProductEditModal(' + p.id + ')">编辑商品</button>' +
+                '<button class="small menu-product-edit" onclick="openProductEditModal(' + p.id + ')">编辑商品</button>' +
                 '</div>' +
                 '</div>';
             });
