@@ -1500,6 +1500,15 @@
       min-width: 0;
     }
 
+    .yf-product-image {
+      width: 78px;
+      height: 78px;
+      flex: 0 0 78px;
+      border-radius: 14px;
+      object-fit: cover;
+      background: #f3eee5;
+    }
+
     .yf-product-icon {
       width: 42px;
       height: 42px;
@@ -1514,6 +1523,15 @@
 
     .yf-product-card.yf-selected .yf-product-icon {
       background: #ffe4b3;
+    }
+
+    .breakfast-hero-image {
+      width: 86px;
+      height: 86px;
+      flex: 0 0 86px;
+      border-radius: 20px;
+      object-fit: cover;
+      background: #f3eee5;
     }
 
     .yf-product-main {
@@ -1876,6 +1894,19 @@
         padding: 14px !important;
       }
 
+      .yf-product-image {
+        width: 72px;
+        height: 72px;
+        flex-basis: 72px;
+      }
+
+      .breakfast-hero-image {
+        width: 68px;
+        height: 68px;
+        flex-basis: 68px;
+        border-radius: 16px;
+      }
+
       .breakfast-product-card {
         padding: 18px;
         border-radius: 19px;
@@ -2019,7 +2050,7 @@
         <div class="breakfast-product-card">
 
           <div class="breakfast-hero">
-            <div class="breakfast-hero-icon">🥪</div>
+            <div id="breakfastHeroVisual" class="breakfast-hero-icon">🥪</div>
 
             <div class="breakfast-hero-info">
               <div class="breakfast-badge" id="breakfastBadge">
@@ -2477,13 +2508,17 @@
           ? text[lang].soldOut
           : text[lang].stock + ' ' + left + ' ' + text[lang].stockLeft;
 
+        const image = p.image_url
+          ? '<img class="yf-product-image" src="' + escapeHtml(p.image_url) + '" alt="" loading="lazy">'
+          : '<div class="yf-product-icon">' + icon + '</div>';
+
         return '<button type="button" class="yf-product-card ' +
           (selected ? 'yf-selected ' : '') +
           (disabled ? 'yf-soldout' : '') +
           '" onclick="selectProduct(' + Number(p.id) + ')" ' +
           (disabled ? 'disabled' : '') + '>' +
           '<div class="yf-product-top">' +
-            '<div class="yf-product-icon">' + icon + '</div>' +
+            image +
             '<div class="yf-product-main">' +
               '<div class="yf-product-name">' + name + '</div>' +
               (desc ? '<div class="yf-product-desc">' + desc + '</div>' : '') +
@@ -2520,7 +2555,13 @@
       food.style.display = 'none';
       breakfastCard.style.display = 'block';
 
-      document.querySelector('.breakfast-hero-icon').textContent = isLunch ? '🍱' : (isDrink ? '🥤' : '🥪');
+      const heroVisual = document.getElementById('breakfastHeroVisual');
+      if (heroVisual) {
+        heroVisual.className = menu.image_url ? 'breakfast-hero-image' : 'breakfast-hero-icon';
+        heroVisual.innerHTML = menu.image_url
+          ? '<img src="' + escapeHtml(menu.image_url) + '" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">'
+          : (isLunch ? '🍱' : (isDrink ? '🥤' : '🥪'));
+      }
       document.getElementById('breakfastBadge').textContent =
         isLunch ? (lang === 'zh' ? '午餐 Lunch' : 'Lunch 午餐') :
         (isDrink ? (lang === 'zh' ? '饮料 Drinks' : 'Drinks 饮料') :
