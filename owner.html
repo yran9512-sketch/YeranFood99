@@ -951,6 +951,9 @@
     .modal-form-card label{display:block;font-size:13px;font-weight:700;color:#555;margin-bottom:5px}
     .modal-form-card input,.modal-form-card textarea{width:100%;box-sizing:border-box;padding:10px 11px;border:1px solid #ddd;border-radius:9px;font:inherit}
     .modal-form-card textarea{min-height:70px;resize:vertical}
+    .menu-image-preview{width:96px;height:96px;object-fit:cover;border-radius:12px;border:1px solid #ddd;background:#f7f7f7;display:block;margin-top:8px}
+    .menu-image-placeholder{width:96px;height:96px;border-radius:12px;border:1px dashed #ccc;background:#fafafa;display:flex;align-items:center;justify-content:center;color:#999;font-size:12px;margin-top:8px}
+    .menu-image-thumb{width:64px;height:64px;object-fit:cover;border-radius:10px;border:1px solid #eee;background:#f7f7f7;flex:0 0 64px}
     .modal-form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
     @media(max-width:600px){.modal-form{padding:10px;align-items:flex-end}.modal-form-card{max-height:92vh;border-radius:16px 16px 10px 10px;padding:16px}.modal-grid{grid-template-columns:1fr}.modal-grid .full{grid-column:auto}.modal-form-actions button{flex:1}}
 
@@ -1094,6 +1097,11 @@
         <div><label>英文描述</label><textarea id="productDescEn"></textarea></div>
         <div><label>价格（RM）</label><input id="productPrice" type="number" min="0" step="0.01"></div>
         <div><label>最大份数</label><input id="productMax" type="number" min="1" step="1" value="15"></div>
+        <div class="full">
+          <label>菜单图片</label>
+          <input id="productImage" type="file" accept="image/jpeg,image/png,image/webp" onchange="previewMenuImage(this,'productImagePreview')">
+          <div id="productImagePreview" class="menu-image-placeholder">暂无图片</div>
+        </div>
       </div>
       <div class="modal-form-actions"><button type="button" class="small" onclick="closeProductModal()">取消</button><button type="button" class="small green" id="productSaveBtn" onclick="addProduct()">保存商品</button></div>
     </div>
@@ -1123,6 +1131,11 @@
         <div><label>价格（RM）</label><input id="editProductPrice" type="number" min="0" step="0.01"></div>
         <div><label>最大份数</label><input id="editProductMax" type="number" min="1" step="1"></div>
         <div><label>排序</label><input id="editProductSort" type="number" min="0" step="1"></div>
+        <div class="full">
+          <label>菜单图片</label>
+          <input id="editProductImage" type="file" accept="image/jpeg,image/png,image/webp" onchange="previewMenuImage(this,'editProductImagePreview')">
+          <div id="editProductImagePreview" class="menu-image-placeholder">暂无图片</div>
+        </div>
         <div style="display:flex;align-items:center;gap:8px;padding-top:24px"><input id="editProductActive" type="checkbox" style="width:18px;height:18px;margin:0"><label for="editProductActive" style="margin:0">启用商品</label></div>
       </div>
       <div class="modal-form-actions"><button type="button" class="small" onclick="closeProductEditModal()">取消</button><button type="button" class="small green" id="productEditSaveBtn" onclick="saveProductEdit()">保存修改</button></div>
@@ -1388,8 +1401,13 @@
           } else {
             let html = '<div style="display:grid;gap:10px">';
             rows.forEach(function(p) {
+              const imageHtml = p.image_url
+                ? '<img class="menu-image-thumb" src="' + escapeHtml(p.image_url) + '" alt="">'
+                : '<div class="menu-image-thumb" style="display:flex;align-items:center;justify-content:center;color:#aaa;font-size:11px">无图片</div>';
               html += '<div style="border:1px solid #eee;border-radius:12px;padding:14px">' +
                 '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">' +
+                '<div style="display:flex;gap:12px;min-width:0;flex:1">' +
+                imageHtml +
                 '<div style="min-width:0;flex:1">' +
                 '<div style="font-size:16px;font-weight:800">' + escapeHtml(p.name_zh || '未命名商品') + '</div>' +
                 '<div style="font-size:13px;color:#777;margin-top:3px">' + escapeHtml(p.name_en || '') + '</div>' +
@@ -1440,6 +1458,12 @@
           document.getElementById('editProductMax').value = Number(p.max_portions || 15);
           document.getElementById('editProductSort').value = Number(p.sort || 0);
           document.getElementById('editProductActive').checked = !!p.active;
+          document.getElementById('editProductImage').value = '';
+          const editPreview = document.getElementById('editProductImagePreview');
+          editPreview.innerHTML = p.image_url
+            ? '<img class="menu-image-preview" src="' + escapeHtml(p.image_url) + '" alt="">'
+            : '暂无图片';
+          editPreview.className = p.image_url ? '' : 'menu-image-placeholder';
 
           document.getElementById('productEditModal').classList.add('open');
           setTimeout(function () { document.getElementById('editProductZh').focus(); }, 50);
@@ -1463,6 +1487,7 @@
       const maxPortions = Math.max(1, parseInt(document.getElementById('editProductMax').value, 10) || 15);
       const sort = Math.max(0, parseInt(document.getElementById('editProductSort').value, 10) || 0);
       const active = document.getElementById('editProductActive').checked;
+      const imageFile = document.getElementById('editProductImage').files[0] || null;
       const saveBtn = document.getElementById('productEditSaveBtn');
 
       if (!zh) {
@@ -1474,17 +1499,25 @@
       setButtonBusy(saveBtn, true, '保存中…', '保存修改');
 
       try {
+        let imageUrl = null;
+        if (imageFile) {
+          imageUrl = await uploadMenuImage(imageFile, editingProductId);
+        }
+
+        const updateData = {
+          name_zh: zh,
+          name_en: en,
+          desc_zh: descZh,
+          desc_en: descEn,
+          price: price,
+          max_portions: maxPortions,
+          sort: sort,
+          active: active
+        };
+        if (imageUrl) updateData.image_url = imageUrl;
+
         const res = await supabaseClient.from('menu_products')
-          .update({
-            name_zh: zh,
-            name_en: en,
-            desc_zh: descZh,
-            desc_en: descEn,
-            price: price,
-            max_portions: maxPortions,
-            sort: sort,
-            active: active
-          })
+          .update(updateData)
           .eq('id', editingProductId);
 
         if (res.error) throw res.error;
@@ -1515,8 +1548,62 @@
       document.getElementById('productDescEn').value = '';
       document.getElementById('productPrice').value = '';
       document.getElementById('productMax').value = '15';
+      document.getElementById('productImage').value = '';
+      document.getElementById('productImagePreview').innerHTML = '暂无图片';
+      document.getElementById('productImagePreview').className = 'menu-image-placeholder';
       modal.classList.add('open');
       setTimeout(function () { document.getElementById('productZh').focus(); }, 50);
+    }
+
+    function validateMenuImage(file) {
+      if (!file) return null;
+      const allowed = ['image/jpeg', 'image/png', 'image/webp'];
+      if (!allowed.includes(file.type)) {
+        throw new Error('只支持 JPG、PNG、WEBP 图片。');
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        throw new Error('图片不能超过 5MB。');
+      }
+      return file;
+    }
+
+    function previewMenuImage(input, previewId) {
+      const file = input && input.files ? input.files[0] : null;
+      const box = document.getElementById(previewId);
+      if (!box) return;
+      if (!file) {
+        box.innerHTML = '暂无图片';
+        box.className = 'menu-image-placeholder';
+        return;
+      }
+      try {
+        validateMenuImage(file);
+      } catch (err) {
+        alert(err.message);
+        input.value = '';
+        box.innerHTML = '暂无图片';
+        box.className = 'menu-image-placeholder';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        box.className = '';
+        box.innerHTML = '<img class="menu-image-preview" src="' + e.target.result + '" alt="">';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function uploadMenuImage(file, productId) {
+      validateMenuImage(file);
+      const ext = file.type === 'image/png' ? 'png' : (file.type === 'image/webp' ? 'webp' : 'jpg');
+      const path = 'product_' + productId + '_' + crypto.randomUUID() + '.' + ext;
+      const up = await supabaseClient.storage.from('menu-images').upload(path, file, {
+        contentType: file.type,
+        upsert: false
+      });
+      if (up.error) throw up.error;
+      const pub = supabaseClient.storage.from('menu-images').getPublicUrl(path);
+      return pub.data.publicUrl;
     }
 
     async function addProduct() {
@@ -1526,6 +1613,7 @@
       const descEn = document.getElementById('productDescEn').value.trim();
       const price = Math.max(0, parseFloat(document.getElementById('productPrice').value) || 0);
       const maxPortions = Math.max(1, parseInt(document.getElementById('productMax').value, 10) || 15);
+      const imageFile = document.getElementById('productImage').files[0] || null;
       const saveBtn = document.getElementById('productSaveBtn');
 
       if (!zh) {
@@ -1559,9 +1647,17 @@
           max_portions: maxPortions,
           active: true,
           sort: nextSort
-        });
+        }).select('id').single();
 
         if (res.error) throw res.error;
+
+        if (imageFile) {
+          const imageUrl = await uploadMenuImage(imageFile, res.data.id);
+          const imageUpdate = await supabaseClient.from('menu_products')
+            .update({image_url: imageUrl})
+            .eq('id', res.data.id);
+          if (imageUpdate.error) throw imageUpdate.error;
+        }
 
         closeProductModal();
         await loadProducts();
