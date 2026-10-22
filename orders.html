@@ -463,6 +463,21 @@
     }
   }
 
+
+  body:not(.dark) button.primary {
+    background: linear-gradient(110deg, #6558F5, #786CFF) !important;
+    border-color: #6558F5 !important;
+    box-shadow: 0 7px 18px rgba(101,88,245,.18);
+  }
+  body:not(.dark) button.primary:hover { background: #5547E8 !important; }
+  body:not(.dark) .navBtn.active {
+    color: var(--yf-primary) !important;
+    background: var(--yf-primary-soft) !important;
+    border-color: transparent !important;
+  }
+  body:not(.dark) .back,
+  body:not(.dark) .langToggle { color: var(--yf-text); }
+
   </style>
 </head>
 
