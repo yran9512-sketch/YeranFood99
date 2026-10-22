@@ -2116,14 +2116,19 @@
     }
 
 
-    /* Mobile checkout overlap fix: the global sticky submit rule must not
-       make the button inside the fixed checkout bar stick over nearby UI. */
+    /* Mobile checkout overlap fix: keep the total/order bar in normal document
+       flow so it never floats over payment choices while the page is scrolled. */
     @media (max-width: 640px) {
       #checkoutBar {
-        isolation: isolate;
-        z-index: 120;
+        position: static;
+        inset: auto;
+        isolation: auto;
+        z-index: auto;
         pointer-events: auto;
-        bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+        margin-top: 18px;
+        bottom: auto;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
       }
       #checkoutBar .submit {
         position: static;
