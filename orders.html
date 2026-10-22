@@ -517,7 +517,7 @@
 
         if (res.error) {
           console.error(res.error);
-          box.innerHTML = '<div class="card noorders">' + t.queryFail + '请检查网络后重试。</div>';
+          box.innerHTML = '<div class="card noorders">' + t.queryFail + (lang === 'zh' ? '请检查网络后重试。' : ' Please check your connection and try again.') + '</div>';
           return;
         }
         if (!res.data || !res.data.length) {
@@ -549,7 +549,7 @@
       } catch (err) {
         if (requestSeq !== searchRequestSeq) return;
         console.error(err);
-        box.innerHTML = '<div class="card noorders">' + t.queryFail + '请检查网络后重试。</div>';
+        box.innerHTML = '<div class="card noorders">' + t.queryFail + (lang === 'zh' ? '请检查网络后重试。' : ' Please check your connection and try again.') + '</div>';
       } finally {
         if (requestSeq === searchRequestSeq) {
           btn.disabled = false;
