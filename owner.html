@@ -1403,6 +1403,18 @@
       btn.textContent = busy ? busyText : normalText;
     }
 
+    function readPriceInput(inputId) {
+      const input = document.getElementById(inputId);
+      const raw = input ? input.value.trim() : '';
+      const price = Number(raw);
+      if (raw === '' || !Number.isFinite(price) || price < 0) {
+        alert('请输入有效价格（RM），可以填写小数，例如 2.50。');
+        if (input) input.focus();
+        return null;
+      }
+      return Math.round((price + Number.EPSILON) * 100) / 100;
+    }
+
     // SECURITY NOTE:
     // The publishable Supabase key is safe to ship in frontend code only when
     // Row Level Security (RLS) policies protect every table/storage action.
@@ -1772,7 +1784,8 @@
       const en = document.getElementById('editProductEn').value.trim() || zh;
       const descZh = document.getElementById('editProductDescZh').value.trim();
       const descEn = document.getElementById('editProductDescEn').value.trim();
-      const price = Math.max(0, parseFloat(document.getElementById('editProductPrice').value) || 0);
+      const price = readPriceInput('editProductPrice');
+      if (price === null) return;
       const maxPortions = Math.max(1, parseInt(document.getElementById('editProductMax').value, 10) || 15);
       const sort = Math.max(0, parseInt(document.getElementById('editProductSort').value, 10) || 0);
       const active = document.getElementById('editProductActive').checked;
@@ -1900,7 +1913,8 @@
       const en = document.getElementById('productEn').value.trim() || zh;
       const descZh = document.getElementById('productDescZh').value.trim();
       const descEn = document.getElementById('productDescEn').value.trim();
-      const price = Math.max(0, parseFloat(document.getElementById('productPrice').value) || 0);
+      const price = readPriceInput('productPrice');
+      if (price === null) return;
       const maxPortions = Math.max(1, parseInt(document.getElementById('productMax').value, 10) || 15);
       const imageFile = document.getElementById('productImage').files[0] || null;
       const saveBtn = document.getElementById('productSaveBtn');
@@ -2155,7 +2169,8 @@
       const en = document.getElementById('editOptionEn').value.trim() || zh;
       const descZh = document.getElementById('editOptionDescZh').value.trim();
       const descEn = document.getElementById('editOptionDescEn').value.trim();
-      const price = Math.max(0, parseFloat(document.getElementById('editOptionPrice').value) || 0);
+      const price = readPriceInput('editOptionPrice');
+      if (price === null) return;
       const maxPortions = Math.max(1, parseInt(document.getElementById('editOptionMax').value, 10) || 15);
       const sort = Math.max(0, parseInt(document.getElementById('editOptionSort').value, 10) || 0);
       const enabled = document.getElementById('editOptionEnabled').checked;
@@ -2227,7 +2242,8 @@
       const en = document.getElementById('optionEn').value.trim() || zh;
       const descZh = document.getElementById('optionDescZh').value.trim();
       const descEn = document.getElementById('optionDescEn').value.trim();
-      const price = Math.max(0, parseFloat(document.getElementById('optionPrice').value) || 0);
+      const price = readPriceInput('optionPrice');
+      if (price === null) return;
       const maxPortions = Math.max(1, parseInt(document.getElementById('optionMax').value, 10) || 15);
       const saveBtn = document.getElementById('optionSaveBtn');
 
