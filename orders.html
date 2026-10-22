@@ -331,6 +331,37 @@
       }
     }
 
+  
+    /* ===== YeranFood customer order lookup visual refresh ===== */
+    :root { --yf-red:#e64431; --yf-red-dark:#bd2927; --yf-line:#f0dfd8; }
+    body { background:radial-gradient(ellipse at 8% 0%,rgba(255,214,192,.35),transparent 30%),#fff8f4; color:#29201e; }
+    header { background:linear-gradient(115deg,#b92525,#ed4632 58%,#ff743b); padding:25px 20px; box-shadow:0 10px 26px rgba(185,37,37,.15); }
+    header h1 { letter-spacing:-.4px; }
+    header h1:before { content:"✦"; color:#ffe1a7; margin-right:9px; }
+    header p { color:rgba(255,255,255,.82); }
+    .card,.orderCard { border-color:var(--yf-line); box-shadow:0 8px 24px rgba(96,43,27,.05); }
+    h2 { color:#38221d; }
+    input:focus { border-color:#f16a50; box-shadow:0 0 0 3px rgba(240,75,53,.11); }
+    button.primary { background:linear-gradient(110deg,#d92f2d,#f04b35 65%,#ff713b); box-shadow:0 8px 18px rgba(205,48,39,.17); }
+    button.primary:hover { background:linear-gradient(110deg,#bd2427,#e63e30 65%,#f65e30); }
+    .row .value { color:#38221d; }
+    .tag.paid { background:#e6f6eb; color:#247344; }
+    .tag.unpaid { background:#ffe4dd; color:#b92f29; }
+    .tag.cash { background:#fff2d7; color:#925b13; }
+    .tag.online { background:#fff0e9; color:#bd3c2e; }
+    #bottomNav { border-top-color:#f1ddd5; box-shadow:0 -6px 22px rgba(96,43,27,.07); }
+    .navBtn.active { color:#e64431; }
+    @media(max-width:640px) {
+      header { padding:24px 12px; border-radius:0 0 22px 22px; }
+      header h1 { font-size:22px; }
+      .back { left:8px; }
+      .langToggle { right:8px; }
+      .container { margin-top:16px; padding:0 12px; }
+      .card { padding:21px 16px; border-radius:18px; }
+      .orderCard { padding:15px; border-radius:14px; overflow-wrap:anywhere; }
+      #bottomNav { padding-bottom:max(8px,env(safe-area-inset-bottom)); }
+    }
+
   </style>
 </head>
 
