@@ -1306,66 +1306,61 @@
     }
 
   
-    /* ===== 管理员端：工作台重构 ===== */
-    html { scroll-behavior:smooth; scroll-padding-top:112px; }
-    body { background:#f4f5f7; color:#171717; }
-    header { padding:16px max(18px,calc((100vw - 1240px)/2)); background:#171717; }
-    header h1 { font-size:21px; letter-spacing:-.4px; }
-    .container { max-width:1240px; width:100%; margin:22px auto 60px; padding:0 20px; }
-    #main { display:flex; flex-direction:column; gap:18px; }
-    #main > .owner-quick-nav { order:0; }
-    #main > #summaryBox { order:1; }
-    #main > #ownerOrders { order:2; }
-    #main > #ownerProducts { order:3; }
-    #main > #ownerOptions { order:4; }
-    #main > #ownerPendingFeedback { order:5; }
-    #main > #ownerApprovedFeedback { order:6; }
-    #main > .card, #main > .dashboard { margin:0; }
-    .owner-quick-nav { position:sticky; top:68px; z-index:40; display:flex; gap:8px; padding:10px; border:1px solid #e3e5e8; border-radius:16px; background:rgba(255,255,255,.94); backdrop-filter:blur(14px); box-shadow:0 8px 24px #0000000a; overflow-x:auto; }
-    .owner-quick-nav a { flex:0 0 auto; text-decoration:none; color:#3b3b3b; padding:10px 14px; border-radius:10px; font-size:14px; font-weight:700; white-space:nowrap; }
-    .owner-quick-nav a { background:#f3f4f6; }
-    .owner-quick-nav a:first-child { background:#171717; color:#fff; }
-    .owner-quick-nav a:hover { background:#eceef1; color:#111; }
-    .card { padding:24px; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 4px 18px #11111106; }
-    .card:hover { box-shadow:0 8px 28px #1111110b; }
-    .card h2 { display:flex; align-items:center; gap:10px; font-size:21px; letter-spacing:-.35px; margin-bottom:18px; }
-    .card h2:before { content:""; display:block; width:4px; height:22px; border-radius:4px; background:#171717; }
-    .dashboard { grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
-    .stat-card { border:1px solid #e4e6e9; border-radius:16px; box-shadow:none; padding:20px; }
-    .stat-num { letter-spacing:-.8px; }
-    .order-filters { background:#f8f9fa; border-color:#e7e8eb; gap:12px; }
-    .filter-btn,.refresh-btn { min-height:40px; border-color:#e0e2e5; font-weight:650; }
-    button.primary { background:#171717; border-radius:11px; min-height:44px; }
-    button.small { border-radius:8px; min-height:36px; }
-    input,textarea,select { border-color:#dfe2e6; background:#fff; }
-    input:focus,textarea:focus,select:focus { outline:3px solid #17171712; border-color:#8c9198; }
-    #ownerProducts > div:first-child, #ownerOptions > div:first-child { display:flex; flex-wrap:wrap; gap:8px; }
-    #ownerProducts > div:first-child button, #ownerOptions > div:first-child button { margin:0 !important; border-radius:10px !important; min-height:42px; }
-    #productsBox { margin-top:12px; }
-    .menu-product-card,.option-card,.order-card { border-color:#e3e5e8; box-shadow:none; }
-    #ownerPendingFeedback,#ownerApprovedFeedback { scroll-margin-top:120px; }
-
-#ordersBox table { border:1px solid #eceef0; border-radius:12px; overflow:hidden; }
-    #ordersBox th { background:#f7f8fa; }
-    #ordersBox td { vertical-align:middle; }
-    .noorders { border:1px dashed #dfe2e6; border-radius:12px; background:#fafbfc; }
-    @media(max-width:700px) {
-      html { scroll-padding-top:104px; }
-      header { padding:13px 14px; }
-      header h1 { font-size:18px; }
-      .container { margin:12px auto 36px; padding:0 10px; }
-      #main { gap:12px; }
-      .owner-quick-nav { top:55px; padding:6px; gap:4px; border-radius:12px; }
-      .owner-quick-nav a { padding:10px 12px; font-size:13px; }
-      .card { padding:16px; border-radius:15px; }
-      .card h2 { font-size:18px; margin-bottom:14px; }
-      .dashboard { gap:8px; }
-      .stat-card { padding:13px; border-radius:13px; }
-      .order-filters { margin-bottom:12px; }
-
-      #ownerProducts > div:first-child button, #ownerOptions > div:first-child button { flex:1 1 auto; padding:10px 12px !important; font-size:14px !important; }
+    /* Owner admin redesign */
+    html{scroll-behavior:smooth;scroll-padding-top:92px}
+    body{background:#f5f6f7;color:#202124;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+    header{position:sticky;top:0;z-index:60;padding:14px max(16px,calc((100vw - 1200px)/2));background:#fff;color:#202124;border-bottom:1px solid #e8e9eb;box-shadow:0 2px 8px #00000005}
+    header h1{font-size:19px;letter-spacing:-.4px}
+    header button{color:#202124;border-color:#d9dadd}
+    .container{max-width:1200px;width:100%;margin:20px auto 48px;padding:0 18px}
+    #main{display:flex;flex-direction:column;gap:16px}
+    #main>.owner-quick-nav{order:0} #main>#summaryBox{order:1} #main>#ownerOrders{order:2} #main>#ownerProducts{order:3} #main>#ownerOptions{order:4} #main>#ownerPendingFeedback{order:5} #main>#ownerApprovedFeedback{order:6}
+    #main>.card,#main>.dashboard{margin:0}
+    .owner-quick-nav{position:sticky;top:62px;z-index:45;display:flex;gap:6px;padding:7px;border:1px solid #e7e8ea;border-radius:14px;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);box-shadow:0 4px 16px #00000008;overflow-x:auto}
+    .owner-quick-nav a{flex:0 0 auto;text-decoration:none;color:#50545a;background:transparent;padding:10px 16px;border-radius:9px;font-size:14px;font-weight:650;white-space:nowrap}
+    .owner-quick-nav a:first-child{background:#202124;color:#fff}
+    .owner-quick-nav a:hover{background:#f0f1f2;color:#202124}
+    .card{padding:22px;border:1px solid #e7e8ea;border-radius:16px;box-shadow:0 2px 10px #00000004}
+    .card:hover{box-shadow:0 5px 18px #00000007}
+    .card h2{margin:0 0 18px;font-size:20px;font-weight:750;letter-spacing:-.35px}
+    .card h2:before{content:none}
+    .dashboard{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+    .stat-card{padding:18px;border:1px solid #e7e8ea;border-radius:14px;box-shadow:none}
+    .stat-num{letter-spacing:-.8px}
+    .order-filters{display:flex;flex-wrap:wrap;gap:10px;padding:12px;border:1px solid #eceef0;border-radius:12px;background:#f8f9fa}
+    .filter-group{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+    .filter-group>span{margin-right:4px;color:#777;font-size:12px;font-weight:700}
+    .filter-btn,.refresh-btn{min-height:36px;padding:8px 12px;border:1px solid #e0e2e5;border-radius:9px;background:#fff;color:#42464b;font-weight:600}
+    .filter-btn.active{background:#202124;color:#fff;border-color:#202124}
+    button.primary{min-height:42px;padding:10px 17px;background:#202124;border-radius:10px;font-size:14px}
+    button.primary:hover{opacity:.9}
+    button.small{min-height:32px;border-radius:8px}
+    input,textarea,select{border-color:#e0e2e5;border-radius:10px}
+    input:focus,textarea:focus,select:focus{outline:3px solid #20212412;border-color:#9a9da2}
+    #ownerProducts>div:first-child,#ownerOptions>div:first-child{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px!important}
+    #ownerProducts>div:first-child button,#ownerOptions>div:first-child button{margin:0!important;min-height:38px;padding:9px 13px!important;border:1px solid #e3e5e8!important;border-radius:9px!important;background:#f5f6f7!important;color:#45484d!important;font-size:14px!important;font-weight:650}
+    #ownerProducts>div:first-child button.primary,#ownerOptions>div:first-child button.primary{background:#202124!important;color:#fff!important;border-color:#202124!important}
+    .menu-product-card,.option-card,.order-card{border-color:#e7e8ea;box-shadow:none}
+    #ownerPendingFeedback,#ownerApprovedFeedback{scroll-margin-top:110px}
+    #ordersBox{min-width:0}
+    #ordersBox table{border:1px solid #eceef0;border-radius:11px;overflow:hidden}
+    #ordersBox th{background:#f7f8f9}
+    #ordersBox td{vertical-align:middle}
+    .noorders{border:1px dashed #e0e2e5;border-radius:11px;background:#fafbfc}
+    @media(max-width:700px){
+      html{scroll-padding-top:100px}
+      header{padding:12px 14px} header h1{font-size:17px}
+      .container{margin:12px auto 30px;padding:0 10px}
+      #main{gap:11px}
+      .owner-quick-nav{top:51px;padding:5px;gap:3px;border-radius:12px}
+      .owner-quick-nav a{padding:10px 13px;font-size:13px}
+      .card{padding:15px;border-radius:14px}.card h2{font-size:18px;margin-bottom:14px}
+      .dashboard{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+      .stat-card{padding:13px;border-radius:12px}
+      .order-filters{display:grid;gap:9px;padding:10px}.filter-group{gap:5px}.filter-btn{padding:8px 10px}
+      #ownerProducts>div:first-child button,#ownerOptions>div:first-child button{flex:0 0 auto}
+      #ordersBox{overflow-x:auto}
     }
-
   </style>
   <link rel="stylesheet" href="/animations.css">
 </head>
