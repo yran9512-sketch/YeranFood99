@@ -1361,6 +1361,63 @@
       #ownerProducts>div:first-child button,#ownerOptions>div:first-child button{flex:0 0 auto}
       #ordersBox{overflow-x:auto}
     }
+  
+
+    /* App-style owner navigation and mobile-first pages */
+    :root { color-scheme: light; }
+    body { background:#f5f5f7 !important; color:#1d1d1f; padding-bottom:calc(84px + env(safe-area-inset-bottom)); }
+    header { background:rgba(255,255,255,.92) !important; color:#1d1d1f !important; border-bottom:1px solid #e5e5ea; box-shadow:0 1px 0 #00000005 !important; backdrop-filter:blur(18px); }
+    header h1 { font-size:20px; letter-spacing:-.45px; }
+    .container { max-width:860px !important; margin:18px auto 28px !important; padding:0 14px !important; }
+    #main { display:flex; flex-direction:column; gap:16px; }
+    #main > .card, #main > .dashboard { margin:0; }
+    #main > #summaryBox { order:0; }
+    #main > #ownerOrders { order:1; }
+    #main > #ownerProducts { order:2; }
+    #main > #ownerOptions { order:3; }
+    #main > #ownerPendingFeedback { order:4; }
+    #main > #ownerApprovedFeedback { order:5; }
+    #main .card, .stat-card { border:1px solid #e5e5ea !important; border-radius:20px !important; box-shadow:0 2px 10px #00000004 !important; }
+    #main .card { padding:22px; }
+    #main h2 { font-size:21px; letter-spacing:-.4px; }
+    .owner-quick-nav { position:fixed !important; top:auto !important; bottom:0; left:0; right:0; z-index:90; display:grid !important; grid-template-columns:repeat(4,minmax(0,1fr)); gap:4px !important; margin:0 !important; padding:8px 10px calc(8px + env(safe-area-inset-bottom)) !important; border:0 !important; border-top:1px solid #e5e5ea !important; border-radius:18px 18px 0 0 !important; background:rgba(255,255,255,.94) !important; box-shadow:0 -8px 28px #0000000a !important; backdrop-filter:blur(22px); overflow:visible !important; }
+    .owner-quick-nav button { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; min-width:0; min-height:54px; padding:6px 4px; border:0; border-radius:12px; background:transparent; color:#77777c; font:600 11px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; cursor:pointer; }
+    .owner-quick-nav button span:first-child { font-size:21px; line-height:1; font-weight:400; }
+    .owner-quick-nav button.active { color:#1d1d1f; background:#f0f0f3; }
+    .owner-quick-nav button:focus-visible { outline:2px solid #007aff; outline-offset:2px; }
+    .dashboard { gap:10px !important; }
+    .stat-card { padding:18px !important; }
+    .order-filters { background:#f8f8fa !important; border-color:#ececf0 !important; }
+    .filter-btn, .refresh-btn { border-color:#e1e1e6 !important; border-radius:10px !important; min-height:40px; }
+    .filter-btn.active { background:#1d1d1f !important; border-color:#1d1d1f !important; }
+    .order-card { border:1px solid #e8e8ed !important; border-radius:18px !important; padding:18px !important; box-shadow:0 2px 10px #00000004 !important; }
+    .order-card-code { font-size:17px; letter-spacing:-.2px; }
+    .order-card-payment { border:1px solid #ededf0; background:#f7f7f9 !important; }
+    .primary { border-radius:12px !important; background:#1d1d1f !important; }
+    input, select, textarea { border-color:#d9d9df !important; border-radius:12px !important; }
+    @media(max-width:700px) {
+      body { padding-bottom:calc(82px + env(safe-area-inset-bottom)); }
+      header { padding:15px 18px !important; }
+      .container { margin:12px auto 22px !important; padding:0 12px !important; }
+      #main { gap:12px; }
+      #main .card { padding:18px 15px; border-radius:18px !important; }
+      #main h2 { font-size:20px; }
+      .dashboard { gap:9px !important; }
+      .stat-card { padding:16px 13px !important; }
+      .stat-num { font-size:24px !important; }
+      .order-filters { padding:12px !important; }
+      .order-card { margin-bottom:10px; }
+      .order-card-info { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+      .order-card-actions button { min-height:42px; }
+      #ownerProducts > div:first-child, #ownerOptions > div:first-child { display:flex; gap:7px; flex-wrap:wrap; }
+      #ownerProducts > div:first-child button, #ownerOptions > div:first-child button { flex:1 1 auto; margin:0 !important; padding:11px 12px !important; font-size:14px !important; }
+    }
+    @media(max-width:380px) {
+      .owner-quick-nav { padding-left:6px !important; padding-right:6px !important; }
+      .owner-quick-nav button { font-size:10px; }
+      .order-card-info { grid-template-columns:1fr 1fr !important; }
+    }
+
   </style>
   <link rel="stylesheet" href="/animations.css">
 </head>
@@ -1385,10 +1442,11 @@
 
     <section id="main" class="hidden">
 
-      <nav class="owner-quick-nav" aria-label="管理员快捷导航">
-        <a href="#ownerOrders">订单</a>
-        <a href="#ownerProducts">菜单</a>
-        <a href="#ownerPendingFeedback">反馈审核</a>
+      <nav class="owner-quick-nav" aria-label="管理员页面导航">
+        <button type="button" data-owner-page="orders" class="active" onclick="setOwnerPage('orders')"><span aria-hidden="true">▤</span><span>订单</span></button>
+        <button type="button" data-owner-page="menu" onclick="setOwnerPage('menu')"><span aria-hidden="true">▦</span><span>菜单</span></button>
+        <button type="button" data-owner-page="options" onclick="setOwnerPage('options')"><span aria-hidden="true">☷</span><span>选项</span></button>
+        <button type="button" data-owner-page="feedback" onclick="setOwnerPage('feedback')"><span aria-hidden="true">♡</span><span>反馈</span></button>
       </nav>
 
 
@@ -1626,6 +1684,26 @@
     let paymentFilter = 'all';
     let ordersLoadSeq = 0;
 
+    function setOwnerPage(page) {
+      const pages = {
+        orders: ['summaryBox', 'ownerOrders'],
+        menu: ['ownerProducts'],
+        options: ['ownerOptions'],
+        feedback: ['ownerPendingFeedback', 'ownerApprovedFeedback']
+      };
+      const validPage = Object.prototype.hasOwnProperty.call(pages, page) ? page : 'orders';
+      ['summaryBox', 'ownerOrders', 'ownerProducts', 'ownerOptions', 'ownerPendingFeedback', 'ownerApprovedFeedback'].forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) el.style.display = pages[validPage].includes(id) ? '' : 'none';
+      });
+      document.querySelectorAll('.owner-quick-nav [data-owner-page]').forEach(function(button) {
+        const active = button.dataset.ownerPage === validPage;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-current', active ? 'page' : 'false');
+      });
+      window.scrollTo({top: 0, behavior: 'auto'});
+    }
+
     async function login() {
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('pw').value;
@@ -1665,6 +1743,7 @@
       document.getElementById('loginCard').classList.add('hidden');
       document.getElementById('main').classList.remove('hidden');
       document.getElementById('logoutBtn').classList.remove('hidden');
+      setOwnerPage('orders');
 
       await loadOrders();
       await loadProducts();
