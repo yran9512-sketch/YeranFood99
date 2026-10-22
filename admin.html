@@ -753,7 +753,7 @@
     let ordersLoadSeq = 0;
 
     function isTargetMealDateFriday() {
-      // 星期五按订单对应的用餐日期判断，而不是设备当前日期。
+      // 星期五按当前餐别实际查询的目标用餐日期判断。
       const mealDate = getMealDate();
       return new Date(mealDate + 'T12:00:00').getDay() === 5;
     }

@@ -3246,23 +3246,12 @@
       }
     }
 
-    function getMealDate() {
+    function getMealDate(period = currentPeriod) {
       const now = new Date();
       const h = now.getHours();
 
-      /*
-       * 早餐：
-       * 15:00 后订的是第二天早餐
-       */
-      if (currentPeriod === 'breakfast' && h >= 15) {
-        now.setDate(now.getDate() + 1);
-      }
-
-      /*
-       * 午餐：
-       * 15:00 后订的是第二天午餐
-       */
-      if ((currentPeriod === 'lunch' || currentPeriod === 'drink') && h >= 15) {
+      // 早餐、午餐和饮料统一按餐别计算目标用餐日期。
+      if (h >= 15 && ['breakfast', 'lunch', 'drink'].includes(period)) {
         now.setDate(now.getDate() + 1);
       }
 
@@ -3446,9 +3435,8 @@
     }
 
     function isFridayMealDate(period = currentPeriod) {
-      const now = new Date();
-      if (now.getHours() >= 15 && ['breakfast','lunch','drink'].includes(period)) now.setDate(now.getDate() + 1);
-      return now.getDay() === 5;
+      // 复用实际下单使用的目标用餐日期，避免餐别切换后日期判断不一致。
+      return new Date(getMealDate(period) + 'T12:00:00').getDay() === 5;
     }
     function updatePeriodAvailability() {
       const lunchBtn = document.getElementById('btnLunchOrder');
