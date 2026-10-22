@@ -1397,6 +1397,38 @@
 
 
 
+
+    /* Header should blend into the page background in both appearance modes */
+    header {
+      background: #f5f5f7 !important;
+      background-image: none !important;
+      box-shadow: none !important;
+      border-bottom: 1px solid rgba(0,0,0,.06) !important;
+      color: #1d1d1f !important;
+    }
+    body.dark header {
+      background: #000 !important;
+      background-image: none !important;
+      box-shadow: none !important;
+      border-bottom-color: #2c2c2e !important;
+      color: #f5f5f7 !important;
+    }
+    body.dark header h1 { color: #f5f5f7 !important; text-shadow: none !important; }
+    body.dark header p { color: #a1a1a6 !important; }
+    body.dark header h1:before { color: #a1a1a6 !important; }
+    body.dark header .lang button,
+    body.dark header .lang a {
+      color: #f5f5f7 !important;
+      border-color: #48484a !important;
+      background: #1c1c1e !important;
+    }
+    body.dark header .lang button.active,
+    body.dark header .lang a.active {
+      color: #1d1d1f !important;
+      background: #f5f5f7 !important;
+      border-color: #f5f5f7 !important;
+    }
+
     /* Apple-inspired neutral header: remove the warm/orange hero treatment */
     header {
       background: #f5f5f7 !important;
