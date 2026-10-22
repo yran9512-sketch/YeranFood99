@@ -650,6 +650,9 @@
       if (code) sessionStorage.setItem('lastOrderCode', code);
       if (!code) {
         box.innerHTML = '<div class="card noorders">' + t.searchEmpty + '</div>';
+        // 空输入也要恢复按钮状态；否则会被之前尚未完成的查询留在禁用状态。
+        btn.disabled = false;
+        btn.textContent = t.searchBtn;
         return;
       }
 

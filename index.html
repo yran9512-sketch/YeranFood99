@@ -3458,6 +3458,11 @@
         document.getElementById('fbName').value = '';
         document.getElementById('fbContent').value = '';
         setTimeout(closeFeedback, 1500);
+      }).catch(function (error) {
+        console.error('提交反馈请求失败:', error);
+        setButtonBusy(submitBtn, false, '', text[lang].fbSubmit);
+        msg.style.color = '#c0392b';
+        msg.textContent = '网络异常，提交失败，请检查连接后重试。';
       });
     }
     function openFeedbackList() {
