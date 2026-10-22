@@ -1886,19 +1886,24 @@
     }
 
     let selectedOptionProductId = null;
+    let productsLoadSeq = 0;
 
     function loadProducts() {
       const box = document.getElementById('productsBox');
       if (!box) return;
+      const loadSeq = ++productsLoadSeq;
+      const requestedMenuType = currentMenuType;
 
       box.innerHTML = '<div class="noorders">加载中…</div>';
 
       supabaseClient.from('menu_products')
         .select('*')
-        .eq('menu_type', currentMenuType)
+        .eq('menu_type', requestedMenuType)
         .order('sort', {ascending:true})
         .order('id', {ascending:true})
         .then(function(res) {
+          // 忽略较早的请求，避免快速切换早餐/午餐时旧列表覆盖新列表。
+          if (loadSeq !== productsLoadSeq) return;
           if (res.error) {
             console.error(res.error);
             box.innerHTML = '<div class="noorders" style="color:#c0392b;">加载商品失败，请稍后重试。</div>';
@@ -1936,9 +1941,14 @@
 
           // 商品列表只跟随“菜单商品”自己的早餐/午餐标签。
           // “商品选项设置”有独立的 currentOptType，不能共用 currentMenuType。
-          if (currentOptType === currentMenuType) {
+          if (currentOptType === requestedMenuType && currentMenuType === requestedMenuType) {
             refreshOptionProductSelect();
           }
+        })
+        .catch(function(error) {
+          if (loadSeq !== productsLoadSeq) return;
+          console.error('加载商品异常:', error);
+          box.innerHTML = '<div class="noorders" style="color:#c0392b;">网络异常，商品加载失败，请重试。</div>';
         });
     }
 
