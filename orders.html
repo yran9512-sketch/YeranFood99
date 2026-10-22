@@ -364,6 +364,106 @@
 
   </style>
   <link rel="stylesheet" href="/animations.css">
+
+  <style id="yf-unified-visual-system">
+
+  /* YeranFood unified B palette: minimal white + electric violet */
+  :root {
+    --yf-primary: #6558F5;
+    --yf-primary-hover: #5547E8;
+    --yf-primary-soft: #EFEDFF;
+    --yf-page: #F7F8FC;
+    --yf-surface: #FFFFFF;
+    --yf-text: #20212A;
+    --yf-muted: #737789;
+    --yf-border: #E7E8F0;
+    --yf-shadow: 0 6px 24px rgba(32, 33, 42, .055);
+    --yf-shadow-hover: 0 10px 28px rgba(32, 33, 42, .09);
+    --yf-radius: 16px;
+    --yf-motion: 180ms cubic-bezier(.2,.7,.2,1);
+  }
+  html { scroll-behavior: smooth; }
+  body:not(.dark) {
+    background: var(--yf-page) !important;
+    color: var(--yf-text) !important;
+    -webkit-font-smoothing: antialiased;
+  }
+  body:not(.dark) header {
+    background: rgba(255,255,255,.96) !important;
+    color: var(--yf-text) !important;
+    border-bottom: 1px solid var(--yf-border);
+    box-shadow: 0 2px 12px rgba(32,33,42,.025);
+  }
+  body:not(.dark) header h1,
+  body:not(.dark) header h2,
+  body:not(.dark) header p { color: inherit; }
+  body:not(.dark) .card,
+  body:not(.dark) #orderCard,
+  body:not(.dark) #adminLogin,
+  body:not(.dark) #loginCard,
+  body:not(.dark) #main > .card,
+  body:not(.dark) .order-card,
+  body:not(.dark) .kitchen-order,
+  body:not(.dark) .menu-product-card,
+  body:not(.dark) .option-card,
+  body:not(.dark) .yf-product-card,
+  body:not(.dark) .stat-card,
+  body:not(.dark) .panel {
+    border-color: var(--yf-border);
+    border-radius: var(--yf-radius);
+    box-shadow: var(--yf-shadow);
+  }
+  button, input, select, textarea, a,
+  .card, .order-card, .kitchen-order, .option-card, .yf-product-card {
+    transition: background-color var(--yf-motion), color var(--yf-motion),
+      border-color var(--yf-motion), box-shadow var(--yf-motion), transform var(--yf-motion);
+  }
+  button {
+    border-radius: 12px;
+    font-weight: 600;
+    -webkit-tap-highlight-color: transparent;
+  }
+  button:focus-visible, a:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible {
+    outline: 3px solid rgba(101,88,245,.28);
+    outline-offset: 2px;
+  }
+  body:not(.dark) input:not([type="checkbox"]):not([type="radio"]),
+  body:not(.dark) select,
+  body:not(.dark) textarea {
+    border-color: var(--yf-border);
+    border-radius: 12px;
+    background-color: #fff;
+    color: var(--yf-text);
+  }
+  body:not(.dark) input:focus,
+  body:not(.dark) select:focus,
+  body:not(.dark) textarea:focus {
+    border-color: var(--yf-primary);
+    box-shadow: 0 0 0 3px rgba(101,88,245,.12);
+    outline: none;
+  }
+  body:not(.dark) a:not([class*="danger"]) { text-underline-offset: 3px; }
+  button:active { transform: scale(.985); }
+  @media (hover: hover) {
+    body:not(.dark) .card:hover,
+    body:not(.dark) .order-card:hover,
+    body:not(.dark) .kitchen-order:hover,
+    body:not(.dark) .option-card:hover,
+    body:not(.dark) .yf-product-card:hover {
+      box-shadow: var(--yf-shadow-hover);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: .01ms !important;
+    }
+  }
+
+  </style>
 </head>
 
 <body>
