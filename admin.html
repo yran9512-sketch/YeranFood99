@@ -472,6 +472,36 @@
 
   
 
+  
+    /* Mobile app-style navigation for the kitchen */
+    body { background:#f5f5f7 !important; color:#1d1d1f !important; padding-bottom:calc(82px + env(safe-area-inset-bottom)); }
+    header { background:rgba(255,255,255,.94) !important; color:#1d1d1f !important; text-align:left !important; padding:18px 20px !important; border-bottom:1px solid #e5e5ea; backdrop-filter:blur(18px); }
+    header h1 { font-size:21px !important; letter-spacing:-.4px; }
+    .container { max-width:860px !important; margin:16px auto 28px !important; }
+    #main > .card { border:1px solid #e5e5ea !important; border-radius:20px !important; box-shadow:0 2px 12px #00000005 !important; padding:22px !important; }
+    #main > .card h2 { font-size:20px; letter-spacing:-.3px; }
+    .summary > div { border:1px solid #e5e5ea !important; border-radius:18px !important; box-shadow:0 2px 10px #00000004 !important; }
+    .period-switch { padding:5px !important; border:1px solid #e5e5ea; border-radius:14px; background:#fff; gap:5px !important; }
+    .period-switch button { border-radius:10px !important; min-height:42px; }
+    .kitchen-top-actions button { border-radius:11px !important; min-height:40px; }
+    #kitchenPushBtn { background:#fff !important; }
+    .kitchen-refresh { border-radius:9px !important; min-height:34px; }
+    .kitchen-bottom-nav { position:fixed; left:0; right:0; bottom:0; z-index:100; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; padding:8px 16px calc(8px + env(safe-area-inset-bottom)); border-top:1px solid #e5e5ea; background:rgba(255,255,255,.95); box-shadow:0 -8px 28px #0000000a; backdrop-filter:blur(22px); }
+    .kitchen-bottom-nav button { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; min-height:52px; border:0; border-radius:12px; background:transparent; color:#77777c; font:600 11px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; cursor:pointer; }
+    .kitchen-bottom-nav button span:first-child { font-size:21px; line-height:1; font-weight:400; }
+    .kitchen-bottom-nav button.active { background:#f0f0f3; color:#1d1d1f; }
+    .kitchen-bottom-nav button:focus-visible { outline:2px solid #007aff; outline-offset:2px; }
+    #main > .card[hidden], #main > [hidden] { display:none !important; }
+    @media(max-width:700px) {
+      body { padding-bottom:calc(80px + env(safe-area-inset-bottom)); }
+      header { padding:16px !important; }
+      .container { margin-top:12px !important; padding:0 12px !important; }
+      #main > .card { padding:18px 15px !important; border-radius:18px !important; }
+      .summary { gap:9px !important; }
+      .summary > div { padding:16px 13px !important; }
+      .period-switch button { padding:11px 6px !important; font-size:14px !important; }
+    }
+
   </style>
 <link rel="stylesheet" href="/animations.css">
 
@@ -515,7 +545,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" id="kitchenFeedbackPage">
         <h2>意见反馈 <button onclick="loadFeedback()"
             style="float:right;font-size:13px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer">🔄
             刷新</button></h2>
@@ -523,6 +553,10 @@
           <div class="noorders">加载中…</div>
         </div>
       </div>
+      <nav class="kitchen-bottom-nav" aria-label="厨师端页面导航">
+        <button type="button" data-kitchen-page="orders" class="active" onclick="setKitchenPage('orders')"><span aria-hidden="true">▤</span><span>订单</span></button>
+        <button type="button" data-kitchen-page="feedback" onclick="setKitchenPage('feedback')"><span aria-hidden="true">♡</span><span>反馈</span></button>
+      </nav>
     </section>
 
   </main>
@@ -643,9 +677,28 @@
 
       document.getElementById('adminLogin').style.display = 'none';
       document.getElementById('main').style.display = 'block';
+      setKitchenPage('orders');
       loadOrders();
       loadFeedback();
       initKitchenPush();
+    }
+
+    function setKitchenPage(page) {
+      const feedback = document.getElementById('kitchenFeedbackPage');
+      const period = document.querySelector('#main .period-switch');
+      const summary = document.getElementById('summaryBox');
+      const orderCard = document.getElementById('ordersBox')?.closest('.card');
+      const isFeedback = page === 'feedback';
+      if (feedback) feedback.hidden = !isFeedback;
+      [period, summary, orderCard].forEach(function(el) {
+        if (el) el.hidden = isFeedback;
+      });
+      document.querySelectorAll('.kitchen-bottom-nav [data-kitchen-page]').forEach(function(button) {
+        const active = button.dataset.kitchenPage === (isFeedback ? 'feedback' : 'orders');
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-current', active ? 'page' : 'false');
+      });
+      window.scrollTo({top: 0, behavior: 'auto'});
     }
 
     async function adminLogout() {
