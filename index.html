@@ -2485,6 +2485,31 @@
     }
   }
 
+
+  body:not(.dark) .submit,
+  body:not(.dark) .checkoutBar .submit,
+  body:not(.dark) .uploadBtn {
+    background: linear-gradient(110deg, #6558F5, #786CFF) !important;
+    border-color: #6558F5 !important;
+    color: #fff !important;
+    box-shadow: 0 7px 18px rgba(101,88,245,.20);
+  }
+  body:not(.dark) .submit:hover,
+  body:not(.dark) .checkoutBar .submit:hover,
+  body:not(.dark) .uploadBtn:hover {
+    background: #5547E8 !important;
+    box-shadow: 0 9px 22px rgba(101,88,245,.24);
+  }
+  body:not(.dark) #productList > button.yf-product-card.yf-selected {
+    border-color: #6558F5 !important;
+    box-shadow: 0 0 0 2px rgba(101,88,245,.14) !important;
+  }
+  body:not(.dark) .lang button.active {
+    background: var(--yf-primary-soft) !important;
+    border-color: var(--yf-primary) !important;
+    color: var(--yf-primary) !important;
+  }
+
   </style>
 </head>
 
