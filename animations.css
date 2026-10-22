@@ -1,0 +1,4 @@
+/* YeranFood motion styles */
+@keyframes yf-enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+header{animation:yf-enter .45s ease both}
+@media(prefers-reduced-motion:reduce){header{animation:none!important}}
