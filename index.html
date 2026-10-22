@@ -2322,7 +2322,68 @@
       }
     }
 
-  </style>
+  
+    /* Final appearance-mode overrides: keep the header and page on one neutral palette */
+    body:not(.dark) {
+      background: #f5f5f7 !important;
+      color: #1d1d1f;
+    }
+    body:not(.dark) header {
+      background: #f5f5f7 !important;
+      background-image: none !important;
+    }
+    body.dark {
+      background: #000 !important;
+      background-image: none !important;
+      color: #f5f5f7 !important;
+    }
+    body.dark header {
+      background: #000 !important;
+      background-image: none !important;
+      border-bottom-color: #2c2c2e !important;
+    }
+    body.dark #orderCard,
+    body.dark #payCard,
+    body.dark #successCard,
+    body.dark .card,
+    body.dark .breakfast-product-card {
+      background: #1c1c1e !important;
+      background-image: none !important;
+      border-color: #38383a !important;
+      color: #f5f5f7 !important;
+    }
+    body.dark #periodSwitch,
+    body.dark .breakfast-option,
+    body.dark .opt > label {
+      background: #2c2c2e !important;
+      border-color: #48484a !important;
+    }
+    body.dark .periodBtn.active,
+    body.dark #productList > button.yf-product-card.yf-selected {
+      background: #2c2c2e !important;
+      background-image: none !important;
+      border-color: #8e8e93 !important;
+      color: #f5f5f7 !important;
+      box-shadow: none !important;
+    }
+    body.dark #productList > button.yf-product-card {
+      background: #1c1c1e !important;
+      border-color: #38383a !important;
+      color: #f5f5f7 !important;
+    }
+    body.dark .yf-product-name,
+    body.dark .breakfast-product-name,
+    body.dark .breakfast-choice-title,
+    body.dark .breakfast-option-name {
+      color: #f5f5f7 !important;
+    }
+    body.dark #bottomNav,
+    body.dark .checkoutBar {
+      background: rgba(28,28,30,.97) !important;
+      border-color: #38383a !important;
+    }
+
+</style>
   <link rel="stylesheet" href="/animations.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
