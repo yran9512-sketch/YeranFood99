@@ -623,6 +623,28 @@
     border-radius: 11px;
   }
 
+  
+  /* Final polish: kitchen workflow stays order-focused (no preparation-stage UI). */
+  :root { --yf-primary:#6558F5; --yf-primary-hover:#5547E8; --yf-primary-soft:#EFEDFF; --yf-page:#F7F8FC; --yf-border:#E7E8F0; }
+  body { background:var(--yf-page) !important; color:#20212A !important; }
+  header { background:#fff !important; color:#20212A !important; border-bottom:1px solid var(--yf-border) !important; }
+  header h1 { color:#20212A !important; }
+  button, button.primary, .primary, input[type="submit"] { background:var(--yf-primary) !important; border-color:var(--yf-primary) !important; color:#fff !important; }
+  button:hover, button.primary:hover, .primary:hover, input[type="submit"]:hover { background:var(--yf-primary-hover) !important; border-color:var(--yf-primary-hover) !important; }
+  #kitchenPushBtn { background:#fff !important; color:var(--yf-primary) !important; border-color:var(--yf-border) !important; }
+  .period-switch button.primary, .period-switch button[aria-pressed="true"] { background:#fff !important; color:var(--yf-primary) !important; border-color:#d9d5ff !important; }
+  .kitchen-order { border-color:var(--yf-border) !important; box-shadow:0 4px 16px rgba(32,33,42,.04) !important; }
+  .kitchen-order-note { background:var(--yf-primary-soft) !important; color:#4c438f !important; }
+  .summary .num { color:var(--yf-primary) !important; }
+  input:focus, textarea:focus, select:focus { border-color:var(--yf-primary) !important; outline:3px solid rgba(101,88,245,.13) !important; }
+  @media(max-width:700px) {
+    .kitchen-order-code { font-size:18px; }
+    .kitchen-order-name { font-size:16px; line-height:1.45; }
+    .kitchen-order-meta { font-size:13px; }
+    .kitchen-order-note { line-height:1.5; overflow-wrap:anywhere; }
+    .kitchen-top-actions button, .kitchen-refresh { min-height:44px; }
+  }
+
   </style>
 </head>
 
