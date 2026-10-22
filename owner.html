@@ -2622,23 +2622,25 @@
         q = q.eq('paid', false);
       }
 
-      const {data, error} = await q;
+      try {
+        const {data, error} = await q;
 
-      if (loadSeq !== ordersLoadSeq) return;
+        if (loadSeq !== ordersLoadSeq) return;
 
-      if (error) {
-        console.error('加载订单失败:', error);
+        if (error) {
+          console.error('加载订单失败:', error);
+          box.innerHTML =
+            '<div style="padding:25px;text-align:center;color:#c0392b;">订单加载失败，请检查网络后重试。</div>';
+          return;
+        }
 
+        renderOrders(data || []);
+      } catch (err) {
+        if (loadSeq !== ordersLoadSeq) return;
+        console.error('加载订单异常:', err);
         box.innerHTML =
-          '<div style="padding:25px;text-align:center;color:#c0392b;">' +
-          '订单加载失败：' +
-          escapeHtml(error.message) +
-          '</div>';
-
-        return;
+          '<div style="padding:25px;text-align:center;color:#c0392b;">网络异常，订单加载失败，请刷新重试。</div>';
       }
-
-      renderOrders(data || []);
     }
 
     function renderOrders(list) {
