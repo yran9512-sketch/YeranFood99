@@ -1397,6 +1397,30 @@
 
 
 
+    /* Apple-inspired neutral header: remove the warm/orange hero treatment */
+    header {
+      background: #f5f5f7 !important;
+      background-image: none !important;
+      color: #1d1d1f !important;
+      border-bottom: 1px solid #e5e5ea !important;
+      box-shadow: none !important;
+    }
+    header::before, header::after {
+      background: none !important;
+      box-shadow: none !important;
+    }
+    header h1 { color: #1d1d1f !important; text-shadow: none !important; }
+    header p { color: #6e6e73 !important; }
+    header .lang button, header .lang a {
+      color: #1d1d1f !important;
+      border-color: #d2d2d7 !important;
+      background: rgba(255,255,255,.72) !important;
+    }
+    header .lang button:hover, header .lang a:hover {
+      background: #fff !important;
+      border-color: #a1a1a6 !important;
+    }
+
     /* ===== Refined Apple-inspired visual system ===== */
     :root {
       --yf-orange: #ff6a35;
