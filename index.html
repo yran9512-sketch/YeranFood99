@@ -1995,6 +1995,124 @@
       }
     }
 
+  
+    /* ===== YeranFood energetic orange-red visual refresh ===== */
+    :root {
+      --yf-orange: #f04b35;
+      --yf-orange-soft: #fff0e9;
+      --yf-green: #25834a;
+      --yf-text: #231d1b;
+      --yf-muted: #766b66;
+      --yf-border: #f0dfd8;
+      --yf-shadow: 0 14px 36px rgba(112, 45, 25, .09);
+    }
+    body {
+      color: var(--yf-text);
+      background:
+        radial-gradient(ellipse at 4% 0%, rgba(255, 205, 177, .42), transparent 31%),
+        #fff8f4;
+      -webkit-font-smoothing: antialiased;
+    }
+    header {
+      overflow: hidden;
+      background: linear-gradient(125deg, #b92525 0%, #ef432e 52%, #ff743b 100%);
+      padding: 34px 20px 30px;
+      box-shadow: 0 12px 32px rgba(192, 48, 32, .16);
+    }
+    header h1 { letter-spacing: -.8px; text-shadow: 0 2px 12px rgba(94, 18, 12, .16); }
+    header h1:before { content: "✦"; color: #ffe2a9; font-size: .7em; margin-right: 10px; vertical-align: 8%; }
+    header p { color: rgba(255,255,255,.82); }
+    .lang button { border-color: rgba(255,255,255,.45); color: #fff; }
+    .lang button.active { background: #fff; color: #c52d27; border-color: #fff; }
+    #orderCard, #payCard, #successCard {
+      border: 1px solid rgba(240, 75, 53, .10);
+      box-shadow: var(--yf-shadow);
+    }
+    #menuTitle { color: #c93b2b; letter-spacing: 1.5px; }
+    #periodSwitch { background: #ffebe3; border: 1px solid #ffded1; }
+    .periodBtn { color: #8e6257; }
+    .periodBtn.active {
+      color: #c52f28;
+      border-color: #ffc3ae;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(193, 49, 34, .10);
+    }
+    #productList > button.yf-product-card {
+      border-color: #f1ded6 !important;
+      box-shadow: 0 5px 16px rgba(105, 45, 27, .045);
+    }
+    #productList > button.yf-product-card:hover:not(:disabled) {
+      border-color: #ff9b7f !important;
+      box-shadow: 0 12px 26px rgba(192, 48, 32, .10);
+    }
+    #productList > button.yf-product-card.yf-selected {
+      border-color: var(--yf-orange) !important;
+      background: linear-gradient(145deg, #fff8f3, #ffede5) !important;
+      box-shadow: 0 8px 24px rgba(240, 75, 53, .13);
+    }
+    .yf-product-image { border-radius: 16px; box-shadow: 0 4px 12px rgba(64, 32, 20, .08); }
+    .yf-product-name, .breakfast-option-name { color: #2a201d; }
+    .yf-product-price, .price, #total { color: #d83b2c !important; }
+    .yf-product-icon, .breakfast-hero-icon { background: linear-gradient(145deg, #fff0d9, #ffd7c4); }
+    .breakfast-product-card {
+      border-color: #f3c6b4;
+      background: linear-gradient(135deg, #fffaf5 0%, #ffede3 100%);
+      box-shadow: 0 10px 28px rgba(192, 48, 32, .08);
+    }
+    .breakfast-badge, #breakfastBadge { background: #f04432; color: #fff; }
+    .breakfast-option:has(input:checked), .opt label:has(input:checked) {
+      border-color: var(--yf-orange) !important;
+      background: #fff1ea !important;
+      box-shadow: 0 3px 12px rgba(240, 75, 53, .10);
+    }
+    .opt label:has(input:checked) input { accent-color: var(--yf-orange); }
+    input:focus, textarea:focus { border-color: #f36a50; box-shadow: 0 0 0 3px rgba(240,75,53,.10); }
+    .submit, .uploadBtn {
+      background: linear-gradient(110deg, #d92f2d, #f04b35 60%, #ff713b);
+      box-shadow: 0 8px 18px rgba(205, 48, 39, .18);
+    }
+    .submit:hover { background: linear-gradient(110deg, #bd2427, #e63e30 60%, #f65e30); box-shadow: 0 10px 22px rgba(205,48,39,.24); }
+    .checkoutBar {
+      border-color: #ffd3c3;
+      box-shadow: 0 12px 32px rgba(105, 45, 27, .14);
+      backdrop-filter: blur(16px);
+    }
+    .checkoutTotalValue { color: #d83b2c; }
+    #bottomNav {
+      border-top-color: #f3ddd5;
+      box-shadow: 0 -6px 22px rgba(105, 45, 27, .06);
+    }
+    #bottomNav .navBtn.active { color: #e33e30; }
+    .feedbackBtn { border-color: #f1d4ca; color: #a64a3c; }
+    .feedbackBtn:hover { border-color: #f04b35; color: #d83b2c; }
+    body.dark {
+      background: radial-gradient(circle at 15% 0%, rgba(240,75,53,.12), transparent 30%), #12100f;
+    }
+    body.dark header { background: linear-gradient(125deg, #792323, #b83229 55%, #d34c2d); }
+    body.dark #periodSwitch { background: #29201d; border-color: #48302a; }
+    body.dark .periodBtn.active { background: #3b2520; color: #ffb29d; border-color: #744236; }
+    body.dark #productList > button.yf-product-card.yf-selected { background: linear-gradient(145deg,#35221e,#2a1d1a) !important; }
+    body.dark .breakfast-product-card { background: linear-gradient(145deg,#2b201d,#211918); border-color: #58352d; }
+    body.dark .breakfast-option:has(input:checked), body.dark .opt label:has(input:checked) { background: #38231f !important; border-color: #f04b35 !important; }
+    body.dark #bottomNav { background: #181413; border-top-color: #382620; }
+    @media (min-width: 900px) {
+      #productList > button.yf-product-card { min-height: 158px; }
+      .yf-product-image { width: 96px; height: 96px; flex-basis: 96px; }
+    }
+    @media (max-width: 700px) {
+      header { padding: 27px 16px 23px; border-radius: 0 0 24px 24px; }
+      header h1 { font-size: 29px; }
+      .container { margin-top: 12px; }
+      #orderCard { border-radius: 22px; }
+      #productList > button.yf-product-card { border-radius: 17px !important; }
+      .yf-product-image { width: 76px; height: 76px; flex-basis: 76px; }
+      .checkoutBar { border-radius: 19px; }
+    }
+    @media (max-width: 380px) {
+      header h1 { font-size: 25px; }
+      .yf-product-image { width: 66px; height: 66px; flex-basis: 66px; }
+    }
+
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
