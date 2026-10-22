@@ -1108,6 +1108,9 @@
     header button{border-color:#65766b;border-radius:10px;padding:9px 14px}
     header button:hover{background:#ffffff14}
     .container{max-width:1140px;margin:26px auto;padding:0 20px}
+    /* Keep every protected admin section hidden until authentication succeeds.
+       #main has an ID selector, so it overrides the generic .hidden class otherwise. */
+    #main.hidden { display: none !important; }
     #main{display:flex;flex-direction:column;gap:18px}
     #main>.card{margin:0;padding:22px;border:1px solid var(--yf-line);border-radius:18px;box-shadow:0 5px 18px rgba(24,48,32,.035);background:#fff}
     #main>.card:hover{box-shadow:0 8px 24px rgba(24,48,32,.06)}
