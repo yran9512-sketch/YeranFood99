@@ -471,20 +471,6 @@
     }
 
   
-    /* Fast order-management tools */
-    .order-tools { display:grid; grid-template-columns:minmax(0,1fr) 190px auto; gap:10px; align-items:center; margin:14px 0 16px; }
-    .order-tools input, .order-tools select { width:100%; min-width:0; margin:0 !important; }
-    .order-result-count { color:#6e6e73; font-size:13px; white-space:nowrap; text-align:right; }
-    .payment-pill { display:inline-flex; align-items:center; padding:5px 9px; border-radius:999px; font-size:12px; font-weight:700; white-space:nowrap; }
-    .payment-pill.is-paid { background:#e8f7ed; color:#187344; }
-    .payment-pill.is-unpaid { background:#fff3d6; color:#855b00; }
-    .kitchen-order .payment-pill { align-self:flex-start; }
-    @media(max-width:680px) {
-      .order-tools { grid-template-columns:minmax(0,1fr) 130px; }
-      .order-result-count { grid-column:1/-1; text-align:left; }
-      .kitchen-table { display:none !important; }
-      .kitchen-cards { display:grid !important; gap:10px; }
-    }
 
   </style>
 <link rel="stylesheet" href="/animations.css">
@@ -524,15 +510,6 @@
       <div class="card" style="margin-top:16px">
         <h2>订单列表 <button class="kitchen-refresh" onclick="refreshKitchen(this)"
             style="float:right;font-size:13px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#333">🔄 刷新</button></h2>
-        <div class="order-tools">
-          <input id="orderSearch" type="search" placeholder="搜索姓名、订单号或备注…" oninput="applyOrderFilters()" aria-label="搜索订单">
-          <select id="paymentFilter" onchange="applyOrderFilters()" aria-label="付款状态">
-            <option value="all">全部付款状态</option>
-            <option value="paid">已付款</option>
-            <option value="unpaid">未付款</option>
-          </select>
-          <div id="orderResultCount" class="order-result-count" aria-live="polite"></div>
-        </div>
         <div id="ordersBox">
           <div class="noorders">加载中…</div>
         </div>
@@ -804,20 +781,6 @@
     }
     let currentOrders = [];
 
-    function applyOrderFilters() {
-      const query = (document.getElementById('orderSearch')?.value || '').trim().toLowerCase();
-      const payment = document.getElementById('paymentFilter')?.value || 'all';
-      const filtered = currentOrders.filter(function (o) {
-        const haystack = [o.order_code, o.name, o.note, o.meal_type].join(' ').toLowerCase();
-        const matchesQuery = !query || haystack.includes(query);
-        const matchesPayment = payment === 'all' || (payment === 'paid' ? !!o.paid : !o.paid);
-        return matchesQuery && matchesPayment;
-      });
-      const count = document.getElementById('orderResultCount');
-      if (count) count.textContent = filtered.length + ' / ' + currentOrders.length + ' 笔订单';
-      renderOrderRows(filtered);
-    }
-
     function renderOrders(orders) {
       currentOrders = (orders || []).slice().sort(function (a, b) {
         return new Date(b.created_at) - new Date(a.created_at);
@@ -837,15 +800,12 @@
       summaryHtml += '<div><div class="num">' + totalQty + '</div><div class="lbl">总份数</div></div>';
       summaryHtml += '<div><div class="num">' + paidCount + '</div><div class="lbl">已付款订单</div></div>';
       document.getElementById('summaryBox').innerHTML = summaryHtml;
-      applyOrderFilters();
+      renderOrderRows(currentOrders);
     }
 
     function renderOrderRows(orders) {
       if (!orders.length) {
-        const searching = (document.getElementById('orderSearch')?.value || '').trim() ||
-          (document.getElementById('paymentFilter')?.value || 'all') !== 'all';
-        document.getElementById('ordersBox').innerHTML = '<div class="noorders">' +
-          (searching ? '没有符合条件的订单，试试其他关键词或付款筛选。' : '今天还没有订单') + '</div>';
+        document.getElementById('ordersBox').innerHTML = '<div class="noorders">今天还没有订单</div>';
         return;
       }
       let html = '<div class="kitchen-table"><table><thead><tr>' +
