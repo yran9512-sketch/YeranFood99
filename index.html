@@ -1935,6 +1935,8 @@
         position: fixed;
         left: 10px;
         right: 10px;
+        z-index: 110;
+        pointer-events: auto;
         bottom: calc(76px + env(safe-area-inset-bottom));
         margin: 0;
         padding: 9px 9px 9px 14px;
@@ -3625,6 +3627,7 @@
     }
 
     function goToPayment() {
+      if (window._orderSubmitting) return;
       if (currentPayMethod() === 'cash') {
         submitCashOrder();
         return;
@@ -3642,10 +3645,14 @@
         return;
       }
 
-      const requestId = crypto.randomUUID();
+      const requestId = window._activeOrderRequestId || crypto.randomUUID();
+      window._activeOrderRequestId = requestId;
+      window._orderSubmitting = true;
       const btn = document.getElementById('submitBtn');
       btn.disabled = true;
       btn.textContent = '处理中…';
+      const requestController = new AbortController();
+      const requestTimeout = setTimeout(() => requestController.abort(), 25000);
 
       supabaseClient.rpc('create_online_order_pending', {
         p_request_id: requestId,
@@ -3656,7 +3663,10 @@
         p_meal_period: currentPeriod,
         p_product_id: menu.id,
         p_option_id: selectedOptionId
-      }).then(function (res) {
+      }).abortSignal(requestController.signal).then(function (res) {
+        clearTimeout(requestTimeout);
+        window._orderSubmitting = false;
+        window._activeOrderRequestId = null;
         btn.disabled = false;
         btn.textContent = text[lang].submit;
         if (res.error) {
@@ -3694,15 +3704,18 @@
         document.getElementById('orderCard').style.display = 'none';
         document.getElementById('payCard').style.display = 'block';
       }).catch(function (err) {
+        clearTimeout(requestTimeout);
         console.error('在线下单请求失败:', err);
+        window._orderSubmitting = false;
         btn.disabled = false;
         btn.textContent = text[lang].submit;
         alert(lang === 'zh'
-          ? '网络连接异常，暂时无法确认订单是否创建成功。请先查询订单，再决定是否重新下单。'
-          : 'Network error. We could not confirm whether your order was created. Please check your order first before placing another one.');
+          ? '请求超时或网络连接异常，暂时无法确认订单是否创建成功。请先查询订单，再决定是否重新下单。'
+          : 'Request timed out or network error. We could not confirm whether your order was created. Please check your order first before retrying.');
       });
     }
     function submitCashOrder() {
+      if (window._orderSubmitting) return;
       const name = document.getElementById('name').value.trim();
       const note = document.getElementById('note').value.trim();
       if (!name) {alert(text[lang].error); return;}
@@ -3717,10 +3730,14 @@
       }
 
       const btn = document.getElementById('submitBtn');
+      const requestId = window._activeOrderRequestId || crypto.randomUUID();
+      window._activeOrderRequestId = requestId;
+      window._orderSubmitting = true;
       btn.disabled = true;
       btn.textContent = '处理中…';
+      const requestController = new AbortController();
+      const requestTimeout = setTimeout(() => requestController.abort(), 25000);
 
-      const requestId = crypto.randomUUID();
       supabaseClient.rpc('create_order_v2', {
         p_request_id: requestId,
         p_name: name,
@@ -3731,7 +3748,10 @@
         p_payment_method: 'cash',
         p_product_id: menu.id,
         p_option_id: selectedOptionId
-      }).then(function (res) {
+      }).abortSignal(requestController.signal).then(function (res) {
+        clearTimeout(requestTimeout);
+        window._orderSubmitting = false;
+        window._activeOrderRequestId = null;
         btn.disabled = false;
         btn.textContent = text[lang].submit;
         if (res.error) {
@@ -3753,12 +3773,14 @@
         document.getElementById('orderId').textContent = row.order_code;
         document.getElementById('successTotal').textContent = 'RM ' + row.total + ' · ' + (lang === 'zh' ? '现金请交给 Yeran' : 'Please pay Yeran in cash');
       }).catch(function (err) {
+        clearTimeout(requestTimeout);
         console.error('现金下单请求失败:', err);
+        window._orderSubmitting = false;
         btn.disabled = false;
         btn.textContent = text[lang].submit;
         alert(lang === 'zh'
-          ? '网络连接异常，暂时无法确认订单是否创建成功。请先查询订单，再决定是否重新下单。'
-          : 'Network error. We could not confirm whether your order was created. Please check your order first before placing another one.');
+          ? '请求超时或网络连接异常，暂时无法确认订单是否创建成功。请先查询订单，再决定是否重新下单。'
+          : 'Request timed out or network error. We could not confirm whether your order was created. Please check your order first before retrying.');
       });
     }
     function backToOrder() {
