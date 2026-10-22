@@ -491,26 +491,40 @@
       return mm + '-' + dd + ' ' + hh + ':' + mi;
     }
 
-    function search() {
+    let searchRequestSeq = 0;
+
+    async function search() {
       const t = text[lang];
       const code = document.getElementById('codeInput').value.trim().toUpperCase();
-      if (code) sessionStorage.setItem('lastOrderCode', code);
       const box = document.getElementById('resultBox');
+      const btn = document.getElementById('searchBtn');
+      const requestSeq = ++searchRequestSeq;
+
+      if (code) sessionStorage.setItem('lastOrderCode', code);
       if (!code) {
         box.innerHTML = '<div class="card noorders">' + t.searchEmpty + '</div>';
         return;
       }
+
+      btn.disabled = true;
+      btn.textContent = t.searching;
       box.innerHTML = '<div class="card noorders">' + t.searching + '</div>';
 
-      supabaseClient.rpc('get_order_by_code', { p_order_code: code }).then(function (res) {
+      try {
+        const res = await supabaseClient.rpc('get_order_by_code', { p_order_code: code });
+        // 忽略较早发出的查询，防止旧结果覆盖最新输入。
+        if (requestSeq !== searchRequestSeq) return;
+
         if (res.error) {
-          console.error(res.error); box.innerHTML = '<div class="card noorders">' + t.queryFail + '</div>';
+          console.error(res.error);
+          box.innerHTML = '<div class="card noorders">' + t.queryFail + '请检查网络后重试。</div>';
           return;
         }
         if (!res.data || !res.data.length) {
           box.innerHTML = '<div class="card noorders">' + t.notFound + '</div>';
           return;
         }
+
         const o = res.data[0];
         const statusTag = o.paid
           ? '<span class="tag paid">' + t.tagPaid + '</span>'
@@ -519,20 +533,29 @@
           ? '<span class="tag cash">' + t.tagCash + '</span>'
           : '<span class="tag online">' + t.tagOnline + '</span>';
 
-        let html = '<div class="card">' +
+        const html = '<div class="card">' +
           '<div class="orderCard">' +
           '<div class="oid">' + escapeHtml(o.order_code || '') + ' ' + statusTag + '</div>' +
           '<div class="row"><span class="label">' + t.labelTime + '</span><span class="value">' + fmtTime(o.created_at) + '</span></div>' +
           '<div class="row"><span class="label">' + t.labelName + '</span><span class="value">' + escapeHtml(o.name || '') + '</span></div>' +
           '<div class="row"><span class="label">' + t.labelOption + '</span><span class="value">' + escapeHtml(o.meal_type || '') + '</span></div>' +
-          '<div class="row"><span class="label">' + t.labelQty + '</span><span class="value">' + o.quantity + '</span></div>' +
-          '<div class="row"><span class="label">' + t.labelTotal + '</span><span class="value">RM ' + o.total + '</span></div>' +
+          '<div class="row"><span class="label">' + t.labelQty + '</span><span class="value">' + Number(o.quantity || 0) + '</span></div>' +
+          '<div class="row"><span class="label">' + t.labelTotal + '</span><span class="value">RM ' + Number(o.total || 0).toFixed(2) + '</span></div>' +
           '<div class="row"><span class="label">' + t.labelPayment + '</span><span class="value">' + payTag + '</span></div>' +
           (o.note ? '<div class="row"><span class="label">' + t.labelNote + '</span><span class="value">' + escapeHtml(o.note) + '</span></div>' : '') +
           '</div>' +
           '</div>';
         box.innerHTML = html;
-      });
+      } catch (err) {
+        if (requestSeq !== searchRequestSeq) return;
+        console.error(err);
+        box.innerHTML = '<div class="card noorders">' + t.queryFail + '请检查网络后重试。</div>';
+      } finally {
+        if (requestSeq === searchRequestSeq) {
+          btn.disabled = false;
+          btn.textContent = t.searchBtn;
+        }
+      }
     }
 
     // 恢复深色模式
