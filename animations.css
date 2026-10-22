@@ -16,3 +16,26 @@ button:active{transform:scale(.985)}
 .orderCard{transition:box-shadow .2s ease,border-color .2s ease}
 .orderCard:hover{box-shadow:0 8px 20px rgba(96,43,27,.07);border-color:#f0c8ba}
 @media(prefers-reduced-motion:reduce){header,main.container>.card,#orderCard,#adminLogin,#loginCard,#main>.card,#productList>.yf-product-card,.menu-product-card,.option-card,.order-card,.kitchen-order,#resultBox>.card,.breakfast-product-card{animation:none!important}#productList>.yf-product-card:hover,.menu-product-card:hover,.option-card:hover,.order-card:hover,.kitchen-order:hover,.yf-product-image,.menu-image-thumb,.breakfast-option:active,.opt label:active,.summary>div:hover,button:active{transform:none!important}}
+
+
+/* Unified B palette motion refinements */
+:root {
+  --yf-primary: #6558F5;
+  --yf-motion: 180ms cubic-bezier(.2,.7,.2,1);
+}
+header { animation-duration: 250ms; }
+main.container > .card, #orderCard, #adminLogin, #loginCard, #main > .card {
+  animation-duration: 250ms;
+}
+#productList > .yf-product-card, .menu-product-card, .option-card, .order-card,
+.kitchen-order, #resultBox > .card {
+  transition-duration: 180ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
