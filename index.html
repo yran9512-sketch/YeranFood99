@@ -1396,6 +1396,123 @@
     }
 
 
+
+    /* ===== Refined Apple-inspired visual system ===== */
+    :root {
+      --yf-orange: #ff6a35;
+      --yf-orange-soft: #fff1eb;
+      --yf-green: #248a52;
+      --yf-text: #1d1d1f;
+      --yf-muted: #6e6e73;
+      --yf-border: #e5e5ea;
+      --yf-shadow: 0 8px 28px rgba(0, 0, 0, .055);
+    }
+    body {
+      color: #1d1d1f;
+      background: #f5f5f7;
+      -webkit-font-smoothing: antialiased;
+    }
+    header {
+      background: rgba(255,255,255,.92);
+      color: #1d1d1f;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      box-shadow: none;
+    }
+    header h1, header p { color: #1d1d1f; }
+    .container { max-width: 760px; }
+    #orderCard, #payCard, #successCard {
+      background: rgba(255,255,255,.96);
+      border: 1px solid rgba(0,0,0,.045);
+      border-radius: 24px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.045);
+    }
+    #periodSwitch { background: #e9e9ed; border-radius: 14px; }
+    .periodBtn { color: #6e6e73; border: 0; border-radius: 11px; }
+    .periodBtn.active {
+      color: #1d1d1f;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.04);
+      box-shadow: 0 1px 4px rgba(0,0,0,.09);
+    }
+    #productList > button.yf-product-card {
+      background: #fff !important;
+      border: 1px solid #e5e5ea !important;
+      border-radius: 20px !important;
+      box-shadow: 0 2px 10px rgba(0,0,0,.025);
+    }
+    #productList > button.yf-product-card:hover:not(:disabled) {
+      border-color: #c7c7cc !important;
+      box-shadow: 0 7px 22px rgba(0,0,0,.07);
+    }
+    #productList > button.yf-product-card.yf-selected {
+      background: #fff8f4 !important;
+      border: 1.5px solid #ff6a35 !important;
+      box-shadow: 0 4px 16px rgba(255,106,53,.10);
+    }
+    .yf-product-name, .breakfast-product-name, .breakfast-option-name,
+    .breakfast-choice-title { color: #1d1d1f; }
+    .yf-product-price, .breakfast-price, .checkoutTotalValue { color: #e9572b; }
+    .yf-stock-badge { background: #eaf7ee; color: #248a52; }
+    .yf-stock-badge.low { background: #fff4e5; color: #a85b00; }
+    .breakfast-product-card {
+      background: #fff;
+      border: 1px solid #e5e5ea;
+      border-radius: 22px;
+      box-shadow: var(--yf-shadow);
+    }
+    .breakfast-option, .opt > label {
+      background: #fafafa !important;
+      border: 1px solid #e5e5ea;
+      border-radius: 15px !important;
+    }
+    .breakfast-option:has(input:checked), .opt > label:has(input:checked) {
+      background: #fff5f0 !important;
+      border-color: #ff6a35 !important;
+      box-shadow: 0 2px 10px rgba(255,106,53,.08);
+    }
+    #name, #note { background: #f5f5f7; border-color: #d2d2d7; }
+    input, textarea, select { border-radius: 13px; }
+    .checkoutBar {
+      background: rgba(255,255,255,.96);
+      border: 1px solid rgba(0,0,0,.07);
+      box-shadow: 0 8px 26px rgba(0,0,0,.12);
+    }
+    .checkoutBar .submit, .submit {
+      background: #1d1d1f;
+      color: #fff;
+      border-radius: 14px;
+      font-weight: 700;
+    }
+    .checkoutBar .submit:hover, .submit:hover { background: #333336; }
+    #bottomNav {
+      background: rgba(255,255,255,.94);
+      border-top: 1px solid rgba(0,0,0,.08);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    #bottomNav a, #bottomNav button { color: #6e6e73; }
+    body.dark {
+      --yf-text: #f5f5f7;
+      --yf-muted: #a1a1a6;
+      --yf-border: #38383a;
+      background: #000;
+      color: #f5f5f7;
+    }
+    body.dark header { background: rgba(28,28,30,.94); border-bottom-color: #38383a; }
+    body.dark header h1, body.dark header p { color: #f5f5f7; }
+    body.dark #orderCard, body.dark #payCard, body.dark #successCard,
+    body.dark .breakfast-product-card { background: #1c1c1e; border-color: #38383a; }
+    body.dark #periodSwitch { background: #2c2c2e; }
+    body.dark .periodBtn.active { background: #48484a; color: #fff; }
+    body.dark #productList > button.yf-product-card { background: #1c1c1e !important; border-color: #38383a !important; }
+    body.dark #productList > button.yf-product-card.yf-selected { background: #30211c !important; border-color: #ff8056 !important; }
+    body.dark .yf-product-name, body.dark .breakfast-product-name,
+    body.dark .breakfast-option-name, body.dark .breakfast-choice-title { color: #f5f5f7; }
+    body.dark .breakfast-option, body.dark .opt > label { background: #2c2c2e !important; border-color: #48484a; }
+    body.dark #name, body.dark #note { background: #2c2c2e; border-color: #48484a; color: #f5f5f7; }
+    body.dark .checkoutBar { background: rgba(28,28,30,.96); border-color: #38383a; }
+    body.dark #bottomNav { background: rgba(28,28,30,.94); border-top-color: #38383a; }
+
     /* ===== 第三轮学生端视觉升级：1-4 全部 ===== */
     :root {
       --yf-orange: #e89b32;
