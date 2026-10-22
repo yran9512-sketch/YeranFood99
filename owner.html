@@ -1305,6 +1305,70 @@
       #main > .card[id] { scroll-margin-top:118px; }
     }
 
+  
+    /* ===== 管理员端：工作台重构 ===== */
+    html { scroll-behavior:smooth; scroll-padding-top:112px; }
+    body { background:#f4f5f7; color:#171717; }
+    header { padding:16px max(18px,calc((100vw - 1240px)/2)); background:#171717; }
+    header h1 { font-size:21px; letter-spacing:-.4px; }
+    .container { max-width:1240px; width:100%; margin:22px auto 60px; padding:0 20px; }
+    #main { display:flex; flex-direction:column; gap:18px; }
+    #main > .owner-quick-nav { order:0; }
+    #main > #summaryBox { order:1; }
+    #main > #ownerOrders { order:2; }
+    #main > #ownerProducts { order:3; }
+    #main > #ownerOptions { order:4; }
+    #main > #ownerPendingFeedback { order:5; }
+    #main > #ownerApprovedFeedback { order:6; }
+    #main > .card, #main > .dashboard { margin:0; }
+    .owner-quick-nav { position:sticky; top:68px; z-index:40; display:flex; gap:8px; padding:10px; border:1px solid #e3e5e8; border-radius:16px; background:rgba(255,255,255,.94); backdrop-filter:blur(14px); box-shadow:0 8px 24px #0000000a; overflow-x:auto; }
+    .owner-quick-nav a { flex:0 0 auto; text-decoration:none; color:#3b3b3b; padding:10px 14px; border-radius:10px; font-size:14px; font-weight:700; white-space:nowrap; }
+    .owner-quick-nav a:first-child { background:#171717; color:#fff; }
+    .owner-quick-nav a:hover { background:#eceef1; color:#111; }
+    .card { padding:24px; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 4px 18px #11111106; }
+    .card:hover { box-shadow:0 8px 28px #1111110b; }
+    .card h2 { display:flex; align-items:center; gap:10px; font-size:21px; letter-spacing:-.35px; margin-bottom:18px; }
+    .card h2:before { content:""; display:block; width:4px; height:22px; border-radius:4px; background:#171717; }
+    .dashboard { grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+    .stat-card { border:1px solid #e4e6e9; border-radius:16px; box-shadow:none; padding:20px; }
+    .stat-num { letter-spacing:-.8px; }
+    .order-filters { background:#f8f9fa; border-color:#e7e8eb; gap:12px; }
+    .filter-btn,.refresh-btn { min-height:40px; border-color:#e0e2e5; font-weight:650; }
+    button.primary { background:#171717; border-radius:11px; min-height:44px; }
+    button.small { border-radius:8px; min-height:36px; }
+    input,textarea,select { border-color:#dfe2e6; background:#fff; }
+    input:focus,textarea:focus,select:focus { outline:3px solid #17171712; border-color:#8c9198; }
+    #ownerProducts > div:first-child, #ownerOptions > div:first-child { display:flex; flex-wrap:wrap; gap:8px; }
+    #ownerProducts > div:first-child button, #ownerOptions > div:first-child button { margin:0 !important; border-radius:10px !important; min-height:42px; }
+    #productsBox { margin-top:12px; }
+    .menu-product-card,.option-card,.order-card { border-color:#e3e5e8; box-shadow:none; }
+    #ownerPendingFeedback,#ownerApprovedFeedback { scroll-margin-top:120px; }
+    #orderSearchWrap { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+    #orderSearch { margin:0; flex:1; min-width:0; padding:13px 15px; border-radius:12px; }
+    #orderSearchHint { color:#777; font-size:12px; white-space:nowrap; }
+    #ordersBox table { border:1px solid #eceef0; border-radius:12px; overflow:hidden; }
+    #ordersBox th { background:#f7f8fa; }
+    #ordersBox td { vertical-align:middle; }
+    .noorders { border:1px dashed #dfe2e6; border-radius:12px; background:#fafbfc; }
+    @media(max-width:700px) {
+      html { scroll-padding-top:104px; }
+      header { padding:13px 14px; }
+      header h1 { font-size:18px; }
+      .container { margin:12px auto 36px; padding:0 10px; }
+      #main { gap:12px; }
+      .owner-quick-nav { top:55px; padding:6px; gap:4px; border-radius:12px; }
+      .owner-quick-nav a { padding:10px 12px; font-size:13px; }
+      .card { padding:16px; border-radius:15px; }
+      .card h2 { font-size:18px; margin-bottom:14px; }
+      .dashboard { gap:8px; }
+      .stat-card { padding:13px; border-radius:13px; }
+      .order-filters { margin-bottom:12px; }
+      #orderSearchWrap { display:block; }
+      #orderSearch { width:100%; margin-bottom:5px; }
+      #orderSearchHint { display:block; padding:0 2px; }
+      #ownerProducts > div:first-child button, #ownerOptions > div:first-child button { flex:1 1 auto; padding:10px 12px !important; font-size:14px !important; }
+    }
+
   </style>
   <link rel="stylesheet" href="/animations.css">
 </head>
@@ -1385,6 +1449,10 @@
 
       <div class="card" id="ownerOrders">
         <h2>订单管理</h2>
+        <div id="orderSearchWrap">
+          <input id="orderSearch" type="search" placeholder="搜索订单号或顾客姓名…" autocomplete="off" oninput="applyOrderSearch()">
+          <span id="orderSearchHint">支持订单号 / 姓名</span>
+        </div>
         <div class="order-filters">
 
           <div class="filter-group">
@@ -2498,8 +2566,22 @@
       renderOrders(data || []);
     }
 
+    let orderSearchTerm = '';
+    function applyOrderSearch() {
+      orderSearchTerm = (document.getElementById('orderSearch')?.value || '').trim().toLocaleLowerCase();
+      if (typeof lastRenderedOrders !== 'undefined') renderOrders(lastRenderedOrders);
+    }
+    let lastRenderedOrders = [];
     function renderOrders(list) {
+      lastRenderedOrders = Array.isArray(list) ? list : [];
       const box = document.getElementById('ordersBox');
+      if (orderSearchTerm) {
+        list = lastRenderedOrders.filter(function(o) {
+          return [o.order_code, o.name, o.note].some(function(v) {
+            return String(v || '').toLocaleLowerCase().includes(orderSearchTerm);
+          });
+        });
+      }
 
       if (!list || !list.length) {
         box.innerHTML =
