@@ -1,0 +1,18 @@
+/* YeranFood subtle motion layer */
+@keyframes yf-enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+header{animation:yf-enter .45s cubic-bezier(.2,.7,.2,1) both}
+main.container>.card,#orderCard,#adminLogin,#loginCard,#main>.card{animation:yf-enter .42s .04s ease both}
+#productList>.yf-product-card,.menu-product-card,.option-card,.order-card,.kitchen-order,#resultBox>.card{animation:yf-enter .34s ease both;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+#productList>.yf-product-card:hover,.menu-product-card:hover,.option-card:hover,.order-card:hover,.kitchen-order:hover{transform:translateY(-2px);box-shadow:0 9px 20px rgba(96,43,27,.08)}
+.yf-product-image,.menu-image-thumb{transition:transform .24s ease}
+#productList>.yf-product-card:hover .yf-product-image,.menu-image-thumb:hover{transform:scale(1.035)}
+.breakfast-product-card{animation:yf-enter .4s ease both}
+.breakfast-option,.opt label{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease}
+.breakfast-option:active,.opt label:active{transform:scale(.99)}
+button,.navBtn,.periodBtn,.qty button,.submit,.uploadBtn,.feedbackBtn{transition:transform .17s ease,box-shadow .18s ease,filter .18s ease}
+button:active{transform:scale(.985)}
+.summary>div{transition:transform .2s ease,box-shadow .2s ease}
+.summary>div:hover{transform:translateY(-2px);box-shadow:0 9px 20px rgba(96,43,27,.08)}
+.orderCard{transition:box-shadow .2s ease,border-color .2s ease}
+.orderCard:hover{box-shadow:0 8px 20px rgba(96,43,27,.07);border-color:#f0c8ba}
+@media(prefers-reduced-motion:reduce){header,main.container>.card,#orderCard,#adminLogin,#loginCard,#main>.card,#productList>.yf-product-card,.menu-product-card,.option-card,.order-card,.kitchen-order,#resultBox>.card,.breakfast-product-card{animation:none!important}#productList>.yf-product-card:hover,.menu-product-card:hover,.option-card:hover,.order-card:hover,.kitchen-order:hover,.yf-product-image,.menu-image-thumb,.breakfast-option:active,.opt label:active,.summary>div:hover,button:active{transform:none!important}}
