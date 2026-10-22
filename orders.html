@@ -478,6 +478,28 @@
   body:not(.dark) .back,
   body:not(.dark) .langToggle { color: var(--yf-text); }
 
+  
+  /* Final polish: customer order lookup matches the unified violet system. */
+  :root { --yf-primary:#6558F5; --yf-primary-hover:#5547E8; --yf-primary-soft:#EFEDFF; --yf-page:#F7F8FC; --yf-border:#E7E8F0; }
+  body:not(.dark) { background:var(--yf-page) !important; color:#20212A !important; }
+  body:not(.dark) header { background:#fff !important; color:#20212A !important; border-bottom:1px solid var(--yf-border); box-shadow:none !important; }
+  body:not(.dark) header h1, body:not(.dark) header p { color:#20212A !important; }
+  body:not(.dark) .back, body:not(.dark) .langToggle { color:#20212A !important; border-color:var(--yf-border) !important; }
+  body:not(.dark) button.primary { background:var(--yf-primary) !important; color:#fff !important; box-shadow:0 5px 14px rgba(101,88,245,.16) !important; }
+  body:not(.dark) button.primary:hover { background:var(--yf-primary-hover) !important; }
+  body:not(.dark) input:focus { border-color:var(--yf-primary) !important; box-shadow:0 0 0 3px rgba(101,88,245,.12) !important; }
+  #bottomNav { border-top-color:var(--yf-border) !important; }
+  .navBtn.active { color:var(--yf-primary) !important; }
+  @media(max-width:640px) {
+    .back { left:8px; }
+    .langToggle { right:8px; padding:6px 10px; }
+    .container { padding-left:12px; padding-right:12px; }
+    .row { gap:12px; }
+    .row .label { flex-shrink:0; }
+    .row .value { overflow-wrap:anywhere; }
+    .orderCard { overflow-wrap:anywhere; }
+  }
+
   </style>
 </head>
 
