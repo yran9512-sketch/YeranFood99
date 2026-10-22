@@ -674,6 +674,7 @@
     function showAdmin() {
       if (adminViewReady) return;
       adminViewReady = true;
+      applyFridayLunchVisibility();
 
       document.getElementById('adminLogin').style.display = 'none';
       document.getElementById('main').style.display = 'block';
@@ -751,7 +752,15 @@
     let currentPeriod = 'lunch';
     let ordersLoadSeq = 0;
 
+    function applyFridayLunchVisibility() {
+      const lunchButton = document.getElementById('btnLunch');
+      const isFriday = new Date().getDay() === 5;
+      if (lunchButton) lunchButton.hidden = isFriday;
+      if (isFriday && currentPeriod === 'lunch') switchPeriod('breakfast');
+    }
+
     function switchPeriod(p) {
+      if (p === 'lunch' && new Date().getDay() === 5) return;
       currentPeriod = p;
       document.getElementById('btnLunch').className = p === 'lunch' ? 'primary' : '';
       document.getElementById('btnLunch').style.background = p === 'lunch' ? '#111' : '#eee';
