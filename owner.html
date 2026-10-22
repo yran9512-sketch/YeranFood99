@@ -1537,6 +1537,24 @@
   body:not(.dark) button.green { background: #21845A; border-color: #21845A; color: #fff; }
   body:not(.dark) button.red { background: #C43D4B; border-color: #C43D4B; color: #fff; }
 
+  
+  /* Final polish: consistent violet accents, while preserving payment/alert semantics. */
+  :root { --yf-primary:#6558F5; --yf-primary-hover:#5547E8; --yf-primary-soft:#EFEDFF; --yf-page:#F7F8FC; --yf-border:#E7E8F0; }
+  body { background:var(--yf-page) !important; color:#20212A !important; }
+  header { background:rgba(255,255,255,.96) !important; color:#20212A !important; border-bottom:1px solid var(--yf-border) !important; }
+  header h1, header h2, header p { color:#20212A !important; }
+  button.primary, .filter-btn.active, .filter button.active, .period-switch button.primary, .period-switch button[aria-pressed="true"] { background:var(--yf-primary) !important; border-color:var(--yf-primary) !important; color:#fff !important; }
+  button.primary:hover, .filter-btn.active:hover, .filter button.active:hover { background:var(--yf-primary-hover) !important; }
+  input:focus, textarea:focus, select:focus { border-color:var(--yf-primary) !important; outline:3px solid rgba(101,88,245,.13) !important; }
+  .card, .stat-card { border-color:var(--yf-border) !important; }
+  @media(max-width:700px) {
+    .container { padding-left:12px !important; padding-right:12px !important; }
+    .card { padding:15px !important; }
+    button, .filter-btn, .refresh-btn { min-height:40px; }
+    table { display:block; max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    th, td { white-space:nowrap; }
+  }
+
   </style>
 </head>
 
