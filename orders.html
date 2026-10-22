@@ -379,7 +379,7 @@
 
     <div class="card">
       <h2 id="searchTitle">查订单</h2>
-      <input id="codeInput" onkeydown="if(event.key==='Enter')search()">
+      <input id="codeInput" type="search" autocomplete="off" autocapitalize="characters" maxlength="40" aria-label="订单号" onkeydown="if(event.key==='Enter')search()">
       <button class="primary" id="searchBtn" onclick="search()">查询</button>
     </div>
 
@@ -595,7 +595,9 @@
       document.body.classList.add('dark');
     }
 
-    // 初始化
+    // 初始化：保留本次会话上次查询的订单号，方便学生返回后再次查询。
+    const savedOrderCode = sessionStorage.getItem('lastOrderCode');
+    if (savedOrderCode) document.getElementById('codeInput').value = savedOrderCode;
     applyLang();
   </script>
 </body>
