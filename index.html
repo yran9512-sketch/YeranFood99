@@ -2115,6 +2115,35 @@
       .yf-product-image { width: 66px; height: 66px; flex-basis: 66px; }
     }
 
+
+    /* Mobile checkout overlap fix: the global sticky submit rule must not
+       make the button inside the fixed checkout bar stick over nearby UI. */
+    @media (max-width: 640px) {
+      #checkoutBar {
+        isolation: isolate;
+        z-index: 120;
+        pointer-events: auto;
+        bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+      }
+      #checkoutBar .submit {
+        position: static;
+        inset: auto;
+        z-index: auto;
+        pointer-events: auto;
+        transform: none;
+        touch-action: manipulation;
+      }
+      #checkoutBar .submit:disabled {
+        pointer-events: none;
+      }
+      #bottomNav {
+        z-index: 110;
+      }
+      body {
+        padding-bottom: calc(160px + env(safe-area-inset-bottom, 0px));
+      }
+    }
+
   </style>
   <link rel="stylesheet" href="/animations.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
