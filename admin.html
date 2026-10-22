@@ -839,11 +839,9 @@
         return new Date(b.created_at) - new Date(a.created_at);
       });
       const counts = {};
-      let paidCount = 0;
       currentOrders.forEach(function (o) {
         const k = o.meal_type || '未知';
         counts[k] = (counts[k] || 0) + Number(o.quantity || 0);
-        if (o.paid) paidCount++;
       });
       let summaryHtml = '';
       Object.keys(counts).forEach(function (k) {
@@ -851,7 +849,6 @@
       });
       const totalQty = currentOrders.reduce(function (s, o) { return s + Number(o.quantity || 0); }, 0);
       summaryHtml += '<div><div class="num">' + totalQty + '</div><div class="lbl">总份数</div></div>';
-      summaryHtml += '<div><div class="num">' + paidCount + '</div><div class="lbl">已付款订单</div></div>';
       document.getElementById('summaryBox').innerHTML = summaryHtml;
       renderOrderRows(currentOrders);
     }
