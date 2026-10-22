@@ -1084,6 +1084,91 @@
       }
     }
 
+
+    /* ===== 管理端视觉与操作体验升级 ===== */
+    :root{
+      --yf-ink:#17211b;
+      --yf-muted:#68736b;
+      --yf-line:#e5e9e4;
+      --yf-green:#216e4a;
+      --yf-green-dark:#18583b;
+      --yf-soft:#edf5ef;
+      --yf-page:#f3f6f2;
+    }
+    html{scroll-behavior:smooth}
+    body{background:var(--yf-page);color:var(--yf-ink);line-height:1.5}
+    header{
+      padding:16px max(18px,calc((100% - 1140px)/2));
+      min-height:72px;
+      background:rgba(20,35,27,.97);
+      backdrop-filter:blur(14px);
+    }
+    header h1{font-size:21px;letter-spacing:-.35px}
+    header h1:before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:#7dd6a3;margin:0 10px 2px 0;box-shadow:0 0 0 4px #7dd6a31c}
+    header button{border-color:#65766b;border-radius:10px;padding:9px 14px}
+    header button:hover{background:#ffffff14}
+    .container{max-width:1140px;margin:26px auto;padding:0 20px}
+    #main{display:flex;flex-direction:column;gap:18px}
+    #main>.card{margin:0;padding:22px;border:1px solid var(--yf-line);border-radius:18px;box-shadow:0 5px 18px rgba(24,48,32,.035);background:#fff}
+    #main>.card:hover{box-shadow:0 8px 24px rgba(24,48,32,.06)}
+    .card h2{font-size:19px;letter-spacing:-.25px;color:var(--yf-ink);margin:0 0 16px}
+    .card h2:after{content:"";display:block;width:34px;height:3px;border-radius:3px;background:#68a982;margin-top:9px}
+    button{font-family:inherit;font-weight:650}
+    button.primary{background:var(--yf-green);border-radius:10px;padding:11px 17px;box-shadow:0 2px 5px #216e4a14}
+    button.primary:hover{background:var(--yf-green-dark);opacity:1}
+    button.green{background:var(--yf-green)}
+    button.green:hover{background:var(--yf-green-dark)}
+    button.red{background:#b93832}
+    button.small{border-radius:8px;padding:8px 11px}
+    input,textarea,select{color:var(--yf-ink);border-color:#dce3dc!important;background:#fff}
+    input:focus,textarea:focus,select:focus{border-color:#62a77e!important;box-shadow:0 0 0 3px #62a77e20;outline:none}
+    .summary>div,.stat-card{border:1px solid var(--yf-line);border-radius:15px;background:#fff}
+    .summary .num{color:var(--yf-green)}
+    .order-filters{background:#f7faf7;border-color:#e4ebe4;border-radius:14px}
+    .filter-btn,.refresh-btn{border-color:#dce4dc;border-radius:9px;min-height:38px}
+    .filter-btn.active{background:var(--yf-green);border-color:var(--yf-green)}
+    .refresh-btn{color:var(--yf-green);border-color:#c9ddce;background:#f0f7f1}
+    table{border:1px solid var(--yf-line);border-radius:12px}
+    th{background:#f5f8f5;color:#526057}
+    td,th{border-bottom-color:#edf0ed}
+    tbody tr:hover{background:#f7fbf7}
+    .menu-product-card{border-color:#e5ebe5;border-radius:14px;box-shadow:0 2px 8px #152e1d06;margin-bottom:10px}
+    .menu-product-card:hover{border-color:#c7d9cb}
+    .menu-product-name{color:#1c2c21}
+    .menu-product-edit{background:#edf5ef!important;color:#216e4a!important;border:1px solid #d9e9dd!important;border-radius:9px!important}
+    .menu-product-edit:hover{background:#dfeee3!important}
+    .option-card{border-color:#e5ebe5;border-radius:14px;box-shadow:none}
+    .option-card-head{padding-bottom:10px;border-bottom:1px solid #eef2ee}
+    .option-card-title{color:#23372a}
+    .modal-form{backdrop-filter:blur(4px)}
+    .modal-form-card{border:1px solid #e7ece7;border-radius:20px;box-shadow:0 24px 80px #101e1540}
+    .modal-form-card h3{color:#1b2b20}
+    .modal-form-actions{padding-top:12px;border-top:1px solid #edf0ed}
+    #loginCard{max-width:470px;margin:9vh auto 0;padding:30px;border:1px solid var(--yf-line);border-radius:20px;box-shadow:0 14px 40px #1d392409}
+    #loginCard h2{margin-bottom:22px}
+    #loginCard .primary{width:100%;margin-top:4px}
+    .noorders{padding:32px 18px;color:#89938b}
+    @media(max-width:700px){
+      header{padding:13px 16px;min-height:62px}
+      header h1{font-size:17px}
+      header h1:before{margin-right:7px}
+      header button{padding:8px 10px;font-size:13px}
+      .container{padding:0 12px;margin:14px auto}
+      #main{gap:12px}
+      #main>.card{padding:15px;border-radius:15px}
+      .card h2{font-size:17px;margin-bottom:13px}
+      #loginCard{margin:8vh 12px 0;padding:22px}
+      .order-filters{background:#f7faf7}
+      .filter{background:rgba(243,246,242,.96)}
+      .menu-product-card{margin-bottom:9px}
+      .modal-form-card{border-radius:18px 18px 12px 12px}
+      .modal-form-actions{background:#fff}
+    }
+    @media(hover:none){
+      .card:hover,.summary>div:hover{transform:none;box-shadow:0 3px 12px #00000008}
+      button:hover{transform:none}
+    }
+
   </style>
 </head>
 
