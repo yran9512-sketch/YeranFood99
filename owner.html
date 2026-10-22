@@ -1323,6 +1323,7 @@
     #main > .card, #main > .dashboard { margin:0; }
     .owner-quick-nav { position:sticky; top:68px; z-index:40; display:flex; gap:8px; padding:10px; border:1px solid #e3e5e8; border-radius:16px; background:rgba(255,255,255,.94); backdrop-filter:blur(14px); box-shadow:0 8px 24px #0000000a; overflow-x:auto; }
     .owner-quick-nav a { flex:0 0 auto; text-decoration:none; color:#3b3b3b; padding:10px 14px; border-radius:10px; font-size:14px; font-weight:700; white-space:nowrap; }
+    .owner-quick-nav a { background:#f3f4f6; }
     .owner-quick-nav a:first-child { background:#171717; color:#fff; }
     .owner-quick-nav a:hover { background:#eceef1; color:#111; }
     .card { padding:24px; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 4px 18px #11111106; }
@@ -1343,10 +1344,8 @@
     #productsBox { margin-top:12px; }
     .menu-product-card,.option-card,.order-card { border-color:#e3e5e8; box-shadow:none; }
     #ownerPendingFeedback,#ownerApprovedFeedback { scroll-margin-top:120px; }
-    #orderSearchWrap { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
-    #orderSearch { margin:0; flex:1; min-width:0; padding:13px 15px; border-radius:12px; }
-    #orderSearchHint { color:#777; font-size:12px; white-space:nowrap; }
-    #ordersBox table { border:1px solid #eceef0; border-radius:12px; overflow:hidden; }
+
+#ordersBox table { border:1px solid #eceef0; border-radius:12px; overflow:hidden; }
     #ordersBox th { background:#f7f8fa; }
     #ordersBox td { vertical-align:middle; }
     .noorders { border:1px dashed #dfe2e6; border-radius:12px; background:#fafbfc; }
@@ -1363,9 +1362,7 @@
       .dashboard { gap:8px; }
       .stat-card { padding:13px; border-radius:13px; }
       .order-filters { margin-bottom:12px; }
-      #orderSearchWrap { display:block; }
-      #orderSearch { width:100%; margin-bottom:5px; }
-      #orderSearchHint { display:block; padding:0 2px; }
+
       #ownerProducts > div:first-child button, #ownerOptions > div:first-child button { flex:1 1 auto; padding:10px 12px !important; font-size:14px !important; }
     }
 
@@ -1394,11 +1391,9 @@
     <section id="main" class="hidden">
 
       <nav class="owner-quick-nav" aria-label="管理员快捷导航">
-        <a href="#ownerOrders">订单管理</a>
-        <a href="#ownerProducts">菜单商品</a>
-        <a href="#ownerOptions">商品选项</a>
-        <a href="#ownerPendingFeedback">待审核反馈</a>
-        <a href="#ownerApprovedFeedback">已通过反馈</a>
+        <a href="#ownerOrders">订单</a>
+        <a href="#ownerProducts">菜单</a>
+        <a href="#ownerPendingFeedback">反馈审核</a>
       </nav>
 
 
@@ -1449,10 +1444,6 @@
 
       <div class="card" id="ownerOrders">
         <h2>订单管理</h2>
-        <div id="orderSearchWrap">
-          <input id="orderSearch" type="search" placeholder="搜索订单号或顾客姓名…" autocomplete="off" oninput="applyOrderSearch()">
-          <span id="orderSearchHint">支持订单号 / 姓名</span>
-        </div>
         <div class="order-filters">
 
           <div class="filter-group">
@@ -2566,22 +2557,8 @@
       renderOrders(data || []);
     }
 
-    let orderSearchTerm = '';
-    function applyOrderSearch() {
-      orderSearchTerm = (document.getElementById('orderSearch')?.value || '').trim().toLocaleLowerCase();
-      if (typeof lastRenderedOrders !== 'undefined') renderOrders(lastRenderedOrders);
-    }
-    let lastRenderedOrders = [];
     function renderOrders(list) {
-      lastRenderedOrders = Array.isArray(list) ? list : [];
       const box = document.getElementById('ordersBox');
-      if (orderSearchTerm) {
-        list = lastRenderedOrders.filter(function(o) {
-          return [o.order_code, o.name, o.note].some(function(v) {
-            return String(v || '').toLocaleLowerCase().includes(orderSearchTerm);
-          });
-        });
-      }
 
       if (!list || !list.length) {
         box.innerHTML =
