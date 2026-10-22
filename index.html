@@ -2510,6 +2510,22 @@
     color: var(--yf-primary) !important;
   }
 
+  
+  /* Final polish: consistent accents and safer small-screen spacing. */
+  :root { --yf-primary:#6558F5; --yf-primary-hover:#5547E8; --yf-primary-soft:#EFEDFF; --yf-page:#F7F8FC; --yf-border:#E7E8F0; }
+  body:not(.dark) { background:var(--yf-page) !important; color:#20212A !important; }
+  body:not(.dark) header { background:#fff !important; color:#20212A !important; border-bottom:1px solid var(--yf-border); box-shadow:none !important; }
+  body:not(.dark) header h1, body:not(.dark) header h2, body:not(.dark) header p { color:inherit; }
+  body:not(.dark) button.primary, body:not(.dark) .submit, body:not(.dark) input[type="submit"] { background:var(--yf-primary) !important; border-color:var(--yf-primary) !important; color:#fff !important; }
+  body:not(.dark) button.primary:hover, body:not(.dark) .submit:hover, body:not(.dark) input[type="submit"]:hover { background:var(--yf-primary-hover) !important; }
+  body:not(.dark) input:focus, body:not(.dark) select:focus, body:not(.dark) textarea:focus { border-color:var(--yf-primary) !important; box-shadow:0 0 0 3px rgba(101,88,245,.12) !important; }
+  @media(max-width:640px) {
+    .container { padding-left:12px; padding-right:12px; }
+    .card, .yf-product-card, .menu-product-card { max-width:100%; }
+    input, select, textarea { max-width:100%; }
+    button { touch-action:manipulation; }
+  }
+
   </style>
 </head>
 
