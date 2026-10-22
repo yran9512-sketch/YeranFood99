@@ -1519,6 +1519,24 @@
     }
   }
 
+
+  body:not(.dark) button.primary,
+  body:not(.dark) .filter-btn.active,
+  body:not(.dark) .filter button.active {
+    background: linear-gradient(110deg, #6558F5, #786CFF) !important;
+    border-color: #6558F5 !important;
+    color: #fff !important;
+    box-shadow: 0 5px 14px rgba(101,88,245,.16);
+  }
+  body:not(.dark) button.primary:hover { background: #5547E8 !important; }
+  body:not(.dark) .owner-quick-nav button.active {
+    background: var(--yf-primary-soft) !important;
+    color: var(--yf-primary) !important;
+  }
+  /* Keep semantic success/danger actions distinct from primary navigation. */
+  body:not(.dark) button.green { background: #21845A; border-color: #21845A; color: #fff; }
+  body:not(.dark) button.red { background: #C43D4B; border-color: #C43D4B; color: #fff; }
+
   </style>
 </head>
 
