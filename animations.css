@@ -39,3 +39,19 @@ main.container > .card, #orderCard, #adminLogin, #loginCard, #main > .card {
     scroll-behavior: auto !important;
   }
 }
+
+/* Subtle, accessible interaction polish */
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline:3px solid rgba(101,88,245,.28);
+  outline-offset:2px;
+}
+button:disabled, input:disabled, select:disabled, textarea:disabled {
+  cursor:not-allowed;
+  opacity:.58;
+}
+@media (hover:hover) {
+  button:not(:disabled):hover { filter:brightness(.98); }
+}
+@media (prefers-reduced-motion:reduce) {
+  *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; scroll-behavior:auto!important; }
+}
