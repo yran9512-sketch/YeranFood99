@@ -604,6 +604,25 @@
     }
   }
 
+
+  body:not(.dark) button.primary,
+  body:not(.dark) input[type="submit"] {
+    background: linear-gradient(110deg, #6558F5, #786CFF) !important;
+    border-color: #6558F5 !important;
+    color: #fff !important;
+    box-shadow: 0 6px 16px rgba(101,88,245,.16);
+  }
+  body:not(.dark) .period-switch button.primary,
+  body:not(.dark) .period-switch button[aria-pressed="true"],
+  body:not(.dark) .kitchen-bottom-nav button.active {
+    background: var(--yf-primary-soft) !important;
+    border-color: #DCD8FF !important;
+    color: var(--yf-primary) !important;
+  }
+  body:not(.dark) .kitchen-top-actions button {
+    border-radius: 11px;
+  }
+
   </style>
 </head>
 
