@@ -3574,6 +3574,13 @@
         selectedFile = null;
         document.getElementById('orderCard').style.display = 'none';
         document.getElementById('payCard').style.display = 'block';
+      }).catch(function (err) {
+        console.error('在线下单请求失败:', err);
+        btn.disabled = false;
+        btn.textContent = text[lang].submit;
+        alert(lang === 'zh'
+          ? '网络连接异常，暂时无法确认订单是否创建成功。请先查询订单，再决定是否重新下单。'
+          : 'Network error. We could not confirm whether your order was created. Please check your order first before placing another one.');
       });
     }
     function submitCashOrder() {
@@ -3626,6 +3633,13 @@
         document.getElementById('successCard').classList.add('show');
         document.getElementById('orderId').textContent = row.order_code;
         document.getElementById('successTotal').textContent = 'RM ' + row.total + ' · ' + (lang === 'zh' ? '现金请交给 Yeran' : 'Please pay Yeran in cash');
+      }).catch(function (err) {
+        console.error('现金下单请求失败:', err);
+        btn.disabled = false;
+        btn.textContent = text[lang].submit;
+        alert(lang === 'zh'
+          ? '网络连接异常，暂时无法确认订单是否创建成功。请先查询订单，再决定是否重新下单。'
+          : 'Network error. We could not confirm whether your order was created. Please check your order first before placing another one.');
       });
     }
     function backToOrder() {

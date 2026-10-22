@@ -1438,18 +1438,23 @@
       }
 
       err.textContent = '登录中…';
-      const {data, error} = await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
+      try {
+        const {data, error} = await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
 
-      if (error || !data.session) {
-        console.error(error);
-        err.textContent = '登录失败，请检查账号或密码';
-        return;
+        if (error || !data.session) {
+          console.error(error);
+          err.textContent = '登录失败，请检查账号或密码';
+          return;
+        }
+
+        await showAdmin();
+      } catch (error) {
+        console.error('Owner 登录请求失败:', error);
+        err.textContent = '网络异常，请检查连接后重试';
       }
-
-      await showAdmin();
     }
 
     let adminViewReady = false;
