@@ -752,9 +752,15 @@
     let currentPeriod = 'lunch';
     let ordersLoadSeq = 0;
 
+    function isTargetMealDateFriday() {
+      // 星期五按订单对应的用餐日期判断，而不是设备当前日期。
+      const mealDate = getMealDate();
+      return new Date(mealDate + 'T12:00:00').getDay() === 5;
+    }
+
     function applyFridayLunchVisibility() {
       const lunchButton = document.getElementById('btnLunch');
-      const isFriday = new Date().getDay() === 5;
+      const isFriday = isTargetMealDateFriday();
       if (lunchButton) {
         lunchButton.hidden = isFriday;
         if (isFriday) lunchButton.style.setProperty('display', 'none', 'important');
@@ -764,7 +770,10 @@
     }
 
     function switchPeriod(p) {
-      if (p === 'lunch' && new Date().getDay() === 5) return;
+      if (p === 'lunch' && isTargetMealDateFriday()) {
+        applyFridayLunchVisibility();
+        return;
+      }
       currentPeriod = p;
       document.getElementById('btnLunch').className = p === 'lunch' ? 'primary' : '';
       document.getElementById('btnLunch').style.background = p === 'lunch' ? '#111' : '#eee';
