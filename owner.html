@@ -1169,6 +1169,60 @@
       button:hover{transform:none}
     }
 
+  
+    /* ===== YeranFood orange-red owner workspace ===== */
+    :root {
+      --yf-ink:#29201e;
+      --yf-muted:#766b66;
+      --yf-line:#f0dfd8;
+      --yf-green:#e64431;
+      --yf-green-dark:#c92f29;
+      --yf-soft:#fff0e9;
+      --yf-page:#fff8f4;
+      --yf-orange:#f04b35;
+    }
+    body { background:radial-gradient(ellipse at 8% 0%,rgba(255,214,192,.32),transparent 28%),var(--yf-page); color:var(--yf-ink); }
+    header { background:linear-gradient(115deg,#b92525,#ed4632 58%,#ff743b); box-shadow:0 8px 24px rgba(185,37,37,.15); }
+    header h1:before { content:"✦"; width:auto; height:auto; border-radius:0; background:transparent; color:#ffe1a7; box-shadow:none; font-size:.9em; margin:0 10px 0 0; }
+    header button { border-color:rgba(255,255,255,.45); }
+    #main>.card { border-color:var(--yf-line); box-shadow:0 8px 24px rgba(96,43,27,.05); }
+    .card h2 { color:#38221d; }
+    .card h2:after { background:linear-gradient(90deg,#d92f2d,#ff743b); }
+    button.primary,button.green { background:linear-gradient(110deg,#d92f2d,#f04b35 65%,#ff713b); box-shadow:0 4px 12px rgba(205,48,39,.13); }
+    button.primary:hover,button.green:hover { background:linear-gradient(110deg,#bd2427,#e63e30 65%,#f65e30); }
+    button.red { background:#b92525; }
+    .summary>div,.stat-card { border-color:var(--yf-line); box-shadow:0 5px 16px rgba(96,43,27,.04); }
+    .summary .num,.stat-num { color:#df3c2e; }
+    .stat-card.warning { border-left-color:#ed4632; }
+    .stat-card.success { border-left-color:#25834a; }
+    .stat-card.info { border-left-color:#e58b32; }
+    .stat-card.money { border-left-color:#d34c5b; }
+    .order-filters { background:#fff4ee; border-color:#f3dcd2; }
+    .filter-btn.active { background:#e64431; border-color:#e64431; }
+    .refresh-btn { color:#c9322b; border-color:#f0c7b8; background:#fff0e9; }
+    th { background:#fff0e9; color:#9d392d; }
+    td,th { border-bottom-color:#f4e7e1; }
+    tbody tr:hover { background:#fff8f4; }
+    .menu-product-card { border-color:#f0ddd5; box-shadow:0 4px 12px rgba(96,43,27,.04); }
+    .menu-product-card:hover { border-color:#f4b5a3; }
+    .menu-product-name,.option-card-title { color:#35231f; }
+    .menu-product-edit { background:#fff0e9!important; color:#c9342c!important; border-color:#f1cfc3!important; }
+    .menu-product-edit:hover { background:#ffe2d6!important; }
+    .option-card { border-color:#f0ddd5; }
+    .modal-form-card { border-color:#f0ddd5; }
+    .modal-form-card h3 { color:#35231f; }
+    input:focus,textarea:focus,select:focus { border-color:#f16a50!important; box-shadow:0 0 0 3px rgba(240,75,53,.11); }
+    .tag.paid { background:#e6f6eb; color:#247344; }
+    .tag.unpaid { background:#ffe4dd; color:#b92f29; }
+    .tag.online { background:#fff0e9; color:#bd3c2e; }
+    .tag.cash { background:#fff2d7; color:#925b13; }
+    @media(max-width:700px) {
+      header { background:linear-gradient(115deg,#b92525,#ed4632 58%,#ff743b); }
+      #main>.card { box-shadow:0 5px 18px rgba(96,43,27,.045); }
+      .order-filters { background:#fff4ee; }
+      .modal-form-actions { background:#fffaf7; }
+    }
+
   </style>
 </head>
 
