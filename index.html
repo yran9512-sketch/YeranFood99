@@ -2891,6 +2891,7 @@
       if (isWeekendBreak()) {
         return false;
       }
+      if (currentPeriod === 'lunch' && isFridayMealDate('lunch')) return false;
 
       /*
        * 早餐：
@@ -3055,13 +3056,25 @@
       document.getElementById('feedbackListModal').style.display = 'none';
     }
 
+    function isFridayMealDate(period = currentPeriod) {
+      const now = new Date();
+      if (now.getHours() >= 15 && ['breakfast','lunch','drink'].includes(period)) now.setDate(now.getDate() + 1);
+      return now.getDay() === 5;
+    }
+    function updatePeriodAvailability() {
+      const lunchBtn = document.getElementById('btnLunchOrder');
+      if (!lunchBtn) return;
+      const hideLunch = isFridayMealDate('lunch');
+      lunchBtn.style.display = hideLunch ? 'none' : '';
+      if (hideLunch && currentPeriod === 'lunch') switchPeriod('breakfast');
+    }
+
     function isWeekendBreak() {
       const now = new Date();
       const day = now.getDay();
       const h = now.getHours();
 
-      // 周五 10:00 到周日 15:00 全部暂停点餐。
-      if (day === 5 && h >= 10) return true;
+      // 周六全天及周日 15:00 前暂停点餐。
       if (day === 6) return true;
       if (day === 0 && h < 15) return true;
 
@@ -3166,7 +3179,9 @@
     }
 
     function switchPeriod(p) {
+      if (p === 'lunch' && isFridayMealDate('lunch')) return;
       currentPeriod = p;
+      updatePeriodAvailability();
       document.getElementById('btnLunchOrder').classList.toggle('active', p === 'lunch');
       document.getElementById('btnBreakfastOrder').classList.toggle('active', p === 'breakfast');
       document.getElementById('btnDrinkOrder').classList.toggle('active', p === 'drink');
