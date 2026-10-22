@@ -3064,9 +3064,7 @@
     function updatePeriodAvailability() {
       const lunchBtn = document.getElementById('btnLunchOrder');
       if (!lunchBtn) return;
-      const hideLunch = isFridayMealDate('lunch');
-      lunchBtn.style.display = hideLunch ? 'none' : '';
-      if (hideLunch && currentPeriod === 'lunch') switchPeriod('breakfast');
+      lunchBtn.style.display = isFridayMealDate('lunch') ? 'none' : '';
     }
 
     function isWeekendBreak() {
@@ -3270,12 +3268,15 @@
         document.getElementById('closedBox').style.display = 'block';
 
         if (isWeekendBreak()) {
-
+          document.getElementById('closedTitle').textContent = text[lang].closedTitle;
+          document.getElementById('closedText').textContent = text[lang].closedWeekend;
+        } else if (isFridayMealDate('lunch')) {
           document.getElementById('closedTitle').textContent =
-            text[lang].closedTitle;
-
+            lang === 'zh' ? '周五不供应午餐' : 'No Friday lunch';
           document.getElementById('closedText').textContent =
-            text[lang].closedWeekend;
+            lang === 'zh'
+              ? '早餐和饮料仍可预订：每天 15:00 开放；周五不提供午餐。'
+              : 'Breakfast and drinks are available for pre-order from 3:00 PM. No lunch is served on Fridays.';
         }
 
         document.getElementById('menuTitle').style.display = 'none';
@@ -3732,6 +3733,15 @@
       document.getElementById('successCard').classList.remove('show');
     }
 
+    // 周五隐藏午餐，并默认切换到可用的餐别，避免首页一打开就误以为全部暂停。
+    if (isFridayMealDate('lunch')) {
+      const hour = new Date().getHours();
+      currentPeriod = hour < 10 ? 'drink' : 'breakfast';
+      document.getElementById('btnLunchOrder').classList.remove('active');
+      document.getElementById('btnBreakfastOrder').classList.toggle('active', currentPeriod === 'breakfast');
+      document.getElementById('btnDrinkOrder').classList.toggle('active', currentPeriod === 'drink');
+    }
+    updatePeriodAvailability();
     loadMenu();
     function toggleDark() {
       document.body.classList.toggle('dark');
