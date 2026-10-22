@@ -1226,6 +1226,62 @@
       .modal-form-actions { background:#fffaf7; }
     }
 
+   
+    /* Apple-inspired neutral palette for staff/admin screens */
+    :root {
+      color-scheme: light;
+      --staff-bg: #f5f5f7;
+      --staff-surface: #ffffff;
+      --staff-text: #1d1d1f;
+      --staff-muted: #6e6e73;
+      --staff-line: #e5e5ea;
+      --staff-button: #1d1d1f;
+    }
+    body {
+      background: var(--staff-bg) !important;
+      color: var(--staff-text) !important;
+      -webkit-font-smoothing: antialiased;
+    }
+    header {
+      background: var(--staff-bg) !important;
+      background-image: none !important;
+      color: var(--staff-text) !important;
+      border-bottom: 1px solid var(--staff-line);
+      box-shadow: none !important;
+    }
+    header h1, header h2, header p { color: var(--staff-text); }
+    .card, .summary > div, .panel, .stat-card, .order-card {
+      background: var(--staff-surface) !important;
+      color: var(--staff-text) !important;
+      border: 1px solid var(--staff-line);
+      border-radius: 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.035) !important;
+    }
+    button, button.primary, .primary, input[type="submit"] {
+      background: var(--staff-button) !important;
+      color: #fff !important;
+      border: 1px solid var(--staff-button) !important;
+      border-radius: 12px;
+      box-shadow: none !important;
+    }
+    button:hover, button.primary:hover, .primary:hover, input[type="submit"]:hover {
+      background: #333336 !important;
+    }
+    input, textarea, select {
+      background: #fff !important;
+      color: var(--staff-text) !important;
+      border: 1px solid #d2d2d7 !important;
+      border-radius: 10px;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: 2px solid #86868b;
+      outline-offset: 1px;
+    }
+    table th { background: #f5f5f7; color: #424245; }
+    table td, table th { border-color: var(--staff-line); }
+    .muted, .hint, .subtitle, small { color: var(--staff-muted); }
+    .err, .error { color: #b42318; }
+
   </style>
   <link rel="stylesheet" href="/animations.css">
 </head>
