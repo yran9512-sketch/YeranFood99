@@ -2826,7 +2826,12 @@
       const el = document.getElementById('stockInfo');
       const left = portionsLeft();
       const t = text[lang];
-      if (left <= 0) {
+      if (menu && menu.stockError) {
+        el.textContent = lang === 'zh' ? '库存暂不可用，请刷新重试' : 'Stock unavailable. Refresh and try again.';
+        el.className = 'stock-zero';
+        document.getElementById('submitBtn').disabled = true;
+        document.getElementById('submitBtn').textContent = lang === 'zh' ? '暂不可下单' : 'Unavailable';
+      } else if (left <= 0) {
         el.textContent = t.soldOut;
         el.className = 'stock-zero';
         document.getElementById('submitBtn').disabled = true;
@@ -2891,11 +2896,13 @@
           : (p.desc_en || p.desc_zh || ''));
         const selected = Number(p.id) === Number(selectedProductId);
         const left = Number(p.stockRemaining != null ? p.stockRemaining : p.max_portions || 0);
-        const disabled = left <= 0;
+        const disabled = !!p.stockError || left <= 0;
         const stockClass = disabled ? 'sold' : (left <= 5 ? 'low' : '');
-        const stockText = disabled
-          ? text[lang].soldOut
-          : text[lang].stock + ' ' + left + ' ' + text[lang].stockLeft;
+        const stockText = p.stockError
+          ? (lang === 'zh' ? '库存暂不可用' : 'Stock unavailable')
+          : (disabled
+            ? text[lang].soldOut
+            : text[lang].stock + ' ' + left + ' ' + text[lang].stockLeft);
 
         const image = p.image_url
           ? '<img class="yf-product-image" src="' + escapeHtml(p.image_url) + '" alt="" loading="lazy">'
@@ -2984,7 +2991,10 @@
       const breakfastStock = document.getElementById('breakfastStock');
       const left = portionsLeft();
 
-      if (left <= 0) {
+      if (menu && menu.stockError) {
+        breakfastStock.textContent = lang === 'zh' ? '库存暂不可用，请刷新重试' : 'Stock unavailable. Refresh and try again.';
+        breakfastStock.className = 'stock-zero';
+      } else if (left <= 0) {
         breakfastStock.textContent = text[lang].soldOut;
         breakfastStock.className = 'stock-zero';
       } else {
@@ -3828,9 +3838,11 @@
                 res.error
               );
 
+              // 库存接口异常时不要把最大供应量当成真实剩余库存。
+              product.stockError = true;
               product.stockTotal = Number(product.max_portions || 0);
               product.stockOrdered = 0;
-              product.stockRemaining = Number(product.max_portions || 0);
+              product.stockRemaining = 0;
 
               return;
             }
@@ -3839,6 +3851,7 @@
               ? res.data[0]
               : null;
 
+            product.stockError = false;
             product.stockTotal = row
               ? Number(row.total || 0)
               : Number(product.max_portions || 0);
@@ -3875,6 +3888,10 @@
 
           console.error('库存加载异常:', err);
 
+          products.forEach(function (product) {
+            product.stockError = true;
+            product.stockRemaining = 0;
+          });
           orderedQty = 0;
           renderMenu();
 
