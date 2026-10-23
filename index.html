@@ -2383,7 +2383,18 @@
       border-color: #38383a !important;
     }
 
-</style>
+
+
+    /* YeranFood A 方案：顾客端轻量蓝紫液态玻璃 */
+    :root { --yf-glass-border: rgba(116, 112, 255, .24); --yf-glass-shadow: 0 12px 32px rgba(86, 83, 210, .10); }
+    body { background: radial-gradient(ellipse at 12% 0%, rgba(190,181,255,.30), transparent 42%), linear-gradient(135deg,#f8f8ff,#eef2ff); }
+    header { background: rgba(255,255,255,.72); color: #29245f; border-bottom: 1px solid var(--yf-glass-border); box-shadow: 0 4px 24px rgba(92,88,210,.08); backdrop-filter: blur(18px) saturate(145%); -webkit-backdrop-filter: blur(18px) saturate(145%); }
+    .card, .yf-product-card, .breakfast-product-card, #feedbackModal .modal-content { background: rgba(255,255,255,.78); border: 1px solid rgba(255,255,255,.92); box-shadow: var(--yf-glass-shadow); backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%); }
+    input, select, textarea { background: rgba(255,255,255,.80); border: 1px solid var(--yf-glass-border); }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid rgba(105,91,245,.30); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+  </style>
   <link rel="stylesheet" href="/animations.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
