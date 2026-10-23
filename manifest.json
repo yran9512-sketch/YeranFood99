@@ -7,10 +7,16 @@
   "theme_color": "#174b35",
   "icons": [
     {
+      "src": "icons/yeranfood-180.png?v=3",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
       "src": "icons/yeranfood.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ]
-}
+}\n
