@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180">
-  <rect width="180" height="180" rx="38" fill="#ffffff"/>
-  <rect x="10" y="10" width="160" height="160" rx="30" fill="#2563eb"/>
-  <text x="90" y="90" text-anchor="middle" dominant-baseline="middle" fill="#ffffff" font-family="Arial,'PingFang SC',sans-serif" font-size="40" font-weight="700">订单</text>
+  <rect width="180" height="180" rx="38" fill="#fff"/>
+  <rect x="10" y="10" width="160" height="160" rx="30" fill="#f97316"/>
+  <text x="90" y="90" text-anchor="middle" dominant-baseline="central" fill="#fff" font-family="Arial,'PingFang SC',sans-serif" font-size="42" font-weight="700">订单</text>
 </svg>
