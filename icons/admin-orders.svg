@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#5b9dff"/><stop offset="1" stop-color="#1765df"/></linearGradient></defs>
+  <rect width="180" height="180" rx="40" fill="url(#bg)"/>
+  <text x="90" y="101" text-anchor="middle" dominant-baseline="middle" fill="#fff" font-family="-apple-system,BlinkMacSystemFont,'SF Pro Display','PingFang SC','Helvetica Neue',sans-serif" font-size="48" font-weight="600" letter-spacing="2">订单</text>
+</svg>
