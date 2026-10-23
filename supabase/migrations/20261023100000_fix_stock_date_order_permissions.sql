@@ -82,9 +82,7 @@ DECLARE
   v_product public.menu_products%rowtype;
   v_option public.product_options%rowtype;
   v_ordered integer;
-  v_pending integer;
   v_option_ordered integer;
-  v_option_pending integer;
   v_code text;
   v_total numeric;
   v_meal_type text;
@@ -102,7 +100,7 @@ BEGIN
   IF p_quantity IS NULL OR p_quantity < 1 OR p_quantity > 50 THEN
     RAISE EXCEPTION 'INVALID_QUANTITY';
   END IF;
-  IF coalesce(p_meal_period, '') NOT IN ('lunch', 'breakfast', 'drink') THEN
+  IF coalesce(p_meal_period, '') NOT IN ('lunch', 'breakfast') THEN
     RAISE EXCEPTION 'INVALID_MEAL_PERIOD';
   END IF;
   IF coalesce(p_payment_method, '') NOT IN ('cash', 'online') THEN
@@ -186,22 +184,20 @@ BEGIN
 
   SELECT coalesce(sum(o.quantity), 0)::integer INTO v_ordered
   FROM public.orders o
-  WHERE o.meal_date = p_meal_date AND o.product_id = v_product.id;
-  SELECT coalesce(sum(p.quantity), 0)::integer INTO v_pending
-  FROM public.pending_online_orders p
-  WHERE p.meal_date = p_meal_date AND p.product_id = v_product.id;
+  WHERE o.meal_date = p_meal_date
+    AND o.product_id = v_product.id;
 
-  IF v_ordered + v_pending + p_quantity > v_product.max_portions THEN
+  IF v_ordered + p_quantity > v_product.max_portions THEN
     RAISE EXCEPTION 'OUT_OF_STOCK';
   END IF;
 
   IF p_option_id IS NOT NULL THEN
     SELECT coalesce(sum(o.quantity), 0)::integer INTO v_option_ordered
-    FROM public.orders o WHERE o.meal_date = p_meal_date AND o.product_option_id = v_option.id;
-    SELECT coalesce(sum(p.quantity), 0)::integer INTO v_option_pending
-    FROM public.pending_online_orders p WHERE p.meal_date = p_meal_date AND p.product_option_id = v_option.id;
+    FROM public.orders o
+    WHERE o.meal_date = p_meal_date
+      AND o.product_option_id = v_option.id;
 
-    IF v_option_ordered + v_option_pending + p_quantity > v_option.max_portions THEN
+    IF v_option_ordered + p_quantity > v_option.max_portions THEN
       RAISE EXCEPTION 'OPTION_OUT_OF_STOCK';
     END IF;
   END IF;
