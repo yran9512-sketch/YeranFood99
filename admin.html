@@ -687,6 +687,39 @@
       .card,.summary>div,.kitchen-order,#bottomNav,header { backdrop-filter:none !important;-webkit-backdrop-filter:none !important;background:rgba(248,245,255,.96) !important; }
     }
 
+  
+    /* Contrast enhancement: kitchen text should remain readable on glass cards */
+    .card, .summary > div, .kitchen-order, .kitchen-table,
+    .kitchen-table table, .kitchen-table tbody td {
+      color: #20251f !important;
+    }
+    .card h2, .card h3, .summary .lbl, .kitchen-order-name,
+    .kitchen-order-note, .kitchen-table th, .kitchen-table td,
+    .kitchen-table td strong, .kitchen-table .note {
+      color: #20251f !important;
+    }
+    .summary .num {
+      color: #174b35 !important;
+      text-shadow: 0 1px 0 rgba(255,255,255,.65);
+    }
+    .kitchen-order-meta {
+      color: #454d43 !important;
+    }
+    .kitchen-order-code {
+      color: #5c439c !important;
+      font-weight: 800 !important;
+    }
+    .tag, .payment-pill {
+      font-weight: 750 !important;
+    }
+    .kitchen-table th {
+      background: rgba(232,238,225,.96) !important;
+    }
+    input, input::placeholder {
+      color: #20251f !important;
+    }
+    input::placeholder { color: #62685f !important; opacity: 1; }
+
   </style>
 <link rel="stylesheet" href="/animations.css">
 
