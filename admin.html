@@ -721,24 +721,24 @@
     input::placeholder { color: #62685f !important; opacity: 1; }
 
   
-    /* 厨师端餐别切换按钮：未选中状态也保持清晰对比度 */
+    /* 厨师端餐别切换按钮：与页面其他紫色渐变按钮统一 */
     #btnLunch,
     #btnBreakfast,
     #btnDrink {
-      color: #244b3a !important;
-      background: #e8f0eb !important;
-      border: 1px solid #c6d8cc !important;
+      color: #5b4a8a !important;
+      background: linear-gradient(115deg, #f1edff, #e8ddfb) !important;
+      border: 1px solid #d8c9f3 !important;
       font-weight: 700 !important;
       text-shadow: none !important;
-      box-shadow: 0 2px 6px rgba(23, 75, 53, .08);
+      box-shadow: 0 3px 9px rgba(98, 76, 150, .10) !important;
     }
 
     #btnLunch:hover,
     #btnBreakfast:hover,
     #btnDrink:hover {
-      color: #173f2d !important;
-      background: #dce9e0 !important;
-      border-color: #9fbeaa !important;
+      color: #493477 !important;
+      background: linear-gradient(115deg, #e7deff, #dac8f5) !important;
+      border-color: #c4afea !important;
     }
 
     #btnLunch.primary,
@@ -748,9 +748,9 @@
     #btnBreakfast.active,
     #btnDrink.active {
       color: #fff !important;
-      background: #174b35 !important;
-      border-color: #174b35 !important;
-      box-shadow: 0 4px 12px rgba(23, 75, 53, .22);
+      background: linear-gradient(115deg, #7868ef, #ad68e8 65%, #d87eb8) !important;
+      border-color: rgba(255, 255, 255, .45) !important;
+      box-shadow: 0 7px 18px rgba(132, 91, 218, .24), inset 0 1px 0 rgba(255, 255, 255, .35) !important;
     }
 
 </style>
