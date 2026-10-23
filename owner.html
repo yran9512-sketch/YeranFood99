@@ -1544,6 +1544,175 @@
       header { background:#20242b; backdrop-filter:none; -webkit-backdrop-filter:none; }
     }
 
+  
+    /* ===== Apple Music-inspired mobile glass refresh ===== */
+    :root {
+      --am-ink:#171923;
+      --am-muted:#727786;
+      --am-glass:rgba(255,255,255,.56);
+      --am-stroke:rgba(255,255,255,.78);
+      --am-shadow:0 18px 48px rgba(35,27,62,.12),inset 0 1px 0 rgba(255,255,255,.82);
+    }
+    body {
+      color:var(--am-ink);
+      background:
+        radial-gradient(ellipse at 8% 4%,rgba(255,93,143,.24),transparent 34%),
+        radial-gradient(ellipse at 94% 14%,rgba(124,102,255,.25),transparent 35%),
+        radial-gradient(ellipse at 52% 92%,rgba(72,174,255,.18),transparent 38%),
+        linear-gradient(150deg,#f8f5fb 0%,#f0f1fa 48%,#f8f4f7 100%);
+      background-attachment:fixed;
+    }
+    header {
+      position:sticky;
+      top:0;
+      z-index:80;
+      padding:18px 24px;
+      background:rgba(27,25,39,.70);
+      border-bottom:1px solid rgba(255,255,255,.24);
+      box-shadow:0 12px 34px rgba(25,20,42,.16);
+      backdrop-filter:blur(30px) saturate(190%);
+      -webkit-backdrop-filter:blur(30px) saturate(190%);
+    }
+    header h1 { letter-spacing:-.045em; font-weight:800; }
+    header button {
+      border:1px solid rgba(255,255,255,.35);
+      background:rgba(255,255,255,.12);
+      border-radius:999px;
+      padding:9px 15px;
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+    }
+    .container { width:min(100%,1240px); padding:22px 20px 40px; }
+    .card,.stat-card,.summary>div,.option-card,.order-card,.menu-product-card {
+      background:var(--am-glass);
+      border:1px solid var(--am-stroke);
+      box-shadow:var(--am-shadow);
+      backdrop-filter:blur(26px) saturate(175%);
+      -webkit-backdrop-filter:blur(26px) saturate(175%);
+    }
+    .card {
+      border-radius:26px;
+      padding:24px;
+      box-shadow:0 18px 48px rgba(35,27,62,.09),inset 0 1px 0 rgba(255,255,255,.9);
+    }
+    .card h2 { letter-spacing:-.035em; font-weight:800; }
+    .dashboard { gap:16px; }
+    .stat-card {
+      position:relative;
+      overflow:hidden;
+      border-radius:24px;
+      padding:22px;
+    }
+    .stat-card::before {
+      content:"";
+      position:absolute;
+      width:130px;height:130px;
+      right:-48px;top:-56px;
+      border-radius:50%;
+      background:linear-gradient(135deg,rgba(255,255,255,.65),rgba(255,255,255,0));
+      pointer-events:none;
+    }
+    .stat-num { letter-spacing:-.055em; font-size:32px; }
+    .stat-label,.summary .lbl { color:#686d7d; }
+    .summary { gap:14px; }
+    .summary>div { border-radius:22px; padding:18px 14px; }
+    .summary .num { letter-spacing:-.045em; font-size:30px; }
+    .order-filters,.filter {
+      background:rgba(255,255,255,.52);
+      border:1px solid rgba(255,255,255,.8);
+      border-radius:20px;
+      box-shadow:0 12px 30px rgba(35,27,62,.07),inset 0 1px 0 rgba(255,255,255,.8);
+      backdrop-filter:blur(24px) saturate(175%);
+      -webkit-backdrop-filter:blur(24px) saturate(175%);
+    }
+    input,textarea,select {
+      border:1px solid rgba(135,137,160,.24);
+      border-radius:15px;
+      background:rgba(255,255,255,.72);
+      box-shadow:inset 0 1px 2px rgba(30,25,50,.025);
+    }
+    input:focus,textarea:focus,select:focus {
+      outline:none;
+      border-color:rgba(128,94,230,.58);
+      box-shadow:0 0 0 4px rgba(128,94,230,.13);
+      background:rgba(255,255,255,.94);
+    }
+    button.primary {
+      border:1px solid rgba(255,255,255,.36);
+      border-radius:999px;
+      background:linear-gradient(135deg,#ff477e 0%,#a34df4 55%,#665cff 100%);
+      box-shadow:0 9px 22px rgba(174,65,170,.24),inset 0 1px 0 rgba(255,255,255,.3);
+    }
+    button.primary:hover { opacity:1; transform:translateY(-2px); box-shadow:0 13px 28px rgba(174,65,170,.3); }
+    button.small,.filter button,.filter-btn,.refresh-btn {
+      border-radius:999px;
+      border-color:rgba(130,130,150,.2);
+      background:rgba(255,255,255,.7);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+    }
+    .filter button.active,.filter-btn.active {
+      background:linear-gradient(135deg,#ff477e,#a34df4 65%,#665cff);
+      color:#fff;
+      border-color:transparent;
+      box-shadow:0 7px 18px rgba(163,77,244,.22);
+    }
+    button.green { background:linear-gradient(135deg,#22a879,#168d72); border-radius:999px; }
+    button.red { background:linear-gradient(135deg,#ff5b70,#e43e59); border-radius:999px; }
+    button.gray { border-radius:999px; }
+    table {
+      background:rgba(255,255,255,.56);
+      border:1px solid rgba(255,255,255,.8);
+      border-radius:18px;
+      box-shadow:0 12px 30px rgba(35,27,62,.06);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+    }
+    th { background:rgba(242,241,250,.72); }
+    tbody tr:hover { background:rgba(183,160,255,.12); }
+    .option-card,.order-card { border-radius:22px; }
+    .order-card-payment { background:rgba(255,255,255,.55); border:1px solid rgba(255,255,255,.8); border-radius:16px; }
+    .modal { background:rgba(24,20,38,.58); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); }
+    .modal img { box-shadow:0 28px 80px rgba(0,0,0,.3); }
+    .tag,.option-card-status,.order-card-period { border-radius:999px; padding:5px 10px; }
+    @media (max-width:700px) {
+      body { background-attachment:scroll; }
+      header { padding:14px 16px; }
+      header h1 { font-size:20px; }
+      .container { padding:14px 12px 30px; margin-top:8px; }
+      .card { padding:18px; border-radius:24px; margin-bottom:14px; }
+      .card h2 { font-size:20px; }
+      .dashboard { gap:10px; }
+      .stat-card { padding:16px 14px; border-radius:21px; }
+      .stat-num { font-size:25px; }
+      .stat-icon { font-size:23px; }
+      .summary { gap:9px; }
+      .summary>div { min-width:calc(50% - 6px); padding:15px 9px; border-radius:19px; }
+      .summary .num { font-size:25px; }
+      .filter { top:60px; border-radius:18px; }
+      .order-filters { border-radius:18px; }
+      .filter button,.filter-btn,.refresh-btn { min-height:38px; }
+      .order-card { padding:16px; }
+      input,textarea,select { border-radius:13px; }
+      button.primary { min-height:46px; padding:12px 22px; }
+      button.small { min-height:36px; }
+    }
+    @media (max-width:420px) {
+      .container { padding-left:10px; padding-right:10px; }
+      .card { padding:15px; border-radius:21px; }
+      .stat-card { padding:13px 11px; }
+      .stat-num { font-size:22px; }
+      .summary .num { font-size:22px; }
+    }
+    @media (prefers-reduced-transparency: reduce) {
+      .card,.stat-card,.summary>div,.option-card,.order-card,.menu-product-card,.order-filters,.filter,table {
+        background:#fff;
+        backdrop-filter:none;
+        -webkit-backdrop-filter:none;
+      }
+      header { background:#272431; backdrop-filter:none; -webkit-backdrop-filter:none; }
+    }
+
   </style>
   <link rel="stylesheet" href="/animations.css">
 
