@@ -1,0 +1,16 @@
+{
+  "name": "YeranFood",
+  "short_name": "YeranFood",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fbfaf4",
+  "theme_color": "#174b35",
+  "icons": [
+    {
+      "src": "icons/yeranfood.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
