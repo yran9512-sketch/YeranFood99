@@ -65,7 +65,7 @@ BEGIN
   IF p_meal_date <> v_expected_meal_date THEN RAISE EXCEPTION 'INVALID_MEAL_DATE'; END IF;
   v_meal_isodow := extract(isodow FROM p_meal_date)::integer;
   IF v_meal_isodow IN (6,7) THEN RAISE EXCEPTION 'MEAL_DATE_CLOSED'; END IF;
-  IF p_meal_period IN ('lunch','drink') AND v_meal_isodow = 5 THEN
+  IF p_meal_period = 'lunch' AND v_meal_isodow = 5 THEN
     RAISE EXCEPTION 'FRIDAY_LUNCH_CLOSED';
   END IF;
 
