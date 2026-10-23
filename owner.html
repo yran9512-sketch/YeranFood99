@@ -1713,6 +1713,108 @@
       header { background:#272431; backdrop-filter:none; -webkit-backdrop-filter:none; }
     }
 
+  
+    /* Owner Liquid Glass v2 — vivid mobile treatment */
+    :root {
+      --yf-ink:#20202b;
+      --yf-glass:rgba(255,255,255,.48);
+      --yf-glass-edge:rgba(255,255,255,.78);
+      --yf-glass-shadow:0 18px 48px rgba(76,63,145,.13), inset 0 1px 0 rgba(255,255,255,.92);
+    }
+    body {
+      background:
+        radial-gradient(ellipse at 0% 8%, rgba(255,173,215,.58) 0%, transparent 34%),
+        radial-gradient(ellipse at 100% 18%, rgba(164,155,255,.56) 0%, transparent 36%),
+        radial-gradient(ellipse at 48% 65%, rgba(145,211,255,.38) 0%, transparent 42%),
+        linear-gradient(155deg,#f7eefa 0%,#eef0ff 42%,#eaf7ff 72%,#fdf0f5 100%) !important;
+      background-attachment:fixed !important;
+    }
+    header {
+      background:rgba(255,255,255,.48) !important;
+      color:#28223c !important;
+      border-bottom:1px solid rgba(255,255,255,.78) !important;
+      box-shadow:0 8px 30px rgba(110,86,160,.10) !important;
+      backdrop-filter:blur(30px) saturate(190%) !important;
+      -webkit-backdrop-filter:blur(30px) saturate(190%) !important;
+    }
+    #main .card, #main .dashboard, .card, .stat-card, .summary>div,
+    .option-card, .order-card, .menu-product-card, .order-filters, .filter,
+    #ordersBox .noorders {
+      background:rgba(255,255,255,.43) !important;
+      border:1px solid rgba(255,255,255,.82) !important;
+      box-shadow:0 16px 44px rgba(94,78,160,.10), inset 0 1px 0 rgba(255,255,255,.94) !important;
+      backdrop-filter:blur(26px) saturate(175%) !important;
+      -webkit-backdrop-filter:blur(26px) saturate(175%) !important;
+    }
+    #main .card, .card { border-radius:26px !important; }
+    .stat-card, .summary>div, .order-card { border-radius:22px !important; }
+    #main h2 { color:#29233d; }
+    #main h2:after {
+      content:""; display:block; width:54px; height:5px; margin-top:14px;
+      border-radius:99px; background:linear-gradient(90deg,#ff7ab6,#9a72ff,#69c9ff);
+      box-shadow:0 3px 14px rgba(166,104,255,.25);
+    }
+    .filter-btn, .refresh-btn, .filter button, #ownerProducts>div:first-child button,
+    #ownerOptions>div:first-child button {
+      background:rgba(255,255,255,.54) !important;
+      color:#39334e !important;
+      border:1px solid rgba(255,255,255,.9) !important;
+      border-radius:14px !important;
+      box-shadow:0 5px 16px rgba(92,74,150,.08),inset 0 1px 0 #fff !important;
+    }
+    .filter-btn.active, #ownerProducts>div:first-child button.primary,
+    #ownerOptions>div:first-child button.primary {
+      background:linear-gradient(120deg,#7865f5,#a45de8 58%,#e16bb0) !important;
+      color:#fff !important; border-color:rgba(255,255,255,.55) !important;
+      box-shadow:0 8px 22px rgba(132,91,230,.30),inset 0 1px 0 rgba(255,255,255,.35) !important;
+    }
+    button.primary, .primary {
+      background:linear-gradient(120deg,#8066f6,#a45fe6 58%,#e66eae) !important;
+      color:#fff !important; border:1px solid rgba(255,255,255,.55) !important;
+      box-shadow:0 8px 24px rgba(132,91,230,.28),inset 0 1px 0 rgba(255,255,255,.35) !important;
+    }
+    input, select, textarea {
+      background:rgba(255,255,255,.58) !important;
+      border:1px solid rgba(255,255,255,.92) !important;
+      box-shadow:inset 0 1px 3px rgba(65,55,105,.04) !important;
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+    }
+    .owner-quick-nav {
+      background:rgba(255,255,255,.48) !important;
+      border:1px solid rgba(255,255,255,.82) !important;
+      box-shadow:0 -8px 36px rgba(97,75,153,.14), inset 0 1px 0 rgba(255,255,255,.95) !important;
+      backdrop-filter:blur(32px) saturate(200%) !important;
+      -webkit-backdrop-filter:blur(32px) saturate(200%) !important;
+    }
+    .owner-quick-nav button {
+      border-radius:18px !important;
+      color:#746d8b !important;
+      background:rgba(255,255,255,.18) !important;
+    }
+    .owner-quick-nav button.active {
+      color:#7256dc !important;
+      background:linear-gradient(140deg,rgba(255,255,255,.86),rgba(224,215,255,.68)) !important;
+      box-shadow:0 4px 16px rgba(115,88,210,.14),inset 0 1px 0 #fff !important;
+    }
+    .order-card-payment { background:rgba(255,255,255,.46) !important; border-color:rgba(255,255,255,.8) !important; }
+    .noorders { color:#817a96 !important; background:rgba(255,255,255,.28) !important; border-color:rgba(255,255,255,.8) !important; }
+    @media(max-width:700px) {
+      body { background-attachment:scroll !important; }
+      header { background:rgba(255,255,255,.54) !important; }
+      #main .card { padding:20px 16px !important; }
+      .owner-quick-nav {
+        left:10px !important; right:10px !important; bottom:calc(8px + env(safe-area-inset-bottom)) !important;
+        padding:8px !important; border-radius:24px !important;
+        border:1px solid rgba(255,255,255,.9) !important;
+      }
+      .owner-quick-nav button { min-height:58px; }
+      .dashboard .stat-card { background:rgba(255,255,255,.48) !important; }
+    }
+    @supports not ((backdrop-filter:blur(2px))) {
+      #main .card, .stat-card, .order-card, .owner-quick-nav, header { background:rgba(248,246,255,.94) !important; }
+    }
+
   </style>
   <link rel="stylesheet" href="/animations.css">
 
