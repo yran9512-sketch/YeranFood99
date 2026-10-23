@@ -1418,6 +1418,18 @@
       .order-card-info { grid-template-columns:1fr 1fr !important; }
     }
 
+  
+
+    /* YeranFood A 方案：轻量蓝紫液态玻璃 */
+    :root { --yf-glass-border: rgba(116, 112, 255, .22); --yf-glass-shadow: 0 12px 32px rgba(86, 83, 210, .10); }
+    body { background: radial-gradient(ellipse at 12% 0%, rgba(190, 181, 255, .30), transparent 42%), linear-gradient(135deg, #f8f8ff, #eef2ff); }
+    header { background: rgba(255,255,255,.72); color: #29245f; border-bottom: 1px solid var(--yf-glass-border); box-shadow: 0 4px 24px rgba(92,88,210,.08); backdrop-filter: blur(18px) saturate(145%); -webkit-backdrop-filter: blur(18px) saturate(145%); }
+    .card, .summary>div, .order-card, .kitchen-order, #orderCard, #adminLogin, #loginCard, #main>.card { background: rgba(255,255,255,.76); border: 1px solid rgba(255,255,255,.92); box-shadow: var(--yf-glass-shadow); backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%); }
+    input, select, textarea { background: rgba(255,255,255,.78); border: 1px solid var(--yf-glass-border); }
+    button.primary, .primary, button:not([class]) { background-image: linear-gradient(135deg, #786bff, #5747e8); box-shadow: 0 6px 16px rgba(98,82,235,.22); }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid rgba(105,91,245,.30); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
   </style>
   <link rel="stylesheet" href="/animations.css">
 

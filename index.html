@@ -2383,7 +2383,18 @@
       border-color: #38383a !important;
     }
 
-</style>
+
+
+    /* YeranFood A 方案：顾客端轻量蓝紫液态玻璃 */
+    :root { --yf-glass-border: rgba(116, 112, 255, .24); --yf-glass-shadow: 0 12px 32px rgba(86, 83, 210, .10); }
+    body { background: radial-gradient(ellipse at 12% 0%, rgba(190,181,255,.30), transparent 42%), linear-gradient(135deg,#f8f8ff,#eef2ff); }
+    header { background: rgba(255,255,255,.72); color: #29245f; border-bottom: 1px solid var(--yf-glass-border); box-shadow: 0 4px 24px rgba(92,88,210,.08); backdrop-filter: blur(18px) saturate(145%); -webkit-backdrop-filter: blur(18px) saturate(145%); }
+    .card, .yf-product-card, .breakfast-product-card, #feedbackModal .modal-content { background: rgba(255,255,255,.78); border: 1px solid rgba(255,255,255,.92); box-shadow: var(--yf-glass-shadow); backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%); }
+    input, select, textarea { background: rgba(255,255,255,.80); border: 1px solid var(--yf-glass-border); }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid rgba(105,91,245,.30); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+  </style>
   <link rel="stylesheet" href="/animations.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -3390,11 +3401,12 @@
       const now = new Date();
       const h = now.getHours();
 
-      // 周五 10:00 到周日 15:00 全部暂停点餐。
-      if (isWeekendBreak()) {
-        return false;
-      }
+      // 先校验实际用餐日期：周六、周日均不供应，避免周五晚预订到周六。
+      if (isClosedMealDate(currentPeriod)) return false;
+      // 周五午餐不供应。
       if (currentPeriod === 'lunch' && isFridayMealDate('lunch')) return false;
+      // 现有周末暂停规则保留，周日 15:00 后可按营业时段预订后续日期。
+      if (isWeekendBreak()) return false;
 
       /*
        * 早餐：
@@ -3569,12 +3581,19 @@
       lunchBtn.style.display = isFridayMealDate('lunch') ? 'none' : '';
     }
 
+    function isClosedMealDate(period = currentPeriod) {
+      const mealDate = new Date(getMealDate(period) + 'T12:00:00');
+      const day = mealDate.getDay();
+      // 0 = 周日，6 = 周六；不供应餐食的日期一律不可下单。
+      return day === 0 || day === 6;
+    }
+
     function isWeekendBreak() {
       const now = new Date();
       const day = now.getDay();
       const h = now.getHours();
 
-      // 周六全天及周日 15:00 前暂停点餐。
+      // 周六全天、周日 15:00 前暂停；实际用餐日期另由 isClosedMealDate 校验。
       if (day === 6) return true;
       if (day === 0 && h < 15) return true;
 
