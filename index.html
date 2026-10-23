@@ -3390,11 +3390,12 @@
       const now = new Date();
       const h = now.getHours();
 
-      // 周五 10:00 到周日 15:00 全部暂停点餐。
-      if (isWeekendBreak()) {
-        return false;
-      }
+      // 先校验实际用餐日期：周六、周日均不供应，避免周五晚预订到周六。
+      if (isClosedMealDate(currentPeriod)) return false;
+      // 周五午餐不供应。
       if (currentPeriod === 'lunch' && isFridayMealDate('lunch')) return false;
+      // 现有周末暂停规则保留，周日 15:00 后可按营业时段预订后续日期。
+      if (isWeekendBreak()) return false;
 
       /*
        * 早餐：
@@ -3569,12 +3570,19 @@
       lunchBtn.style.display = isFridayMealDate('lunch') ? 'none' : '';
     }
 
+    function isClosedMealDate(period = currentPeriod) {
+      const mealDate = new Date(getMealDate(period) + 'T12:00:00');
+      const day = mealDate.getDay();
+      // 0 = 周日，6 = 周六；不供应餐食的日期一律不可下单。
+      return day === 0 || day === 6;
+    }
+
     function isWeekendBreak() {
       const now = new Date();
       const day = now.getDay();
       const h = now.getHours();
 
-      // 周六全天及周日 15:00 前暂停点餐。
+      // 周六全天、周日 15:00 前暂停；实际用餐日期另由 isClosedMealDate 校验。
       if (day === 6) return true;
       if (day === 0 && h < 15) return true;
 
