@@ -18,6 +18,7 @@ SET search_path TO 'public'
 AS $function$
 DECLARE
   v_existing public.pending_online_orders%rowtype;
+  v_existing_order_code text;
   v_product public.menu_products%rowtype;
   v_option public.product_options%rowtype;
   v_ordered integer;
@@ -47,6 +48,16 @@ BEGIN
     RETURN QUERY SELECT v_existing.order_code, v_existing.total, v_existing.quantity,
                         v_existing.meal_type, 'awaiting_proof'::text;
     RETURN;
+  END IF;
+
+  -- Idempotency also applies after a pending reservation has been converted to an order.
+  SELECT r.order_code INTO v_existing_order_code
+  FROM public.order_requests r WHERE r.request_id = p_request_id;
+  IF v_existing_order_code IS NOT NULL THEN
+    RETURN QUERY SELECT o.order_code, o.total, o.quantity, o.meal_type,
+                        coalesce(o.payment_status, 'pending')
+    FROM public.orders o WHERE o.order_code = v_existing_order_code;
+    IF FOUND THEN RETURN; END IF;
   END IF;
 
   v_now := now() AT TIME ZONE 'Asia/Kuala_Lumpur';
