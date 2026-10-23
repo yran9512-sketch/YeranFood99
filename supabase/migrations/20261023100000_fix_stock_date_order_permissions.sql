@@ -100,7 +100,7 @@ BEGIN
   IF p_quantity IS NULL OR p_quantity < 1 OR p_quantity > 50 THEN
     RAISE EXCEPTION 'INVALID_QUANTITY';
   END IF;
-  IF coalesce(p_meal_period, '') NOT IN ('lunch', 'breakfast') THEN
+  IF coalesce(p_meal_period, '') NOT IN ('lunch', 'breakfast', 'drink') THEN
     RAISE EXCEPTION 'INVALID_MEAL_PERIOD';
   END IF;
   IF coalesce(p_payment_method, '') NOT IN ('cash', 'online') THEN
@@ -151,7 +151,7 @@ BEGIN
   IF v_meal_isodow IN (6, 7) THEN
     RAISE EXCEPTION 'MEAL_DATE_CLOSED';
   END IF;
-  IF p_meal_period = 'lunch' AND v_meal_isodow = 5 THEN
+  IF p_meal_period IN ('lunch', 'drink') AND v_meal_isodow = 5 THEN
     RAISE EXCEPTION 'FRIDAY_LUNCH_CLOSED';
   END IF;
 
