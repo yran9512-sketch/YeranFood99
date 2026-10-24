@@ -874,6 +874,119 @@
     border-radius: 11px;
   }
 
+
+  
+    /* ===== 厨师端 UI 与管理员端统一：简洁中性色 ===== */
+    :root {
+      color-scheme: light;
+      --staff-bg: #f5f5f7;
+      --staff-surface: #ffffff;
+      --staff-text: #1d1d1f;
+      --staff-muted: #6e6e73;
+      --staff-line: #e5e5ea;
+      --staff-button: #1d1d1f;
+    }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    body {
+      background: var(--staff-bg) !important;
+      background-image: none !important;
+      color: var(--staff-text) !important;
+      -webkit-font-smoothing: antialiased;
+    }
+    header {
+      background: rgba(245,245,247,.94) !important;
+      background-image: none !important;
+      color: var(--staff-text) !important;
+      border-bottom: 1px solid var(--staff-line);
+      box-shadow: none !important;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    header h1, header h2, header p { color: var(--staff-text) !important; }
+    .container { max-width: 1140px; }
+    .card, #adminLogin, #main > .card, .kitchen-order,
+    .summary > div, .panel, .stat-card, .order-card {
+      background: var(--staff-surface) !important;
+      background-image: none !important;
+      color: var(--staff-text) !important;
+      border: 1px solid var(--staff-line) !important;
+      border-radius: 16px !important;
+      box-shadow: 0 2px 10px rgba(0,0,0,.035) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    .card h2, .card h3, .kitchen-order-name,
+    .kitchen-order-note, .kitchen-table td, .kitchen-table th {
+      color: var(--staff-text) !important;
+    }
+    .card h2:after { content: none !important; }
+    button, button.primary, .primary, input[type="submit"] {
+      background: var(--staff-button) !important;
+      background-image: none !important;
+      color: #fff !important;
+      border: 1px solid var(--staff-button) !important;
+      border-radius: 12px !important;
+      box-shadow: none !important;
+    }
+    button:hover, button.primary:hover, .primary:hover, input[type="submit"]:hover {
+      background: #333336 !important;
+      color: #fff !important;
+      filter: none !important;
+    }
+    button.green { background: #23865d !important; border-color: #23865d !important; }
+    button.red { background: #b93832 !important; border-color: #b93832 !important; }
+    button.gray { background: #fff !important; color: var(--staff-text) !important; border-color: var(--staff-line) !important; }
+    input, textarea, select {
+      background: #fff !important;
+      color: var(--staff-text) !important;
+      border: 1px solid #d2d2d7 !important;
+      border-radius: 10px !important;
+      box-shadow: none;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #86868b !important;
+      outline: 2px solid #86868b !important;
+      outline-offset: 1px;
+      box-shadow: none !important;
+    }
+    table th, .kitchen-table th { background: #f5f5f7 !important; color: #424245 !important; }
+    table td, table th { border-color: var(--staff-line) !important; }
+    tbody tr:hover { background: #fafafa !important; }
+    .muted, .hint, .subtitle, small { color: var(--staff-muted); }
+    .kitchen-order-note { background: #f5f5f7 !important; color: #424245 !important; }
+    .kitchen-order-code { color: #424245 !important; }
+    .period-switch button,
+    #btnLunch, #btnBreakfast, #btnDrink {
+      background: #fff !important;
+      color: #424245 !important;
+      border: 1px solid #d2d2d7 !important;
+      box-shadow: none !important;
+    }
+    .period-switch button.active,
+    .period-switch button.primary,
+    .period-switch button[aria-pressed="true"],
+    #btnLunch.primary, #btnBreakfast.primary, #btnDrink.primary,
+    #btnLunch.active, #btnBreakfast.active, #btnDrink.active {
+      background: #1d1d1f !important;
+      color: #fff !important;
+      border-color: #1d1d1f !important;
+      box-shadow: none !important;
+    }
+    #bottomNav, .kitchen-bottom-nav {
+      background: rgba(255,255,255,.94) !important;
+      border-top: 1px solid var(--staff-line) !important;
+      box-shadow: 0 -4px 16px rgba(0,0,0,.04) !important;
+      backdrop-filter: blur(18px) !important;
+      -webkit-backdrop-filter: blur(18px) !important;
+    }
+    .kitchen-bottom-nav button { background: transparent !important; color: #6e6e73 !important; border: 0 !important; }
+    .kitchen-bottom-nav button.active { background: #f5f5f7 !important; color: #1d1d1f !important; }
+    @media (max-width: 700px) {
+      .container { padding: 0 12px !important; margin: 14px auto !important; }
+      .card, #main > .card { border-radius: 15px !important; }
+      header { padding: 13px 16px !important; }
+    }
+
   </style>
 </head>
 
