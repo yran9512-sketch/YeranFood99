@@ -987,6 +987,146 @@
       header { padding: 13px 16px !important; }
     }
 
+
+  
+    /* ===== 厨师端液态玻璃视觉：对齐管理员端的通透、悬浮质感 ===== */
+    :root {
+      --staff-glass-line: rgba(255,255,255,.78);
+      --staff-glass-fill: rgba(255,255,255,.48);
+      --staff-glass-shadow: 0 18px 48px rgba(52,55,80,.09);
+    }
+    body {
+      background:
+        radial-gradient(ellipse 76% 34% at 4% 0%, rgba(178,166,255,.32), transparent 72%),
+        radial-gradient(ellipse 66% 38% at 100% 12%, rgba(142,207,255,.30), transparent 72%),
+        radial-gradient(ellipse 72% 40% at 42% 65%, rgba(255,191,220,.24), transparent 72%),
+        #f5f5fa !important;
+      background-attachment: fixed !important;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -12%;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 28% 26%, rgba(255,255,255,.68), transparent 28%),
+        radial-gradient(ellipse at 72% 46%, rgba(255,255,255,.34), transparent 32%);
+      filter: blur(34px);
+      opacity: .85;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(248,247,255,.58) !important;
+      border-bottom: 1px solid rgba(255,255,255,.78) !important;
+      box-shadow: 0 10px 32px rgba(88,64,140,.07) !important;
+      backdrop-filter: blur(32px) saturate(190%) !important;
+      -webkit-backdrop-filter: blur(32px) saturate(190%) !important;
+    }
+    #main > .card, #main .card, #adminLogin,
+    .kitchen-order, .order-card, .panel, .stat-card, .summary > div {
+      background: linear-gradient(145deg, rgba(255,255,255,.68), rgba(255,255,255,.38)) !important;
+      border: 1px solid var(--staff-glass-line) !important;
+      box-shadow: var(--staff-glass-shadow), inset 0 1px 0 rgba(255,255,255,.92) !important;
+      backdrop-filter: blur(24px) saturate(175%) !important;
+      -webkit-backdrop-filter: blur(24px) saturate(175%) !important;
+      border-radius: 20px !important;
+    }
+    #main > .card, #main .card {
+      padding: 22px !important;
+    }
+    .card h2 {
+      color: #252438 !important;
+      letter-spacing: -.3px;
+    }
+    .card h2:after {
+      content: "";
+      display: block;
+      width: 32px;
+      height: 3px;
+      margin-top: 9px;
+      border-radius: 99px;
+      background: linear-gradient(90deg,#8175f5,#b9a7ff) !important;
+    }
+    button, button.primary, .primary, input[type="submit"] {
+      border-radius: 13px !important;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease !important;
+    }
+    button.primary, input[type="submit"] {
+      background: linear-gradient(115deg,#6558e8,#8b75f5) !important;
+      border-color: rgba(255,255,255,.72) !important;
+      box-shadow: 0 7px 20px rgba(111,94,220,.23), inset 0 1px 0 rgba(255,255,255,.35) !important;
+    }
+    button.primary:hover, input[type="submit"]:hover {
+      background: linear-gradient(115deg,#594bd8,#7b65e8) !important;
+      box-shadow: 0 10px 24px rgba(111,94,220,.28), inset 0 1px 0 rgba(255,255,255,.4) !important;
+      transform: translateY(-1px);
+    }
+    input, textarea, select {
+      background: rgba(255,255,255,.72) !important;
+      border-color: rgba(255,255,255,.92) !important;
+      box-shadow: inset 0 1px 2px rgba(40,40,70,.025) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    table {
+      overflow: hidden;
+      border-radius: 14px;
+      border-color: rgba(255,255,255,.82) !important;
+    }
+    table th {
+      background: rgba(255,255,255,.58) !important;
+      color: #49465f !important;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    table td, table th { border-color: rgba(255,255,255,.66) !important; }
+    .kitchen-order-note {
+      background: rgba(255,255,255,.38) !important;
+      border: 1px solid rgba(255,255,255,.62);
+      color: #5f5b72 !important;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .period-switch button,
+    #btnLunch, #btnBreakfast, #btnDrink {
+      background: rgba(255,255,255,.52) !important;
+      border-color: rgba(255,255,255,.9) !important;
+      color: #55516e !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.9) !important;
+      backdrop-filter: blur(18px) saturate(160%) !important;
+      -webkit-backdrop-filter: blur(18px) saturate(160%) !important;
+    }
+    .period-switch button.active,
+    .period-switch button.primary,
+    .period-switch button[aria-pressed="true"],
+    #btnLunch.primary, #btnBreakfast.primary, #btnDrink.primary,
+    #btnLunch.active, #btnBreakfast.active, #btnDrink.active {
+      background: linear-gradient(115deg,#6558e8,#9279f5) !important;
+      border-color: rgba(255,255,255,.82) !important;
+      color: #fff !important;
+      box-shadow: 0 7px 18px rgba(111,94,220,.25), inset 0 1px 0 rgba(255,255,255,.4) !important;
+    }
+    #bottomNav, .kitchen-bottom-nav {
+      background: rgba(250,249,255,.58) !important;
+      border-top: 1px solid rgba(255,255,255,.82) !important;
+      box-shadow: 0 -10px 32px rgba(88,64,140,.08) !important;
+      backdrop-filter: blur(30px) saturate(200%) !important;
+      -webkit-backdrop-filter: blur(30px) saturate(200%) !important;
+    }
+    @supports not ((backdrop-filter: blur(2px))) {
+      #main > .card, #main .card, #adminLogin, .kitchen-order,
+      .order-card, .panel, .stat-card, .summary > div, header {
+        background: rgba(248,247,255,.94) !important;
+      }
+    }
+    @media (max-width: 700px) {
+      #main > .card, #main .card { padding: 16px !important; border-radius: 18px !important; }
+      header { background: rgba(248,247,255,.78) !important; }
+    }
+
   </style>
 </head>
 
