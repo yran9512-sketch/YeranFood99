@@ -3049,6 +3049,13 @@
       const el = document.getElementById('stockInfo');
       const left = portionsLeft();
       const t = text[lang];
+      if (menu && menu.stockUnavailable) {
+        el.textContent = lang === 'zh' ? '库存读取失败，请刷新重试' : 'Unable to load stock. Please refresh.';
+        el.className = 'stock-zero';
+        document.getElementById('submitBtn').disabled = true;
+        document.getElementById('submitBtn').textContent = lang === 'zh' ? '暂不可下单' : 'Unavailable';
+        return;
+      }
       if (left <= 0) {
         el.textContent = t.soldOut;
         el.className = 'stock-zero';
@@ -3469,24 +3476,33 @@
       }
     }
 
+    function getMalaysiaNowParts() {
+      const parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Asia/Kuala_Lumpur', year: 'numeric', month: '2-digit',
+        day: '2-digit', hour: '2-digit', hourCycle: 'h23', weekday: 'short'
+      }).formatToParts(new Date());
+      const values = {};
+      parts.forEach(function (part) {
+        if (part.type !== 'literal') values[part.type] = part.value;
+      });
+      return { year: Number(values.year), month: Number(values.month), day: Number(values.day), hour: Number(values.hour), weekday: values.weekday };
+    }
+
+    function getMalaysiaDateDay(dateString) {
+      const p = dateString.split('-').map(Number);
+      return new Date(Date.UTC(p[0], p[1] - 1, p[2])).getUTCDay();
+    }
+
     function getMealDate(period = currentPeriod) {
-      const now = new Date();
-      const h = now.getHours();
-
-      // 早餐、午餐和饮料统一按餐别计算目标用餐日期。
-      if (h >= 15 && ['breakfast', 'lunch', 'drink'].includes(period)) {
-        now.setDate(now.getDate() + 1);
-      }
-
-      return now.getFullYear() + '-' +
-        String(now.getMonth() + 1).padStart(2, '0') + '-' +
-        String(now.getDate()).padStart(2, '0');
+      const now = getMalaysiaNowParts();
+      const date = new Date(Date.UTC(now.year, now.month - 1, now.day));
+      if (now.hour >= 15 && ['breakfast', 'lunch', 'drink'].includes(period)) date.setUTCDate(date.getUTCDate() + 1);
+      return date.getUTCFullYear() + '-' + String(date.getUTCMonth() + 1).padStart(2, '0') + '-' + String(date.getUTCDate()).padStart(2, '0');
     }
 
 
     function isOrderingOpen() {
-      const now = new Date();
-      const h = now.getHours();
+      const h = getMalaysiaNowParts().hour;
 
       // 先校验实际用餐日期：周六、周日均不供应，避免周五晚预订到周六。
       if (isClosedMealDate(currentPeriod)) return false;
@@ -3660,7 +3676,7 @@
 
     function isFridayMealDate(period = currentPeriod) {
       // 复用实际下单使用的目标用餐日期，避免餐别切换后日期判断不一致。
-      return new Date(getMealDate(period) + 'T12:00:00').getDay() === 5;
+      return getMalaysiaDateDay(getMealDate(period)) === 5;
     }
     function updatePeriodAvailability() {
       const lunchBtn = document.getElementById('btnLunchOrder');
@@ -3669,16 +3685,15 @@
     }
 
     function isClosedMealDate(period = currentPeriod) {
-      const mealDate = new Date(getMealDate(period) + 'T12:00:00');
-      const day = mealDate.getDay();
+      const day = getMalaysiaDateDay(getMealDate(period));
       // 0 = 周日，6 = 周六；不供应餐食的日期一律不可下单。
       return day === 0 || day === 6;
     }
 
     function isWeekendBreak() {
-      const now = new Date();
-      const day = now.getDay();
-      const h = now.getHours();
+      const now = getMalaysiaNowParts();
+      const day = now.weekday === 'Sun' ? 0 : (now.weekday === 'Sat' ? 6 : getMalaysiaDateDay(now.year + '-' + String(now.month).padStart(2, '0') + '-' + String(now.day).padStart(2, '0')));
+      const h = now.hour;
 
       // 周六全天、周日 15:00 前暂停；实际用餐日期另由 isClosedMealDate 校验。
       if (day === 6) return true;
@@ -4059,10 +4074,10 @@
                 res.error
               );
 
-              product.stockTotal = Number(product.max_portions || 0);
+              product.stockTotal = 0;
               product.stockOrdered = 0;
-              product.stockRemaining = Number(product.max_portions || 0);
-
+              product.stockRemaining = 0;
+              product.stockUnavailable = true;
               return;
             }
 
@@ -4070,17 +4085,10 @@
               ? res.data[0]
               : null;
 
-            product.stockTotal = row
-              ? Number(row.total || 0)
-              : Number(product.max_portions || 0);
-
-            product.stockOrdered = row
-              ? Number(row.ordered || 0)
-              : 0;
-
-            product.stockRemaining = row
-              ? Number(row.remaining || 0)
-              : Number(product.max_portions || 0);
+            product.stockUnavailable = !row;
+            product.stockTotal = row ? Number(row.total || 0) : 0;
+            product.stockOrdered = row ? Number(row.ordered || 0) : 0;
+            product.stockRemaining = row ? Number(row.remaining || 0) : 0;
 
           });
 
@@ -4115,6 +4123,10 @@
 
     function goToPayment() {
       if (window._orderSubmitting) return;
+      if (menu && menu.stockUnavailable) {
+        alert(lang === 'zh' ? '库存暂时无法读取，请刷新页面后重试。' : 'Stock is unavailable. Please refresh and try again.');
+        return;
+      }
       if (currentPayMethod() === 'cash') {
         submitCashOrder();
         return;
@@ -4203,6 +4215,10 @@
     }
     function submitCashOrder() {
       if (window._orderSubmitting) return;
+      if (menu && menu.stockUnavailable) {
+        alert(lang === 'zh' ? '库存暂时无法读取，请刷新页面后重试。' : 'Stock is unavailable. Please refresh and try again.');
+        return;
+      }
       const name = document.getElementById('name').value.trim();
       const note = document.getElementById('note').value.trim();
       if (!name) {alert(text[lang].error); return;}
@@ -4377,7 +4393,7 @@
 
     // 周五隐藏午餐，并默认切换到可用的餐别，避免首页一打开就误以为全部暂停。
     if (isFridayMealDate('lunch')) {
-      const hour = new Date().getHours();
+      const hour = getMalaysiaNowParts().hour;
       currentPeriod = hour < 10 ? 'drink' : 'breakfast';
       document.getElementById('btnLunchOrder').classList.remove('active');
       document.getElementById('btnBreakfastOrder').classList.toggle('active', currentPeriod === 'breakfast');
