@@ -1561,9 +1561,7 @@
     let ordersLoadSeq = 0;
 
     function isTargetMealDateFriday() {
-      // 星期五按当前餐别实际查询的目标用餐日期判断。
-      const mealDate = getMealDate();
-      return new Date(mealDate + 'T12:00:00').getDay() === 5;
+      return getMalaysiaDateDay(getMealDate()) === 5;
     }
 
     function applyFridayLunchVisibility() {
@@ -1621,14 +1619,28 @@
         document.getElementById('feedbackBox').innerHTML = html;
       });
     }
+    function getMalaysiaNowParts() {
+      const parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Asia/Kuala_Lumpur', year: 'numeric', month: '2-digit',
+        day: '2-digit', hour: '2-digit', hourCycle: 'h23', weekday: 'short'
+      }).formatToParts(new Date());
+      const values = {};
+      parts.forEach(function (part) {
+        if (part.type !== 'literal') values[part.type] = part.value;
+      });
+      return { year: Number(values.year), month: Number(values.month), day: Number(values.day), hour: Number(values.hour), weekday: values.weekday };
+    }
+
+    function getMalaysiaDateDay(dateString) {
+      const p = dateString.split('-').map(Number);
+      return new Date(Date.UTC(p[0], p[1] - 1, p[2])).getUTCDay();
+    }
+
     function getMealDate() {
-      const now = new Date();
-      const h = now.getHours();
-      if (h >= 15) {now.setDate(now.getDate() + 1);}
-      const y = now.getFullYear();
-      const m = String(now.getMonth() + 1).padStart(2, '0');
-      const d = String(now.getDate()).padStart(2, '0');
-      return y + '-' + m + '-' + d;
+      const now = getMalaysiaNowParts();
+      const date = new Date(Date.UTC(now.year, now.month - 1, now.day));
+      if (now.hour >= 15) date.setUTCDate(date.getUTCDate() + 1);
+      return date.getUTCFullYear() + '-' + String(date.getUTCMonth() + 1).padStart(2, '0') + '-' + String(date.getUTCDate()).padStart(2, '0');
     }
 
     function refreshKitchen(btn) {
