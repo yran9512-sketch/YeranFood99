@@ -3120,7 +3120,7 @@
           ? (p.desc_zh || '')
           : (p.desc_en || p.desc_zh || ''));
         const selected = Number(p.id) === Number(selectedProductId);
-        const left = Number(p.stockRemaining != null ? p.stockRemaining : p.max_portions || 0);
+        const left = Number(p.stockRemaining != null ? p.stockRemaining : 0); // 库存未成功读取时按不可售处理，不能回退到最大库存
         const disabled = left <= 0;
         const stockClass = disabled ? 'sold' : (left <= 5 ? 'low' : '');
         const stockText = disabled
