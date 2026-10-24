@@ -763,6 +763,9 @@
     }
 
 
+    /* 与 owner 管理员端统一：固定顶部标题与横向胶囊导航 */
+    header { position:sticky !important; top:0 !important; z-index:80 !important; }
+    html { scroll-padding-top: 118px; }
     /* 与 owner 管理员端统一：顶部横向胶囊导航 */
     .kitchen-bottom-nav {
       position: sticky !important;
@@ -812,7 +815,7 @@
     .kitchen-bottom-nav button span { color: inherit !important; }
     @media(max-width:700px) {
       body { padding-bottom: 12px !important; }
-      .kitchen-bottom-nav { top: 58px !important; margin-bottom: 12px !important; padding: 8px !important; }
+      .kitchen-bottom-nav { top: 58px !important; margin-bottom: 12px !important; padding: 8px !important; overflow-x:auto; }
       .kitchen-bottom-nav button { min-height: 40px !important; padding: 9px 12px !important; }
     }
 
@@ -1320,6 +1323,11 @@
     <!-- 订单页 -->
     <section id="main" style="display:none">
       <div class="kitchen-top-actions" style="float:right;display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;justify-content:flex-end"><button onclick="enableKitchenPush()" id="kitchenPushBtn" style="margin:0">🔔 开启新订单提醒</button><button onclick="adminLogout()" style="margin:0">退出登录</button></div>
+
+      <nav class="kitchen-bottom-nav" aria-label="厨师端页面导航">
+        <button type="button" data-kitchen-page="orders" class="active" onclick="setKitchenPage('orders')"><span aria-hidden="true">▤</span><span>订单</span></button>
+        <button type="button" data-kitchen-page="feedback" onclick="setKitchenPage('feedback')"><span aria-hidden="true">♡</span><span>反馈</span></button>
+      </nav>
       <div class="period-switch" style="margin-bottom:16px">
         <button id="btnLunch" class="primary" onclick="switchPeriod('lunch')">午餐</button>
         <button id="btnBreakfast" onclick="switchPeriod('breakfast')"
@@ -1345,10 +1353,7 @@
           <div class="noorders">加载中…</div>
         </div>
       </div>
-      <nav class="kitchen-bottom-nav" aria-label="厨师端页面导航">
-        <button type="button" data-kitchen-page="orders" class="active" onclick="setKitchenPage('orders')"><span aria-hidden="true">▤</span><span>订单</span></button>
-        <button type="button" data-kitchen-page="feedback" onclick="setKitchenPage('feedback')"><span aria-hidden="true">♡</span><span>反馈</span></button>
-      </nav>
+
     </section>
 
   </main>
