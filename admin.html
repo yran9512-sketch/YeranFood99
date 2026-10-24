@@ -762,7 +762,61 @@
       box-shadow: 0 7px 18px rgba(132, 91, 218, .24), inset 0 1px 0 rgba(255, 255, 255, .35) !important;
     }
 
-</style>
+
+    /* 与 owner 管理员端统一：顶部横向胶囊导航 */
+    .kitchen-bottom-nav {
+      position: sticky !important;
+      top: 58px !important;
+      bottom: auto !important;
+      left: auto !important;
+      right: auto !important;
+      z-index: 70 !important;
+      display: flex !important;
+      gap: 8px !important;
+      width: 100% !important;
+      margin: 0 0 16px !important;
+      padding: 8px 10px !important;
+      border: 1px solid #e5e5ea !important;
+      border-radius: 14px !important;
+      background: rgba(255,255,255,.94) !important;
+      box-shadow: 0 4px 16px rgba(0,0,0,.04) !important;
+      backdrop-filter: blur(14px) !important;
+      -webkit-backdrop-filter: blur(14px) !important;
+    }
+    .kitchen-bottom-nav button,
+    .kitchen-bottom-nav button:hover,
+    .kitchen-bottom-nav button:active {
+      display: inline-flex !important;
+      flex: 0 0 auto !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 7px !important;
+      min-height: 40px !important;
+      padding: 9px 14px !important;
+      border: 0 !important;
+      border-radius: 10px !important;
+      background: #f5f5f7 !important;
+      color: #424245 !important;
+      font: 650 13px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+      white-space: nowrap !important;
+    }
+    .kitchen-bottom-nav button span:first-child {
+      font-size: 16px !important;
+      line-height: 1 !important;
+    }
+    .kitchen-bottom-nav button.active {
+      background: #202124 !important;
+      color: #fff !important;
+    }
+    .kitchen-bottom-nav button span { color: inherit !important; }
+    @media(max-width:700px) {
+      body { padding-bottom: 12px !important; }
+      .kitchen-bottom-nav { top: 58px !important; margin-bottom: 12px !important; padding: 8px !important; }
+      .kitchen-bottom-nav button { min-height: 40px !important; padding: 9px 12px !important; }
+    }
+
+  </style>
 <link rel="stylesheet" href="/animations.css">
 
 
