@@ -1202,6 +1202,46 @@
       .kitchen-bottom-nav { background: rgba(248,247,255,.96) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
     }
 
+
+  /* 厨师端底部导航：严格对齐 owner.html 管理员端当前玻璃导航 */
+  @media (max-width: 700px) {
+    .kitchen-bottom-nav {
+      left: 10px !important;
+      right: 10px !important;
+      bottom: calc(8px + env(safe-area-inset-bottom)) !important;
+      padding: 8px !important;
+      gap: 4px !important;
+      border: 1px solid rgba(255,255,255,.86) !important;
+      border-radius: 28px !important;
+      background: rgba(247,242,255,.42) !important;
+      box-shadow: 0 12px 42px rgba(76,55,130,.16), inset 0 1px 0 rgba(255,255,255,.98), inset 0 -1px 0 rgba(255,255,255,.35) !important;
+      backdrop-filter: blur(38px) saturate(220%) !important;
+      -webkit-backdrop-filter: blur(38px) saturate(220%) !important;
+    }
+    .kitchen-bottom-nav button,
+    .kitchen-bottom-nav button:hover,
+    .kitchen-bottom-nav button:active {
+      min-height: 58px !important;
+      border: 1px solid transparent !important;
+      border-radius: 20px !important;
+      background: rgba(255,255,255,.12) !important;
+      color: #6c6484 !important;
+    }
+    .kitchen-bottom-nav button.active {
+      background: linear-gradient(145deg,rgba(255,255,255,.84),rgba(225,213,255,.48)) !important;
+      border-color: rgba(255,255,255,.9) !important;
+      color: #7755db !important;
+      box-shadow: 0 5px 18px rgba(112,84,197,.15), inset 0 1px 0 #fff !important;
+    }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .kitchen-bottom-nav {
+      background: rgba(248,245,255,.94) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+  }
+
   </style>
 </head>
 
