@@ -493,6 +493,15 @@
     .kitchen-bottom-nav { position:fixed; left:0; right:0; bottom:0; z-index:100; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; padding:8px 16px calc(8px + env(safe-area-inset-bottom)); border-top:1px solid #e5e5ea; background:rgba(255,255,255,.95); box-shadow:0 -8px 28px #0000000a; backdrop-filter:blur(22px); }
     .kitchen-bottom-nav button { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; min-height:52px; border:0; border-radius:12px; background:transparent; color:#77777c; font:600 11px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; cursor:pointer; }
     .kitchen-bottom-nav button span:first-child { font-size:21px; line-height:1; font-weight:400; }
+    /* 未选中菜单提高文字对比度，保持液态玻璃风格 */
+    .kitchen-bottom-nav button,
+    .kitchen-bottom-nav button:hover,
+    .kitchen-bottom-nav button:active {
+      color: #5b5670 !important;
+    }
+    .kitchen-bottom-nav button span {
+      color: inherit !important;
+    }
     .kitchen-bottom-nav button.active { background:#f0f0f3; color:#1d1d1f; }
     .kitchen-bottom-nav button:focus-visible { outline:2px solid #007aff; outline-offset:2px; }
     #main > .card[hidden], #main > [hidden] { display:none !important; }
