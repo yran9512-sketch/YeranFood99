@@ -1273,6 +1273,43 @@
     }
   }
 
+  
+    /* 厨师端底部导航与管理员端统一，保留订单/反馈功能 */
+    .kitchen-bottom-nav {
+      position:fixed !important; left:10px !important; right:10px !important;
+      bottom:calc(8px + env(safe-area-inset-bottom)) !important; z-index:1000 !important;
+      display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+      gap:4px !important; width:auto !important; margin:0 !important;
+      padding:8px !important; border:1px solid rgba(255,255,255,.86) !important;
+      border-radius:28px !important;
+      background:rgba(247,242,255,.42) !important;
+      box-shadow:0 12px 42px rgba(76,55,130,.16),inset 0 1px 0 rgba(255,255,255,.98),inset 0 -1px 0 rgba(255,255,255,.35) !important;
+      backdrop-filter:blur(38px) saturate(220%) !important;
+      -webkit-backdrop-filter:blur(38px) saturate(220%) !important;
+    }
+    .kitchen-bottom-nav button {
+      display:flex !important; flex-direction:column !important; align-items:center !important;
+      justify-content:center !important; gap:4px !important; min-width:0 !important;
+      min-height:54px !important; padding:6px 4px !important;
+      border:1px solid transparent !important; border-radius:20px !important;
+      background:rgba(255,255,255,.12) !important; color:#6c6484 !important;
+      box-shadow:none !important; font:600 11px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif !important;
+    }
+    .kitchen-bottom-nav button span:first-child { font-size:21px !important; line-height:1 !important; }
+    .kitchen-bottom-nav button.active {
+      background:linear-gradient(145deg,rgba(255,255,255,.84),rgba(225,213,255,.48)) !important;
+      border-color:rgba(255,255,255,.9) !important; color:#7755db !important;
+      box-shadow:0 5px 18px rgba(112,84,197,.15),inset 0 1px 0 #fff !important;
+    }
+    body { padding-bottom:calc(104px + env(safe-area-inset-bottom)) !important; }
+    @media(max-width:700px) {
+      .kitchen-bottom-nav { left:10px !important; right:10px !important; }
+      body { padding-bottom:calc(104px + env(safe-area-inset-bottom)) !important; }
+    }
+    @media(prefers-reduced-transparency:reduce) {
+      .kitchen-bottom-nav { backdrop-filter:none !important; -webkit-backdrop-filter:none !important; background:rgba(248,245,255,.94) !important; }
+    }
+
   </style>
 </head>
 
