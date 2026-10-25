@@ -508,18 +508,18 @@
   </style>
 
   <!-- Final dark-mode palette: slate surfaces, never pure black -->
+  <!-- Dark mode only: preserve existing light-mode appearance -->
   <style id="yf-dark-mode-final-fix">
     :root {
-      color-scheme: light;
-      --yf-dark-page: #252b33;
-      --yf-dark-header: #303844;
-      --yf-dark-surface: #323a45;
-      --yf-dark-raised: #3a4451;
-      --yf-dark-border: #4a5665;
-      --yf-dark-text: #f1f4f8;
-      --yf-dark-muted: #b8c1cd;
-      --yf-dark-accent: #ffad88;
-      --yf-dark-accent-bg: #49332d;
+      --yf-dark-page: #303640;
+      --yf-dark-header: #39414d;
+      --yf-dark-surface: #3b4450;
+      --yf-dark-raised: #444e5b;
+      --yf-dark-border: #535f6e;
+      --yf-dark-text: #f3f5f8;
+      --yf-dark-muted: #c0c8d2;
+      --yf-dark-accent: #ffb18f;
+      --yf-dark-accent-bg: #514039;
     }
     @media (prefers-color-scheme: dark) {
       :root { color-scheme: dark; }
@@ -528,17 +528,12 @@
         background-image: none !important;
         color: var(--yf-dark-text) !important;
       }
-      body, body:not(.dark) {
-        background: var(--yf-dark-page) !important;
-        background-image: none !important;
-        color: var(--yf-dark-text) !important;
-      }
-      header, body:not(.dark) header {
+      header {
         background: var(--yf-dark-header) !important;
         background-image: none !important;
         color: var(--yf-dark-text) !important;
         border-color: var(--yf-dark-border) !important;
-        box-shadow: 0 4px 18px rgba(0,0,0,.12) !important;
+        box-shadow: 0 3px 14px rgba(0,0,0,.12) !important;
       }
       .card, .payBox, .total, .product-card, .menu-card, .modal-content,
       .modal, .dialog, .opt label, .qty, .feedbackBtn, .order-card,
@@ -550,17 +545,17 @@
         background-image: none !important;
         color: var(--yf-dark-text) !important;
         border-color: var(--yf-dark-border) !important;
-        box-shadow: 0 6px 20px rgba(0,0,0,.12) !important;
+        box-shadow: 0 5px 16px rgba(0,0,0,.10) !important;
       }
       input:not([type="checkbox"]):not([type="radio"]), textarea, select {
         background: var(--yf-dark-raised) !important;
         color: var(--yf-dark-text) !important;
         border-color: var(--yf-dark-border) !important;
       }
-      input::placeholder, textarea::placeholder { color: #aab5c3 !important; }
+      input::placeholder, textarea::placeholder { color: #b5bfcb !important; }
       input:focus, textarea:focus, select:focus {
         border-color: var(--yf-dark-accent) !important;
-        box-shadow: 0 0 0 3px rgba(255,173,136,.15) !important;
+        box-shadow: 0 0 0 3px rgba(255,177,143,.15) !important;
       }
       h1, h2, h3, label, .food h2, .yf-product-name, .breakfast-product-name,
       .breakfast-choice-title, .breakfast-option-name, .row .value, .total,
@@ -580,7 +575,11 @@
         border-color: var(--yf-dark-accent) !important;
         box-shadow: none !important;
       }
-      .periodBtn { background: var(--yf-dark-surface) !important; color: var(--yf-dark-text) !important; border-color: var(--yf-dark-border) !important; }
+      .periodBtn {
+        background: var(--yf-dark-surface) !important;
+        color: var(--yf-dark-text) !important;
+        border-color: var(--yf-dark-border) !important;
+      }
       .qty button, .feedbackBtn, #feedbackListModal button {
         background: var(--yf-dark-raised) !important;
         color: var(--yf-dark-text) !important;
@@ -591,12 +590,15 @@
         border-color: var(--yf-dark-border) !important;
       }
       .navBtn { color: var(--yf-dark-muted) !important; }
-      .navBtn.active { color: var(--yf-dark-accent) !important; background: var(--yf-dark-accent-bg) !important; }
-      .tag.paid { background: #204735 !important; color: #a6f0c2 !important; border-color: #347653 !important; }
-      .tag.unpaid { background: #52332d !important; color: #ffc1ad !important; border-color: #805044 !important; }
-      .tag.cash, .tag.online { background: var(--yf-dark-raised) !important; color: #e0e7ef !important; border-color: var(--yf-dark-border) !important; }
-      .breakfast-badge { background: #493d28 !important; color: #ffdc9a !important; }
-      .skeleton { background: linear-gradient(90deg,#323a45 25%,#414c5a 50%,#323a45 75%) !important; }
+      .navBtn.active {
+        color: var(--yf-dark-accent) !important;
+        background: var(--yf-dark-accent-bg) !important;
+      }
+      .tag.paid { background: #244b39 !important; color: #adf0c7 !important; border-color: #397456 !important; }
+      .tag.unpaid { background: #55372f !important; color: #ffc4b2 !important; border-color: #815448 !important; }
+      .tag.cash, .tag.online { background: var(--yf-dark-raised) !important; color: #e3e9f0 !important; border-color: var(--yf-dark-border) !important; }
+      .breakfast-badge { background: #51452e !important; color: #ffdfa0 !important; }
+      .skeleton { background: linear-gradient(90deg,#3b4450 25%,#485361 50%,#3b4450 75%) !important; }
       a { color: var(--yf-dark-accent) !important; }
       button.primary, .submit, .uploadBtn {
         background: #d94d3d !important;
@@ -604,36 +606,53 @@
         border-color: #d94d3d !important;
       }
     }
-    body.dark, body.dark:not(.anything) {
+    body.dark {
       color-scheme: dark;
       background: var(--yf-dark-page) !important;
       background-image: none !important;
       color: var(--yf-dark-text) !important;
     }
-    body.dark header { background: var(--yf-dark-header) !important; background-image: none !important; color: var(--yf-dark-text) !important; border-color: var(--yf-dark-border) !important; }
-    body.dark .card, body.dark .payBox, body.dark .total, body.dark .product-card,
-    body.dark .menu-card, body.dark .modal-content, body.dark .modal, body.dark .dialog,
-    body.dark .opt label, body.dark .qty, body.dark .feedbackBtn, body.dark .order-card,
+    body.dark header {
+      background: var(--yf-dark-header) !important;
+      background-image: none !important;
+      color: var(--yf-dark-text) !important;
+      border-color: var(--yf-dark-border) !important;
+    }
+    body.dark .card, body.dark .payBox, body.dark .product-card,
+    body.dark .menu-card, body.dark .modal-content, body.dark .modal,
+    body.dark .dialog, body.dark .opt label, body.dark .order-card,
     body.dark .orderCard, body.dark .panel, body.dark .breakfast-product-card,
-    body.dark .breakfast-option, body.dark .breakfast-qty, body.dark #orderCard,
-    body.dark #payCard, body.dark #successCard, body.dark #productList > button.yf-product-card {
-      background: var(--yf-dark-surface) !important; background-image: none !important;
-      color: var(--yf-dark-text) !important; border-color: var(--yf-dark-border) !important;
-      box-shadow: 0 6px 20px rgba(0,0,0,.12) !important;
+    body.dark .breakfast-option, body.dark #orderCard, body.dark #payCard,
+    body.dark #successCard, body.dark #productList > button.yf-product-card {
+      background: var(--yf-dark-surface) !important;
+      background-image: none !important;
+      color: var(--yf-dark-text) !important;
+      border-color: var(--yf-dark-border) !important;
     }
-    body.dark input:not([type="checkbox"]):not([type="radio"]), body.dark textarea, body.dark select {
-      background: var(--yf-dark-raised) !important; color: var(--yf-dark-text) !important; border-color: var(--yf-dark-border) !important;
+    body.dark input:not([type="checkbox"]):not([type="radio"]),
+    body.dark textarea, body.dark select {
+      background: var(--yf-dark-raised) !important;
+      color: var(--yf-dark-text) !important;
+      border-color: var(--yf-dark-border) !important;
     }
-    body.dark p, body.dark small, body.dark footer, body.dark .muted, body.dark .hint,
-    body.dark #menuTitle, body.dark #foodDesc, body.dark .breakfast-product-desc,
-    body.dark .breakfast-option-desc, body.dark .row .label, body.dark .fileName,
-    body.dark .noorders { color: var(--yf-dark-muted) !important; }
-    body.dark .opt label:has(input:checked), body.dark .breakfast-option:has(input:checked),
-    body.dark .periodBtn.active, body.dark #productList > button.yf-product-card.yf-selected {
-      background: var(--yf-dark-accent-bg) !important; color: #fff2eb !important;
-      border-color: var(--yf-dark-accent) !important; box-shadow: none !important;
+    body.dark p, body.dark small, body.dark footer, body.dark .muted,
+    body.dark .hint, body.dark #menuTitle, body.dark #foodDesc,
+    body.dark .breakfast-product-desc, body.dark .breakfast-option-desc,
+    body.dark .row .label, body.dark .fileName, body.dark .noorders {
+      color: var(--yf-dark-muted) !important;
     }
-    body.dark #bottomNav, body.dark .checkoutBar { background: var(--yf-dark-header) !important; border-color: var(--yf-dark-border) !important; }
+    body.dark .opt label:has(input:checked),
+    body.dark .breakfast-option:has(input:checked),
+    body.dark .periodBtn.active,
+    body.dark #productList > button.yf-product-card.yf-selected {
+      background: var(--yf-dark-accent-bg) !important;
+      color: #fff2eb !important;
+      border-color: var(--yf-dark-accent) !important;
+    }
+    body.dark #bottomNav, body.dark .checkoutBar {
+      background: var(--yf-dark-header) !important;
+      border-color: var(--yf-dark-border) !important;
+    }
     body.dark .navBtn { color: var(--yf-dark-muted) !important; }
     body.dark .navBtn.active { color: var(--yf-dark-accent) !important; background: var(--yf-dark-accent-bg) !important; }
   </style>
