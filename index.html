@@ -2481,6 +2481,35 @@
       .card,input,textarea,.opt label,.payBox { backdrop-filter:none !important;-webkit-backdrop-filter:none !important;background:rgba(250,247,255,.96) !important; }
     }
 
+  
+    @media (prefers-color-scheme: dark) {
+      :root {
+        color-scheme: dark;
+        --yf-text: #f4f4f5;
+        --yf-muted: #a1a1aa;
+        --yf-border: #34343a;
+        --yf-orange-soft: #3a251d;
+        --yf-green: #4ade80;
+        --yf-shadow: 0 10px 28px rgba(0,0,0,.24);
+      }
+      body { background: #111214 !important; color: #f4f4f5 !important; }
+      header { background: #191a1d !important; border-bottom: 1px solid #2b2c30; }
+      .card, .payBox, .total, .product-card, .menu-card, .modal-content, .modal, .dialog,
+      .opt label, .qty, .feedbackBtn, .order-card, .panel {
+        background-color: #1c1d21 !important; color: #f4f4f5 !important;
+        border-color: #34353b !important; box-shadow: 0 8px 24px rgba(0,0,0,.18);
+      }
+      p, small, .muted, .hint, footer { color: #a1a1aa; }
+      input, textarea, select {
+        background: #151619 !important; color: #f4f4f5 !important;
+        border-color: #414249 !important;
+      }
+      input::placeholder, textarea::placeholder { color: #85858f !important; }
+      button:not(.submit):not(.uploadBtn) { border-color: #414249; }
+      .opt label:has(input:checked) { background: #38251f !important; border-color: #e8794f !important; }
+      a { color: #ff9b78; }
+      hr { border-color: #34353b; }
+    }
   </style>
   <link rel="stylesheet" href="/animations.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
