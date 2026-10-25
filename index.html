@@ -2485,30 +2485,44 @@
     @media (prefers-color-scheme: dark) {
       :root {
         color-scheme: dark;
-        --yf-text: #f4f4f5;
-        --yf-muted: #a1a1aa;
-        --yf-border: #34343a;
-        --yf-orange-soft: #3a251d;
-        --yf-green: #4ade80;
-        --yf-shadow: 0 10px 28px rgba(0,0,0,.24);
+        --yf-text: #f3f4f6;
+        --yf-muted: #a7abb4;
+        --yf-border: #353943;
+        --yf-orange-soft: #38261f;
+        --yf-green: #65d99a;
+        --yf-shadow: 0 10px 28px rgba(0,0,0,.28);
       }
-      body { background: #111214 !important; color: #f4f4f5 !important; }
-      header { background: #191a1d !important; border-bottom: 1px solid #2b2c30; }
+      body { background: #121417 !important; color: #f3f4f6 !important; }
+      header { background: #1b1e23 !important; color: #f8fafc !important; border-bottom: 1px solid #30343d; }
       .card, .payBox, .total, .product-card, .menu-card, .modal-content, .modal, .dialog,
-      .opt label, .qty, .feedbackBtn, .order-card, .panel {
-        background-color: #1c1d21 !important; color: #f4f4f5 !important;
-        border-color: #34353b !important; box-shadow: 0 8px 24px rgba(0,0,0,.18);
+      .opt label, .qty, .feedbackBtn, .order-card, .panel, .breakfast-product-card,
+      .breakfast-option, .breakfast-qty, #feedbackListModal > div {
+        background: #20242a !important; color: #f3f4f6 !important;
+        border-color: #373d47 !important; box-shadow: 0 8px 24px rgba(0,0,0,.2);
       }
-      p, small, .muted, .hint, footer { color: #a1a1aa; }
+      .food { border-bottom-color: #343a44 !important; }
+      #menuTitle, #foodDesc, .breakfast-product-desc, .breakfast-option-desc,
+      .breakfast-qty-title, .muted, .hint, small, footer { color: #a7abb4 !important; }
+      .breakfast-product-name, .breakfast-option-name, .total, .total strong,
+      .price, .qty, .qty button { color: #f3f4f6 !important; }
       input, textarea, select {
-        background: #151619 !important; color: #f4f4f5 !important;
-        border-color: #414249 !important;
+        background: #171a1f !important; color: #f3f4f6 !important;
+        border-color: #414854 !important;
       }
-      input::placeholder, textarea::placeholder { color: #85858f !important; }
-      button:not(.submit):not(.uploadBtn) { border-color: #414249; }
-      .opt label:has(input:checked) { background: #38251f !important; border-color: #e8794f !important; }
-      a { color: #ff9b78; }
-      hr { border-color: #34353b; }
+      input::placeholder, textarea::placeholder { color: #858c98 !important; }
+      input:focus, textarea:focus, select:focus { border-color: #f28b63 !important; box-shadow: 0 0 0 3px rgba(242,139,99,.16) !important; }
+      .opt label:has(input:checked), .breakfast-option:has(input:checked) {
+        background: #3a2923 !important; border-color: #f28b63 !important; color: #fff1e9 !important;
+      }
+      .qty button, .feedbackBtn { background: #292e36 !important; border-color: #444b57 !important; }
+      .qty button:hover, .feedbackBtn:hover { background: #343b46 !important; }
+      .breakfast-badge { background: #49351f !important; color: #ffd18a !important; }
+      #bottomNav { background: #1b1e23 !important; border-top-color: #343a44 !important; }
+      .navBtn { color: #a7abb4 !important; }
+      .navBtn.active { color: #ffad88 !important; background: #38261f !important; }
+      .skeleton { background: linear-gradient(90deg,#252a32 25%,#303640 50%,#252a32 75%) !important; }
+      a { color: #ffad88; }
+      hr { border-color: #353943; }
     }
   </style>
   <link rel="stylesheet" href="/animations.css">
