@@ -362,6 +362,20 @@
       #bottomNav { padding-bottom:max(8px,env(safe-area-inset-bottom)); }
     }
 
+  
+    @media (prefers-color-scheme: dark) {
+      :root { color-scheme: dark; --yf-line:#34353b; }
+      body { background:#111214 !important; color:#f4f4f5 !important; }
+      header { background:#191a1d !important; border-bottom:1px solid #2b2c30; }
+      .card, .orderCard, .panel, .modal, .modal-content {
+        background:#1c1d21 !important; color:#f4f4f5 !important; border-color:#34353b !important;
+        box-shadow:0 8px 24px rgba(0,0,0,.2);
+      }
+      input, select, textarea { background:#151619 !important; color:#f4f4f5 !important; border-color:#414249 !important; }
+      p, small, .muted, .hint { color:#a1a1aa; }
+      #bottomNav { background:#191a1d !important; border-color:#34353b !important; }
+      a { color:#ff9b78; }
+    }
   </style>
   <link rel="stylesheet" href="/animations.css">
 
