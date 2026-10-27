@@ -4240,7 +4240,7 @@
         if (res.error) {
           console.error(res.error);
           const msg = String(res.error.message || '');
-          alert(msg.includes('OUT_OF_STOCK') ? '库存刚刚被抢完，请减少数量或刷新页面。' : text[lang].saveFail);
+          alert(msg.includes('OUT_OF_STOCK') ? '库存刚刚被抢完，请减少数量或刷新页面。' : (text[lang].saveFail + (msg || '未知错误')));
           loadOrdersToday();
           return;
         }
@@ -4329,7 +4329,7 @@
         if (res.error) {
           console.error(res.error);
           const msg = String(res.error.message || '');
-          alert(msg.includes('OUT_OF_STOCK') ? '库存刚刚被抢完，请减少数量或刷新页面。' : text[lang].saveFail);
+          alert(msg.includes('OUT_OF_STOCK') ? '库存刚刚被抢完，请减少数量或刷新页面。' : (text[lang].saveFail + (msg || '未知错误')));
           loadOrdersToday();
           return;
         }
