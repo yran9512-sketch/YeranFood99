@@ -2695,7 +2695,6 @@
       🔔 开启点餐提醒
     </button>
   </header>
-  <div id="businessStatusBanner" role="status" aria-live="polite" style="display:none;max-width:620px;margin:14px auto 0;padding:12px 16px;border-radius:12px;background:#fff3e8;border:1px solid #ffd8b5;color:#8a3d12;text-align:center;font-size:14px;font-weight:700"></div>
 
   <main class="container">
     <section class="card" id="orderCard">
@@ -2934,41 +2933,6 @@
     const SUPABASE_URL = 'https://kbzspuxrwsuxoyozmvjb.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_oC0S_vWgBt_X8N4Xu4cG4g_ekhGwKXB';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    let businessCanOrder = true;
-    let businessClosedMessage = '目前不在营业时间，暂时无法下单。';
-
-    async function refreshBusinessStatus() {
-      const banner = document.getElementById('businessStatusBanner');
-      try {
-        const settingsResult = await supabaseClient.from('business_settings')
-          .select('schedule_enabled,breakfast_paused,lunch_paused').eq('id', true).maybeSingle();
-        if (settingsResult.error) throw settingsResult.error;
-        const settings = settingsResult.data || {};
-        const period = currentPeriod === 'drink' ? 'lunch' : currentPeriod;
-        const paused = period === 'breakfast' ? settings.breakfast_paused : settings.lunch_paused;
-        if (!paused && !settings.schedule_enabled) {
-          businessCanOrder = true;
-          banner.style.display = 'none';
-          return;
-        }
-        const statusResult = await supabaseClient.rpc('is_business_open_now', {p_meal_period:period});
-        if (statusResult.error) throw statusResult.error;
-        businessCanOrder = statusResult.data === true;
-        if (businessCanOrder) {
-          banner.style.display = 'none';
-        } else {
-          businessClosedMessage = paused
-            ? (lang === 'en' ? (period === 'breakfast' ? 'Breakfast ordering is paused.' : 'Lunch ordering is paused.') : (period === 'breakfast' ? '早餐暂时暂停接单。' : '午餐及饮料暂时暂停接单。'))
-            : (lang === 'en' ? 'This menu is currently closed.' : (period === 'breakfast' ? '早餐目前不在营业时间。' : '午餐目前不在营业时间。'));
-          banner.textContent = businessClosedMessage;
-          banner.style.display = 'block';
-        }
-      } catch (error) {
-        console.error('读取营业状态失败:', error);
-        businessCanOrder = true;
-        banner.style.display = 'none';
-      }
-    }
 
     // Frontend hardening: never inject database/user text into HTML without escaping it.
     function escapeHtml(value) {
@@ -4227,7 +4191,6 @@
     }
 
     function goToPayment() {
-      if (!businessCanOrder) { alert(businessClosedMessage); return; }
       if (window._orderSubmitting) return;
       if (menu && menu.stockUnavailable) {
         alert(lang === 'zh' ? '库存暂时无法读取，请刷新页面后重试。' : 'Stock is unavailable. Please refresh and try again.');
@@ -4320,7 +4283,6 @@
       });
     }
     function submitCashOrder() {
-      if (!businessCanOrder) { alert(businessClosedMessage); return; }
       if (window._orderSubmitting) return;
       if (menu && menu.stockUnavailable) {
         alert(lang === 'zh' ? '库存暂时无法读取，请刷新页面后重试。' : 'Stock is unavailable. Please refresh and try again.');
@@ -4507,8 +4469,6 @@
       document.getElementById('btnDrinkOrder').classList.toggle('active', currentPeriod === 'drink');
     }
     updatePeriodAvailability();
-    refreshBusinessStatus();
-    setInterval(refreshBusinessStatus, 60000);
     loadMenu();
     function toggleDark() {
       document.body.classList.toggle('dark');
