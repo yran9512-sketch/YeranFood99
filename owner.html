@@ -2402,7 +2402,7 @@
       const byDay = new Map((hoursRes.data || []).map(row => [Number(row.day_of_week), row]));
       document.getElementById('businessHoursRows').innerHTML = BUSINESS_WEEK_DAYS.map((day, index) => {
         const row = byDay.get(index) || {};
-        return '<div style="display:grid;grid-template-columns:90px 82px minmax(90px,1fr) minmax(90px,1fr);gap:8px;align-items:center;padding:10px;border:1px solid #eee;border-radius:10px">' +
+        return '<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;align-items:center;padding:10px;border:1px solid #eee;border-radius:10px">' +
           '<strong>' + day + '</strong>' +
           '<label style="display:flex;align-items:center;gap:5px;margin:0;font-size:13px"><input id="businessOpen_' + index + '" type="checkbox" ' + (row.is_open ? 'checked' : '') + ' style="width:17px;height:17px;margin:0">营业</label>' +
           '<input id="businessStart_' + index + '" type="time" value="' + (row.open_time || '09:00').slice(0,5) + '" aria-label="' + day + '开始时间">' +
