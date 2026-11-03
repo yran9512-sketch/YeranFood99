@@ -2941,29 +2941,30 @@
       const banner = document.getElementById('businessStatusBanner');
       try {
         const settingsResult = await supabaseClient.from('business_settings')
-          .select('schedule_enabled,ordering_paused').eq('id', true).maybeSingle();
+          .select('schedule_enabled,breakfast_paused,lunch_paused').eq('id', true).maybeSingle();
         if (settingsResult.error) throw settingsResult.error;
         const settings = settingsResult.data || {};
-        if (!settings.ordering_paused && !settings.schedule_enabled) {
+        const period = currentPeriod === 'drink' ? 'lunch' : currentPeriod;
+        const paused = period === 'breakfast' ? settings.breakfast_paused : settings.lunch_paused;
+        if (!paused && !settings.schedule_enabled) {
           businessCanOrder = true;
           banner.style.display = 'none';
           return;
         }
-        const statusResult = await supabaseClient.rpc('is_business_open_now');
+        const statusResult = await supabaseClient.rpc('is_business_open_now', {p_meal_period:period});
         if (statusResult.error) throw statusResult.error;
         businessCanOrder = statusResult.data === true;
         if (businessCanOrder) {
           banner.style.display = 'none';
         } else {
-          businessClosedMessage = settings.ordering_paused
-            ? (lang === 'en' ? 'Ordering is temporarily paused.' : '目前暂停接单，请稍后再来。')
-            : (lang === 'en' ? 'We are currently closed. Please check our business hours.' : '目前非营业时间，暂时无法下单。');
+          businessClosedMessage = paused
+            ? (lang === 'en' ? (period === 'breakfast' ? 'Breakfast ordering is paused.' : 'Lunch ordering is paused.') : (period === 'breakfast' ? '早餐暂时暂停接单。' : '午餐及饮料暂时暂停接单。'))
+            : (lang === 'en' ? 'This menu is currently closed.' : (period === 'breakfast' ? '早餐目前不在营业时间。' : '午餐目前不在营业时间。'));
           banner.textContent = businessClosedMessage;
           banner.style.display = 'block';
         }
       } catch (error) {
         console.error('读取营业状态失败:', error);
-        // 数据库仍会在创建订单时再次强制检查，前端状态读取失败不替代服务端校验。
         businessCanOrder = true;
         banner.style.display = 'none';
       }
