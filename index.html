@@ -3571,7 +3571,12 @@
 
 
     function isOrderingOpen() {
-      const h = getMalaysiaNowParts().hour;
+      const now = getMalaysiaNowParts();
+      const localNow = Date.UTC(now.year, now.month - 1, now.day, now.hour);
+      const pauseStart = Date.UTC(2026, 10, 5, 15); // 2026-11-05 15:00 Malaysia time
+      const resumeAt = Date.UTC(2026, 10, 9, 15); // 2026-11-09 15:00 Malaysia time
+      if (localNow >= pauseStart && localNow < resumeAt) return false;
+      const h = now.hour;
 
       // 先校验实际用餐日期：周六、周日均不供应，避免周五晚预订到周六。
       if (isClosedMealDate(currentPeriod)) return false;
