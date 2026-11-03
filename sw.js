@@ -10,7 +10,7 @@ self.addEventListener('push', function (event) {
   const options = {
     body: data.body || '',
     tag: data.tag || 'ordering-open',
-    data: { url: data.url || '/' },
+    data: { url: data.url || '/admin.html' },
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
