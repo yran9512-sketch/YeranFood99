@@ -2100,7 +2100,32 @@
         <button type="button" data-owner-page="menu" onclick="setOwnerPage('menu')"><span aria-hidden="true">▦</span><span>菜单</span></button>
         <button type="button" data-owner-page="options" onclick="setOwnerPage('options')"><span aria-hidden="true">☷</span><span>选项</span></button>
         <button type="button" data-owner-page="feedback" onclick="setOwnerPage('feedback')"><span aria-hidden="true">♡</span><span>反馈</span></button>
+        <button type="button" data-owner-page="hours" onclick="setOwnerPage('hours')"><span aria-hidden="true">◷</span><span>营业时间</span></button>
       </nav>
+
+      <section class="card" id="ownerBusinessHours" style="display:none">
+        <h2>营业时间管理</h2>
+        <p style="color:#777;font-size:13px;line-height:1.6">设置每周营业时间。启用后，顾客只能在营业时段提交新订单；临时暂停接单会立即生效。</p>
+        <div style="display:flex;gap:18px;flex-wrap:wrap;margin:16px 0;padding:14px;background:#f7f7fb;border-radius:12px">
+          <label style="display:flex;align-items:center;gap:8px;margin:0"><input id="businessScheduleEnabled" type="checkbox" style="width:18px;height:18px;margin:0">启用营业时间限制</label>
+          <label style="display:flex;align-items:center;gap:8px;margin:0"><input id="businessOrderingPaused" type="checkbox" style="width:18px;height:18px;margin:0">临时暂停接单</label>
+        </div>
+        <h3>每周营业时间</h3>
+        <div id="businessHoursRows" style="display:grid;gap:8px"></div>
+        <button class="primary" style="margin-top:16px" onclick="saveBusinessHours()">保存营业设置</button>
+        <div id="businessHoursMessage" style="margin-top:10px;font-size:13px;color:#666"></div>
+        <hr style="border:0;border-top:1px solid #eee;margin:24px 0">
+        <h3>特殊日期</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+          <label>日期<input id="overrideDate" type="date"></label>
+          <label style="display:flex;align-items:center;gap:8px"><input id="overrideOpen" type="checkbox" checked style="width:18px;height:18px">当天营业</label>
+          <label>开始时间<input id="overrideOpenTime" type="time" value="09:00"></label>
+          <label>结束时间<input id="overrideCloseTime" type="time" value="18:00"></label>
+          <label>原因<input id="overrideReason" type="text" maxlength="120" placeholder="例如：节假日调整"></label>
+        </div>
+        <button class="primary" style="margin-top:8px" onclick="saveBusinessOverride()">保存特殊日期</button>
+        <div id="businessOverridesList" style="display:grid;gap:8px;margin-top:14px"></div>
+      </section>
 
 
       <div class="card" id="ownerProducts">
@@ -2342,10 +2367,11 @@
         orders: ['summaryBox', 'ownerOrders'],
         menu: ['ownerProducts'],
         options: ['ownerOptions'],
-        feedback: ['ownerPendingFeedback', 'ownerApprovedFeedback']
+        feedback: ['ownerPendingFeedback', 'ownerApprovedFeedback'],
+        hours: ['ownerBusinessHours']
       };
       const validPage = Object.prototype.hasOwnProperty.call(pages, page) ? page : 'orders';
-      ['summaryBox', 'ownerOrders', 'ownerProducts', 'ownerOptions', 'ownerPendingFeedback', 'ownerApprovedFeedback'].forEach(function(id) {
+      ['summaryBox', 'ownerOrders', 'ownerProducts', 'ownerOptions', 'ownerPendingFeedback', 'ownerApprovedFeedback', 'ownerBusinessHours'].forEach(function(id) {
         const el = document.getElementById(id);
         if (el) el.style.display = pages[validPage].includes(id) ? '' : 'none';
       });
@@ -2355,6 +2381,91 @@
         button.setAttribute('aria-current', active ? 'page' : 'false');
       });
       window.scrollTo({top: 0, behavior: 'auto'});
+    }
+
+    const BUSINESS_WEEK_DAYS = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+
+    async function loadBusinessHours() {
+      const [settingsRes, hoursRes, overridesRes] = await Promise.all([
+        supabaseClient.from('business_settings').select('*').eq('id', true).maybeSingle(),
+        supabaseClient.from('business_hours').select('*').order('day_of_week'),
+        supabaseClient.from('business_date_overrides').select('*').gte('business_date', new Date().toLocaleDateString('en-CA', {timeZone:'Asia/Kuala_Lumpur'})).order('business_date')
+      ]);
+      if (settingsRes.error || hoursRes.error || overridesRes.error) {
+        document.getElementById('businessHoursMessage').textContent = '加载失败，请刷新页面重试。';
+        console.error(settingsRes.error || hoursRes.error || overridesRes.error);
+        return;
+      }
+      const settings = settingsRes.data || {};
+      document.getElementById('businessScheduleEnabled').checked = !!settings.schedule_enabled;
+      document.getElementById('businessOrderingPaused').checked = !!settings.ordering_paused;
+      const byDay = new Map((hoursRes.data || []).map(row => [Number(row.day_of_week), row]));
+      document.getElementById('businessHoursRows').innerHTML = BUSINESS_WEEK_DAYS.map((day, index) => {
+        const row = byDay.get(index) || {};
+        return '<div style="display:grid;grid-template-columns:90px 82px minmax(90px,1fr) minmax(90px,1fr);gap:8px;align-items:center;padding:10px;border:1px solid #eee;border-radius:10px">' +
+          '<strong>' + day + '</strong>' +
+          '<label style="display:flex;align-items:center;gap:5px;margin:0;font-size:13px"><input id="businessOpen_' + index + '" type="checkbox" ' + (row.is_open ? 'checked' : '') + ' style="width:17px;height:17px;margin:0">营业</label>' +
+          '<input id="businessStart_' + index + '" type="time" value="' + (row.open_time || '09:00').slice(0,5) + '" aria-label="' + day + '开始时间">' +
+          '<input id="businessEnd_' + index + '" type="time" value="' + (row.close_time || '18:00').slice(0,5) + '" aria-label="' + day + '结束时间"></div>';
+      }).join('');
+      document.getElementById('businessOverridesList').innerHTML = (overridesRes.data || []).map(row =>
+        '<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px;border:1px solid #eee;border-radius:10px">' +
+        '<span><strong>' + escapeHtml(row.business_date) + '</strong> · ' +
+        (row.is_open ? escapeHtml(String(row.open_time).slice(0,5) + '–' + String(row.close_time).slice(0,5)) : '休息') +
+        (row.reason ? ' · ' + escapeHtml(row.reason) : '') + '</span>' +
+        '<button class="small red" onclick="deleteBusinessOverride(\'' + escapeHtml(row.business_date) + '\')">删除</button></div>'
+      ).join('') || '<div style="color:#999;font-size:13px">暂无特殊日期设置</div>';
+      document.getElementById('businessHoursMessage').textContent = '设置已加载。未启用营业时间限制时，系统继续沿用现有下单规则。';
+    }
+
+    async function saveBusinessHours() {
+      const message = document.getElementById('businessHoursMessage');
+      const enabled = document.getElementById('businessScheduleEnabled').checked;
+      const paused = document.getElementById('businessOrderingPaused').checked;
+      const rows = BUSINESS_WEEK_DAYS.map((_, day) => {
+        const isOpen = document.getElementById('businessOpen_' + day).checked;
+        const openTime = document.getElementById('businessStart_' + day).value;
+        const closeTime = document.getElementById('businessEnd_' + day).value;
+        if (isOpen && (!openTime || !closeTime || openTime >= closeTime)) throw new Error('请检查营业日的开始和结束时间。');
+        return {day_of_week:day,is_open:isOpen,open_time:isOpen?openTime:null,close_time:isOpen?closeTime:null,updated_at:new Date().toISOString()};
+      });
+      if (enabled && !rows.some(row => row.is_open)) {
+        message.textContent = '启用营业时间限制前，至少设置一天营业。';
+        return;
+      }
+      message.textContent = '保存中…';
+      const hoursResult = await supabaseClient.from('business_hours').upsert(rows, {onConflict:'day_of_week'});
+      if (hoursResult.error) { message.textContent = '保存失败：' + hoursResult.error.message; return; }
+      const settingsResult = await supabaseClient.from('business_settings').upsert({
+        id:true,schedule_enabled:enabled,ordering_paused:paused,updated_at:new Date().toISOString()
+      }, {onConflict:'id'});
+      if (settingsResult.error) { message.textContent = '营业时间已保存，但状态保存失败：' + settingsResult.error.message; return; }
+      message.textContent = '保存成功，顾客端会自动应用新的营业设置。';
+    }
+
+    async function saveBusinessOverride() {
+      const date = document.getElementById('overrideDate').value;
+      const isOpen = document.getElementById('overrideOpen').checked;
+      const openTime = document.getElementById('overrideOpenTime').value;
+      const closeTime = document.getElementById('overrideCloseTime').value;
+      if (!date) { alert('请选择特殊日期。'); return; }
+      if (isOpen && (!openTime || !closeTime || openTime >= closeTime)) { alert('请检查特殊日期的营业时间。'); return; }
+      const payload = {
+        business_date:date,is_open:isOpen,open_time:isOpen?openTime:null,close_time:isOpen?closeTime:null,
+        reason:document.getElementById('overrideReason').value.trim() || null,updated_at:new Date().toISOString()
+      };
+      const {error} = await supabaseClient.from('business_date_overrides').upsert(payload,{onConflict:'business_date'});
+      if (error) { alert('保存失败：' + error.message); return; }
+      document.getElementById('overrideDate').value = '';
+      document.getElementById('overrideReason').value = '';
+      await loadBusinessHours();
+    }
+
+    async function deleteBusinessOverride(date) {
+      if (!confirm('确定删除 ' + date + ' 的特殊日期设置？')) return;
+      const {error} = await supabaseClient.from('business_date_overrides').delete().eq('business_date',date);
+      if (error) { alert('删除失败：' + error.message); return; }
+      await loadBusinessHours();
     }
 
     async function login() {
@@ -2402,6 +2513,7 @@
       await loadProducts();
       await loadFeedback();
       await loadOptions();
+      await loadBusinessHours();
     }
 
     async function logout() {
