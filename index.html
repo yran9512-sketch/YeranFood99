@@ -5248,6 +5248,124 @@ body:not(.dark) input:focus, body:not(.dark) select:focus, body:not(.dark) texta
     margin-right: 12px !important;
   }
 </style>
+<style id="yf-customer-batch-3">
+  /* 顾客端视觉改造 Batch 3：结账栏与底部导航 */
+
+  /* 1. 结账栏 */
+  .checkoutBar, #checkoutBar {
+    background: rgba(255, 255, 255, 0.94) !important;
+    border: 1px solid #E5E5EA !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    padding: 12px 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    position: sticky !important;
+    bottom: 20px !important;
+    z-index: 50 !important;
+    transition: none !important;
+  }
+
+  /* 移动端：固定在底部导航上方 */
+  @media (max-width: 700px) {
+    .checkoutBar, #checkoutBar {
+      position: fixed !important;
+      left: 12px !important;
+      right: 12px !important;
+      bottom: calc(72px + env(safe-area-inset-bottom)) !important;
+      margin: 0 !important;
+      border-radius: 16px !important;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+    }
+    body {
+      padding-bottom: calc(160px + env(safe-area-inset-bottom)) !important;
+    }
+  }
+
+  /* 结账栏内部文字与按钮 */
+  .checkoutTotal {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+  }
+  .checkoutTotalLabel {
+    font-size: 12px !important;
+    color: #6E6E73 !important;
+    margin-bottom: 2px !important;
+  }
+  .checkoutTotalValue {
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    color: #1D1D1F !important;
+    line-height: 1.1 !important;
+  }
+
+  .checkoutBar .submit, #checkoutBar .submit {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    margin: 0 !important;
+    min-height: 48px !important;
+    padding: 0 20px !important;
+    border-radius: 12px !important;
+    background: #1D1D1F !important;
+    color: #FFFFFF !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  .checkoutBar .submit:active {
+    transform: scale(0.96) !important;
+  }
+
+  /* 2. 底部导航栏 */
+  #bottomNav {
+    background: rgba(255, 255, 255, 0.94) !important;
+    border-top: 1px solid #E5E5EA !important;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.04) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    padding: 8px 0 calc(8px + env(safe-area-inset-bottom)) !important;
+    display: flex !important;
+    justify-content: space-around !important;
+    z-index: 100 !important;
+  }
+
+  .navBtn {
+    background: transparent !important;
+    border: none !important;
+    color: #8E8E93 !important;
+    font-weight: 500 !important;
+    padding: 6px 0 !important;
+    border-radius: 10px !important;
+    transition: all 0.15s ease !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 2px !important;
+  }
+
+  .navBtn.active {
+    color: #1D1D1F !important;
+    background: transparent !important;
+    font-weight: 700 !important;
+  }
+
+  .navBtn div:first-child {
+    filter: grayscale(100%) opacity(0.65) !important;
+    transition: all 0.15s ease !important;
+  }
+  .navBtn.active div:first-child {
+    filter: grayscale(100%) opacity(1) !important;
+    transform: scale(1.05) !important;
+  }
+</style>
 </body>
 
 </html>
