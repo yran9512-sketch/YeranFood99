@@ -2489,6 +2489,97 @@
 
   
     /* Removed system-dark override to preserve light theme. */
+  
+    
+    /* ===== 菜品分类卡片精细优化 ===== */
+    #productList > button.yf-product-card {
+      min-height: 116px !important;
+      padding: 12px !important;
+      border: 1px solid #e9e2d9 !important;
+      border-radius: 20px !important;
+      background: #fffdf9 !important;
+      box-shadow: 0 3px 12px rgba(53, 42, 30, .045) !important;
+      text-align: left;
+      transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+    }
+    #productList > button.yf-product-card:hover:not(:disabled) {
+      border-color: #d9c8b7 !important;
+      box-shadow: 0 6px 18px rgba(53, 42, 30, .075) !important;
+    }
+    #productList > button.yf-product-card.yf-selected {
+      border: 1.5px solid #d7a98c !important;
+      background: #fff8f2 !important;
+      box-shadow: 0 0 0 3px rgba(215, 169, 140, .10) !important;
+    }
+    #productList .yf-product-top {
+      align-items: center !important;
+      gap: 16px !important;
+      min-height: 90px;
+    }
+    #productList .yf-product-image {
+      width: 92px !important;
+      height: 92px !important;
+      flex: 0 0 92px !important;
+      border-radius: 17px !important;
+      background: #f3eee7;
+      box-shadow: 0 2px 7px rgba(40, 30, 20, .08);
+    }
+    #productList .yf-product-icon {
+      width: 72px;
+      height: 72px;
+      flex: 0 0 72px;
+      border-radius: 17px;
+      font-size: 30px;
+    }
+    #productList .yf-product-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 90px;
+    }
+    #productList .yf-product-name {
+      width: 100%;
+      text-align: center !important;
+      font-size: 19px !important;
+      line-height: 1.3 !important;
+      letter-spacing: -.25px;
+      font-weight: 800;
+    }
+    #productList > button.yf-product-card.yf-soldout {
+      background: #f7f5f1 !important;
+    }
+    @media (max-width: 640px) {
+      #productList { gap: 11px !important; }
+      #productList > button.yf-product-card {
+        min-height: 108px !important;
+        padding: 10px !important;
+        border-radius: 18px !important;
+      }
+      #productList .yf-product-top,
+      #productList .yf-product-main { min-height: 86px; }
+      #productList .yf-product-image {
+        width: 86px !important;
+        height: 86px !important;
+        flex-basis: 86px !important;
+        border-radius: 15px !important;
+      }
+      #productList .yf-product-icon {
+        width: 66px;
+        height: 66px;
+        flex-basis: 66px;
+        font-size: 27px;
+      }
+      #productList .yf-product-name { font-size: 17px !important; }
+    }
+    @media (max-width: 380px) {
+      #productList .yf-product-top { gap: 11px !important; }
+      #productList .yf-product-image {
+        width: 76px !important;
+        height: 76px !important;
+        flex-basis: 76px !important;
+      }
+    }
+
   </style>
   <link rel="stylesheet" href="/animations.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
