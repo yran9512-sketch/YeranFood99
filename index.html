@@ -4796,6 +4796,10 @@ body:not(.dark) #bottomNav{background:rgba(255,255,255,.97)!important;border-top
 body:not(.dark) #bottomNav .navBtn.active{color:var(--yf-accent)!important;background:#FFF2ED!important}
 body:not(.dark) .feedbackBtn{background:#fff!important;border:1px solid var(--yf-line)!important;color:var(--yf-ink)!important;border-radius:11px!important}
 @media(max-width:640px){body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))!important}#checkoutBar{position:static!important;z-index:auto!important}#payCard{margin-top:16px!important}}
+body:not(.dark) .opt label:has(input:checked){border:1px solid #E8552F!important;background:#FFF2ED!important;box-shadow:0 2px 8px rgba(232,85,47,.10)!important;color:#1D1D1F!important}
+body:not(.dark) .opt label:has(input:checked) input[type="radio"]{accent-color:#E8552F!important}
+body:not(.dark) .opt label input[type="radio"]{width:18px!important;height:18px!important;flex:0 0 18px!important;margin:0 2px 0 0!important}
+body:not(.dark) button:focus-visible,body:not(.dark) a:focus-visible,body:not(.dark) input:focus-visible,body:not(.dark) textarea:focus-visible,body:not(.dark) select:focus-visible{outline:3px solid rgba(232,85,47,.28)!important;outline-offset:2px!important}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </body>
