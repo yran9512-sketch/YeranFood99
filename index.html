@@ -2947,6 +2947,29 @@
   @media (prefers-reduced-transparency: reduce) {
     #bottomNav { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: #fff !important; }
   }
+
+  /* Final mobile checkout layout: keep payment choices and checkout in normal flow. */
+  @media (max-width: 700px) {
+    #checkoutBar {
+      position: static !important;
+      inset: auto !important;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+      z-index: auto !important;
+      width: auto !important;
+      margin: 18px 0 0 !important;
+      transform: none !important;
+      display: flex !important;
+      align-items: center !important;
+      isolation: auto !important;
+    }
+    #checkoutBar .submit {
+      position: static !important;
+      inset: auto !important;
+      transform: none !important;
+    }
+  }
 </style>
 
   <link rel="stylesheet" href="/animations.css">
@@ -3135,7 +3158,7 @@
     </section>
   </main>
   <div style="text-align:center;padding:16px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
-    <button onclick="openFeedback()" id="feedbackBtn" class="feedbackBtn">💬 意见反馈</button>
+    <button onclick="openFeedback()" id="feedbackBtn" class="feedbackBtn">✍️ 留下评价</button>
 
     <button onclick="openFeedbackList()" id="viewFeedbackBtn" class="feedbackBtn">
       👀 查看反馈
@@ -3275,7 +3298,7 @@
         closedTitle: '暂停接单',
         closedText: '今天下午 3 点再订',
         closedWeekend: '周末休息，周天下午三点见',
-        feedbackBtn: '💬 意见反馈',
+        feedbackBtn: '✍️ 留下评价',
         fbTitle: '意见反馈',
         viewFeedback: '👀 查看反馈',
         feedbackListTitle: '大家的反馈',
@@ -3333,7 +3356,7 @@
         closedTitle: 'Ordering Paused',
         closedText: 'Come back at 3 PM today',
         closedWeekend: 'Closed on weekends. See you Sunday 3 PM!',
-        feedbackBtn: '💬 Feedback',
+        feedbackBtn: '✍️ Leave a Review',
         fbTitle: 'Feedback',
         viewFeedback: '👀 View Feedback',
         feedbackListTitle: 'Community Feedback',
