@@ -1334,7 +1334,7 @@
 
     <!-- 订单页 -->
     <section id="main" style="display:none">
-      <div class="kitchen-top-actions" style="float:right;display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;justify-content:flex-end"><button onclick="enableKitchenPush()" id="kitchenPushBtn" style="margin:0">🔔 开启新订单提醒</button><button onclick="adminLogout()" style="margin:0">退出登录</button></div>
+      <div class="kitchen-top-actions" style="float:right;display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;justify-content:flex-end"><button onclick="enableKitchenPush()" id="kitchenPushBtn" style="margin:0">开启新订单提醒</button><button onclick="adminLogout()" style="margin:0">退出登录</button></div>
 
       <nav class="kitchen-bottom-nav" aria-label="厨师端页面导航">
         <button type="button" data-kitchen-page="orders" class="active" onclick="setKitchenPage('orders')"><span aria-hidden="true">▤</span><span>订单</span></button>
@@ -1395,11 +1395,11 @@
         const registration = await navigator.serviceWorker.register('/sw.js');
         const subscription = await registration.pushManager.getSubscription();
         if (subscription && Notification.permission === 'granted') {
-          btn.textContent = '🔔 新订单提醒已开启';
+          btn.textContent = '新订单提醒已开启';
         } else if (Notification.permission === 'denied') {
           btn.textContent = '通知已关闭';
         } else {
-          btn.textContent = '🔔 开启新订单提醒';
+          btn.textContent = '开启新订单提醒';
         }
       } catch (err) {
         console.error('检查厨师端通知失败:', err);
@@ -1440,7 +1440,7 @@
           p_auth: auth
         });
         if (error) throw error;
-        btn.textContent = '🔔 新订单提醒已开启';
+        btn.textContent = '新订单提醒已开启';
       } catch (err) {
         console.error('开启厨师端通知失败:', err);
         alert('开启通知失败，请检查浏览器通知权限后重试。');
@@ -1903,6 +1903,71 @@ button:hover, button.primary:hover { background:#333336 !important; }
 .summary { grid-template-columns:repeat(auto-fit,minmax(120px,1fr)) !important; }
 @media(max-width:800px) {
   .summary { grid-template-columns:repeat(auto-fit,minmax(120px,1fr)) !important; }
+}
+</style>
+
+
+
+<style id="yf-admin-glass-batch-3">
+/* 1. 彻底统一按钮颜色 */
+button,
+button.primary,
+.primary,
+#kitchenPushBtn {
+  background:#1D1D1F !important;
+  background-image:none !important;
+  color:#FFF !important;
+  border:1px solid #1D1D1F !important;
+  box-shadow:0 2px 8px rgba(0,0,0,.08) !important;
+}
+/* 通知按钮保持白底灰边 */
+#kitchenPushBtn {
+  background:rgba(255,255,255,.8) !important;
+  color:#1D1D1F !important;
+  border:1px solid #E5E5EA !important;
+}
+/* 2. 底部导航统一中性色 */
+.kitchen-bottom-nav button,
+.kitchen-bottom-nav button.active {
+  background:transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+}
+.kitchen-bottom-nav button { color:#8E8E93 !important; }
+.kitchen-bottom-nav button.active {
+  background:rgba(0,0,0,.06) !important;
+  color:#1D1D1F !important;
+}
+.kitchen-bottom-nav button span:first-child {
+  font-size:20px !important;
+  filter:grayscale(100%) opacity(.6) !important;
+}
+.kitchen-bottom-nav button.active span:first-child {
+  filter:grayscale(100%) opacity(1) !important;
+}
+/* 3. 汇总卡片铺满整行 */
+.summary {
+  display:grid !important;
+  grid-template-columns:repeat(auto-fit,minmax(100px,1fr)) !important;
+  gap:10px !important;
+}
+/* 保留餐别分段控件的白色选中滑块，不受通用按钮规则影响 */
+.period-switch button,
+#btnLunch,#btnBreakfast,#btnDrink {
+  background:transparent !important;
+  background-image:none !important;
+  color:#6E6E73 !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+.period-switch button.primary,
+.period-switch button[aria-pressed="true"],
+#btnLunch.primary,#btnBreakfast.primary,#btnDrink.primary {
+  background:#FFF !important;
+  color:#1D1D1F !important;
+  border:0 !important;
+  box-shadow:0 1px 4px rgba(0,0,0,.12) !important;
+  font-weight:700 !important;
 }
 </style>
 
