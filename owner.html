@@ -4178,6 +4178,33 @@ input:focus,select:focus,textarea:focus { border-color:var(--yf-primary) !import
   }
 </style>
 
+
+<style id="yf-owner-bottom-nav-fix">
+  html body nav.owner-quick-nav button {
+    background:transparent !important;
+    background-color:transparent !important;
+    background-image:none !important;
+    color:#8E8E93 !important;
+    border:none !important;
+    box-shadow:none !important;
+    border-radius:14px !important;
+    transition:background-color .2s ease,color .2s ease !important;
+  }
+  html body nav.owner-quick-nav button.active {
+    background:#F2F2F7 !important;
+    background-color:#F2F2F7 !important;
+    color:#1D1D1F !important;
+    font-weight:700 !important;
+    box-shadow:none !important;
+  }
+  html body nav.owner-quick-nav button span:first-child {
+    filter:grayscale(100%) opacity(.6) !important;
+  }
+  html body nav.owner-quick-nav button.active span:first-child {
+    filter:grayscale(100%) opacity(1) !important;
+  }
+</style>
+
 </body>
 
 </html>
