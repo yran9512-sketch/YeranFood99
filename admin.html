@@ -2102,6 +2102,72 @@ button.primary,
   }
 </style>
 
+
+<style id="yf-admin-ultimate-kill">
+  /* 1. 干掉“退出登录”和“刷新”的紫色 */
+  #main button,
+  #main .primary,
+  .kitchen-refresh,
+  .kitchen-top-actions button {
+    background: #1D1D1F !important;
+    background-image: none !important;
+    color: #FFFFFF !important;
+    border: 1px solid #1D1D1F !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
+  }
+
+  /* “新订单提醒”保持白底黑字 */
+  #kitchenPushBtn {
+    background: #FFFFFF !important;
+    color: #1D1D1F !important;
+    border: 1px solid #E5E5EA !important;
+    box-shadow: none !important;
+  }
+
+  /* 2. 干掉底部导航的紫底和橙底 */
+  .kitchen-bottom-nav,
+  .kitchen-bottom-nav button,
+  .kitchen-bottom-nav button.active,
+  .kitchen-bottom-nav button[data-kitchen-page="orders"],
+  .kitchen-bottom-nav button[data-kitchen-page="feedback"] {
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    color: #8E8E93 !important;
+  }
+
+  /* 底部导航父容器白底 */
+  .kitchen-bottom-nav {
+    background: #FFFFFF !important;
+    border-top: 1px solid #E5E5EA !important;
+  }
+
+  /* 选中状态：浅灰底、黑字 */
+  .kitchen-bottom-nav button.active {
+    background: #F2F2F7 !important;
+    color: #1D1D1F !important;
+  }
+
+  .kitchen-bottom-nav button span:first-child {
+    filter: grayscale(100%) !important;
+  }
+
+  .kitchen-bottom-nav button.active span:first-child {
+    filter: grayscale(100%) brightness(0.5) !important;
+  }
+
+  /* 3. 午餐选中状态：白底黑字 */
+  .period-switch button.primary,
+  .period-switch button.active,
+  #btnLunch.primary {
+    background: #FFFFFF !important;
+    color: #1D1D1F !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1) !important;
+    border: none !important;
+  }
+</style>
+
 </body>
 
 </html>
