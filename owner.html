@@ -6,7 +6,7 @@
   
   <link rel="icon" type="image/png" href="/icons/owner-manage.png?v=1">
   <link rel="apple-touch-icon" href="/icons/owner-manage.png?v=1">
-  <meta name="theme-color" content="#f7f5f0">
+  <meta name="theme-color" content="#F5F5F7">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YeranFood · 管理员</title>
   <style>
@@ -4225,6 +4225,21 @@ input:focus,select:focus,textarea:focus { border-color:var(--yf-primary) !import
   }
 </style>
 
+
+<style id="yf-visual-consistency-2026">
+:root{--yf-page:#F5F5F7;--yf-surface:#fff;--yf-ink:#1D1D1F;--yf-muted:#6E6E73;--yf-line:#E5E5EA;--yf-accent:#E8552F}
+body{background:var(--yf-page)!important;color:var(--yf-ink)!important}
+body>header{background:#1D1D1F!important;color:#fff!important;background-image:none!important;box-shadow:none!important}
+#main>.card,#main .card,.stat-card,.order-card{background:#fff!important;border:1px solid var(--yf-line)!important;border-radius:16px!important;box-shadow:0 2px 10px rgba(0,0,0,.035)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+#main input,#main select,#main textarea{background:#fff!important;border:1px solid var(--yf-line)!important;border-radius:10px!important;color:var(--yf-ink)!important}
+#main button.primary{background:#1D1D1F!important;background-image:none!important;border-color:#1D1D1F!important;color:#fff!important;box-shadow:none!important}
+nav.owner-quick-nav{position:fixed!important;left:0!important;right:0!important;top:auto!important;bottom:0!important;z-index:100!important;width:100%!important;margin:0!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:4px!important;padding:7px 10px calc(7px + env(safe-area-inset-bottom,0px))!important;border:0!important;border-top:1px solid var(--yf-line)!important;border-radius:0!important;background:rgba(255,255,255,.97)!important;box-shadow:0 -3px 14px rgba(0,0,0,.04)!important;backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important}
+nav.owner-quick-nav button,nav.owner-quick-nav button:not(.active){min-width:0!important;min-height:52px!important;background:transparent!important;background-image:none!important;color:var(--yf-muted)!important;border:0!important;border-radius:10px!important;box-shadow:none!important}
+nav.owner-quick-nav button.active{background:#F2F2F5!important;color:var(--yf-ink)!important}
+nav.owner-quick-nav button.active:after{display:none!important}
+@media(max-width:640px){body{padding-bottom:calc(82px + env(safe-area-inset-bottom,0px))!important}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
 </body>
 
 </html>
