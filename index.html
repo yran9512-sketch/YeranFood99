@@ -2684,8 +2684,6 @@
   <header>
     <h1>YeranFood</h1>
     <p id="subtitle">校园点餐 · School Food Ordering</p>
-    <button onclick="toggleDark()" id="darkBtn"
-      style="position:absolute;top:16px;right:16px;background:transparent;border:1px solid #444;color:#fff;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:16px;z-index:10">🌙</button>
     <div class="lang">
       <button id="zhBtn" class="active" onclick="setLang('zh')">中文</button>
       <button id="enBtn" onclick="setLang('en')">English</button>
@@ -4475,18 +4473,9 @@
     }
     updatePeriodAvailability();
     loadMenu();
-    function toggleDark() {
-      document.body.classList.toggle('dark');
-      const isDark = document.body.classList.contains('dark');
-      document.getElementById('darkBtn').textContent = isDark ? '☀️' : '🌙';
-      localStorage.setItem('darkMode', isDark ? '1' : '0');
-    }
-
-    // 页面加载时恢复
-    if (localStorage.getItem('darkMode') === '1') {
-      document.body.classList.add('dark');
-      document.getElementById('darkBtn').textContent = '☀️';
-    }
+    // 点餐端固定使用浅色模式，并清除旧版深色模式设置
+    document.body.classList.remove('dark');
+    localStorage.removeItem('darkMode');
     setLang(lang);
     initPushNotifications();
     function scrollToTop() {
