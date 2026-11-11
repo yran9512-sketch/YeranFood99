@@ -5694,6 +5694,76 @@ body:not(.dark) input:focus, body:not(.dark) select:focus, body:not(.dark) texta
     html body { padding-bottom: 160px !important; }
   }
 </style>
+<style id="yf-god-mode-final">
+  /* 1. 彻底干掉商品卡片选中的紫蓝色 */
+  html body #productList > button.yf-product-card.yf-selected {
+    border: 2px solid #1D1D1F !important;
+    background-color: #F5F5F7 !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  /* 2. 干掉选项（Noodles）的浅橘背景和橘色边框 */
+  html body .breakfast-option:has(input:checked),
+  html body .opt > label:has(input:checked) {
+    background-color: #F5F5F7 !important;
+    background-image: none !important;
+    border: 2px solid #1D1D1F !important;
+    box-shadow: none !important;
+  }
+
+  /* 彻底干掉选项里的所有红字（单价等） */
+  html body .breakfast-option-price,
+  html body .breakfast-option:has(input:checked) .breakfast-option-price,
+  html body #breakfastPrice,
+  html body #total,
+  html body .checkoutTotalValue,
+  html body #payPageAmount {
+    color: #1D1D1F !important;
+  }
+
+  /* 3. 干掉加号减号的红色 */
+  html body .qty button,
+  html body .breakfast-qty .qty button {
+    background: #FFFFFF !important;
+    color: #1D1D1F !important;
+    border: 1px solid #E5E5EA !important;
+    box-shadow: none !important;
+  }
+  html body .qty button:hover,
+  html body .breakfast-qty .qty button:hover {
+    background: #1D1D1F !important;
+    color: #FFFFFF !important;
+  }
+
+  /* 4. 干掉 Lunch 标签的红色 */
+  html body .breakfast-badge {
+    background: #E5E5EA !important;
+    color: #1D1D1F !important;
+  }
+
+  /* 5. 结账栏固定悬浮在底部导航上方 */
+  @media (max-width: 700px) {
+    html body #checkoutBar {
+      position: fixed !important;
+      bottom: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
+      left: 12px !important;
+      right: 12px !important;
+      margin: 0 !important;
+      z-index: 99 !important;
+      background: #FFFFFF !important;
+      border: 1px solid #E5E5EA !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+      border-radius: 16px !important;
+      display: flex !important;
+      align-items: center !important;
+      padding: 12px 14px !important;
+    }
+    html body {
+      padding-bottom: 170px !important;
+    }
+  }
+</style>
 </body>
 
 </html>
