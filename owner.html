@@ -2973,11 +2973,7 @@
       currentMenuType = type;
       document.getElementById('btnLunchMenu').className = type === 'lunch' ? 'primary' : '';
       document.getElementById('btnBreakfastMenu').className = type === 'breakfast' ? 'primary' : '';
-      document.getElementById('btnBreakfastMenu').style.background = type === 'breakfast' ? '#111' : '#eee';
-      document.getElementById('btnBreakfastMenu').style.color = type === 'breakfast' ? '#fff' : '#333';
       document.getElementById('btnDrinkMenu').className = type === 'drink' ? 'primary' : '';
-      document.getElementById('btnDrinkMenu').style.background = type === 'drink' ? '#111' : '#eee';
-      document.getElementById('btnDrinkMenu').style.color = type === 'drink' ? '#fff' : '#333';
       selectedOptionProductId = null;
       loadProducts();
       if (currentOptType === type) loadOptions();
@@ -2987,11 +2983,7 @@
       currentOptType = type;
       document.getElementById('btnLunchOpt').className = type === 'lunch' ? 'primary' : '';
       document.getElementById('btnBreakfastOpt').className = type === 'breakfast' ? 'primary' : '';
-      document.getElementById('btnBreakfastOpt').style.background = type === 'breakfast' ? '#111' : '#eee';
-      document.getElementById('btnBreakfastOpt').style.color = type === 'breakfast' ? '#fff' : '#333';
       document.getElementById('btnDrinkOpt').className = type === 'drink' ? 'primary' : '';
-      document.getElementById('btnDrinkOpt').style.background = type === 'drink' ? '#111' : '#eee';
-      document.getElementById('btnDrinkOpt').style.color = type === 'drink' ? '#fff' : '#333';
       selectedOptionProductId = null;
       refreshOptionProductSelect();
     }
@@ -4010,6 +4002,44 @@ input:focus,select:focus,textarea:focus { border-color:var(--yf-primary) !import
   #optionProductSelect {
     border:1px solid #E5E5EA !important;
     box-shadow:none !important;
+  }
+</style>
+
+
+<style id="yf-owner-kill-inline-v2">
+  /* 覆盖 JS 写入的内联样式，未选中：浅灰底、灰字 */
+  html body #main #ownerProducts #btnLunchMenu,
+  html body #main #ownerProducts #btnBreakfastMenu,
+  html body #main #ownerProducts #btnDrinkMenu,
+  html body #main #ownerOptions #btnLunchOpt,
+  html body #main #ownerOptions #btnBreakfastOpt,
+  html body #main #ownerOptions #btnDrinkOpt {
+    background-color: #F5F5F7 !important;
+    background-image: none !important;
+    color: #6E6E73 !important;
+    border: 1px solid transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* 选中状态：黑底、白字 */
+  html body #main #ownerProducts #btnLunchMenu.primary,
+  html body #main #ownerProducts #btnBreakfastMenu.primary,
+  html body #main #ownerProducts #btnDrinkMenu.primary,
+  html body #main #ownerOptions #btnLunchOpt.primary,
+  html body #main #ownerOptions #btnBreakfastOpt.primary,
+  html body #main #ownerOptions #btnDrinkOpt.primary {
+    background-color: #1D1D1F !important;
+    background-image: none !important;
+    color: #FFFFFF !important;
+    border-color: #1D1D1F !important;
+    box-shadow: none !important;
+  }
+
+  /* 顺手把下拉框的边框也再按死一次 */
+  html body #main select#optionProductSelect {
+    border-color: #E5E5EA !important;
+    background-color: #FFFFFF !important;
+    box-shadow: none !important;
   }
 </style>
 
