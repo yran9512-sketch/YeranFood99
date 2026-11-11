@@ -3674,6 +3674,98 @@ input:focus,select:focus,textarea:focus { border-color:var(--yf-primary) !import
   .owner-quick-nav { backdrop-filter:none !important; -webkit-backdrop-filter:none !important; background:#fff !important; }
 }
 </style>
+
+<style id="yf-owner-batch-1">
+  /* Owner 端视觉改造 Batch 1：地基与布局 */
+
+  /* 1. 页面背景 */
+  html, body {
+    background:#F5F5F7 !important;
+    background-image:none !important;
+    color:#1D1D1F !important;
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif !important;
+  }
+
+  /* 2. 顶部 Header */
+  header {
+    background:#FFFFFF !important;
+    background-image:none !important;
+    color:#1D1D1F !important;
+    border-bottom:1px solid #E5E5EA !important;
+    box-shadow:0 1px 4px rgba(0,0,0,.02) !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
+  header h1 {
+    font-weight:800 !important;
+    letter-spacing:-.5px !important;
+  }
+  #logoutBtn {
+    background:#F2F2F7 !important;
+    background-image:none !important;
+    color:#1D1D1F !important;
+    border:1px solid #E5E5EA !important;
+    box-shadow:none !important;
+  }
+
+  /* 3. 纯白实体卡片 */
+  .card,
+  #main .card,
+  .dashboard,
+  .stat-card,
+  .order-card,
+  .menu-product-card,
+  .option-card {
+    background:#FFFFFF !important;
+    background-image:none !important;
+    border:1px solid #E5E5EA !important;
+    border-radius:16px !important;
+    box-shadow:0 2px 10px rgba(0,0,0,.03) !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
+
+  /* 4. 移动端底部导航 */
+  .owner-quick-nav {
+    background:#FFFFFF !important;
+    background-image:none !important;
+    border:1px solid #E5E5EA !important;
+    box-shadow:0 8px 24px rgba(0,0,0,.08) !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
+  .owner-quick-nav button {
+    color:#8E8E93 !important;
+    background:transparent !important;
+    background-image:none !important;
+  }
+  .owner-quick-nav button.active {
+    background:#F2F2F7 !important;
+    color:#1D1D1F !important;
+    font-weight:700 !important;
+  }
+  .owner-quick-nav button span:first-child {
+    filter:grayscale(100%) !important;
+  }
+  .owner-quick-nav button.active span:first-child {
+    filter:grayscale(100%) brightness(.5) !important;
+  }
+
+  /* 5. 输入框与下拉菜单 */
+  select, input, textarea {
+    background:#FFFFFF !important;
+    background-image:none !important;
+    border:1px solid #E5E5EA !important;
+    border-radius:10px !important;
+    box-shadow:none !important;
+  }
+  select:focus, input:focus, textarea:focus {
+    border-color:#0071E3 !important;
+    box-shadow:0 0 0 3px rgba(0,113,227,.1) !important;
+    outline:none !important;
+  }
+</style>
+
 </body>
 
 </html>
