@@ -5438,6 +5438,108 @@ body:not(.dark) input:focus, body:not(.dark) select:focus, body:not(.dark) texta
   }
 </style>
 
+<style id="yf-customer-final-god-mode">
+  /* 终极修复：清理残留颜色并统一商品卡排版 */
+  html body #productList > button.yf-product-card.yf-selected {
+    border: 1.5px solid #1D1D1F !important;
+    background: #F5F5F7 !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  html body #productList .yf-product-name {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #1D1D1F !important;
+    text-align: left !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+
+  html body #productList .yf-product-name::after {
+    content: "点击选择" !important;
+    display: block !important;
+    font-size: 11px !important;
+    color: #8E8E93 !important;
+    font-weight: 400 !important;
+    margin-top: 2px !important;
+  }
+
+  html body #productList > button.yf-product-card.yf-selected .yf-product-name::after {
+    content: "已选中" !important;
+    color: #6E6E73 !important;
+    font-weight: 600 !important;
+  }
+
+  html body #submitBtn,
+  html body #checkoutBar .submit,
+  html body .checkoutBar .submit,
+  html body #paySubmitBtn,
+  html body #payCard button.submit,
+  html body #newBtn {
+    background: #1D1D1F !important;
+    background-image: none !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 14px !important;
+    box-shadow: none !important;
+  }
+
+  html body #submitBtn:hover,
+  html body #checkoutBar .submit:hover,
+  html body #paySubmitBtn:hover {
+    background: #333336 !important;
+  }
+
+  html body #total,
+  html body .checkoutTotalValue,
+  html body #payPageAmount {
+    color: #1D1D1F !important;
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.5px !important;
+  }
+
+  html body .breakfast-option:has(input:checked),
+  html body .opt > label:has(input:checked) {
+    background: #F5F5F7 !important;
+    border-color: #1D1D1F !important;
+    box-shadow: none !important;
+  }
+
+  html body .breakfast-option:has(input:checked)::after,
+  html body .opt > label:has(input:checked)::after {
+    background: #1D1D1F !important;
+    border-color: #1D1D1F !important;
+  }
+
+  html body .periodBtn.active {
+    background: #FFFFFF !important;
+    color: #1D1D1F !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,.12) !important;
+  }
+  html body .periodBtn {
+    color: #6E6E73 !important;
+  }
+
+  html body #bottomNav .navBtn {
+    color: #8E8E93 !important;
+  }
+  html body #bottomNav .navBtn.active {
+    color: #1D1D1F !important;
+    font-weight: 700 !important;
+  }
+  html body #bottomNav .navBtn div:first-child {
+    filter: grayscale(100%) opacity(0.6) !important;
+  }
+  html body #bottomNav .navBtn.active div:first-child {
+    filter: grayscale(100%) opacity(1) !important;
+  }
+</style>
+
 </body>
 
 </html>
