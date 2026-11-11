@@ -3440,9 +3440,6 @@
         const name = escapeHtml(lang === 'zh'
           ? (p.name_zh || p.name_en || '')
           : (p.name_en || p.name_zh || ''));
-        const desc = escapeHtml(lang === 'zh'
-          ? (p.desc_zh || '')
-          : (p.desc_en || p.desc_zh || ''));
         const selected = Number(p.id) === Number(selectedProductId);
         const left = Number(p.stockRemaining != null ? p.stockRemaining : 0); // 库存未成功读取时按不可售处理，不能回退到最大库存
         const disabled = left <= 0;
@@ -3464,9 +3461,6 @@
             image +
             '<div class="yf-product-main">' +
               '<div class="yf-product-name">' + name + '</div>' +
-              (desc ? '<div class="yf-product-desc">' + desc + '</div>' : '') +
-              '<div class="yf-product-price">RM ' + Number(p.price || 0).toFixed(2) + '</div>' +
-              '<div class="yf-stock-badge ' + stockClass + '">' + escapeHtml(stockText) + '</div>' +
             '</div>' +
           '</div>' +
         '</button>';
