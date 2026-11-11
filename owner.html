@@ -3979,6 +3979,40 @@ input:focus,select:focus,textarea:focus { border-color:var(--yf-primary) !import
   }
 </style>
 
+
+
+<style id="yf-owner-kill-inline">
+  /* 未选中：浅灰底、灰字，强制覆盖 JS 写入的普通内联样式 */
+  #btnLunchMenu, #btnBreakfastMenu, #btnDrinkMenu,
+  #btnLunchOpt, #btnBreakfastOpt, #btnDrinkOpt {
+    background:#F5F5F7 !important;
+    background-color:#F5F5F7 !important;
+    background-image:none !important;
+    color:#6E6E73 !important;
+    border:1px solid transparent !important;
+    box-shadow:none !important;
+    border-radius:10px !important;
+    transition:none !important;
+  }
+
+  /* 选中：黑底白字 */
+  #btnLunchMenu.primary, #btnBreakfastMenu.primary, #btnDrinkMenu.primary,
+  #btnLunchOpt.primary, #btnBreakfastOpt.primary, #btnDrinkOpt.primary {
+    background:#1D1D1F !important;
+    background-color:#1D1D1F !important;
+    background-image:none !important;
+    color:#FFFFFF !important;
+    border-color:#1D1D1F !important;
+    box-shadow:none !important;
+  }
+
+  /* 商品下拉框：中性边框、无紫色光晕 */
+  #optionProductSelect {
+    border:1px solid #E5E5EA !important;
+    box-shadow:none !important;
+  }
+</style>
+
 </body>
 
 </html>
