@@ -5366,6 +5366,78 @@ body:not(.dark) input:focus, body:not(.dark) select:focus, body:not(.dark) texta
     transform: scale(1.05) !important;
   }
 </style>
+<style id="yf-customer-emergency-fix">
+  /* 1. 修复“点击选择”文字 */
+  #productList .yf-product-name::after {
+    content: "点击选择" !important;
+    display: block !important;
+    font-size: 11px !important;
+    color: #8E8E93 !important;
+    font-weight: 400 !important;
+    margin-top: 4px !important;
+    letter-spacing: 0 !important;
+  }
+  #productList > button.yf-product-card.yf-selected .yf-product-name::after {
+    content: "已选中" !important;
+    color: #1D1D1F !important;
+    font-weight: 600 !important;
+  }
+
+  /* 2. 商品选中态 */
+  #productList > button.yf-product-card.yf-selected {
+    border: 1.5px solid #1D1D1F !important;
+    background: #F5F5F7 !important;
+    box-shadow: none !important;
+  }
+
+  /* 3. 规格选项 */
+  .breakfast-option, .opt > label {
+    background: #FFFFFF !important;
+    border: 1.5px solid #E5E5EA !important;
+  }
+  .breakfast-option:has(input:checked), .opt > label:has(input:checked) {
+    background: #F5F5F7 !important;
+    border-color: #1D1D1F !important;
+  }
+
+  /* 4. 付款金额 */
+  #payPageAmount,
+  #total,
+  .checkoutTotalValue {
+    color: #1D1D1F !important;
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.5px !important;
+  }
+
+  /* 5. 下单按钮 */
+  #checkoutBar .submit,
+  .checkoutBar .submit,
+  #submitBtn {
+    background: #1D1D1F !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  #checkoutBar .submit:active {
+    transform: scale(0.97) !important;
+  }
+
+  /* 6. 支付方式单选项 */
+  .opt label:has(input:checked) {
+    background: #F5F5F7 !important;
+    border-color: #1D1D1F !important;
+  }
+
+  /* 7. 底部导航图标 */
+  .navBtn div:first-child {
+    filter: grayscale(100%) opacity(0.6) !important;
+  }
+  .navBtn.active div:first-child {
+    filter: grayscale(100%) opacity(1) !important;
+  }
+</style>
+
 </body>
 
 </html>
