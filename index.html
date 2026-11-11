@@ -2581,526 +2581,380 @@
     }
 
   </style>
-  <link rel="stylesheet" href="/animations.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <style id="yf-unified-visual-system">
-
-  /* YeranFood unified B palette: minimal white + electric violet */
+<style id="yf-customer-design-system">
   :root {
-    --yf-primary: #6558F5;
-    --yf-primary-hover: #5547E8;
-    --yf-primary-soft: #EFEDFF;
-    --yf-page: #F7F8FC;
+    --yf-primary: #1D1D1F;
+    --yf-primary-hover: #38383B;
+    --yf-accent: #D97745;
+    --yf-page: #F5F5F7;
     --yf-surface: #FFFFFF;
-    --yf-text: #20212A;
-    --yf-muted: #737789;
-    --yf-border: #E7E8F0;
-    --yf-shadow: 0 6px 24px rgba(32, 33, 42, .055);
-    --yf-shadow-hover: 0 10px 28px rgba(32, 33, 42, .09);
+    --yf-ink: #1D1D1F;
+    --yf-muted: #6E6E73;
+    --yf-line: #E5E5EA;
+    --yf-soft: #F2F2F5;
     --yf-radius: 16px;
-    --yf-motion: 180ms cubic-bezier(.2,.7,.2,1);
+    --yf-shadow: 0 2px 10px rgba(0,0,0,.045);
+    --yf-shadow-float: 0 8px 24px rgba(0,0,0,.09);
   }
-  html { scroll-behavior: smooth; }
-  body:not(.dark) {
+
+  html { background: var(--yf-page) !important; scroll-behavior: smooth; }
+  body {
     background: var(--yf-page) !important;
-    color: var(--yf-text) !important;
+    background-image: none !important;
+    color: var(--yf-ink) !important;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
-  body:not(.dark) header {
-    background: rgba(255,255,255,.96) !important;
-    color: var(--yf-text) !important;
-    border-bottom: 1px solid var(--yf-border);
-    box-shadow: 0 2px 12px rgba(32,33,42,.025);
+  body::before { display: none !important; }
+
+  header {
+    padding: 28px 18px 24px !important;
+    background: #fff !important;
+    color: var(--yf-ink) !important;
+    border-bottom: 1px solid var(--yf-line) !important;
+    border-radius: 0 0 20px 20px !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,.025) !important;
   }
-  body:not(.dark) header h1,
-  body:not(.dark) header h2,
-  body:not(.dark) header p { color: inherit; }
-  body:not(.dark) .card,
-  body:not(.dark) #orderCard,
-  body:not(.dark) #adminLogin,
-  body:not(.dark) #loginCard,
-  body:not(.dark) #main > .card,
-  body:not(.dark) .order-card,
-  body:not(.dark) .kitchen-order,
-  body:not(.dark) .menu-product-card,
-  body:not(.dark) .option-card,
-  body:not(.dark) .yf-product-card,
-  body:not(.dark) .stat-card,
-  body:not(.dark) .panel {
-    border-color: var(--yf-border);
-    border-radius: var(--yf-radius);
-    box-shadow: var(--yf-shadow);
+  header h1 {
+    color: var(--yf-ink) !important;
+    font-size: clamp(27px, 5vw, 34px) !important;
+    letter-spacing: -.7px !important;
   }
-  button, input, select, textarea, a,
-  .card, .order-card, .kitchen-order, .option-card, .yf-product-card {
-    transition: background-color var(--yf-motion), color var(--yf-motion),
-      border-color var(--yf-motion), box-shadow var(--yf-motion), transform var(--yf-motion);
+  header p { color: var(--yf-muted) !important; font-size: 13px !important; }
+  #notifyBtn {
+    background: #F2F2F5 !important;
+    color: var(--yf-ink) !important;
+    border: 1px solid var(--yf-line) !important;
+    box-shadow: none !important;
   }
-  button {
-    border-radius: 12px;
-    font-weight: 600;
-    -webkit-tap-highlight-color: transparent;
+  .lang button {
+    background: #fff !important;
+    color: var(--yf-muted) !important;
+    border: 1px solid var(--yf-line) !important;
+    border-radius: 999px !important;
   }
-  button:focus-visible, a:focus-visible, input:focus-visible,
-  select:focus-visible, textarea:focus-visible {
-    outline: 3px solid rgba(101,88,245,.28);
-    outline-offset: 2px;
+  .lang button.active {
+    background: var(--yf-ink) !important;
+    border-color: var(--yf-ink) !important;
+    color: #fff !important;
   }
-  body:not(.dark) input:not([type="checkbox"]):not([type="radio"]),
-  body:not(.dark) select,
-  body:not(.dark) textarea {
-    border-color: var(--yf-border);
-    border-radius: 12px;
-    background-color: #fff;
-    color: var(--yf-text);
+
+  .container {
+    width: min(100% - 32px, 700px) !important;
+    max-width: 700px !important;
+    margin: 22px auto !important;
+    padding: 0 !important;
   }
-  body:not(.dark) input:focus,
-  body:not(.dark) select:focus,
-  body:not(.dark) textarea:focus {
-    border-color: var(--yf-primary);
-    box-shadow: 0 0 0 3px rgba(101,88,245,.12);
-    outline: none;
+  #orderCard, #payCard, #successCard {
+    padding: 24px !important;
+    background: var(--yf-surface) !important;
+    border: 1px solid var(--yf-line) !important;
+    border-radius: 20px !important;
+    box-shadow: var(--yf-shadow) !important;
   }
-  body:not(.dark) a:not([class*="danger"]) { text-underline-offset: 3px; }
-  button:active { transform: scale(.985); }
-  @media (hover: hover) {
-    body:not(.dark) .card:hover,
-    body:not(.dark) .order-card:hover,
-    body:not(.dark) .kitchen-order:hover,
-    body:not(.dark) .option-card:hover,
-    body:not(.dark) .yf-product-card:hover {
-      box-shadow: var(--yf-shadow-hover);
+  #menuTitle {
+    margin: 8px 0 15px !important;
+    color: var(--yf-ink) !important;
+    font-size: 17px !important;
+    font-weight: 750 !important;
+  }
+
+  #periodSwitch {
+    display: flex !important;
+    gap: 4px !important;
+    padding: 4px !important;
+    background: #EFEFF2 !important;
+    border: 1px solid var(--yf-line) !important;
+    border-radius: 13px !important;
+  }
+  #periodSwitch .periodBtn {
+    flex: 1;
+    min-height: 42px;
+    margin: 0 !important;
+    padding: 9px 10px !important;
+    background: transparent !important;
+    color: var(--yf-muted) !important;
+    border: 0 !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+  }
+  #periodSwitch .periodBtn.active {
+    background: #fff !important;
+    color: var(--yf-ink) !important;
+    font-weight: 750 !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08) !important;
+  }
+
+  #productList { gap: 10px !important; }
+  html body:not(.dark) #productList > button.yf-product-card {
+    display: flex !important;
+    align-items: center !important;
+    min-height: 100px !important;
+    padding: 12px 14px !important;
+    background: #fff !important;
+    border: 1px solid var(--yf-line) !important;
+    border-radius: 16px !important;
+    box-shadow: none !important;
+    text-align: center !important;
+    transition: border-color .18s ease, background-color .18s ease, transform .18s ease !important;
+  }
+  html body:not(.dark) #productList > button.yf-product-card.yf-selected {
+    border: 2px solid var(--yf-ink) !important;
+    background: #F5F5F7 !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+  #productList .yf-product-top {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+  #productList .yf-product-image,
+  #productList .yf-product-icon {
+    width: 76px !important;
+    height: 76px !important;
+    flex: 0 0 76px !important;
+    border-radius: 13px !important;
+    object-fit: cover !important;
+  }
+  #productList .yf-product-main {
+    display: flex !important;
+    flex: 1 1 auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+  #productList .yf-product-name {
+    display: -webkit-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    color: var(--yf-ink) !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+    text-align: center !important;
+    white-space: normal !important;
+    overflow: hidden !important;
+    overflow-wrap: anywhere !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+    text-overflow: ellipsis !important;
+  }
+  #productList .yf-product-name::after { display: none !important; }
+  #productList .yf-product-card:disabled { opacity: .55; }
+  @media (hover:hover) and (pointer:fine) {
+    #productList > button.yf-product-card:hover:not(:disabled) {
+      border-color: #B8B8BF !important;
+      transform: translateY(-1px);
     }
   }
+
+  .breakfast-product-card {
+    background: #fff !important;
+    border: 1px solid var(--yf-line) !important;
+    border-radius: 18px !important;
+    box-shadow: var(--yf-shadow) !important;
+  }
+  .breakfast-badge {
+    background: #F2F2F5 !important;
+    color: var(--yf-ink) !important;
+    border: 1px solid var(--yf-line) !important;
+  }
+  .breakfast-product-name, .breakfast-option-name { color: var(--yf-ink) !important; }
+  .breakfast-product-desc, .breakfast-option-desc { color: var(--yf-muted) !important; }
+  .breakfast-price, .breakfast-option-price, #breakfastPrice,
+  .yf-product-price, .checkoutTotalValue, #total, #payPageAmount, .price {
+    color: var(--yf-ink) !important;
+    font-variant-numeric: tabular-nums;
+  }
+  .breakfast-option, .opt > label {
+    background: #fff !important;
+    border: 1px solid var(--yf-line) !important;
+    border-radius: 13px !important;
+    color: var(--yf-ink) !important;
+    box-shadow: none !important;
+  }
+  html body:not(.dark) .breakfast-option:has(input:checked),
+  html body:not(.dark) .opt > label:has(input:checked) {
+    background: #F2F2F5 !important;
+    background-color: #F2F2F5 !important;
+    background-image: none !important;
+    border: 2px solid var(--yf-ink) !important;
+    color: var(--yf-ink) !important;
+    box-shadow: none !important;
+  }
+  input[type="radio"], input[type="checkbox"] { accent-color: var(--yf-ink) !important; }
+
+  .qty {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 3px !important;
+    background: #F7F7F9 !important;
+    border: 1px solid var(--yf-line) !important;
+    border-radius: 999px !important;
+  }
+  .qty button {
+    width: 36px !important;
+    height: 36px !important;
+    background: #fff !important;
+    color: var(--yf-ink) !important;
+    border: 1px solid var(--yf-line) !important;
+    border-radius: 50% !important;
+    box-shadow: none !important;
+  }
+  .qty button:hover { background: var(--yf-ink) !important; color: #fff !important; }
+  .qty span { color: var(--yf-ink) !important; font-variant-numeric: tabular-nums; }
+
+  #orderCard > label, #payCard > label {
+    color: var(--yf-ink) !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    margin-top: 18px !important;
+    margin-bottom: 7px !important;
+  }
+  #name, #note, #fbName, #fbContent,
+  input:not([type="radio"]):not([type="checkbox"]):not([type="file"]),
+  textarea, select {
+    background: #fff !important;
+    color: var(--yf-ink) !important;
+    border: 1px solid var(--yf-line) !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: #8E8E93 !important;
+    box-shadow: 0 0 0 3px rgba(29,29,31,.08) !important;
+    outline: none !important;
+  }
+
+  .submit, .checkoutBar .submit, .uploadBtn,
+  button.submit, #checkoutBar button {
+    min-height: 46px;
+    background: var(--yf-ink) !important;
+    color: #fff !important;
+    border: 1px solid var(--yf-ink) !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    font-weight: 700 !important;
+  }
+  .submit:hover, .checkoutBar .submit:hover, .uploadBtn:hover {
+    background: var(--yf-primary-hover) !important;
+  }
+  .submit:disabled { background: #C7C7CC !important; border-color: #C7C7CC !important; }
+
+  .checkoutBar, #checkoutBar {
+    margin-top: 20px !important;
+    padding: 14px !important;
+    background: #fff !important;
+    border: 1px solid var(--yf-line) !important;
+    border-radius: 16px !important;
+    box-shadow: var(--yf-shadow) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .checkoutTotalLabel { color: var(--yf-muted) !important; font-size: 13px !important; }
+  .checkoutTotalValue { font-size: 23px !important; font-weight: 800 !important; }
+
+  #bottomNav {
+    display: none;
+  }
+  @media (max-width: 700px) {
+    .container { width: calc(100% - 24px) !important; margin: 13px auto !important; }
+    #orderCard, #payCard, #successCard {
+      padding: 19px 16px !important;
+      border-radius: 18px !important;
+    }
+    #productList .yf-product-image, #productList .yf-product-icon {
+      width: 72px !important; height: 72px !important; flex-basis: 72px !important;
+    }
+    .checkoutBar, #checkoutBar {
+      position: fixed !important;
+      left: 12px !important;
+      right: 12px !important;
+      bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+      z-index: 99 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      margin: 0 !important;
+      padding: 11px 12px !important;
+      border-radius: 15px !important;
+      box-shadow: var(--yf-shadow-float) !important;
+    }
+    .checkoutTotal { flex: 1 1 auto; min-width: 0; }
+    .checkoutTotalValue { font-size: 21px !important; }
+    .checkoutBar .submit { flex: 0 0 auto; min-width: 124px; }
+    #bottomNav {
+      display: flex !important;
+      position: fixed !important;
+      left: 0 !important; right: 0 !important; bottom: 0 !important;
+      z-index: 100 !important;
+      justify-content: space-around !important;
+      align-items: center !important;
+      padding: 7px 0 calc(7px + env(safe-area-inset-bottom, 0px)) !important;
+      background: rgba(255,255,255,.97) !important;
+      border-top: 1px solid var(--yf-line) !important;
+      box-shadow: 0 -3px 14px rgba(0,0,0,.035) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+    }
+    #bottomNav .navBtn {
+      display: flex !important;
+      flex: 1 1 0;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 2px !important;
+      padding: 5px 0 !important;
+      background: transparent !important;
+      border: 0 !important;
+      border-radius: 10px !important;
+      color: #8E8E93 !important;
+      box-shadow: none !important;
+      font-weight: 500 !important;
+    }
+    #bottomNav .navBtn.active {
+      color: var(--yf-ink) !important;
+      background: #F2F2F5 !important;
+      font-weight: 750 !important;
+    }
+    body { padding-bottom: calc(190px + env(safe-area-inset-bottom, 0px)) !important; }
+  }
+
+  @media (max-width: 380px) {
+    header { padding: 23px 12px 20px !important; }
+    #orderCard, #payCard, #successCard { padding: 16px 13px !important; }
+    #productList .yf-product-image, #productList .yf-product-icon {
+      width: 64px !important; height: 64px !important; flex-basis: 64px !important;
+    }
+    .checkoutBar .submit { min-width: 112px; padding-left: 10px !important; padding-right: 10px !important; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: .01ms !important;
       animation-iteration-count: 1 !important;
-      scroll-behavior: auto !important;
       transition-duration: .01ms !important;
+      scroll-behavior: auto !important;
     }
   }
+  @media (prefers-reduced-transparency: reduce) {
+    #bottomNav { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: #fff !important; }
+  }
+</style>
 
-
-  body:not(.dark) .submit,
-  body:not(.dark) .checkoutBar .submit,
-  body:not(.dark) .uploadBtn {
-    background: linear-gradient(110deg, #6558F5, #786CFF) !important;
-    border-color: #6558F5 !important;
-    color: #fff !important;
-    box-shadow: 0 7px 18px rgba(101,88,245,.20);
-  }
-  body:not(.dark) .submit:hover,
-  body:not(.dark) .checkoutBar .submit:hover,
-  body:not(.dark) .uploadBtn:hover {
-    background: #5547E8 !important;
-    box-shadow: 0 9px 22px rgba(101,88,245,.24);
-  }
-  body:not(.dark) #productList > button.yf-product-card.yf-selected {
-    border-color: #6558F5 !important;
-    box-shadow: 0 0 0 2px rgba(101,88,245,.14) !important;
-  }
-  body:not(.dark) .lang button.active {
-    background: var(--yf-primary-soft) !important;
-    border-color: var(--yf-primary) !important;
-    color: var(--yf-primary) !important;
-  }
-
-  </style>
+  <link rel="stylesheet" href="/animations.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <!-- Final dark-mode palette: slate surfaces, never pure black -->
   <!-- Dark mode only: preserve existing light-mode appearance -->
-  <style id="yf-dark-mode-final-fix">
-    :root {
-      --yf-dark-page: #303640;
-      --yf-dark-header: #39414d;
-      --yf-dark-surface: #3b4450;
-      --yf-dark-raised: #444e5b;
-      --yf-dark-border: #535f6e;
-      --yf-dark-text: #f3f5f8;
-      --yf-dark-muted: #c0c8d2;
-      --yf-dark-accent: #ffb18f;
-      --yf-dark-accent-bg: #514039;
-    }
-    /* Removed system-dark override to preserve light theme. */
-    body.dark {
-      color-scheme: dark;
-      background: var(--yf-dark-page) !important;
-      background-image: none !important;
-      color: var(--yf-dark-text) !important;
-    }
-    body.dark header {
-      background: var(--yf-dark-header) !important;
-      background-image: none !important;
-      color: var(--yf-dark-text) !important;
-      border-color: var(--yf-dark-border) !important;
-    }
-    body.dark .card, body.dark .payBox, body.dark .product-card,
-    body.dark .menu-card, body.dark .modal-content, body.dark .modal,
-    body.dark .dialog, body.dark .opt label, body.dark .order-card,
-    body.dark .orderCard, body.dark .panel, body.dark .breakfast-product-card,
-    body.dark .breakfast-option, body.dark #orderCard, body.dark #payCard,
-    body.dark #successCard, body.dark #productList > button.yf-product-card {
-      background: var(--yf-dark-surface) !important;
-      background-image: none !important;
-      color: var(--yf-dark-text) !important;
-      border-color: var(--yf-dark-border) !important;
-    }
-    body.dark input:not([type="checkbox"]):not([type="radio"]),
-    body.dark textarea, body.dark select {
-      background: var(--yf-dark-raised) !important;
-      color: var(--yf-dark-text) !important;
-      border-color: var(--yf-dark-border) !important;
-    }
-    body.dark p, body.dark small, body.dark footer, body.dark .muted,
-    body.dark .hint, body.dark #menuTitle, body.dark #foodDesc,
-    body.dark .breakfast-product-desc, body.dark .breakfast-option-desc,
-    body.dark .row .label, body.dark .fileName, body.dark .noorders {
-      color: var(--yf-dark-muted) !important;
-    }
-    body.dark .opt label:has(input:checked),
-    body.dark .breakfast-option:has(input:checked),
-    body.dark .periodBtn.active,
-    body.dark #productList > button.yf-product-card.yf-selected {
-      background: var(--yf-dark-accent-bg) !important;
-      color: #fff2eb !important;
-      border-color: var(--yf-dark-accent) !important;
-    }
-    body.dark #bottomNav, body.dark .checkoutBar {
-      background: var(--yf-dark-header) !important;
-      border-color: var(--yf-dark-border) !important;
-    }
-    body.dark .navBtn { color: var(--yf-dark-muted) !important; }
-    body.dark .navBtn.active { color: var(--yf-dark-accent) !important; background: var(--yf-dark-accent-bg) !important; }
-  </style>
-
-
-  <style id="yf-customer-ui-polish">
-    :root {
-      --yf-primary: #b9653f;
-      --yf-primary-deep: #98502f;
-      --yf-primary-soft: #fbefe8;
-      --yf-page: #f7f5f1;
-      --yf-ink: #292722;
-      --yf-muted: #817b72;
-      --yf-line: #e9e4dc;
-    }
-    html { background: var(--yf-page); }
-    body {
-      background: var(--yf-page) !important;
-      color: var(--yf-ink) !important;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    header {
-      padding: 30px 18px 26px !important;
-      background: #fff !important;
-      color: var(--yf-ink) !important;
-      border-bottom: 1px solid var(--yf-line) !important;
-      box-shadow: 0 4px 22px rgba(48, 39, 29, .035) !important;
-    }
-    header h1 {
-      color: var(--yf-ink) !important;
-      font-size: clamp(27px, 5vw, 34px) !important;
-      letter-spacing: -.8px !important;
-    }
-    header p {
-      color: var(--yf-muted) !important;
-      letter-spacing: .2px !important;
-      font-size: 13px !important;
-    }
-    #notifyBtn {
-      background: var(--yf-primary-soft) !important;
-      color: var(--yf-primary-deep) !important;
-      border: 1px solid #efdbcf !important;
-      box-shadow: none !important;
-      padding: 10px 16px !important;
-    }
-    .lang button {
-      border: 1px solid var(--yf-line) !important;
-      color: var(--yf-muted) !important;
-      background: #fff !important;
-      border-radius: 999px !important;
-      padding: 8px 15px !important;
-    }
-    .lang button.active {
-      color: var(--yf-primary-deep) !important;
-      background: var(--yf-primary-soft) !important;
-      border-color: #efdbcf !important;
-    }
-    .container {
-      max-width: 700px !important;
-      margin: 22px auto !important;
-      padding: 0 16px !important;
-    }
-    #orderCard, #payCard, #successCard {
-      padding: 25px !important;
-      border: 1px solid var(--yf-line) !important;
-      border-radius: 17px !important;
-      background: #fff !important;
-      box-shadow: 0 4px 18px rgba(48, 39, 29, .035) !important;
-    }
-    #periodSwitch {
-      display: flex;
-      gap: 5px;
-      padding: 5px;
-      background: #f3f0eb !important;
-      border: 1px solid #eae5dd;
-      border-radius: 15px !important;
-    }
-    .periodBtn {
-      min-height: 43px;
-      margin: 0 !important;
-      border: 0 !important;
-      border-radius: 11px !important;
-      color: var(--yf-muted) !important;
-      background: transparent !important;
-      box-shadow: none !important;
-      font-size: 14px !important;
-    }
-    .periodBtn.active {
-      color: var(--yf-primary-deep) !important;
-      background: #fff !important;
-      border: 1px solid #efdbcf !important;
-      box-shadow: 0 2px 7px rgba(120, 76, 49, .07) !important;
-    }
-    #menuTitle {
-      margin: 8px 0 15px !important;
-      color: var(--yf-ink) !important;
-      font-size: 17px !important;
-      font-weight: 750 !important;
-      letter-spacing: 0 !important;
-      text-transform: none !important;
-    }
-    #productList { gap: 11px !important; }
-    #productList > button.yf-product-card {
-      min-height: 104px;
-      padding: 15px !important;
-      border: 1px solid var(--yf-line) !important;
-      border-radius: 17px !important;
-      background: #fff !important;
-      box-shadow: 0 2px 9px rgba(48, 39, 29, .025) !important;
-      text-align: left;
-    }
-    #productList > button.yf-product-card.yf-selected {
-      background: #fff8f3 !important;
-      border: 1.5px solid #d9ad96 !important;
-      box-shadow: 0 0 0 3px rgba(185, 101, 63, .06) !important;
-    }
-    .yf-product-name, .breakfast-product-name, .breakfast-option-name {
-      color: var(--yf-ink) !important;
-    }
-    .yf-product-price, .breakfast-price, .checkoutTotalValue {
-      color: var(--yf-primary-deep) !important;
-    }
-    .yf-stock-badge {
-      border-radius: 999px !important;
-      font-weight: 650;
-    }
-    .food {
-      gap: 14px;
-      align-items: center !important;
-      border-bottom-color: var(--yf-line) !important;
-    }
-    .food h2 { color: var(--yf-ink); }
-    .qty {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      padding: 4px;
-      border: 1px solid var(--yf-line);
-      border-radius: 999px;
-      background: #fafaff;
-    }
-    .qty button {
-      width: 38px !important;
-      height: 38px !important;
-      border: 1px solid #ead9cf !important;
-      background: #fff !important;
-      color: var(--yf-primary-deep) !important;
-      box-shadow: 0 1px 3px rgba(48, 39, 29, .03);
-    }
-    .qty button:hover {
-      background: var(--yf-primary) !important;
-      color: #fff !important;
-    }
-    .qty span { min-width: 20px; font-size: 18px !important; color: var(--yf-ink); }
-    #orderCard > label, #payCard > label {
-      margin-top: 18px;
-      margin-bottom: 7px;
-      color: #514b43;
-      font-size: 14px;
-      font-weight: 700;
-    }
-    #name, #note, #fbName, #fbContent,
-    input:not([type="radio"]):not([type="checkbox"]):not([type="file"]),
-    textarea {
-      border: 1px solid #e6e0d8 !important;
-      border-radius: 13px !important;
-      background: #fcfbf8 !important;
-      color: var(--yf-ink) !important;
-      box-shadow: none !important;
-    }
-    #name, #note { padding: 13px 14px !important; }
-    #name:focus, #note:focus, input:focus, textarea:focus {
-      border-color: #c98b6d !important;
-      background: #fff !important;
-      box-shadow: 0 0 0 3px rgba(185, 101, 63, .10) !important;
-    }
-    .opt > label, .breakfast-option {
-      border: 1px solid var(--yf-line) !important;
-      border-radius: 14px !important;
-      background: #fcfbf8 !important;
-    }
-    .opt > label:has(input:checked), .breakfast-option:has(input:checked) {
-      border-color: #d9ad96 !important;
-      background: #fff5ee !important;
-      box-shadow: 0 2px 10px rgba(185, 101, 63, .06) !important;
-    }
-    input[type="radio"], input[type="checkbox"] { accent-color: var(--yf-primary); }
-    .breakfast-product-card {
-      border: 1px solid var(--yf-line) !important;
-      border-radius: 19px !important;
-      background: #fff !important;
-      box-shadow: 0 5px 18px rgba(48, 39, 29, .035) !important;
-    }
-    .breakfast-badge {
-      background: #eaf6ef !important;
-      color: var(--yf-primary-deep) !important;
-    }
-    .breakfast-option:has(input:checked) {
-      border-color: #d9ad96 !important;
-      background: #fff5ee !important;
-    }
-    .checkoutBar {
-      margin-top: 22px !important;
-      padding: 16px !important;
-      border: 1px solid #e9e1d8 !important;
-      border-radius: 18px !important;
-      background: #fffdfa !important;
-      box-shadow: none !important;
-    }
-    .checkoutTotalLabel { color: var(--yf-muted) !important; font-size: 13px; }
-    .checkoutTotalValue { font-size: 24px !important; font-weight: 800 !important; }
-    .submit, .checkoutBar .submit, .uploadBtn {
-      min-height: 48px;
-      border: 0 !important;
-      border-radius: 14px !important;
-      background: #b9653f !important;
-      color: #fff !important;
-      box-shadow: 0 6px 16px rgba(185, 101, 63, .14) !important;
-      font-weight: 750 !important;
-    }
-    .submit:hover, .checkoutBar .submit:hover, .uploadBtn:hover {
-      background: var(--yf-primary-deep) !important;
-    }
-    .submit:disabled { background: #d9d2c9 !important; box-shadow: none !important; }
-    #payCard img { border-radius: 13px !important; }
-    #feedbackModal > div, #feedbackListModal > div {
-      border: 1px solid var(--yf-line);
-      border-radius: 20px !important;
-      box-shadow: 0 18px 60px rgba(20, 22, 45, .18);
-    }
-    .feedbackBtn {
-      border: 1px solid #e6e0d8 !important;
-      border-radius: 999px !important;
-      background: #fff !important;
-      color: #6f685f !important;
-    }
-    #bottomNav {
-      padding: 9px 0 calc(9px + env(safe-area-inset-bottom, 0px)) !important;
-      border-top: 1px solid rgba(224, 217, 207, .9) !important;
-      background: rgba(255,255,255,.94) !important;
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-    }
-    .navBtn { min-width: 76px; color: #817b72 !important; }
-    .navBtn:active { color: var(--yf-primary) !important; }
-    footer { color: #928b81 !important; font-size: 12px; }
-    @media (max-width: 640px) {
-      .container { margin: 13px auto !important; padding: 0 12px !important; }
-      #orderCard, #payCard, #successCard { padding: 19px 16px !important; border-radius: 19px !important; }
-      #productList > button.yf-product-card { min-height: 92px; padding: 12px !important; }
-      .checkoutBar { padding: 13px !important; }
-      .checkoutBar .submit { width: 100%; }
-      #bottomNav { padding-bottom: calc(9px + env(safe-area-inset-bottom, 0px)) !important; }
-    }
-    @media (max-width: 380px) {
-      header { padding: 24px 12px 21px !important; }
-      #orderCard, #payCard, #successCard { padding: 16px 13px !important; }
-      .periodBtn { padding: 10px 5px !important; font-size: 13px !important; }
-    }
-  
-    
-    /* ===== 点餐端微动效：轻量、流畅、不干扰操作 ===== */
-    @keyframes yf-soft-enter {
-      from { opacity: 0; transform: translateY(7px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    #productList > button.yf-product-card {
-      animation: yf-soft-enter .28s ease both;
-      will-change: transform;
-    }
-    #productList > button.yf-product-card:nth-child(2) { animation-delay: .035s; }
-    #productList > button.yf-product-card:nth-child(3) { animation-delay: .07s; }
-    #productList > button.yf-product-card:nth-child(4) { animation-delay: .105s; }
-    #productList > button.yf-product-card:nth-child(5) { animation-delay: .14s; }
-    #productList > button.yf-product-card .yf-product-image {
-      transition: transform .25s ease, filter .25s ease;
-    }
-    @media (hover: hover) and (pointer: fine) {
-      #productList > button.yf-product-card:hover:not(:disabled) .yf-product-image {
-        transform: scale(1.045);
-        filter: saturate(1.04);
-      }
-    }
-    #productList > button.yf-product-card:active:not(:disabled) {
-      transform: scale(.975);
-      transition-duration: .1s;
-    }
-    .breakfast-option,
-    .periodBtn,
-    .navBtn,
-    .feedbackBtn {
-      transition: background-color .18s ease, border-color .18s ease,
-        box-shadow .18s ease, color .18s ease, transform .18s ease !important;
-    }
-    .breakfast-option:active,
-    .periodBtn:active,
-    .feedbackBtn:active {
-      transform: scale(.985);
-    }
-    .breakfast-option:has(input:checked) {
-      box-shadow: 0 4px 14px rgba(185, 101, 63, .11) !important;
-    }
-    .submit, .checkoutBar .submit {
-      transition: transform .16s ease, box-shadow .2s ease,
-        background-color .2s ease !important;
-    }
-    .submit:active:not(:disabled),
-    .checkoutBar .submit:active:not(:disabled) {
-      transform: scale(.985);
-    }
-    #orderCard, #payCard, #successCard {
-      transition: box-shadow .22s ease, border-color .22s ease;
-    }
-    #bottomNav {
-      transition: box-shadow .2s ease, background-color .2s ease;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      #productList > button.yf-product-card {
-        animation: none !important;
-      }
-      #productList > button.yf-product-card *,
-      .breakfast-option, .periodBtn, .navBtn, .feedbackBtn,
-      .submit, .checkoutBar .submit {
-        transition: none !important;
-      }
-    }
-
-  </style>
-
-</head>
+  </head>
 
 <body>
   <header>
@@ -4903,941 +4757,6 @@
       window.scrollTo({top: 0, behavior: 'smooth'});
     }
   </script>
-<style id="yf-visual-refresh-2026">
-/* YeranFood visual refresh — customer ordering */
-:root {
-  --yf-primary:#E8552F; --yf-primary-hover:#D44725; --yf-primary-soft:#FFF1EB;
-  --yf-primary-deep:#C43D1E; --yf-page:#F7F7F9; --yf-surface:#FFFFFF;
-  --yf-ink:#1D1D1F; --yf-text:#1D1D1F; --yf-muted:#6E6E73;
-  --yf-line:#E5E5EA; --yf-border:#E5E5EA;
-  --yf-success:#21845A; --yf-warning:#C97800; --yf-danger:#C43D4B;
-  --yf-radius-sm:10px; --yf-radius:16px; --yf-radius-lg:20px;
-  --yf-shadow:0 2px 10px rgba(0,0,0,.045); --yf-shadow-lg:0 10px 28px rgba(0,0,0,.08);
-}
-html { background:var(--yf-page) !important; }
-body:not(.dark) { background:var(--yf-page) !important; color:var(--yf-ink) !important; }
-body:not(.dark) header { background:#fff !important; color:var(--yf-ink) !important; box-shadow:0 1px 0 var(--yf-line); }
-body:not(.dark) .card, body:not(.dark) #orderCard, body:not(.dark) #payCard,
-body:not(.dark) #successCard, body:not(.dark) .breakfast-product-card {
-  background:var(--yf-surface) !important; border:1px solid var(--yf-line) !important;
-  border-radius:18px !important; box-shadow:var(--yf-shadow) !important;
-}
-body:not(.dark) button.submit, body:not(.dark) .submit,
-body:not(.dark) #checkoutBar button {
-  background:var(--yf-primary) !important; border-color:var(--yf-primary) !important;
-  color:#fff !important; border-radius:12px !important; box-shadow:0 3px 9px rgba(232,85,47,.16) !important;
-}
-body:not(.dark) button.submit:hover, body:not(.dark) .submit:hover {
-  background:var(--yf-primary-hover) !important;
-}
-body:not(.dark) #periodSwitch {
-  background:#EFEFF2 !important; border:1px solid #E8E8EC !important;
-  border-radius:14px !important; padding:4px !important; box-shadow:none !important;
-}
-body:not(.dark) #periodSwitch .periodBtn {
-  background:transparent !important; color:var(--yf-muted) !important;
-  border:0 !important; border-radius:10px !important; box-shadow:none !important;
-}
-body:not(.dark) #periodSwitch .periodBtn.active {
-  background:#fff !important; color:var(--yf-primary-deep) !important;
-  box-shadow:0 1px 4px rgba(0,0,0,.09) !important;
-}
-body:not(.dark) #productList .yf-product-card {
-  background:#fff !important; border:1px solid var(--yf-line) !important;
-  border-radius:18px !important; box-shadow:var(--yf-shadow) !important;
-}
-body:not(.dark) #productList .yf-product-image {
-  border-radius:14px !important; object-fit:cover;
-}
-body:not(.dark) #productList .yf-product-name {
-  color:var(--yf-ink) !important; font-weight:650 !important; letter-spacing:-.2px;
-}
-body:not(.dark) .opt label:has(input:checked),
-body:not(.dark) .breakfast-option:has(input:checked) {
-  border-color:var(--yf-primary) !important; background:var(--yf-primary-soft) !important;
-  color:var(--yf-primary-deep) !important; box-shadow:0 0 0 1px rgba(232,85,47,.08) !important;
-}
-body:not(.dark) #checkoutBar {
-  background:rgba(255,255,255,.97) !important; border:1px solid var(--yf-line) !important;
-  border-radius:16px !important; box-shadow:var(--yf-shadow-lg) !important;
-  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-}
-body:not(.dark) .checkoutTotalValue { color:var(--yf-primary-deep) !important; font-variant-numeric:tabular-nums; }
-body:not(.dark) #bottomNav {
-  background:rgba(255,255,255,.96) !important; border-top:1px solid var(--yf-line) !important;
-  box-shadow:0 -4px 18px rgba(0,0,0,.045) !important;
-  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
-}
-body:not(.dark) #bottomNav .navBtn { color:var(--yf-muted) !important; }
-body:not(.dark) #bottomNav .navBtn.active {
-  color:var(--yf-primary) !important; background:var(--yf-primary-soft) !important;
-}
-body:not(.dark) input, body:not(.dark) select, body:not(.dark) textarea {
-  border-color:var(--yf-line) !important; border-radius:12px !important;
-}
-body:not(.dark) input:focus, body:not(.dark) select:focus, body:not(.dark) textarea:focus {
-  border-color:var(--yf-primary) !important; box-shadow:0 0 0 3px rgba(232,85,47,.12) !important; outline:0;
-}
-@media(max-width:600px) {
-  body:not(.dark) #productList .yf-product-card { border-radius:16px !important; }
-  body:not(.dark) #checkoutBar { border-radius:16px 16px 0 0 !important; }
-}
-@media(prefers-reduced-transparency:reduce) {
-  body:not(.dark) #checkoutBar, body:not(.dark) #bottomNav {
-    backdrop-filter:none !important; -webkit-backdrop-filter:none !important; background:#fff !important;
-  }
-}
-</style>
-<style id="yf-customer-batch-1">
-  /* 顾客端视觉改造 Batch 1：地基与大清洗 */
-
-  /* 1. 干净浅灰底 */
-  html, body {
-    background: #F5F5F7 !important;
-    background-image: none !important;
-    color: #1D1D1F !important;
-  }
-  body::before { display: none !important; }
-
-  /* 2. 顶部 Header */
-  header {
-    background: rgba(255, 255, 255, 0.92) !important;
-    color: #1D1D1F !important;
-    border-bottom: 1px solid #E5E5EA !important;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.02) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-    padding: 24px 16px !important;
-  }
-  header h1 {
-    font-size: 28px !important;
-    font-weight: 800 !important;
-    letter-spacing: -0.5px !important;
-  }
-  header p { color: #6E6E73 !important; }
-
-  .lang button {
-    border: 1px solid #E5E5EA !important;
-    color: #1D1D1F !important;
-    background: #FFF !important;
-  }
-  .lang button.active {
-    background: #1D1D1F !important;
-    color: #FFF !important;
-    border-color: #1D1D1F !important;
-  }
-  #notifyBtn {
-    background: #F2F2F7 !important;
-    color: #1D1D1F !important;
-    border: 1px solid #E5E5EA !important;
-    box-shadow: none !important;
-  }
-
-  /* 3. 统一卡片 */
-  .card, #orderCard, #payCard, #successCard, .breakfast-product-card {
-    background: #FFFFFF !important;
-    border: 1px solid #E5E5EA !important;
-    border-radius: 20px !important;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.03) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  /* 4. 统一输入框 */
-  input, textarea, select {
-    background: #FFFFFF !important;
-    border: 1px solid #E5E5EA !important;
-    border-radius: 12px !important;
-    box-shadow: none !important;
-    color: #1D1D1F !important;
-  }
-  input:focus, textarea:focus, select:focus {
-    border-color: #1D1D1F !important;
-    outline: none !important;
-    box-shadow: 0 0 0 3px rgba(29,29,31,0.1) !important;
-  }
-
-  /* 5. 主按钮统一深黑色 */
-  .submit, .checkoutBar .submit, .uploadBtn {
-    background: #1D1D1F !important;
-    color: #FFFFFF !important;
-    border: none !important;
-    border-radius: 14px !important;
-    box-shadow: none !important;
-    font-weight: 700 !important;
-  }
-  .submit:hover, .checkoutBar .submit:hover, .uploadBtn:hover {
-    background: #333336 !important;
-  }
-
-  /* 6. 底部导航 */
-  #bottomNav {
-    background: rgba(255,255,255,0.96) !important;
-    border-top: 1px solid #E5E5EA !important;
-    box-shadow: 0 -4px 18px rgba(0,0,0,0.04) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-  }
-  .navBtn { color: #8E8E93 !important; }
-  .navBtn.active {
-    color: #1D1D1F !important;
-    background: #F2F2F7 !important;
-    border-radius: 12px;
-  }
-</style>
-<style id="yf-customer-batch-2">
-  /* 顾客端视觉改造 Batch 2：商品卡与规格重构 */
-
-  /* 1. 餐别切换 */
-  #periodSwitch {
-    background: #EFEFF2 !important;
-    border: 1px solid #E5E5EA !important;
-    border-radius: 14px !important;
-    padding: 4px !important;
-    display: flex !important;
-    gap: 4px !important;
-  }
-  .periodBtn {
-    background: transparent !important;
-    color: #6E6E73 !important;
-    border: none !important;
-    box-shadow: none !important;
-    border-radius: 10px !important;
-    font-weight: 600 !important;
-    margin: 0 !important;
-    transition: all 0.15s ease !important;
-  }
-  .periodBtn.active {
-    background: #FFFFFF !important;
-    color: #1D1D1F !important;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.12) !important;
-    font-weight: 700 !important;
-  }
-
-  /* 2. 商品卡片 */
-  #productList {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 12px !important;
-    margin-bottom: 20px !important;
-  }
-  @media (max-width: 640px) {
-    #productList { grid-template-columns: 1fr !important; }
-  }
-
-  #productList > button.yf-product-card {
-    background: #FFFFFF !important;
-    border: 1.5px solid #E5E5EA !important;
-    border-radius: 18px !important;
-    padding: 12px !important;
-    min-height: 96px !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02) !important;
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    text-align: left !important;
-    transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.1s ease !important;
-  }
-  #productList > button.yf-product-card:active:not(:disabled) {
-    transform: scale(0.98) !important;
-  }
-  #productList > button.yf-product-card.yf-selected {
-    border-color: #1D1D1F !important;
-    background: #F5F5F7 !important;
-    box-shadow: none !important;
-  }
-
-  /* 图片与文字排版 */
-  #productList .yf-product-top {
-    display: flex !important;
-    align-items: center !important;
-    gap: 14px !important;
-    width: 100% !important;
-  }
-  #productList .yf-product-image,
-  #productList .yf-product-icon {
-    width: 72px !important;
-    height: 72px !important;
-    flex: 0 0 72px !important;
-    border-radius: 12px !important;
-    object-fit: cover !important;
-    background: #F5F5F7 !important;
-    font-size: 28px !important;
-    box-shadow: none !important;
-  }
-  #productList .yf-product-main {
-    flex: 1 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    min-width: 0 !important;
-  }
-  #productList .yf-product-name {
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    color: #1D1D1F !important;
-    text-align: left !important;
-    margin: 0 !important;
-    line-height: 1.4 !important;
-  }
-  #productList .yf-product-name::after {
-    content: "点击选择" !important;
-    display: block !important;
-    font-size: 12px !important;
-    color: #8E8E93 !important;
-    font-weight: 400 !important;
-    margin-top: 4px !important;
-  }
-  #productList > button.yf-product-card.yf-selected .yf-product-name::after {
-    content: "已选中" !important;
-    color: #1D1D1F !important;
-    font-weight: 600 !important;
-  }
-
-  /* 3. 规格选项 */
-  .breakfast-option, .opt > label {
-    background: #FFFFFF !important;
-    border: 1.5px solid #E5E5EA !important;
-    border-radius: 14px !important;
-    padding: 14px 16px !important;
-    margin-bottom: 8px !important;
-    transition: all 0.15s ease !important;
-  }
-  .breakfast-option:has(input:checked), .opt > label:has(input:checked) {
-    background: #F5F5F7 !important;
-    border-color: #1D1D1F !important;
-    box-shadow: none !important;
-  }
-
-  /* 自定义单选状态 */
-  .opt > label input[type="radio"],
-  .breakfast-option input[type="radio"] {
-    display: none !important;
-  }
-  .opt > label::after,
-  .breakfast-option::after {
-    content: "" !important;
-    display: block !important;
-    width: 18px !important;
-    height: 18px !important;
-    border-radius: 50% !important;
-    border: 1.5px solid #C7C7CC !important;
-    margin-left: auto !important;
-  }
-  .opt > label:has(input:checked)::after,
-  .breakfast-option:has(input:checked)::after {
-    content: "✓" !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: #1D1D1F !important;
-    color: #FFFFFF !important;
-    border: none !important;
-    font-size: 12px !important;
-    font-weight: bold !important;
-  }
-
-  /* 4. 价格与文字 */
-  .breakfast-option-name, .opt > label span {
-    font-size: 15px !important;
-    font-weight: 600 !important;
-    color: #1D1D1F !important;
-  }
-  .breakfast-option-price {
-    font-weight: 700 !important;
-    color: #1D1D1F !important;
-    margin-right: 12px !important;
-  }
-</style>
-<style id="yf-customer-batch-3">
-  /* 顾客端视觉改造 Batch 3：结账栏与底部导航 */
-
-  /* 1. 结账栏 */
-  .checkoutBar, #checkoutBar {
-    background: rgba(255, 255, 255, 0.94) !important;
-    border: 1px solid #E5E5EA !important;
-    border-radius: 16px !important;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.08) !important;
-    backdrop-filter: blur(20px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-    padding: 12px 14px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 12px !important;
-    position: sticky !important;
-    bottom: 20px !important;
-    z-index: 50 !important;
-    transition: none !important;
-  }
-
-  /* 移动端：固定在底部导航上方 */
-  @media (max-width: 700px) {
-    .checkoutBar, #checkoutBar {
-      position: fixed !important;
-      left: 12px !important;
-      right: 12px !important;
-      bottom: calc(72px + env(safe-area-inset-bottom)) !important;
-      margin: 0 !important;
-      border-radius: 16px !important;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
-    }
-    body {
-      padding-bottom: calc(160px + env(safe-area-inset-bottom)) !important;
-    }
-  }
-
-  /* 结账栏内部文字与按钮 */
-  .checkoutTotal {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    min-width: 0 !important;
-  }
-  .checkoutTotalLabel {
-    font-size: 12px !important;
-    color: #6E6E73 !important;
-    margin-bottom: 2px !important;
-  }
-  .checkoutTotalValue {
-    font-size: 22px !important;
-    font-weight: 800 !important;
-    color: #1D1D1F !important;
-    line-height: 1.1 !important;
-  }
-
-  .checkoutBar .submit, #checkoutBar .submit {
-    flex: 0 0 auto !important;
-    width: auto !important;
-    margin: 0 !important;
-    min-height: 48px !important;
-    padding: 0 20px !important;
-    border-radius: 12px !important;
-    background: #1D1D1F !important;
-    color: #FFFFFF !important;
-    font-size: 15px !important;
-    font-weight: 700 !important;
-    white-space: nowrap !important;
-    box-shadow: none !important;
-    border: none !important;
-  }
-  .checkoutBar .submit:active {
-    transform: scale(0.96) !important;
-  }
-
-  /* 2. 底部导航栏 */
-  #bottomNav {
-    background: rgba(255, 255, 255, 0.94) !important;
-    border-top: 1px solid #E5E5EA !important;
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.04) !important;
-    backdrop-filter: blur(20px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-    padding: 8px 0 calc(8px + env(safe-area-inset-bottom)) !important;
-    display: flex !important;
-    justify-content: space-around !important;
-    z-index: 100 !important;
-  }
-
-  .navBtn {
-    background: transparent !important;
-    border: none !important;
-    color: #8E8E93 !important;
-    font-weight: 500 !important;
-    padding: 6px 0 !important;
-    border-radius: 10px !important;
-    transition: all 0.15s ease !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 2px !important;
-  }
-
-  .navBtn.active {
-    color: #1D1D1F !important;
-    background: transparent !important;
-    font-weight: 700 !important;
-  }
-
-  .navBtn div:first-child {
-    filter: grayscale(100%) opacity(0.65) !important;
-    transition: all 0.15s ease !important;
-  }
-  .navBtn.active div:first-child {
-    filter: grayscale(100%) opacity(1) !important;
-    transform: scale(1.05) !important;
-  }
-</style>
-<style id="yf-customer-emergency-fix">
-  /* 1. 修复“点击选择”文字 */
-  #productList .yf-product-name::after {
-    content: "点击选择" !important;
-    display: block !important;
-    font-size: 11px !important;
-    color: #8E8E93 !important;
-    font-weight: 400 !important;
-    margin-top: 4px !important;
-    letter-spacing: 0 !important;
-  }
-  #productList > button.yf-product-card.yf-selected .yf-product-name::after {
-    content: "已选中" !important;
-    color: #1D1D1F !important;
-    font-weight: 600 !important;
-  }
-
-  /* 2. 商品选中态 */
-  #productList > button.yf-product-card.yf-selected {
-    border: 1.5px solid #1D1D1F !important;
-    background: #F5F5F7 !important;
-    box-shadow: none !important;
-  }
-
-  /* 3. 规格选项 */
-  .breakfast-option, .opt > label {
-    background: #FFFFFF !important;
-    border: 1.5px solid #E5E5EA !important;
-  }
-  .breakfast-option:has(input:checked), .opt > label:has(input:checked) {
-    background: #F5F5F7 !important;
-    border-color: #1D1D1F !important;
-  }
-
-  /* 4. 付款金额 */
-  #payPageAmount,
-  #total,
-  .checkoutTotalValue {
-    color: #1D1D1F !important;
-    font-size: 24px !important;
-    font-weight: 800 !important;
-    letter-spacing: -0.5px !important;
-  }
-
-  /* 5. 下单按钮 */
-  #checkoutBar .submit,
-  .checkoutBar .submit,
-  #submitBtn {
-    background: #1D1D1F !important;
-    color: #FFFFFF !important;
-    border: none !important;
-    box-shadow: none !important;
-  }
-  #checkoutBar .submit:active {
-    transform: scale(0.97) !important;
-  }
-
-  /* 6. 支付方式单选项 */
-  .opt label:has(input:checked) {
-    background: #F5F5F7 !important;
-    border-color: #1D1D1F !important;
-  }
-
-  /* 7. 底部导航图标 */
-  .navBtn div:first-child {
-    filter: grayscale(100%) opacity(0.6) !important;
-  }
-  .navBtn.active div:first-child {
-    filter: grayscale(100%) opacity(1) !important;
-  }
-</style>
-
-<style id="yf-customer-final-god-mode">
-  /* 终极修复：清理残留颜色并统一商品卡排版 */
-  html body #productList > button.yf-product-card.yf-selected {
-    border: 1.5px solid #1D1D1F !important;
-    background: #F5F5F7 !important;
-    box-shadow: none !important;
-    outline: none !important;
-  }
-
-  html body #productList .yf-product-name {
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    color: #1D1D1F !important;
-    text-align: left !important;
-    margin: 0 !important;
-    line-height: 1.4 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-  }
-
-  html body #productList .yf-product-name::after {
-    content: "点击选择" !important;
-    display: block !important;
-    font-size: 11px !important;
-    color: #8E8E93 !important;
-    font-weight: 400 !important;
-    margin-top: 2px !important;
-  }
-
-  html body #productList > button.yf-product-card.yf-selected .yf-product-name::after {
-    content: "已选中" !important;
-    color: #6E6E73 !important;
-    font-weight: 600 !important;
-  }
-
-  html body #submitBtn,
-  html body #checkoutBar .submit,
-  html body .checkoutBar .submit,
-  html body #paySubmitBtn,
-  html body #payCard button.submit,
-  html body #newBtn {
-    background: #1D1D1F !important;
-    background-image: none !important;
-    color: #FFFFFF !important;
-    border: none !important;
-    border-radius: 14px !important;
-    box-shadow: none !important;
-  }
-
-  html body #submitBtn:hover,
-  html body #checkoutBar .submit:hover,
-  html body #paySubmitBtn:hover {
-    background: #333336 !important;
-  }
-
-  html body #total,
-  html body .checkoutTotalValue,
-  html body #payPageAmount {
-    color: #1D1D1F !important;
-    font-size: 24px !important;
-    font-weight: 800 !important;
-    letter-spacing: -0.5px !important;
-  }
-
-  html body .breakfast-option:has(input:checked),
-  html body .opt > label:has(input:checked) {
-    background: #F5F5F7 !important;
-    border-color: #1D1D1F !important;
-    box-shadow: none !important;
-  }
-
-  html body .breakfast-option:has(input:checked)::after,
-  html body .opt > label:has(input:checked)::after {
-    background: #1D1D1F !important;
-    border-color: #1D1D1F !important;
-  }
-
-  html body .periodBtn.active {
-    background: #FFFFFF !important;
-    color: #1D1D1F !important;
-    box-shadow: 0 1px 4px rgba(0,0,0,.12) !important;
-  }
-  html body .periodBtn {
-    color: #6E6E73 !important;
-  }
-
-  html body #bottomNav .navBtn {
-    color: #8E8E93 !important;
-  }
-  html body #bottomNav .navBtn.active {
-    color: #1D1D1F !important;
-    font-weight: 700 !important;
-  }
-  html body #bottomNav .navBtn div:first-child {
-    filter: grayscale(100%) opacity(0.6) !important;
-  }
-  html body #bottomNav .navBtn.active div:first-child {
-    filter: grayscale(100%) opacity(1) !important;
-  }
-
-  /* 8. 最终压制商品选中态的紫蓝边框 */
-  html body #productList > button.yf-product-card.yf-selected {
-    border-color: #1D1D1F !important;
-    box-shadow: none !important;
-    outline: none !important;
-  }
-
-  /* 9. 商品价格统一为深色 */
-  html body #breakfastPrice,
-  html body .breakfast-price,
-  html body .breakfast-option-price,
-  html body #total,
-  html body .checkoutTotalValue,
-  html body #payPageAmount {
-    color: #1D1D1F !important;
-  }
-
-  /* 10. 数量按钮与餐别 Badge 统一黑白灰 */
-  html body .qty button,
-  html body .breakfast-qty .qty button {
-    background: #F5F5F7 !important;
-    color: #1D1D1F !important;
-    border: 1px solid #E5E5EA !important;
-    box-shadow: none !important;
-  }
-  html body .qty button:hover,
-  html body .breakfast-qty .qty button:hover {
-    background: #1D1D1F !important;
-    color: #FFFFFF !important;
-  }
-  html body .breakfast-badge {
-    background: #F5F5F7 !important;
-    color: #1D1D1F !important;
-    border-color: #E5E5EA !important;
-  }
-
-  /* 11. 收紧商品卡文字区域，避免撑高卡片 */
-  html body #productList .yf-product-main {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: flex-start !important;
-    height: 100% !important;
-    min-width: 0 !important;
-    flex: 1 1 auto !important;
-    overflow: hidden !important;
-  }
-  html body #productList .yf-product-name {
-    display: block !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    text-align: left !important;
-    line-height: 1.4 !important;
-  }
-  html body #productList .yf-product-name::after {
-    display: block !important;
-    margin-top: 4px !important;
-    font-size: 12px !important;
-    line-height: 1.2 !important;
-    white-space: nowrap !important;
-  }
-</style>
-
-<style id="yf-ultimate-kill">
-  html body #productList > button.yf-product-card.yf-selected {
-    border: 2px solid #1D1D1F !important;
-    background-color: #F5F5F7 !important;
-    box-shadow: none !important;
-    outline: none !important;
-  }
-  html body #productList > button.yf-product-card.yf-selected .yf-product-image {
-    box-shadow: none !important;
-    border-color: transparent !important;
-  }
-  html body #breakfastPrice,
-  html body .breakfast-option-price,
-  html body #payPageAmount,
-  html body .checkoutTotalValue,
-  html body #total { color: #1D1D1F !important; }
-
-  html body .breakfast-option:has(input:checked),
-  html body .opt > label:has(input:checked) {
-    border: 2px solid #1D1D1F !important;
-    background: #F5F5F7 !important;
-    box-shadow: none !important;
-  }
-
-  html body .qty button,
-  html body .breakfast-qty .qty button {
-    color: #1D1D1F !important;
-    background: #FFFFFF !important;
-    border: 1px solid #E5E5EA !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,.05) !important;
-  }
-  html body .qty button:hover,
-  html body .breakfast-qty .qty button:hover {
-    background: #1D1D1F !important;
-    color: #FFFFFF !important;
-  }
-  html body .periodBtn.active { color: #1D1D1F !important; }
-
-  html body #productList .yf-product-main {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: flex-start !important;
-    height: 100% !important;
-    min-width: 0 !important;
-    flex: 1 1 auto !important;
-    overflow: hidden !important;
-  }
-  html body #productList .yf-product-name {
-    display: block !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    text-align: left !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    line-height: 1.2 !important;
-  }
-  html body #productList .yf-product-name::after {
-    margin-top: 4px !important;
-    font-size: 12px !important;
-    color: #8E8E93 !important;
-    font-weight: 400 !important;
-    line-height: 1.2 !important;
-  }
-  html body #productList > button.yf-product-card.yf-selected .yf-product-name::after {
-    content: "已选中" !important;
-    color: #1D1D1F !important;
-    font-weight: 600 !important;
-  }
-
-  @media (max-width: 700px) {
-    html body #checkoutBar {
-      position: fixed !important;
-      bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
-      left: 12px !important;
-      right: 12px !important;
-      margin: 0 !important;
-      z-index: 99 !important;
-      background: rgba(255, 255, 255, 0.96) !important;
-      backdrop-filter: blur(20px) saturate(180%) !important;
-      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-      border: 1px solid #E5E5EA !important;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
-      border-radius: 16px !important;
-    }
-    html body { padding-bottom: 160px !important; }
-  }
-</style>
-<style id="yf-god-mode-final">
-  /* 1. 彻底干掉商品卡片选中的紫蓝色 */
-  html body #productList > button.yf-product-card.yf-selected {
-    border: 2px solid #1D1D1F !important;
-    background-color: #F5F5F7 !important;
-    box-shadow: none !important;
-    outline: none !important;
-  }
-
-  /* 2. 干掉选项（Noodles）的浅橘背景和橘色边框 */
-  html body .breakfast-option:has(input:checked),
-  html body .opt > label:has(input:checked) {
-    background-color: #F5F5F7 !important;
-    background-image: none !important;
-    border: 2px solid #1D1D1F !important;
-    box-shadow: none !important;
-  }
-
-  /* 彻底干掉选项里的所有红字（单价等） */
-  html body .breakfast-option-price,
-  html body .breakfast-option:has(input:checked) .breakfast-option-price,
-  html body #breakfastPrice,
-  html body #total,
-  html body .checkoutTotalValue,
-  html body #payPageAmount {
-    color: #1D1D1F !important;
-  }
-
-  /* 3. 干掉加号减号的红色 */
-  html body .qty button,
-  html body .breakfast-qty .qty button {
-    background: #FFFFFF !important;
-    color: #1D1D1F !important;
-    border: 1px solid #E5E5EA !important;
-    box-shadow: none !important;
-  }
-  html body .qty button:hover,
-  html body .breakfast-qty .qty button:hover {
-    background: #1D1D1F !important;
-    color: #FFFFFF !important;
-  }
-
-  /* 4. 干掉 Lunch 标签的红色 */
-  html body .breakfast-badge {
-    background: #E5E5EA !important;
-    color: #1D1D1F !important;
-  }
-
-  /* 5. 结账栏固定悬浮在底部导航上方 */
-  @media (max-width: 700px) {
-    html body #checkoutBar {
-      position: fixed !important;
-      bottom: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
-      left: 12px !important;
-      right: 12px !important;
-      margin: 0 !important;
-      z-index: 99 !important;
-      background: #FFFFFF !important;
-      border: 1px solid #E5E5EA !important;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
-      border-radius: 16px !important;
-      display: flex !important;
-      align-items: center !important;
-      padding: 12px 14px !important;
-    }
-    html body {
-      padding-bottom: 170px !important;
-    }
-  }
-</style>
-
-<style id="yf-real-killer">
-  /* 1. 商品卡选中态：压过旧的高特异性紫蓝规则 */
-  html body:not(#_dummy) #productList > button.yf-product-card.yf-selected {
-    border: 2px solid #1D1D1F !important;
-    background-color: #F5F5F7 !important;
-    background-image: none !important;
-    box-shadow: none !important;
-    outline: none !important;
-  }
-
-  /* 2. 已选规格：中性灰底、深色边框 */
-  html body:not(#_dummy) .breakfast-option:has(input:checked),
-  html body:not(#_dummy) .opt > label:has(input:checked) {
-    border: 2px solid #1D1D1F !important;
-    background: #F5F5F7 !important;
-    background-color: #F5F5F7 !important;
-    background-image: none !important;
-    box-shadow: none !important;
-  }
-
-  /* 3. 价格与金额统一深色 */
-  html body:not(#_dummy) .breakfast-option-price,
-  html body:not(#_dummy) #breakfastPrice,
-  html body:not(#_dummy) .yf-product-price,
-  html body:not(#_dummy) .checkoutTotalValue,
-  html body:not(#_dummy) #total,
-  html body:not(#_dummy) #payPageAmount,
-  html body:not(#_dummy) .price {
-    color: #1D1D1F !important;
-  }
-
-  /* 4. 数量按钮中性黑白灰 */
-  html body:not(#_dummy) .qty button,
-  html body:not(#_dummy) .breakfast-qty .qty button {
-    background: #FFFFFF !important;
-    color: #1D1D1F !important;
-    border: 1px solid #E5E5EA !important;
-    box-shadow: none !important;
-  }
-  html body:not(#_dummy) .qty button:hover {
-    background: #1D1D1F !important;
-    color: #FFFFFF !important;
-  }
-
-  /* 5. Lunch Badge 去红 */
-  html body:not(#_dummy) .breakfast-badge {
-    background: #E5E5EA !important;
-    color: #1D1D1F !important;
-  }
-
-  /* 6. 手机端结账栏固定悬浮 */
-  @media (max-width: 700px) {
-    html body:not(#_dummy) #checkoutBar {
-      position: fixed !important;
-      bottom: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
-      left: 12px !important;
-      right: 12px !important;
-      margin: 0 !important;
-      z-index: 99 !important;
-      background: #FFFFFF !important;
-      border: 1px solid #E5E5EA !important;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
-      border-radius: 16px !important;
-      display: flex !important;
-      align-items: center !important;
-      padding: 12px 14px !important;
-    }
-    html body:not(#_dummy) {
-      padding-bottom: 170px !important;
-    }
-  }
-</style>
-
 </body>
 
 </html>
