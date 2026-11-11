@@ -4903,6 +4903,91 @@
       window.scrollTo({top: 0, behavior: 'smooth'});
     }
   </script>
+<style id="yf-visual-refresh-2026">
+/* YeranFood visual refresh — customer ordering */
+:root {
+  --yf-primary:#E8552F; --yf-primary-hover:#D44725; --yf-primary-soft:#FFF1EB;
+  --yf-primary-deep:#C43D1E; --yf-page:#F7F7F9; --yf-surface:#FFFFFF;
+  --yf-ink:#1D1D1F; --yf-text:#1D1D1F; --yf-muted:#6E6E73;
+  --yf-line:#E5E5EA; --yf-border:#E5E5EA;
+  --yf-success:#21845A; --yf-warning:#C97800; --yf-danger:#C43D4B;
+  --yf-radius-sm:10px; --yf-radius:16px; --yf-radius-lg:20px;
+  --yf-shadow:0 2px 10px rgba(0,0,0,.045); --yf-shadow-lg:0 10px 28px rgba(0,0,0,.08);
+}
+html { background:var(--yf-page) !important; }
+body:not(.dark) { background:var(--yf-page) !important; color:var(--yf-ink) !important; }
+body:not(.dark) header { background:#fff !important; color:var(--yf-ink) !important; box-shadow:0 1px 0 var(--yf-line); }
+body:not(.dark) .card, body:not(.dark) #orderCard, body:not(.dark) #payCard,
+body:not(.dark) #successCard, body:not(.dark) .breakfast-product-card {
+  background:var(--yf-surface) !important; border:1px solid var(--yf-line) !important;
+  border-radius:18px !important; box-shadow:var(--yf-shadow) !important;
+}
+body:not(.dark) button.submit, body:not(.dark) .submit,
+body:not(.dark) #checkoutBar button {
+  background:var(--yf-primary) !important; border-color:var(--yf-primary) !important;
+  color:#fff !important; border-radius:12px !important; box-shadow:0 3px 9px rgba(232,85,47,.16) !important;
+}
+body:not(.dark) button.submit:hover, body:not(.dark) .submit:hover {
+  background:var(--yf-primary-hover) !important;
+}
+body:not(.dark) #periodSwitch {
+  background:#EFEFF2 !important; border:1px solid #E8E8EC !important;
+  border-radius:14px !important; padding:4px !important; box-shadow:none !important;
+}
+body:not(.dark) #periodSwitch .periodBtn {
+  background:transparent !important; color:var(--yf-muted) !important;
+  border:0 !important; border-radius:10px !important; box-shadow:none !important;
+}
+body:not(.dark) #periodSwitch .periodBtn.active {
+  background:#fff !important; color:var(--yf-primary-deep) !important;
+  box-shadow:0 1px 4px rgba(0,0,0,.09) !important;
+}
+body:not(.dark) #productList .yf-product-card {
+  background:#fff !important; border:1px solid var(--yf-line) !important;
+  border-radius:18px !important; box-shadow:var(--yf-shadow) !important;
+}
+body:not(.dark) #productList .yf-product-image {
+  border-radius:14px !important; object-fit:cover;
+}
+body:not(.dark) #productList .yf-product-name {
+  color:var(--yf-ink) !important; font-weight:650 !important; letter-spacing:-.2px;
+}
+body:not(.dark) .opt label:has(input:checked),
+body:not(.dark) .breakfast-option:has(input:checked) {
+  border-color:var(--yf-primary) !important; background:var(--yf-primary-soft) !important;
+  color:var(--yf-primary-deep) !important; box-shadow:0 0 0 1px rgba(232,85,47,.08) !important;
+}
+body:not(.dark) #checkoutBar {
+  background:rgba(255,255,255,.97) !important; border:1px solid var(--yf-line) !important;
+  border-radius:16px !important; box-shadow:var(--yf-shadow-lg) !important;
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+}
+body:not(.dark) .checkoutTotalValue { color:var(--yf-primary-deep) !important; font-variant-numeric:tabular-nums; }
+body:not(.dark) #bottomNav {
+  background:rgba(255,255,255,.96) !important; border-top:1px solid var(--yf-line) !important;
+  box-shadow:0 -4px 18px rgba(0,0,0,.045) !important;
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+}
+body:not(.dark) #bottomNav .navBtn { color:var(--yf-muted) !important; }
+body:not(.dark) #bottomNav .navBtn.active {
+  color:var(--yf-primary) !important; background:var(--yf-primary-soft) !important;
+}
+body:not(.dark) input, body:not(.dark) select, body:not(.dark) textarea {
+  border-color:var(--yf-line) !important; border-radius:12px !important;
+}
+body:not(.dark) input:focus, body:not(.dark) select:focus, body:not(.dark) textarea:focus {
+  border-color:var(--yf-primary) !important; box-shadow:0 0 0 3px rgba(232,85,47,.12) !important; outline:0;
+}
+@media(max-width:600px) {
+  body:not(.dark) #productList .yf-product-card { border-radius:16px !important; }
+  body:not(.dark) #checkoutBar { border-radius:16px 16px 0 0 !important; }
+}
+@media(prefers-reduced-transparency:reduce) {
+  body:not(.dark) #checkoutBar, body:not(.dark) #bottomNav {
+    backdrop-filter:none !important; -webkit-backdrop-filter:none !important; background:#fff !important;
+  }
+}
+</style>
 </body>
 
 </html>
