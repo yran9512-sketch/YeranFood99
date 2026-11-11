@@ -3625,6 +3625,55 @@
       await loadOrders();
     }
   </script>
+<style id="yf-visual-refresh-2026">
+/* YeranFood visual refresh — owner dashboard */
+:root {
+  --yf-primary:#E8552F; --yf-primary-hover:#D44725; --yf-primary-soft:#FFF1EB;
+  --yf-page:#F7F7F9; --yf-surface:#FFFFFF; --yf-ink:#1D1D1F;
+  --yf-muted:#6E6E73; --yf-line:#E5E5EA; --yf-border:#E5E5EA;
+  --yf-success:#21845A; --yf-warning:#C97800; --yf-danger:#C43D4B;
+  --yf-radius:16px; --yf-shadow:0 2px 10px rgba(0,0,0,.045);
+  --yf-shadow-lg:0 10px 28px rgba(0,0,0,.08);
+}
+html,body { background:var(--yf-page) !important; color:var(--yf-ink) !important; }
+body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif !important; }
+header { background:#fff !important; color:var(--yf-ink) !important; border-bottom:1px solid var(--yf-line) !important; box-shadow:0 1px 5px rgba(0,0,0,.025) !important; }
+.card,#main .card,.stat-card,.order-card,.modal-form-card,.option-card {
+  background:#fff !important; border:1px solid var(--yf-line) !important;
+  border-radius:16px !important; box-shadow:var(--yf-shadow) !important;
+  backdrop-filter:none !important; -webkit-backdrop-filter:none !important;
+}
+.stat-card { border-left:1px solid var(--yf-line) !important; }
+.stat-card .num,.stat-card strong { color:var(--yf-ink) !important; font-variant-numeric:tabular-nums; }
+button,.filter-btn,.refresh-btn { border-radius:11px !important; box-shadow:none !important; }
+button.primary,.filter-btn.active,.refresh-btn {
+  background:var(--yf-primary) !important; border-color:var(--yf-primary) !important; color:#fff !important;
+}
+button.green { background:var(--yf-success) !important; border-color:var(--yf-success) !important; color:#fff !important; }
+button.red { background:var(--yf-danger) !important; border-color:var(--yf-danger) !important; color:#fff !important; }
+.owner-quick-nav {
+  background:#fff !important; border:1px solid var(--yf-line) !important;
+  box-shadow:var(--yf-shadow) !important; backdrop-filter:none !important; -webkit-backdrop-filter:none !important;
+}
+.owner-quick-nav button.active,.owner-quick-nav a.active {
+  color:var(--yf-primary) !important; background:var(--yf-primary-soft) !important;
+}
+.order-card-code { color:var(--yf-ink) !important; font-weight:750 !important; }
+.order-card-info,.order-card-period,.order-card-item { color:var(--yf-muted) !important; }
+.payment-status { border-radius:999px !important; font-weight:700 !important; }
+table { border-color:var(--yf-line) !important; }
+thead th { background:#F7F7F9 !important; color:#424245 !important; font-size:12px !important; font-weight:650 !important; }
+tbody td { border-color:var(--yf-line) !important; }
+tbody tr:nth-child(even) { background:#FAFAFB !important; }
+input,select,textarea { border:1px solid var(--yf-line) !important; border-radius:11px !important; }
+input:focus,select:focus,textarea:focus { border-color:var(--yf-primary) !important; box-shadow:0 0 0 3px rgba(232,85,47,.12) !important; outline:0; }
+@media(max-width:700px) {
+  .owner-quick-nav { background:rgba(255,255,255,.97) !important; border-radius:16px 16px 0 0 !important; }
+}
+@media(prefers-reduced-transparency:reduce) {
+  .owner-quick-nav { backdrop-filter:none !important; -webkit-backdrop-filter:none !important; background:#fff !important; }
+}
+</style>
 </body>
 
 </html>
