@@ -4238,6 +4238,10 @@ nav.owner-quick-nav button,nav.owner-quick-nav button:not(.active){min-width:0!i
 nav.owner-quick-nav button.active{background:#F2F2F5!important;color:var(--yf-ink)!important}
 nav.owner-quick-nav button.active:after{display:none!important}
 @media(max-width:640px){body{padding-bottom:calc(82px + env(safe-area-inset-bottom,0px))!important}}
+  nav.owner-quick-nav button.active{background:#FFF2ED!important;color:#E8552F!important}
+  nav.owner-quick-nav button:focus-visible{outline:3px solid rgba(232,85,47,.28)!important;outline-offset:2px!important}
+  #main button:focus-visible,#main a:focus-visible,#main input:focus-visible,#main select:focus-visible,#main textarea:focus-visible{outline:3px solid rgba(232,85,47,.25)!important;outline-offset:2px!important}
+  @media(prefers-reduced-transparency:reduce){nav.owner-quick-nav{background:#fff!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </body>
