@@ -3030,6 +3030,74 @@
       #orderCard, #payCard, #successCard { padding: 16px 13px !important; }
       .periodBtn { padding: 10px 5px !important; font-size: 13px !important; }
     }
+  
+    
+    /* ===== 点餐端微动效：轻量、流畅、不干扰操作 ===== */
+    @keyframes yf-soft-enter {
+      from { opacity: 0; transform: translateY(7px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    #productList > button.yf-product-card {
+      animation: yf-soft-enter .28s ease both;
+      will-change: transform;
+    }
+    #productList > button.yf-product-card:nth-child(2) { animation-delay: .035s; }
+    #productList > button.yf-product-card:nth-child(3) { animation-delay: .07s; }
+    #productList > button.yf-product-card:nth-child(4) { animation-delay: .105s; }
+    #productList > button.yf-product-card:nth-child(5) { animation-delay: .14s; }
+    #productList > button.yf-product-card .yf-product-image {
+      transition: transform .25s ease, filter .25s ease;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      #productList > button.yf-product-card:hover:not(:disabled) .yf-product-image {
+        transform: scale(1.045);
+        filter: saturate(1.04);
+      }
+    }
+    #productList > button.yf-product-card:active:not(:disabled) {
+      transform: scale(.975);
+      transition-duration: .1s;
+    }
+    .breakfast-option,
+    .periodBtn,
+    .navBtn,
+    .feedbackBtn {
+      transition: background-color .18s ease, border-color .18s ease,
+        box-shadow .18s ease, color .18s ease, transform .18s ease !important;
+    }
+    .breakfast-option:active,
+    .periodBtn:active,
+    .feedbackBtn:active {
+      transform: scale(.985);
+    }
+    .breakfast-option:has(input:checked) {
+      box-shadow: 0 4px 14px rgba(185, 101, 63, .11) !important;
+    }
+    .submit, .checkoutBar .submit {
+      transition: transform .16s ease, box-shadow .2s ease,
+        background-color .2s ease !important;
+    }
+    .submit:active:not(:disabled),
+    .checkoutBar .submit:active:not(:disabled) {
+      transform: scale(.985);
+    }
+    #orderCard, #payCard, #successCard {
+      transition: box-shadow .22s ease, border-color .22s ease;
+    }
+    #bottomNav {
+      transition: box-shadow .2s ease, background-color .2s ease;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #productList > button.yf-product-card {
+        animation: none !important;
+      }
+      #productList > button.yf-product-card *,
+      .breakfast-option, .periodBtn, .navBtn, .feedbackBtn,
+      .submit, .checkoutBar .submit {
+        transition: none !important;
+      }
+    }
+
   </style>
 
 </head>
