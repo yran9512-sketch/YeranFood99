@@ -4988,6 +4988,103 @@ body:not(.dark) input:focus, body:not(.dark) select:focus, body:not(.dark) texta
   }
 }
 </style>
+<style id="yf-customer-batch-1">
+  /* 顾客端视觉改造 Batch 1：地基与大清洗 */
+
+  /* 1. 干净浅灰底 */
+  html, body {
+    background: #F5F5F7 !important;
+    background-image: none !important;
+    color: #1D1D1F !important;
+  }
+  body::before { display: none !important; }
+
+  /* 2. 顶部 Header */
+  header {
+    background: rgba(255, 255, 255, 0.92) !important;
+    color: #1D1D1F !important;
+    border-bottom: 1px solid #E5E5EA !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.02) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    padding: 24px 16px !important;
+  }
+  header h1 {
+    font-size: 28px !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.5px !important;
+  }
+  header p { color: #6E6E73 !important; }
+
+  .lang button {
+    border: 1px solid #E5E5EA !important;
+    color: #1D1D1F !important;
+    background: #FFF !important;
+  }
+  .lang button.active {
+    background: #1D1D1F !important;
+    color: #FFF !important;
+    border-color: #1D1D1F !important;
+  }
+  #notifyBtn {
+    background: #F2F2F7 !important;
+    color: #1D1D1F !important;
+    border: 1px solid #E5E5EA !important;
+    box-shadow: none !important;
+  }
+
+  /* 3. 统一卡片 */
+  .card, #orderCard, #payCard, #successCard, .breakfast-product-card {
+    background: #FFFFFF !important;
+    border: 1px solid #E5E5EA !important;
+    border-radius: 20px !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.03) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* 4. 统一输入框 */
+  input, textarea, select {
+    background: #FFFFFF !important;
+    border: 1px solid #E5E5EA !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    color: #1D1D1F !important;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: #1D1D1F !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(29,29,31,0.1) !important;
+  }
+
+  /* 5. 主按钮统一深黑色 */
+  .submit, .checkoutBar .submit, .uploadBtn {
+    background: #1D1D1F !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 14px !important;
+    box-shadow: none !important;
+    font-weight: 700 !important;
+  }
+  .submit:hover, .checkoutBar .submit:hover, .uploadBtn:hover {
+    background: #333336 !important;
+  }
+
+  /* 6. 底部导航 */
+  #bottomNav {
+    background: rgba(255,255,255,0.96) !important;
+    border-top: 1px solid #E5E5EA !important;
+    box-shadow: 0 -4px 18px rgba(0,0,0,0.04) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+  }
+  .navBtn { color: #8E8E93 !important; }
+  .navBtn.active {
+    color: #1D1D1F !important;
+    background: #F2F2F7 !important;
+    border-radius: 12px;
+  }
+</style>
 </body>
 
 </html>
