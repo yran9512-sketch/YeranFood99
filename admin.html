@@ -2168,6 +2168,91 @@ button.primary,
   }
 </style>
 
+
+<style id="yf-admin-final-polish">
+  /* 1. 新订单提醒：次要操作，白底灰边 */
+  #kitchenPushBtn {
+    background:#FFFFFF !important;
+    background-image:none !important;
+    color:#1D1D1F !important;
+    border:1px solid #E5E5EA !important;
+    box-shadow:0 1px 3px rgba(0,0,0,.05) !important;
+  }
+
+  /* 2. 餐别切换：iOS 分段控件 */
+  .period-switch {
+    background:#EFEFF2 !important;
+    border:1px solid #E8E8EC !important;
+    border-radius:14px !important;
+    padding:4px !important;
+    display:flex !important;
+    gap:5px !important;
+  }
+  /* 使用足够高的优先级，覆盖此前 #main button 的全局黑色规则 */
+  :is(#main,body) .period-switch button,
+  #btnLunch,#btnBreakfast,#btnDrink {
+    background:transparent !important;
+    background-image:none !important;
+    color:#6E6E73 !important;
+    border:0 !important;
+    box-shadow:none !important;
+  }
+  :is(#main,body) .period-switch button.primary,
+  :is(#main,body) .period-switch button.active,
+  :is(#main,body) .period-switch button[aria-pressed="true"],
+  #btnLunch.primary,#btnBreakfast.primary,#btnDrink.primary,
+  #btnLunch.active,#btnBreakfast.active,#btnDrink.active {
+    background:#FFFFFF !important;
+    background-image:none !important;
+    color:#1D1D1F !important;
+    border:0 !important;
+    box-shadow:0 1px 4px rgba(0,0,0,.10) !important;
+    font-weight:700 !important;
+  }
+
+  /* 3. 底部导航：悬浮胶囊卡片 */
+  .kitchen-bottom-nav {
+    background:#FFFFFF !important;
+    background-image:none !important;
+    border:1px solid #E5E5EA !important;
+    border-radius:24px !important;
+    box-shadow:0 8px 24px rgba(0,0,0,.08) !important;
+    backdrop-filter:blur(16px) !important;
+    -webkit-backdrop-filter:blur(16px) !important;
+    left:16px !important;
+    right:16px !important;
+    bottom:calc(12px + env(safe-area-inset-bottom)) !important;
+    padding:6px !important;
+    display:flex !important;
+    gap:6px !important;
+  }
+  :is(#main,body) .kitchen-bottom-nav button,
+  :is(#main,body) .kitchen-bottom-nav button.active {
+    flex:1 !important;
+    border-radius:16px !important;
+    background:transparent !important;
+    background-image:none !important;
+    color:#8E8E93 !important;
+    border:0 !important;
+    box-shadow:none !important;
+  }
+  :is(#main,body) .kitchen-bottom-nav button.active {
+    background:#F2F2F7 !important;
+    color:#1D1D1F !important;
+  }
+  .kitchen-bottom-nav button span:first-child {
+    filter:grayscale(100%) opacity(.6) !important;
+  }
+  .kitchen-bottom-nav button.active span:first-child {
+    filter:grayscale(100%) opacity(1) !important;
+  }
+
+  /* 4. 为悬浮导航预留内容空间 */
+  body {
+    padding-bottom:calc(100px + env(safe-area-inset-bottom)) !important;
+  }
+</style>
+
 </body>
 
 </html>
