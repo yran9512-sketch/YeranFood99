@@ -3263,6 +3263,7 @@
     let lang = localStorage.getItem('lang') || 'zh';
     let currentPeriod = 'lunch';
     let menuLoadSeq = 0;   // 当前点餐时段
+    const menuViewCache = {}; // 页面会话内缓存各餐别菜单，切换时先显示缓存
     let menu = null;
     let products = [];
     let selectedProductId = null;
@@ -4186,6 +4187,19 @@
     }
     function loadMenu() {
       const loadSeq = ++menuLoadSeq;
+
+      // 已访问过的餐别先立即显示缓存，再在后台刷新商品与库存。
+      // 缓存仅存在当前页面会话，避免长期展示过期库存。
+      const cachedView = menuViewCache[currentPeriod];
+      if (cachedView && Date.now() - cachedView.savedAt < 20000) {
+        products = JSON.parse(JSON.stringify(cachedView.products));
+        selectedProductId = cachedView.selectedProductId;
+        selectedOptionId = cachedView.selectedOptionId;
+        menu = products.find(function (p) { return Number(p.id) === Number(selectedProductId); }) || products[0] || null;
+        selectedProductId = menu ? menu.id : null;
+        menuOptions = menu && Array.isArray(menu.options) ? menu.options : [];
+        renderMenu();
+      }
       console.log(
         '开始加载菜单，currentPeriod =',
         currentPeriod,
@@ -4478,6 +4492,12 @@
           }
 
           renderMenu();
+          menuViewCache[currentPeriod] = {
+            products: JSON.parse(JSON.stringify(products)),
+            selectedProductId: selectedProductId,
+            selectedOptionId: selectedOptionId,
+            savedAt: Date.now()
+          };
 
         })
         .catch(function (err) {
