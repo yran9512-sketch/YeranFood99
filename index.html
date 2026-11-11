@@ -5085,6 +5085,169 @@ body:not(.dark) input:focus, body:not(.dark) select:focus, body:not(.dark) texta
     border-radius: 12px;
   }
 </style>
+<style id="yf-customer-batch-2">
+  /* 顾客端视觉改造 Batch 2：商品卡与规格重构 */
+
+  /* 1. 餐别切换 */
+  #periodSwitch {
+    background: #EFEFF2 !important;
+    border: 1px solid #E5E5EA !important;
+    border-radius: 14px !important;
+    padding: 4px !important;
+    display: flex !important;
+    gap: 4px !important;
+  }
+  .periodBtn {
+    background: transparent !important;
+    color: #6E6E73 !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    margin: 0 !important;
+    transition: all 0.15s ease !important;
+  }
+  .periodBtn.active {
+    background: #FFFFFF !important;
+    color: #1D1D1F !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12) !important;
+    font-weight: 700 !important;
+  }
+
+  /* 2. 商品卡片 */
+  #productList {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+  }
+  @media (max-width: 640px) {
+    #productList { grid-template-columns: 1fr !important; }
+  }
+
+  #productList > button.yf-product-card {
+    background: #FFFFFF !important;
+    border: 1.5px solid #E5E5EA !important;
+    border-radius: 18px !important;
+    padding: 12px !important;
+    min-height: 96px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02) !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    text-align: left !important;
+    transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.1s ease !important;
+  }
+  #productList > button.yf-product-card:active:not(:disabled) {
+    transform: scale(0.98) !important;
+  }
+  #productList > button.yf-product-card.yf-selected {
+    border-color: #1D1D1F !important;
+    background: #F5F5F7 !important;
+    box-shadow: none !important;
+  }
+
+  /* 图片与文字排版 */
+  #productList .yf-product-top {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    width: 100% !important;
+  }
+  #productList .yf-product-image,
+  #productList .yf-product-icon {
+    width: 72px !important;
+    height: 72px !important;
+    flex: 0 0 72px !important;
+    border-radius: 12px !important;
+    object-fit: cover !important;
+    background: #F5F5F7 !important;
+    font-size: 28px !important;
+    box-shadow: none !important;
+  }
+  #productList .yf-product-main {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+  }
+  #productList .yf-product-name {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #1D1D1F !important;
+    text-align: left !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+  }
+  #productList .yf-product-name::after {
+    content: "点击选择" !important;
+    display: block !important;
+    font-size: 12px !important;
+    color: #8E8E93 !important;
+    font-weight: 400 !important;
+    margin-top: 4px !important;
+  }
+  #productList > button.yf-product-card.yf-selected .yf-product-name::after {
+    content: "已选中" !important;
+    color: #1D1D1F !important;
+    font-weight: 600 !important;
+  }
+
+  /* 3. 规格选项 */
+  .breakfast-option, .opt > label {
+    background: #FFFFFF !important;
+    border: 1.5px solid #E5E5EA !important;
+    border-radius: 14px !important;
+    padding: 14px 16px !important;
+    margin-bottom: 8px !important;
+    transition: all 0.15s ease !important;
+  }
+  .breakfast-option:has(input:checked), .opt > label:has(input:checked) {
+    background: #F5F5F7 !important;
+    border-color: #1D1D1F !important;
+    box-shadow: none !important;
+  }
+
+  /* 自定义单选状态 */
+  .opt > label input[type="radio"],
+  .breakfast-option input[type="radio"] {
+    display: none !important;
+  }
+  .opt > label::after,
+  .breakfast-option::after {
+    content: "" !important;
+    display: block !important;
+    width: 18px !important;
+    height: 18px !important;
+    border-radius: 50% !important;
+    border: 1.5px solid #C7C7CC !important;
+    margin-left: auto !important;
+  }
+  .opt > label:has(input:checked)::after,
+  .breakfast-option:has(input:checked)::after {
+    content: "✓" !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #1D1D1F !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+  }
+
+  /* 4. 价格与文字 */
+  .breakfast-option-name, .opt > label span {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #1D1D1F !important;
+  }
+  .breakfast-option-price {
+    font-weight: 700 !important;
+    color: #1D1D1F !important;
+    margin-right: 12px !important;
+  }
+</style>
 </body>
 
 </html>
