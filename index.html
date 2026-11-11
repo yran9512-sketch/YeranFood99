@@ -5538,6 +5538,71 @@ body:not(.dark) input:focus, body:not(.dark) select:focus, body:not(.dark) texta
   html body #bottomNav .navBtn.active div:first-child {
     filter: grayscale(100%) opacity(1) !important;
   }
+
+  /* 8. 最终压制商品选中态的紫蓝边框 */
+  html body #productList > button.yf-product-card.yf-selected {
+    border-color: #1D1D1F !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  /* 9. 商品价格统一为深色 */
+  html body #breakfastPrice,
+  html body .breakfast-price,
+  html body .breakfast-option-price,
+  html body #total,
+  html body .checkoutTotalValue,
+  html body #payPageAmount {
+    color: #1D1D1F !important;
+  }
+
+  /* 10. 数量按钮与餐别 Badge 统一黑白灰 */
+  html body .qty button,
+  html body .breakfast-qty .qty button {
+    background: #F5F5F7 !important;
+    color: #1D1D1F !important;
+    border: 1px solid #E5E5EA !important;
+    box-shadow: none !important;
+  }
+  html body .qty button:hover,
+  html body .breakfast-qty .qty button:hover {
+    background: #1D1D1F !important;
+    color: #FFFFFF !important;
+  }
+  html body .breakfast-badge {
+    background: #F5F5F7 !important;
+    color: #1D1D1F !important;
+    border-color: #E5E5EA !important;
+  }
+
+  /* 11. 收紧商品卡文字区域，避免撑高卡片 */
+  html body #productList .yf-product-main {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
+  }
+  html body #productList .yf-product-name {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    text-align: left !important;
+    line-height: 1.4 !important;
+  }
+  html body #productList .yf-product-name::after {
+    display: block !important;
+    margin-top: 4px !important;
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+  }
 </style>
 
 </body>
