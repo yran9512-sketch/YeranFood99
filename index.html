@@ -7,7 +7,7 @@
   <link rel="icon" type="image/jpeg" href="/icons/36efd6fc09ed8400d86a61e92bd75897.jpg?v=4">
   <link rel="apple-touch-icon" href="/icons/36efd6fc09ed8400d86a61e92bd75897.jpg?v=4">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#f8f7ef">
+  <meta name="theme-color" content="#F5F5F7">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="YeranFood">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -4780,6 +4780,24 @@
       window.scrollTo({top: 0, behavior: 'smooth'});
     }
   </script>
+
+<style id="yf-visual-consistency-2026">
+:root{--yf-primary:#1D1D1F;--yf-accent:#E8552F;--yf-page:#F5F5F7;--yf-surface:#FFFFFF;--yf-ink:#1D1D1F;--yf-muted:#6E6E73;--yf-line:#E5E5EA;--yf-soft:#F2F2F5}
+body:not(.dark){background:var(--yf-page)!important;color:var(--yf-ink)!important}
+body:not(.dark) header{background:#1D1D1F!important;color:#fff!important;box-shadow:none!important;border:0!important}
+body:not(.dark) .card,body:not(.dark) #payCard,body:not(.dark) #successCard{background:var(--yf-surface)!important;border:1px solid var(--yf-line)!important;border-radius:18px!important;box-shadow:0 2px 10px rgba(0,0,0,.035)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+body:not(.dark) input,body:not(.dark) textarea,body:not(.dark) select{background:#fff!important;border:1px solid var(--yf-line)!important;border-radius:11px!important;color:var(--yf-ink)!important;box-shadow:none!important}
+body:not(.dark) input:focus,body:not(.dark) textarea:focus,body:not(.dark) select:focus{border-color:#8E8E93!important;box-shadow:0 0 0 3px rgba(29,29,31,.08)!important}
+body:not(.dark) .submit,body:not(.dark) .uploadBtn{background:var(--yf-primary)!important;background-image:none!important;color:#fff!important;border:1px solid var(--yf-primary)!important;border-radius:12px!important;box-shadow:none!important}
+body:not(.dark) .submit:disabled{background:#C7C7CC!important;border-color:#C7C7CC!important}
+body:not(.dark) .checkoutBar{position:static!important;inset:auto!important;transform:none!important;margin:18px 0 0!important;border:1px solid var(--yf-line)!important;border-radius:16px!important;background:#fff!important;box-shadow:0 4px 16px rgba(0,0,0,.06)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+body:not(.dark) .checkoutTotalValue,body:not(.dark) #payPageAmount{color:var(--yf-accent)!important}
+body:not(.dark) #bottomNav{background:rgba(255,255,255,.97)!important;border-top:1px solid var(--yf-line)!important;box-shadow:0 -3px 14px rgba(0,0,0,.04)!important;backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important}
+body:not(.dark) #bottomNav .navBtn.active{color:var(--yf-accent)!important;background:#FFF2ED!important}
+body:not(.dark) .feedbackBtn{background:#fff!important;border:1px solid var(--yf-line)!important;color:var(--yf-ink)!important;border-radius:11px!important}
+@media(max-width:640px){body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))!important}#checkoutBar{position:static!important;z-index:auto!important}#payCard{margin-top:16px!important}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
 </body>
 
 </html>
