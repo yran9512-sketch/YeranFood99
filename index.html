@@ -4837,6 +4837,65 @@ body:not(.dark) .breakfast-option:focus-within{
   body:not(.dark) #bottomNav{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:#fff!important}
 }
 
+/* 付款方式与结账区：手机端保持清晰、可点按 */
+#payMethodLabel + .opt{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin-top:8px;
+}
+#payMethodLabel + .opt > label{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:9px!important;
+  min-width:0;
+  min-height:52px;
+  margin:0!important;
+  padding:12px 14px!important;
+  border:1px solid var(--yf-line,#E5E5EA)!important;
+  border-radius:13px!important;
+  background:#fff!important;
+  font-size:14px!important;
+  line-height:1.35;
+}
+#payMethodLabel + .opt > label input[type="radio"]{
+  width:18px!important;
+  height:18px!important;
+  flex:0 0 18px!important;
+  margin:0!important;
+  accent-color:#E8552F!important;
+}
+#payMethodLabel + .opt > label:has(input:checked){
+  border-color:#E8552F!important;
+  background:#FFF2ED!important;
+  box-shadow:0 2px 8px rgba(232,85,47,.08)!important;
+}
+#checkoutBar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+#checkoutBar .checkoutTotal{min-width:0}
+#checkoutBar .submit{
+  min-height:48px;
+  padding:12px 18px;
+  white-space:normal;
+}
+@media(max-width:700px){
+  body:not(.dark){padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))!important}
+  #payMethodLabel + .opt > label{padding:11px 10px!important}
+  #checkoutBar{gap:10px;padding:12px!important}
+  #checkoutBar .submit{min-width:116px;padding:11px 12px!important;font-size:14px!important}
+}
+@media(max-width:360px){
+  #payMethodLabel + .opt{gap:7px}
+  #payMethodLabel + .opt > label{font-size:13px!important;padding:10px 8px!important}
+  #checkoutBar .checkoutTotalValue{font-size:19px!important}
+  #checkoutBar .submit{min-width:104px;font-size:13px!important}
+}
+
 </style>
 </body>
 
