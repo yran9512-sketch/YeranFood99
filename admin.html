@@ -2271,6 +2271,25 @@ body>header{background:#1D1D1F!important;color:#fff!important;background-image:n
   @media(prefers-reduced-transparency:reduce){.kitchen-bottom-nav{background:#fff!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
+
+<style id="yf-admin-nav-safe-area-fix">
+/* 厨师端底部导航避开手机系统手势区/虚拟按键 */
+@media (max-width:700px) {
+  body {
+    padding-bottom:calc(108px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  .kitchen-bottom-nav {
+    padding-top:8px !important;
+    padding-bottom:calc(24px + env(safe-area-inset-bottom, 0px)) !important;
+    min-height:88px !important;
+  }
+  .kitchen-bottom-nav button {
+    min-height:48px !important;
+    padding:6px 4px !important;
+  }
+}
+</style>
+
 </body>
 
 </html>
