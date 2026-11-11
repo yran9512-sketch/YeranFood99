@@ -1,61 +1,19 @@
-/* YeranFood subtle motion layer */
-@keyframes yf-enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-header{animation:yf-enter .45s cubic-bezier(.2,.7,.2,1) both}
-main.container>.card,#orderCard,#adminLogin,#loginCard,#main>.card{animation:yf-enter .42s .04s ease both}
-#productList>.yf-product-card,.menu-product-card,.option-card,.order-card,.kitchen-order,#resultBox>.card{animation:yf-enter .34s ease both;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
-#productList>.yf-product-card:hover,.menu-product-card:hover,.option-card:hover,.order-card:hover,.kitchen-order:hover{transform:translateY(-2px);box-shadow:0 9px 20px rgba(96,43,27,.08)}
-.yf-product-image,.menu-image-thumb{transition:transform .24s ease}
-#productList>.yf-product-card:hover .yf-product-image,.menu-image-thumb:hover{transform:scale(1.035)}
-.breakfast-product-card{animation:yf-enter .4s ease both}
-.breakfast-option,.opt label{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease}
-.breakfast-option:active,.opt label:active{transform:scale(.99)}
-button,.navBtn,.periodBtn,.qty button,.submit,.uploadBtn,.feedbackBtn{transition:transform .17s ease,box-shadow .18s ease,filter .18s ease}
-button:active{transform:scale(.985)}
-.summary>div{transition:transform .2s ease,box-shadow .2s ease}
-.summary>div:hover{transform:translateY(-2px);box-shadow:0 9px 20px rgba(96,43,27,.08)}
-.orderCard{transition:box-shadow .2s ease,border-color .2s ease}
-.orderCard:hover{box-shadow:0 8px 20px rgba(96,43,27,.07);border-color:#f0c8ba}
-@media(prefers-reduced-motion:reduce){header,main.container>.card,#orderCard,#adminLogin,#loginCard,#main>.card,#productList>.yf-product-card,.menu-product-card,.option-card,.order-card,.kitchen-order,#resultBox>.card,.breakfast-product-card{animation:none!important}#productList>.yf-product-card:hover,.menu-product-card:hover,.option-card:hover,.order-card:hover,.kitchen-order:hover,.yf-product-image,.menu-image-thumb,.breakfast-option:active,.opt label:active,.summary>div:hover,button:active{transform:none!important}}
-
-
-/* Unified B palette motion refinements */
-:root {
-  --yf-primary: #6558F5;
-  --yf-motion: 180ms cubic-bezier(.2,.7,.2,1);
+/* YeranFood shared motion system — subtle, consistent and accessible */
+:root{--yf-motion:180ms cubic-bezier(.2,.7,.2,1)}
+@keyframes yf-enter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+header{animation:yf-enter 220ms ease-out both}
+main.container>.card,#orderCard,#adminLogin,#loginCard,#main>.card{animation:yf-enter 220ms ease-out both}
+#productList>.yf-product-card,.menu-product-card,.option-card,.order-card,.kitchen-order,#resultBox>.card{transition:transform var(--yf-motion),box-shadow var(--yf-motion),border-color var(--yf-motion)}
+@media(hover:hover){
+#productList>.yf-product-card:hover,.menu-product-card:hover,.option-card:hover,.order-card:hover,.kitchen-order:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(0,0,0,.055)}
 }
-header { animation-duration: 250ms; }
-main.container > .card, #orderCard, #adminLogin, #loginCard, #main > .card {
-  animation-duration: 250ms;
+.yf-product-image,.menu-image-thumb{transition:transform 200ms ease}
+@media(hover:hover){
+#productList>.yf-product-card:hover .yf-product-image,.menu-image-thumb:hover{transform:scale(1.02)}
 }
-#productList > .yf-product-card, .menu-product-card, .option-card, .order-card,
-.kitchen-order, #resultBox > .card {
-  transition-duration: 180ms;
-}
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: .01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-
-/* Customer option selection: remove the awkward press-scale and keep a calm state change. */
-body:not(.dark) #orderCard .opt > label,
-body:not(.dark) #orderCard .breakfast-option {
-  transform: none !important;
-  transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease !important;
-}
-body:not(.dark) #orderCard .opt > label:active,
-body:not(.dark) #orderCard .breakfast-option:active {
-  transform: none !important;
-}
-body:not(.dark) #orderCard .opt > label:has(input:checked),
-body:not(.dark) #orderCard .breakfast-option:has(input:checked) {
-  box-shadow: 0 2px 8px rgba(185, 101, 63, .07) !important;
-}
-body:not(.dark) #orderCard .opt > label input,
-body:not(.dark) #orderCard .breakfast-option input {
-  transition: none !important;
+.breakfast-option,.opt label,button,.navBtn,.periodBtn,.qty button,.submit,.uploadBtn,.feedbackBtn{transition:background-color var(--yf-motion),border-color var(--yf-motion),color var(--yf-motion),box-shadow var(--yf-motion)}
+button:active,.navBtn:active,.periodBtn:active,.qty button:active,.submit:active{transform:scale(.99)}
+@media(prefers-reduced-motion:reduce){
+*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+button:active,.navBtn:active,.periodBtn:active,.qty button:active,.submit:active{transform:none!important}
 }
