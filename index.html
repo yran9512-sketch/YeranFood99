@@ -5764,6 +5764,80 @@ body:not(.dark) input:focus, body:not(.dark) select:focus, body:not(.dark) texta
     }
   }
 </style>
+
+<style id="yf-real-killer">
+  /* 1. 商品卡选中态：压过旧的高特异性紫蓝规则 */
+  html body:not(#_dummy) #productList > button.yf-product-card.yf-selected {
+    border: 2px solid #1D1D1F !important;
+    background-color: #F5F5F7 !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  /* 2. 已选规格：中性灰底、深色边框 */
+  html body:not(#_dummy) .breakfast-option:has(input:checked),
+  html body:not(#_dummy) .opt > label:has(input:checked) {
+    border: 2px solid #1D1D1F !important;
+    background: #F5F5F7 !important;
+    background-color: #F5F5F7 !important;
+    background-image: none !important;
+    box-shadow: none !important;
+  }
+
+  /* 3. 价格与金额统一深色 */
+  html body:not(#_dummy) .breakfast-option-price,
+  html body:not(#_dummy) #breakfastPrice,
+  html body:not(#_dummy) .yf-product-price,
+  html body:not(#_dummy) .checkoutTotalValue,
+  html body:not(#_dummy) #total,
+  html body:not(#_dummy) #payPageAmount,
+  html body:not(#_dummy) .price {
+    color: #1D1D1F !important;
+  }
+
+  /* 4. 数量按钮中性黑白灰 */
+  html body:not(#_dummy) .qty button,
+  html body:not(#_dummy) .breakfast-qty .qty button {
+    background: #FFFFFF !important;
+    color: #1D1D1F !important;
+    border: 1px solid #E5E5EA !important;
+    box-shadow: none !important;
+  }
+  html body:not(#_dummy) .qty button:hover {
+    background: #1D1D1F !important;
+    color: #FFFFFF !important;
+  }
+
+  /* 5. Lunch Badge 去红 */
+  html body:not(#_dummy) .breakfast-badge {
+    background: #E5E5EA !important;
+    color: #1D1D1F !important;
+  }
+
+  /* 6. 手机端结账栏固定悬浮 */
+  @media (max-width: 700px) {
+    html body:not(#_dummy) #checkoutBar {
+      position: fixed !important;
+      bottom: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
+      left: 12px !important;
+      right: 12px !important;
+      margin: 0 !important;
+      z-index: 99 !important;
+      background: #FFFFFF !important;
+      border: 1px solid #E5E5EA !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+      border-radius: 16px !important;
+      display: flex !important;
+      align-items: center !important;
+      padding: 12px 14px !important;
+    }
+    html body:not(#_dummy) {
+      padding-bottom: 170px !important;
+    }
+  }
+</style>
+
 </body>
 
 </html>
