@@ -39,3 +39,23 @@ main.container > .card, #orderCard, #adminLogin, #loginCard, #main > .card {
     scroll-behavior: auto !important;
   }
 }
+
+
+/* Customer option selection: remove the awkward press-scale and keep a calm state change. */
+body:not(.dark) #orderCard .opt > label,
+body:not(.dark) #orderCard .breakfast-option {
+  transform: none !important;
+  transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease !important;
+}
+body:not(.dark) #orderCard .opt > label:active,
+body:not(.dark) #orderCard .breakfast-option:active {
+  transform: none !important;
+}
+body:not(.dark) #orderCard .opt > label:has(input:checked),
+body:not(.dark) #orderCard .breakfast-option:has(input:checked) {
+  box-shadow: 0 2px 8px rgba(185, 101, 63, .07) !important;
+}
+body:not(.dark) #orderCard .opt > label input,
+body:not(.dark) #orderCard .breakfast-option input {
+  transition: none !important;
+}
