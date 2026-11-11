@@ -1740,6 +1740,300 @@
       loadFeedback();
     }, 30000);
   </script>
+
+  <style id="yf-admin-polish-v1">
+    /* YeranFood admin polish v1: calm, high-clarity kitchen workspace */
+    :root {
+      --k-bg: #f5f6f7;
+      --k-surface: #ffffff;
+      --k-text: #202124;
+      --k-muted: #70757d;
+      --k-line: #e6e8eb;
+      --k-accent: #d95b43;
+      --k-accent-soft: #fff1ec;
+      --k-shadow: 0 3px 14px rgba(25, 30, 36, .045);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--k-bg) !important;
+      background-image: none !important;
+      color: var(--k-text) !important;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif !important;
+      padding-bottom: 112px !important;
+    }
+    body::before { content: none !important; }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 17px 20px !important;
+      background: rgba(255,255,255,.94) !important;
+      color: var(--k-text) !important;
+      border-bottom: 1px solid var(--k-line) !important;
+      box-shadow: 0 2px 10px rgba(20,25,30,.035) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+    }
+    header h1 {
+      color: var(--k-text) !important;
+      font-size: 21px !important;
+      font-weight: 750 !important;
+      letter-spacing: -.35px;
+    }
+    header h1::before { content: none !important; }
+    .container { max-width: 1180px !important; margin: 22px auto !important; }
+    #adminLogin {
+      max-width: 440px;
+      margin: 56px auto !important;
+      padding: 28px !important;
+      background: var(--k-surface) !important;
+      border: 1px solid var(--k-line) !important;
+      border-radius: 18px !important;
+      box-shadow: var(--k-shadow) !important;
+    }
+    #adminLogin h2 { margin-bottom: 20px; font-size: 21px; }
+    #adminLogin input {
+      min-height: 48px;
+      margin-bottom: 14px;
+      padding: 12px 14px !important;
+      border: 1px solid var(--k-line) !important;
+      border-radius: 10px !important;
+      background: #fff !important;
+    }
+    #adminLogin button { width: 100%; min-height: 46px; }
+    #main > .card, #main .card {
+      background: var(--k-surface) !important;
+      background-image: none !important;
+      border: 1px solid var(--k-line) !important;
+      border-radius: 16px !important;
+      box-shadow: var(--k-shadow) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    #main > .card { padding: 20px !important; }
+    .card h2 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0 0 16px !important;
+      color: var(--k-text) !important;
+      font-size: 18px !important;
+      font-weight: 720 !important;
+      letter-spacing: -.2px;
+    }
+    .card h2::after { content: none !important; }
+    .kitchen-top-actions {
+      float: none !important;
+      display: flex !important;
+      justify-content: flex-end !important;
+      gap: 9px !important;
+      margin: 0 0 14px !important;
+    }
+    button, button.primary, .primary, input[type="submit"] {
+      min-height: 40px;
+      border: 1px solid #25282c !important;
+      border-radius: 10px !important;
+      background: #25282c !important;
+      background-image: none !important;
+      color: #fff !important;
+      box-shadow: none !important;
+      font-size: 14px !important;
+      font-weight: 650 !important;
+      transition: background-color .16s ease, border-color .16s ease, transform .16s ease !important;
+    }
+    button:hover, button.primary:hover, .primary:hover {
+      background: #41454a !important;
+      border-color: #41454a !important;
+      filter: none !important;
+      box-shadow: none !important;
+    }
+    button:active { transform: translateY(1px) !important; }
+    button:disabled { opacity: .55; cursor: wait; }
+    #kitchenPushBtn {
+      background: var(--k-accent-soft) !important;
+      color: #a94230 !important;
+      border-color: #f3d2c8 !important;
+    }
+    #kitchenPushBtn:hover { background: #ffe7df !important; }
+    .period-switch {
+      display: flex;
+      gap: 8px;
+      margin: 0 0 16px !important;
+      padding: 5px;
+      width: fit-content;
+      max-width: 100%;
+      background: #eceef0;
+      border: 1px solid #e5e7e9;
+      border-radius: 12px;
+    }
+    .period-switch button, #btnLunch, #btnBreakfast, #btnDrink {
+      flex: 1;
+      min-width: 92px;
+      min-height: 42px;
+      margin: 0 !important;
+      padding: 9px 18px !important;
+      border: 1px solid transparent !important;
+      border-radius: 9px !important;
+      background: transparent !important;
+      color: #5e6369 !important;
+      box-shadow: none !important;
+    }
+    .period-switch button.primary, #btnLunch.primary, #btnBreakfast.primary, #btnDrink.primary {
+      background: #fff !important;
+      color: var(--k-text) !important;
+      border-color: #fff !important;
+      box-shadow: 0 1px 4px rgba(20,25,30,.10) !important;
+    }
+    .summary { display: grid !important; grid-template-columns: repeat(auto-fit,minmax(145px,1fr)); gap: 12px !important; }
+    .summary > div {
+      min-width: 0 !important;
+      padding: 16px !important;
+      text-align: left !important;
+      background: #fff !important;
+      border: 1px solid var(--k-line) !important;
+      border-radius: 14px !important;
+      box-shadow: none !important;
+    }
+    .summary .num { color: var(--k-text) !important; font-size: 29px !important; line-height: 1.2; font-weight: 780 !important; }
+    .summary .lbl { margin-top: 7px !important; color: var(--k-muted) !important; font-size: 13px !important; }
+    .kitchen-refresh, #kitchenFeedbackPage h2 button {
+      min-height: 34px !important;
+      padding: 6px 11px !important;
+      background: #fff !important;
+      color: #4e545b !important;
+      border: 1px solid var(--k-line) !important;
+      border-radius: 8px !important;
+      box-shadow: none !important;
+      font-size: 12px !important;
+      white-space: nowrap;
+    }
+    .kitchen-table { overflow-x: auto; border: 1px solid var(--k-line); border-radius: 12px; }
+    .kitchen-table table, #feedbackBox table {
+      min-width: 720px;
+      border: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      background: #fff !important;
+    }
+    .kitchen-table th, #feedbackBox th {
+      padding: 13px 12px !important;
+      background: #f6f7f8 !important;
+      color: #555c64 !important;
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      white-space: nowrap;
+    }
+    .kitchen-table td, #feedbackBox td {
+      padding: 13px 12px !important;
+      color: #30343a !important;
+      border-color: #edf0f2 !important;
+      font-size: 13px !important;
+      vertical-align: middle;
+    }
+    .kitchen-table tbody tr:nth-child(even), #feedbackBox tbody tr:nth-child(even) { background: #fafbfc; }
+    .kitchen-table tbody tr:hover, #feedbackBox tbody tr:hover { background: #fff7f3 !important; }
+    .payment-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .payment-pill.is-paid { background: #e8f5ed !important; color: #28734a !important; }
+    .payment-pill.is-unpaid { background: #fff1e8 !important; color: #b6532e !important; }
+    .tag { padding: 4px 8px !important; border-radius: 7px !important; background: #f0f2f4 !important; color: #515860 !important; }
+    .kitchen-order {
+      padding: 15px !important;
+      background: #fff !important;
+      border: 1px solid var(--k-line) !important;
+      border-radius: 13px !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+    }
+    .kitchen-order + .kitchen-order { margin-top: 10px; }
+    .kitchen-order-code { color: var(--k-text); font-size: 17px !important; font-weight: 800; }
+    .kitchen-order-name { color: var(--k-text) !important; font-size: 14px !important; }
+    .kitchen-order-meta { color: var(--k-muted) !important; font-size: 12px !important; }
+    .kitchen-order-note {
+      background: #f7f8f9 !important;
+      color: #5e646b !important;
+      border: 1px solid #eceef0 !important;
+      border-radius: 9px !important;
+    }
+    .noorders {
+      padding: 42px 18px !important;
+      background: #fafbfc !important;
+      color: #858b92 !important;
+      border: 1px dashed #dfe3e7;
+      border-radius: 12px !important;
+      font-size: 14px;
+    }
+    #kitchenFeedbackPage { margin-top: 16px; }
+    .kitchen-bottom-nav {
+      left: 50% !important;
+      right: auto !important;
+      bottom: calc(12px + env(safe-area-inset-bottom)) !important;
+      width: min(360px, calc(100% - 28px)) !important;
+      padding: 7px !important;
+      gap: 6px !important;
+      transform: translateX(-50%);
+      border: 1px solid rgba(255,255,255,.9) !important;
+      border-radius: 16px !important;
+      background: rgba(255,255,255,.96) !important;
+      box-shadow: 0 8px 28px rgba(25,30,36,.13) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+    }
+    .kitchen-bottom-nav button,
+    .kitchen-bottom-nav button:hover,
+    .kitchen-bottom-nav button:active {
+      min-height: 44px !important;
+      border-radius: 10px !important;
+      background: transparent !important;
+      color: #6b7178 !important;
+      box-shadow: none !important;
+      transform: none !important;
+      font-size: 12px !important;
+    }
+    .kitchen-bottom-nav button.active {
+      background: #f1f2f4 !important;
+      color: #25282c !important;
+      border-color: #e8eaed !important;
+      box-shadow: none !important;
+    }
+    @media (max-width: 700px) {
+      body { padding-bottom: calc(106px + env(safe-area-inset-bottom)) !important; }
+      header { padding: 14px 16px !important; }
+      header h1 { font-size: 19px !important; }
+      .container { margin: 14px auto !important; padding: 0 12px !important; }
+      #adminLogin { margin: 36px 12px !important; padding: 22px !important; }
+      #main > .card, #main .card { padding: 15px !important; border-radius: 14px !important; }
+      .kitchen-top-actions { display: grid !important; grid-template-columns: 1fr 1fr; gap: 8px !important; }
+      .kitchen-top-actions button { width: 100%; min-width: 0; padding: 9px 8px !important; font-size: 12px !important; }
+      .period-switch { display: grid !important; grid-template-columns: repeat(3,minmax(0,1fr)); width: 100%; }
+      .period-switch button, #btnLunch, #btnBreakfast, #btnDrink { min-width: 0; padding: 9px 6px !important; font-size: 13px !important; }
+      .summary { grid-template-columns: repeat(2,minmax(0,1fr)) !important; gap: 8px !important; }
+      .summary > div { padding: 12px !important; }
+      .summary .num { font-size: 25px !important; }
+      .kitchen-table { display: none !important; }
+      .kitchen-cards { display: grid !important; gap: 9px !important; }
+      .kitchen-order { padding: 13px !important; }
+      .kitchen-order-code { font-size: 16px !important; }
+      .card h2 { font-size: 16px !important; }
+      #feedbackBox { overflow-x: auto; }
+      .kitchen-bottom-nav { width: min(360px, calc(100% - 24px)) !important; }
+    }
+    @media (prefers-reduced-transparency: reduce) {
+      header, .kitchen-bottom-nav { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+
 </body>
 
 </html>
