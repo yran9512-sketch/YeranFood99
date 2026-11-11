@@ -2494,7 +2494,7 @@
               '<td>' + escapeHtml(f.content || '') + '</td>' +
               '<td>' +
               '<button class="small green" onclick="approveFeedback(' + f.id + ')">通过</button> ' +
-              '<button class="small red" onclick="delFeedback(' + f.id + ')">删</button>' +
+              '<button class="small red" onclick="delFeedback(' + f.id + ')">删除</button>' +
               '</td>' +
               '</tr>';
           });
@@ -2513,7 +2513,7 @@
               '<td>' + escapeHtml(f.name || '') + '</td>' +
               '<td>' + escapeHtml(f.content || '') + '</td>' +
               '<td>' +
-              '<button class="small red" onclick="delFeedback(' + f.id + ')">删</button>' +
+              '<button class="small red" onclick="delFeedback(' + f.id + ')">删除</button>' +
               '</td>' +
               '</tr>';
           });
@@ -3834,6 +3834,56 @@ input:focus,select:focus,textarea:focus { border-color:var(--yf-primary) !import
     background-image:url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%231D1D1F%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E") !important;
     background-repeat:no-repeat !important; background-position:right 14px center !important;
     background-size:10px !important; padding-right:32px !important;
+  }
+</style>
+
+
+
+<style id="yf-owner-final-fix">
+  /* 顶部菜单/选项分类：强制中性灰，选中项深色 */
+  #main > .card > div:first-child button,
+  #main #btnLunchMenu, #main #btnBreakfastMenu, #main #btnDrinkMenu,
+  #main #btnLunchOpt, #main #btnBreakfastOpt, #main #btnDrinkOpt {
+    background:#F5F5F7 !important;
+    background-image:none !important;
+    color:#6E6E73 !important;
+    border:1px solid transparent !important;
+    box-shadow:none !important;
+    border-radius:10px !important;
+  }
+  #main > .card > div:first-child button.primary,
+  #main #btnLunchMenu.primary, #main #btnBreakfastMenu.primary, #main #btnDrinkMenu.primary,
+  #main #btnLunchOpt.primary, #main #btnBreakfastOpt.primary, #main #btnDrinkOpt.primary {
+    background:#1D1D1F !important;
+    background-image:none !important;
+    color:#FFFFFF !important;
+    border-color:#1D1D1F !important;
+  }
+
+  /* 商品选项下拉框：移除紫色阴影 */
+  #optionProductSelect {
+    box-shadow:none !important;
+    border:1px solid #E5E5EA !important;
+    background-color:#FFFFFF !important;
+    background-image:none !important;
+    color:#1D1D1F !important;
+  }
+  #optionProductSelect:focus {
+    border-color:#1D1D1F !important;
+    box-shadow:0 0 0 3px rgba(29,29,31,.1) !important;
+  }
+
+  /* 反馈删除按钮：浅红警示，不隐藏真实文字 */
+  #pendingFeedbackBox button.red,
+  #approvedFeedbackBox button.red {
+    background:#FFF0F0 !important;
+    background-image:none !important;
+    color:#C43D4B !important;
+    border:1px solid #FFC9C9 !important;
+    font-size:13px !important;
+    font-weight:600 !important;
+    padding:6px 12px !important;
+    min-height:32px !important;
   }
 </style>
 
