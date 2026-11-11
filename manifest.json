@@ -3,8 +3,8 @@
   "short_name": "YeranFood",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#fbfaf4",
-  "theme_color": "#174b35",
+  "background_color": "#F5F5F7",
+  "theme_color": "#F5F5F7",
   "icons": [
     {
       "src": "icons/yeranfood-180.png?v=3",
@@ -19,4 +19,4 @@
       "purpose": "any maskable"
     }
   ]
-}\n
+}
