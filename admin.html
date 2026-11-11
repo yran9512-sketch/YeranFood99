@@ -1351,7 +1351,7 @@
 
       <div class="card" style="margin-top:16px">
         <h2>订单列表 <button class="kitchen-refresh" onclick="refreshKitchen(this)"
-            style="float:right;font-size:13px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#333">🔄 刷新</button></h2>
+            style="float:right;font-size:13px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#333">刷新</button></h2>
         <div id="ordersBox">
           <div class="noorders">加载中…</div>
         </div>
@@ -1359,8 +1359,7 @@
 
       <div class="card" id="kitchenFeedbackPage">
         <h2>意见反馈 <button onclick="loadFeedback()"
-            style="float:right;font-size:13px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer">🔄
-            刷新</button></h2>
+            style="float:right;font-size:13px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer">刷新</button></h2>
         <div id="feedbackBox">
           <div class="noorders">加载中…</div>
         </div>
@@ -1652,7 +1651,7 @@
       Promise.all([loadOrders(), loadFeedback()]).finally(function () {
         if (btn) {
           btn.disabled = false;
-          btn.textContent = '🔄 刷新';
+          btn.textContent = '刷新';
         }
       });
     }
@@ -1843,6 +1842,70 @@ body {
   }
 }
 </style>
+
+
+<style id="yf-admin-glass-batch-2">
+/* YeranFood admin liquid-glass batch 2: neutral controls and clearer order hierarchy */
+button, button.primary, .primary {
+  background:#1D1D1F !important; background-image:none !important; color:#FFF !important;
+  border:1px solid #1D1D1F !important; border-radius:12px !important;
+  box-shadow:0 2px 8px rgba(0,0,0,.08) !important; font-weight:600 !important;
+}
+button:hover, button.primary:hover { background:#333336 !important; }
+#kitchenPushBtn {
+  background:rgba(255,255,255,.6) !important; background-image:none !important;
+  color:#1D1D1F !important; border:1px solid rgba(0,0,0,.1) !important;
+  box-shadow:none !important;
+}
+.period-switch {
+  background:rgba(235,235,240,.8) !important; border-radius:12px !important;
+  padding:4px !important; border:0 !important;
+}
+.period-switch button, #btnLunch, #btnBreakfast, #btnDrink {
+  background:transparent !important; background-image:none !important;
+  color:#6E6E73 !important; box-shadow:none !important; border:0 !important;
+  border-radius:8px !important;
+}
+.period-switch button.primary, .period-switch button[aria-pressed="true"],
+#btnLunch.primary, #btnBreakfast.primary, #btnDrink.primary {
+  background:#FFFFFF !important; color:#1D1D1F !important; border:0 !important;
+  box-shadow:0 1px 4px rgba(0,0,0,.12) !important; font-weight:700 !important;
+}
+.kitchen-order {
+  background:rgba(255,255,255,.85) !important; border:1px solid #E5E5EA !important;
+  border-radius:16px !important; padding:16px !important;
+  box-shadow:0 2px 10px rgba(0,0,0,.03) !important;
+}
+.kitchen-order-code {
+  font-size:17px !important; font-weight:800 !important; color:#1D1D1F !important;
+  letter-spacing:.5px !important;
+}
+.kitchen-order-name {
+  font-size:14px !important; font-weight:600 !important; margin-top:4px !important;
+  color:#1D1D1F !important;
+}
+.kitchen-order-meta { font-size:13px !important; color:#6E6E73 !important; margin-top:8px !important; }
+.payment-pill {
+  display:inline-flex !important; align-items:center !important; white-space:nowrap !important;
+  padding:4px 10px !important; border-radius:999px !important;
+  font-size:12px !important; line-height:1.4 !important; font-weight:700 !important;
+}
+.payment-pill.is-paid { background:#E8F5E9 !important; color:#21845A !important; }
+.payment-pill.is-unpaid { background:#FFF1EB !important; color:#C97800 !important; }
+.kitchen-bottom-nav button {
+  background:transparent !important; background-image:none !important;
+  color:#8E8E93 !important; border:0 !important; box-shadow:none !important;
+}
+.kitchen-bottom-nav button.active {
+  background:rgba(0,0,0,.06) !important; color:#1D1D1F !important;
+}
+.kitchen-bottom-nav button span:first-child { font-size:20px !important; }
+.summary { grid-template-columns:repeat(auto-fit,minmax(120px,1fr)) !important; }
+@media(max-width:800px) {
+  .summary { grid-template-columns:repeat(auto-fit,minmax(120px,1fr)) !important; }
+}
+</style>
+
 </body>
 
 </html>
