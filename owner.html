@@ -4043,6 +4043,91 @@ input:focus,select:focus,textarea:focus { border-color:var(--yf-primary) !import
   }
 </style>
 
+
+<style id="yf-owner-ultimate-active">
+  /* 1. 订单筛选：未选中浅灰，选中黑底白字 */
+  html body #main #ownerOrders .filter-btn,
+  html body #main #ownerOrders .filter button {
+    background:#F5F5F7 !important;
+    background-color:#F5F5F7 !important;
+    background-image:none !important;
+    color:#6E6E73 !important;
+    border:1px solid transparent !important;
+    box-shadow:none !important;
+    border-radius:10px !important;
+    font-weight:600 !important;
+  }
+
+  html body #main #ownerOrders .filter-btn.active,
+  html body #main #ownerOrders .filter button.active {
+    background:#1D1D1F !important;
+    background-color:#1D1D1F !important;
+    background-image:none !important;
+    color:#FFFFFF !important;
+    border-color:#1D1D1F !important;
+    box-shadow:none !important;
+  }
+
+  /* 2. 顶部菜单/选项分类：兼容 active 与 primary */
+  html body #main #ownerProducts #btnLunchMenu,
+  html body #main #ownerProducts #btnBreakfastMenu,
+  html body #main #ownerProducts #btnDrinkMenu,
+  html body #main #ownerOptions #btnLunchOpt,
+  html body #main #ownerOptions #btnBreakfastOpt,
+  html body #main #ownerOptions #btnDrinkOpt {
+    background:#F5F5F7 !important;
+    background-color:#F5F5F7 !important;
+    background-image:none !important;
+    color:#6E6E73 !important;
+    border:1px solid transparent !important;
+    box-shadow:none !important;
+    border-radius:10px !important;
+  }
+
+  html body #main #ownerProducts #btnLunchMenu.active,
+  html body #main #ownerProducts #btnBreakfastMenu.active,
+  html body #main #ownerProducts #btnDrinkMenu.active,
+  html body #main #ownerOptions #btnLunchOpt.active,
+  html body #main #ownerOptions #btnBreakfastOpt.active,
+  html body #main #ownerOptions #btnDrinkOpt.active,
+  html body #main #ownerProducts #btnLunchMenu.primary,
+  html body #main #ownerProducts #btnBreakfastMenu.primary,
+  html body #main #ownerProducts #btnDrinkMenu.primary,
+  html body #main #ownerOptions #btnLunchOpt.primary,
+  html body #main #ownerOptions #btnBreakfastOpt.primary,
+  html body #main #ownerOptions #btnDrinkOpt.primary {
+    background:#1D1D1F !important;
+    background-color:#1D1D1F !important;
+    background-image:none !important;
+    color:#FFFFFF !important;
+    border-color:#1D1D1F !important;
+    box-shadow:none !important;
+  }
+
+  /* 3. 底部/快捷导航：实际结构为 button，选中态保持浅灰 */
+  html body nav.owner-quick-nav button {
+    background:transparent !important;
+    background-color:transparent !important;
+    background-image:none !important;
+    color:#8E8E93 !important;
+    border:none !important;
+    box-shadow:none !important;
+  }
+
+  html body nav.owner-quick-nav button.active {
+    background:#F2F2F7 !important;
+    background-color:#F2F2F7 !important;
+    color:#1D1D1F !important;
+    font-weight:700 !important;
+    border-radius:12px !important;
+    box-shadow:none !important;
+  }
+
+  html body nav.owner-quick-nav button.active span:first-child {
+    filter:grayscale(100%) brightness(.3) !important;
+  }
+</style>
+
 </body>
 
 </html>
