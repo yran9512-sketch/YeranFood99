@@ -4801,6 +4801,42 @@ body:not(.dark) .opt label:has(input:checked) input[type="radio"]{accent-color:#
 body:not(.dark) .opt label input[type="radio"]{width:18px!important;height:18px!important;flex:0 0 18px!important;margin:0 2px 0 0!important}
 body:not(.dark) button:focus-visible,body:not(.dark) a:focus-visible,body:not(.dark) input:focus-visible,body:not(.dark) textarea:focus-visible,body:not(.dark) select:focus-visible{outline:3px solid rgba(232,85,47,.28)!important;outline-offset:2px!important}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* 点餐端：商品选项与价格状态统一 */
+body:not(.dark) .breakfast-option{
+  background:#fff!important;
+  border:1px solid var(--yf-line,#E5E5EA)!important;
+  border-radius:14px!important;
+  box-shadow:none!important;
+  min-height:58px;
+}
+body:not(.dark) .breakfast-option:hover{
+  border-color:#D2D2D7!important;
+  background:#FAFAFB!important;
+}
+body:not(.dark) .breakfast-option:has(input:checked){
+  border:1.5px solid #E8552F!important;
+  background:#FFF2ED!important;
+  box-shadow:0 2px 8px rgba(232,85,47,.09)!important;
+}
+body:not(.dark) .breakfast-option input[type="radio"]{
+  width:18px!important;
+  height:18px!important;
+  flex:0 0 18px!important;
+  margin:0!important;
+  accent-color:#E8552F!important;
+}
+body:not(.dark) .breakfast-option-price,
+body:not(.dark) #breakfastPrice{
+  color:#E8552F!important;
+}
+body:not(.dark) .breakfast-option:focus-within{
+  outline:3px solid rgba(232,85,47,.18);
+  outline-offset:2px;
+}
+@media(prefers-reduced-transparency:reduce){
+  body:not(.dark) #bottomNav{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:#fff!important}
+}
+
 </style>
 </body>
 
