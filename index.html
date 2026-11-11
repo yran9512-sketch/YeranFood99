@@ -3447,7 +3447,12 @@
     function portionsLeft() {return Math.max(0, maxPortions() - orderedQty);}
 
     function updateTotal() {
-      document.getElementById('total').textContent = fmt(currentPrice() * qty);
+      const unitPrice = currentPrice();
+      const unitPriceEl = document.getElementById('breakfastPrice');
+      if (unitPriceEl) {
+        unitPriceEl.textContent = fmt(unitPrice);
+      }
+      document.getElementById('total').textContent = fmt(unitPrice * qty);
     }
 
     function changeQty(n) {
