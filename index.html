@@ -4896,6 +4896,33 @@ body:not(.dark) .breakfast-option:focus-within{
   #checkoutBar .submit{min-width:104px;font-size:13px!important}
 }
 
+
+/* 顶部品牌标题与语言切换修复 */
+body:not(.dark) header h1{
+  display:block!important;visibility:visible!important;opacity:1!important;
+  color:#fff!important;position:relative!important;z-index:1;
+  margin:0!important;line-height:1.2!important;
+}
+body:not(.dark) header .lang{
+  display:flex!important;justify-content:center!important;align-items:center!important;
+  flex-wrap:wrap;gap:8px;margin-top:14px;position:relative;z-index:2;
+}
+body:not(.dark) header .lang button{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  width:auto!important;min-width:76px;min-height:40px;margin:0!important;
+  padding:8px 16px!important;border:1px solid rgba(255,255,255,.38)!important;
+  border-radius:999px!important;background:rgba(255,255,255,.10)!important;
+  color:#fff!important;font-size:14px!important;line-height:1.2!important;
+  white-space:nowrap;box-shadow:none!important;
+}
+body:not(.dark) header .lang button.active{
+  background:#fff!important;border-color:#fff!important;color:#1D1D1F!important;
+}
+@media(max-width:380px){
+  body:not(.dark) header .lang{gap:7px}
+  body:not(.dark) header .lang button{min-width:72px;padding:8px 13px!important}
+}
+
 </style>
 </body>
 
