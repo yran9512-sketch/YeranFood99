@@ -2678,6 +2678,263 @@
     body.dark .navBtn.active { color: var(--yf-dark-accent) !important; background: var(--yf-dark-accent-bg) !important; }
   </style>
 
+
+  <style id="yf-customer-ui-polish">
+    :root {
+      --yf-primary: #6257e8;
+      --yf-primary-deep: #5146d5;
+      --yf-primary-soft: #f0efff;
+      --yf-page: #f6f7fb;
+      --yf-ink: #202235;
+      --yf-muted: #777b91;
+      --yf-line: #e8e9f1;
+    }
+    html { background: var(--yf-page); }
+    body {
+      background: var(--yf-page) !important;
+      color: var(--yf-ink) !important;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    header {
+      padding: 30px 18px 26px !important;
+      background: #fff !important;
+      color: var(--yf-ink) !important;
+      border-bottom: 1px solid var(--yf-line) !important;
+      box-shadow: 0 4px 22px rgba(35, 38, 75, .045) !important;
+    }
+    header h1 {
+      color: var(--yf-ink) !important;
+      font-size: clamp(27px, 5vw, 34px) !important;
+      letter-spacing: -.8px !important;
+    }
+    header p {
+      color: var(--yf-muted) !important;
+      letter-spacing: .2px !important;
+      font-size: 13px !important;
+    }
+    #notifyBtn {
+      background: var(--yf-primary-soft) !important;
+      color: var(--yf-primary-deep) !important;
+      border: 1px solid #dedcff !important;
+      box-shadow: none !important;
+      padding: 10px 16px !important;
+    }
+    .lang button {
+      border: 1px solid var(--yf-line) !important;
+      color: var(--yf-muted) !important;
+      background: #fff !important;
+      border-radius: 999px !important;
+      padding: 8px 15px !important;
+    }
+    .lang button.active {
+      color: var(--yf-primary-deep) !important;
+      background: var(--yf-primary-soft) !important;
+      border-color: #dcd9ff !important;
+    }
+    .container {
+      max-width: 700px !important;
+      margin: 22px auto !important;
+      padding: 0 16px !important;
+    }
+    #orderCard, #payCard, #successCard {
+      padding: 25px !important;
+      border: 1px solid var(--yf-line) !important;
+      border-radius: 22px !important;
+      background: #fff !important;
+      box-shadow: 0 8px 30px rgba(35, 38, 75, .055) !important;
+    }
+    #periodSwitch {
+      display: flex;
+      gap: 5px;
+      padding: 5px;
+      background: #f1f1f7 !important;
+      border: 1px solid #ebebf2;
+      border-radius: 15px !important;
+    }
+    .periodBtn {
+      min-height: 43px;
+      margin: 0 !important;
+      border: 0 !important;
+      border-radius: 11px !important;
+      color: var(--yf-muted) !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      font-size: 14px !important;
+    }
+    .periodBtn.active {
+      color: var(--yf-primary-deep) !important;
+      background: #fff !important;
+      border: 1px solid #e7e5ff !important;
+      box-shadow: 0 2px 7px rgba(45, 43, 90, .08) !important;
+    }
+    #menuTitle {
+      margin: 8px 0 15px !important;
+      color: var(--yf-ink) !important;
+      font-size: 17px !important;
+      font-weight: 750 !important;
+      letter-spacing: 0 !important;
+      text-transform: none !important;
+    }
+    #productList { gap: 11px !important; }
+    #productList > button.yf-product-card {
+      min-height: 104px;
+      padding: 15px !important;
+      border: 1px solid var(--yf-line) !important;
+      border-radius: 17px !important;
+      background: #fff !important;
+      box-shadow: 0 2px 9px rgba(35, 38, 75, .035) !important;
+      text-align: left;
+    }
+    #productList > button.yf-product-card.yf-selected {
+      background: #f7f6ff !important;
+      border: 1.5px solid #aaa4ff !important;
+      box-shadow: 0 0 0 3px rgba(98, 87, 232, .07) !important;
+    }
+    .yf-product-name, .breakfast-product-name, .breakfast-option-name {
+      color: var(--yf-ink) !important;
+    }
+    .yf-product-price, .breakfast-price, .checkoutTotalValue {
+      color: var(--yf-primary-deep) !important;
+    }
+    .yf-stock-badge {
+      border-radius: 999px !important;
+      font-weight: 650;
+    }
+    .food {
+      gap: 14px;
+      align-items: center !important;
+      border-bottom-color: var(--yf-line) !important;
+    }
+    .food h2 { color: var(--yf-ink); }
+    .qty {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 4px;
+      border: 1px solid var(--yf-line);
+      border-radius: 999px;
+      background: #fafaff;
+    }
+    .qty button {
+      width: 38px !important;
+      height: 38px !important;
+      border: 1px solid #e5e4f5 !important;
+      background: #fff !important;
+      color: var(--yf-primary-deep) !important;
+      box-shadow: 0 1px 3px rgba(35, 38, 75, .04);
+    }
+    .qty button:hover {
+      background: var(--yf-primary) !important;
+      color: #fff !important;
+    }
+    .qty span { min-width: 20px; font-size: 18px !important; color: var(--yf-ink); }
+    #orderCard > label, #payCard > label {
+      margin-top: 18px;
+      margin-bottom: 7px;
+      color: #45485d;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    #name, #note, #fbName, #fbContent,
+    input:not([type="radio"]):not([type="checkbox"]):not([type="file"]),
+    textarea {
+      border: 1px solid #e3e5ef !important;
+      border-radius: 13px !important;
+      background: #fafbfe !important;
+      color: var(--yf-ink) !important;
+      box-shadow: none !important;
+    }
+    #name, #note { padding: 13px 14px !important; }
+    #name:focus, #note:focus, input:focus, textarea:focus {
+      border-color: #9b94f5 !important;
+      background: #fff !important;
+      box-shadow: 0 0 0 3px rgba(98, 87, 232, .10) !important;
+    }
+    .opt > label, .breakfast-option {
+      border: 1px solid var(--yf-line) !important;
+      border-radius: 14px !important;
+      background: #fafbfe !important;
+    }
+    .opt > label:has(input:checked), .breakfast-option:has(input:checked) {
+      border-color: #aaa4ff !important;
+      background: #f5f4ff !important;
+      box-shadow: 0 2px 10px rgba(98, 87, 232, .07) !important;
+    }
+    input[type="radio"], input[type="checkbox"] { accent-color: var(--yf-primary); }
+    .breakfast-product-card {
+      border: 1px solid var(--yf-line) !important;
+      border-radius: 19px !important;
+      background: #fff !important;
+      box-shadow: 0 5px 18px rgba(35, 38, 75, .045) !important;
+    }
+    .breakfast-badge {
+      background: #f1efff !important;
+      color: var(--yf-primary-deep) !important;
+    }
+    .breakfast-option:has(input:checked) {
+      border-color: #aaa4ff !important;
+      background: #f5f4ff !important;
+    }
+    .checkoutBar {
+      margin-top: 22px !important;
+      padding: 16px !important;
+      border: 1px solid #e8e7f4 !important;
+      border-radius: 18px !important;
+      background: #fbfbff !important;
+      box-shadow: none !important;
+    }
+    .checkoutTotalLabel { color: var(--yf-muted) !important; font-size: 13px; }
+    .checkoutTotalValue { font-size: 24px !important; font-weight: 800 !important; }
+    .submit, .checkoutBar .submit, .uploadBtn {
+      min-height: 48px;
+      border: 0 !important;
+      border-radius: 14px !important;
+      background: linear-gradient(110deg, #6257e8, #8176f5) !important;
+      color: #fff !important;
+      box-shadow: 0 6px 16px rgba(98, 87, 232, .19) !important;
+      font-weight: 750 !important;
+    }
+    .submit:hover, .checkoutBar .submit:hover, .uploadBtn:hover {
+      background: var(--yf-primary-deep) !important;
+    }
+    .submit:disabled { background: #c9c8d8 !important; box-shadow: none !important; }
+    #payCard img { border-radius: 13px !important; }
+    #feedbackModal > div, #feedbackListModal > div {
+      border: 1px solid var(--yf-line);
+      border-radius: 20px !important;
+      box-shadow: 0 18px 60px rgba(20, 22, 45, .18);
+    }
+    .feedbackBtn {
+      border: 1px solid #e3e3ef !important;
+      border-radius: 999px !important;
+      background: #fff !important;
+      color: #666982 !important;
+    }
+    #bottomNav {
+      padding: 9px 0 calc(9px + env(safe-area-inset-bottom, 0px)) !important;
+      border-top: 1px solid rgba(226, 227, 238, .9) !important;
+      background: rgba(255,255,255,.94) !important;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .navBtn { min-width: 76px; color: #85879a !important; }
+    .navBtn:active { color: var(--yf-primary) !important; }
+    footer { color: #9295a7 !important; font-size: 12px; }
+    @media (max-width: 640px) {
+      .container { margin: 13px auto !important; padding: 0 12px !important; }
+      #orderCard, #payCard, #successCard { padding: 19px 16px !important; border-radius: 19px !important; }
+      #productList > button.yf-product-card { min-height: 92px; padding: 12px !important; }
+      .checkoutBar { padding: 13px !important; }
+      .checkoutBar .submit { width: 100%; }
+      #bottomNav { padding-bottom: calc(9px + env(safe-area-inset-bottom, 0px)) !important; }
+    }
+    @media (max-width: 380px) {
+      header { padding: 24px 12px 21px !important; }
+      #orderCard, #payCard, #successCard { padding: 16px 13px !important; }
+      .periodBtn { padding: 10px 5px !important; font-size: 13px !important; }
+    }
+  </style>
+
 </head>
 
 <body>
