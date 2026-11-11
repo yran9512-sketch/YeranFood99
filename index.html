@@ -5605,6 +5605,95 @@ body:not(.dark) input:focus, body:not(.dark) select:focus, body:not(.dark) texta
   }
 </style>
 
+<style id="yf-ultimate-kill">
+  html body #productList > button.yf-product-card.yf-selected {
+    border: 2px solid #1D1D1F !important;
+    background-color: #F5F5F7 !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+  html body #productList > button.yf-product-card.yf-selected .yf-product-image {
+    box-shadow: none !important;
+    border-color: transparent !important;
+  }
+  html body #breakfastPrice,
+  html body .breakfast-option-price,
+  html body #payPageAmount,
+  html body .checkoutTotalValue,
+  html body #total { color: #1D1D1F !important; }
+
+  html body .breakfast-option:has(input:checked),
+  html body .opt > label:has(input:checked) {
+    border: 2px solid #1D1D1F !important;
+    background: #F5F5F7 !important;
+    box-shadow: none !important;
+  }
+
+  html body .qty button,
+  html body .breakfast-qty .qty button {
+    color: #1D1D1F !important;
+    background: #FFFFFF !important;
+    border: 1px solid #E5E5EA !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,.05) !important;
+  }
+  html body .qty button:hover,
+  html body .breakfast-qty .qty button:hover {
+    background: #1D1D1F !important;
+    color: #FFFFFF !important;
+  }
+  html body .periodBtn.active { color: #1D1D1F !important; }
+
+  html body #productList .yf-product-main {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
+  }
+  html body #productList .yf-product-name {
+    display: block !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    text-align: left !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    line-height: 1.2 !important;
+  }
+  html body #productList .yf-product-name::after {
+    margin-top: 4px !important;
+    font-size: 12px !important;
+    color: #8E8E93 !important;
+    font-weight: 400 !important;
+    line-height: 1.2 !important;
+  }
+  html body #productList > button.yf-product-card.yf-selected .yf-product-name::after {
+    content: "已选中" !important;
+    color: #1D1D1F !important;
+    font-weight: 600 !important;
+  }
+
+  @media (max-width: 700px) {
+    html body #checkoutBar {
+      position: fixed !important;
+      bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
+      left: 12px !important;
+      right: 12px !important;
+      margin: 0 !important;
+      z-index: 99 !important;
+      background: rgba(255, 255, 255, 0.96) !important;
+      backdrop-filter: blur(20px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+      border: 1px solid #E5E5EA !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+      border-radius: 16px !important;
+    }
+    html body { padding-bottom: 160px !important; }
+  }
+</style>
 </body>
 
 </html>
