@@ -3042,7 +3042,7 @@
               '<td>RM ' + Number(o.price || 0).toFixed(2) + '</td>' +
               '<td>' + Number(o.max_portions || 0) + '</td>' +
               '<td>' + (o.enabled ? '<span style="color:#2e7d32">已启用</span>' : '<span style="color:#c0392b">已停用</span>') + '</td>' +
-              '<td><button class="small" onclick="openOptionEditModal(' + o.id + ')">编辑</button> <button class="small red" onclick="delOption(' + o.id + ')">删</button></td>' +
+              '<td><button class="small" onclick="openOptionEditModal(' + o.id + ')">编辑</button> <button class="small red" onclick="delOption(' + o.id + ')">删除</button></td>' +
               '</tr>';
 
             mobileHtml += '<div class="option-card">' +
@@ -3884,6 +3884,98 @@ input:focus,select:focus,textarea:focus { border-color:var(--yf-primary) !import
     font-weight:600 !important;
     padding:6px 12px !important;
     min-height:32px !important;
+  }
+</style>
+
+
+
+<style id="yf-owner-batch-4">
+  /* 顶部菜单/选项分类：覆盖旧规则与 JS 内联普通样式 */
+  html body #main #ownerProducts #btnLunchMenu,
+  html body #main #ownerProducts #btnBreakfastMenu,
+  html body #main #ownerProducts #btnDrinkMenu,
+  html body #main #ownerOptions #btnLunchOpt,
+  html body #main #ownerOptions #btnBreakfastOpt,
+  html body #main #ownerOptions #btnDrinkOpt {
+    background:#F5F5F7 !important;
+    background-color:#F5F5F7 !important;
+    background-image:none !important;
+    color:#6E6E73 !important;
+    border:1px solid #E5E5EA !important;
+    box-shadow:none !important;
+    border-radius:10px !important;
+  }
+  html body #main #ownerProducts #btnLunchMenu.primary,
+  html body #main #ownerProducts #btnBreakfastMenu.primary,
+  html body #main #ownerProducts #btnDrinkMenu.primary,
+  html body #main #ownerOptions #btnLunchOpt.primary,
+  html body #main #ownerOptions #btnBreakfastOpt.primary,
+  html body #main #ownerOptions #btnDrinkOpt.primary {
+    background:#1D1D1F !important;
+    background-color:#1D1D1F !important;
+    background-image:none !important;
+    color:#FFFFFF !important;
+    border-color:#1D1D1F !important;
+    box-shadow:none !important;
+  }
+
+  /* 商品下拉框：取消紫色发光 */
+  html body #main select#optionProductSelect {
+    background-color:#FFFFFF !important;
+    background-image:none !important;
+    border:1px solid #E5E5EA !important;
+    box-shadow:none !important;
+    color:#1D1D1F !important;
+    outline:none !important;
+  }
+  html body #main select#optionProductSelect:focus {
+    border-color:#1D1D1F !important;
+    box-shadow:0 0 0 3px rgba(29,29,31,.1) !important;
+    outline:none !important;
+  }
+
+  /* 删除操作：白底、红字、细边框 */
+  html body #main button.red,
+  html body #main .option-delete {
+    background:#FFFFFF !important;
+    background-color:#FFFFFF !important;
+    background-image:none !important;
+    color:#C43D4B !important;
+    border:1px solid #FFC9C9 !important;
+    box-shadow:none !important;
+    font-weight:600 !important;
+  }
+  html body #main button.red:hover,
+  html body #main .option-delete:hover {
+    background:#FFF0F0 !important;
+    background-color:#FFF0F0 !important;
+  }
+  #pendingFeedbackBox button.red,
+  #approvedFeedbackBox button.red {
+    background:#FFFFFF !important;
+    color:#C43D4B !important;
+    border:1px solid #FFC9C9 !important;
+    padding:4px 10px !important;
+    min-height:32px !important;
+    font-size:12px !important;
+  }
+
+  /* 刷新按钮中性灰；主操作保持深色 */
+  html body #main .refresh-btn {
+    background:#F2F2F7 !important;
+    background-color:#F2F2F7 !important;
+    background-image:none !important;
+    color:#1D1D1F !important;
+    border:1px solid #E5E5EA !important;
+    box-shadow:none !important;
+    font-weight:600 !important;
+  }
+  html body #main button.primary:not(#btnLunchMenu):not(#btnBreakfastMenu):not(#btnDrinkMenu):not(#btnLunchOpt):not(#btnBreakfastOpt):not(#btnDrinkOpt),
+  html body #main .menu-product-edit {
+    background:#1D1D1F !important;
+    background-image:none !important;
+    color:#FFFFFF !important;
+    border:1px solid #1D1D1F !important;
   }
 </style>
 
