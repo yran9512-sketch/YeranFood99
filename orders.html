@@ -581,6 +581,7 @@
       <button class="primary" id="searchBtn" onclick="search()">查询</button>
     </div>
 
+    <section class="card" id="deviceOrdersCard"><h2 id="deviceOrdersTitle">本设备的订单</h2><div id="deviceOrdersList"><div class="noorders">正在加载…</div></div></section>
     <div id="resultBox"></div>
 
   </main>
@@ -605,6 +606,23 @@
     const SUPABASE_URL = 'https://kbzspuxrwsuxoyozmvjb.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_oC0S_vWgBt_X8N4Xu4cG4g_ekhGwKXB';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const DEVICE_ORDER_TOKEN_KEY = 'yf_device_order_token_v1';
+    function getDeviceOrderToken() {
+      let token = localStorage.getItem(DEVICE_ORDER_TOKEN_KEY);
+      if (!token) {
+        const bytes = new Uint8Array(32);
+        crypto.getRandomValues(bytes);
+        token = Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+        localStorage.setItem(DEVICE_ORDER_TOKEN_KEY, token);
+      }
+      return token;
+    }
+    async function getDeviceOrderHash() {
+      const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(getDeviceOrderToken()));
+      return Array.from(new Uint8Array(digest), b => b.toString(16).padStart(2, '0')).join('');
+    }
+
 
     // Frontend hardening: never inject database/user text into HTML without escaping it.
     function escapeHtml(value) {
@@ -641,6 +659,8 @@
         pageTitle: '我的订单',
         pageSub: 'My Orders',
         searchTitle: '查订单',
+        deviceOrdersTitle: '本设备的订单',
+        deviceOrdersEmpty: '这台设备暂时没有订单。',
         inputPh: '输入订单号（如 YF-123456）',
         searchBtn: '查询',
         searchEmpty: '请输入订单号',
@@ -667,6 +687,8 @@
         pageTitle: 'My Orders',
         pageSub: '',
         searchTitle: 'Search Order',
+        deviceOrdersTitle: 'Orders on this device',
+        deviceOrdersEmpty: 'No orders found on this device yet.',
         inputPh: 'Order code (e.g. YF-123456)',
         searchBtn: 'Search',
         searchEmpty: 'Please enter order code',
@@ -696,6 +718,7 @@
       document.getElementById('pageTitle').textContent = t.pageTitle;
       document.getElementById('pageSub').textContent = t.pageSub;
       document.getElementById('searchTitle').textContent = t.searchTitle;
+      document.getElementById('deviceOrdersTitle').textContent = t.deviceOrdersTitle;
       document.getElementById('codeInput').placeholder = t.inputPh;
       document.getElementById('searchBtn').textContent = t.searchBtn;
       document.getElementById('navOrder').textContent = t.navOrder;
@@ -708,6 +731,7 @@
       lang = lang === 'zh' ? 'en' : 'zh';
       localStorage.setItem('lang', lang);
       applyLang();
+      loadDeviceOrders();
       const lastCode = document.getElementById('codeInput').value.trim();
       if (lastCode) search();
     }
@@ -719,6 +743,39 @@
       const hh = String(d.getHours()).padStart(2, '0');
       const mi = String(d.getMinutes()).padStart(2, '0');
       return mm + '-' + dd + ' ' + hh + ':' + mi;
+    }
+
+
+    async function loadDeviceOrders() {
+      const list = document.getElementById('deviceOrdersList');
+      const t = text[lang];
+      list.innerHTML = '<div class="noorders">' + (lang === 'zh' ? '加载中…' : 'Loading…') + '</div>';
+      try {
+        const hash = await getDeviceOrderHash();
+        const res = await supabaseClient.rpc('get_orders_for_device', { p_device_key_hash: hash });
+        if (res.error) throw res.error;
+        if (!res.data || !res.data.length) {
+          list.innerHTML = '<div class="noorders">' + t.deviceOrdersEmpty + '</div>';
+          return;
+        }
+        list.innerHTML = res.data.map(o => {
+          const statusTag = o.paid ? '<span class="tag paid">' + t.tagPaid + '</span>' : '<span class="tag unpaid">' + t.tagUnpaid + '</span>';
+          const payTag = o.payment_method === 'cash' ? '<span class="tag cash">' + t.tagCash + '</span>' : '<span class="tag online">' + t.tagOnline + '</span>';
+          return '<article class="orderCard" style="margin:10px 0;padding:14px;border:1px solid #E5E5EA;border-radius:12px">' +
+            '<div class="oid">' + escapeHtml(o.order_code || '') + ' ' + statusTag + '</div>' +
+            '<div class="row"><span class="label">' + t.labelTime + '</span><span class="value">' + fmtTime(o.created_at) + '</span></div>' +
+            '<div class="row"><span class="label">' + t.labelName + '</span><span class="value">' + escapeHtml(o.name || '') + '</span></div>' +
+            '<div class="row"><span class="label">' + t.labelOption + '</span><span class="value">' + escapeHtml(o.meal_type || '') + '</span></div>' +
+            '<div class="row"><span class="label">' + t.labelQty + '</span><span class="value">' + Number(o.quantity || 0) + '</span></div>' +
+            '<div class="row"><span class="label">' + t.labelTotal + '</span><span class="value">RM ' + Number(o.total || 0).toFixed(2) + '</span></div>' +
+            '<div class="row"><span class="label">' + t.labelPayment + '</span><span class="value">' + payTag + '</span></div>' +
+            (o.note ? '<div class="row"><span class="label">' + t.labelNote + '</span><span class="value">' + escapeHtml(o.note) + '</span></div>' : '') +
+            '</article>';
+        }).join('');
+      } catch (err) {
+        console.error('设备订单读取失败:', err);
+        list.innerHTML = '<div class="noorders">' + (lang === 'zh' ? '订单加载失败，请刷新重试。' : 'Could not load orders. Please refresh.') + '</div>';
+      }
     }
 
     let searchRequestSeq = 0;
@@ -795,6 +852,7 @@
 
     // 初始化
     applyLang();
+    loadDeviceOrders();
   </script>
 
 <style id="yf-visual-consistency-2026">
