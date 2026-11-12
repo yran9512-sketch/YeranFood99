@@ -7,10 +7,10 @@
   <link rel="icon" type="image/jpeg" href="/icons/36efd6fc09ed8400d86a61e92bd75897.jpg?v=4">
   <link rel="apple-touch-icon" href="/icons/36efd6fc09ed8400d86a61e92bd75897.jpg?v=4">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#F5F5F7">
+  <meta name="theme-color" content="#1D1D1F">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="YeranFood">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>YeranFood｜校园点餐</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
@@ -5015,6 +5015,12 @@ body:not(.dark) header .lang button.active{
   body:not(.dark) header .lang{gap:7px}
   body:not(.dark) header .lang button{min-width:72px;padding:8px 13px!important}
 }
+
+
+/* 顶部页眉延伸至屏幕安全区，消除最上方白边 */
+html{min-height:100%;background:#1D1D1F!important}
+body{margin:0;background:#F5F5F7}
+header{background:#1D1D1F!important;padding-top:calc(32px + env(safe-area-inset-top,0px))!important}
 
 </style>
 </body>
