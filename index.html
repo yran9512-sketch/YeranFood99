@@ -3297,7 +3297,7 @@
 
 
     let qty = 1;
-    let lang = localStorage.getItem('lang') || 'zh';
+    let lang = localStorage.getItem('lang') === 'en' ? 'en' : 'zh';
     let currentPeriod = 'lunch';
     let menuLoadSeq = 0;   // 当前点餐时段
     const menuViewCache = {}; // 页面会话内缓存各餐别菜单，切换时先显示缓存
