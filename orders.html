@@ -868,10 +868,12 @@ body:not(.dark) #bottomNav .navBtn.active{color:var(--yf-accent)!important;backg
 @media(max-width:640px){body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))!important}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
-/* 顶部页眉延伸至屏幕安全区，消除最上方白边 */
+
+/* 顶部安全区延伸为页眉色；主体铺满视口，避免短页面底部露出黑底 */
 html{min-height:100%;background:#1D1D1F!important}
-body{margin:0;background:#F5F5F7}
-header{background:#1D1D1F!important;padding-top:calc(24px + env(safe-area-inset-top,0px))!important}
+body{margin:0;min-height:100vh;min-height:100svh;background:#F5F5F7}
+header{position:relative;background:#1D1D1F!important;padding-top:calc(24px + env(safe-area-inset-top,0px))!important}
+header::before{content:"";position:absolute;left:0;right:0;top:calc(-1 * env(safe-area-inset-top,0px));height:env(safe-area-inset-top,0px);background:#1D1D1F;pointer-events:none}
 
 </style>
 </body>
