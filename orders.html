@@ -212,25 +212,6 @@
       font-size: 13px
     }
 
-    .langToggle {
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: transparent;
-      border: 1.5px solid #444;
-      color: #fff;
-      border-radius: 20px;
-      padding: 6px 14px;
-      cursor: pointer;
-      font-size: 13px;
-      font-family: inherit
-    }
-
-    .langToggle:hover {
-      border-color: #fff
-    }
-
     #bottomNav {
       display: none
     }
@@ -357,7 +338,6 @@
       header { padding:24px 12px; border-radius:0 0 22px 22px; }
       header h1 { font-size:22px; }
       .back { left:8px; }
-      .langToggle { right:8px; }
       .container { margin-top:16px; padding:0 12px; }
       .card { padding:21px 16px; border-radius:18px; }
       .orderCard { padding:15px; border-radius:14px; overflow-wrap:anywhere; }
@@ -493,7 +473,6 @@
     border-color: transparent !important;
   }
   body:not(.dark) .back,
-  body:not(.dark) .langToggle { color: var(--yf-text); }
 
   </style>
 
@@ -571,7 +550,6 @@
     <button class="back" onclick="location.href='/'">←</button>
     <h1 id="pageTitle">我的订单</h1>
     <p id="pageSub">My Orders</p>
-    <button class="langToggle" id="langBtn" onclick="toggleLang()">EN</button>
   </header>
 
   <main class="container">
@@ -682,7 +660,6 @@
         navOrder: '点餐',
         navMyOrder: '订单',
         navFeedback: '反馈',
-        langBtn: 'EN'
       },
       en: {
         pageTitle: 'My Orders',
@@ -710,7 +687,6 @@
         navOrder: 'Order',
         navMyOrder: 'My Orders',
         navFeedback: 'Feedback',
-        langBtn: '中'
       }
     };
 
@@ -725,16 +701,6 @@
       document.getElementById('navOrder').textContent = t.navOrder;
       document.getElementById('navMyOrder').textContent = t.navMyOrder;
       document.getElementById('navFeedback').textContent = t.navFeedback;
-      document.getElementById('langBtn').textContent = t.langBtn;
-    }
-
-    function toggleLang() {
-      lang = lang === 'zh' ? 'en' : 'zh';
-      localStorage.setItem('lang', lang);
-      applyLang();
-      loadDeviceOrders();
-      const lastCode = document.getElementById('codeInput').value.trim();
-      if (lastCode) search();
     }
 
     function fmtTime(t) {
