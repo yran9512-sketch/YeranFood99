@@ -45,7 +45,14 @@
     .navBtn.active{color:#E8552F;font-weight:750}
     .navBtn.active .navIcon{background:#FFF0E9;color:#E8552F}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
-  </style>
+  
+    /* Match the selected bottom-navigation state used on Order and My Orders. */
+    #bottomNav .navBtn{appearance:none;-webkit-appearance:none;outline:none}
+    #bottomNav .navBtn.active{color:#E8552F!important;background:#FFF2ED!important;font-weight:750!important}
+    #bottomNav .navBtn.active .navIcon{background:#FFF0E9!important;color:#E8552F!important;transform:translateY(-1px)}
+    #bottomNav .navBtn.active .navIcon svg{stroke:#E8552F!important}
+    #bottomNav .navBtn:focus-visible{outline:2px solid #E8552F;outline-offset:2px}
+</style>
 </head>
 <body>
 <header>
