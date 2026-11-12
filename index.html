@@ -3004,6 +3004,10 @@
       style="margin-top:14px;background:#fff;color:#111;border:0;border-radius:999px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.12)">
       <svg class="yf-inline-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span>开启点餐提醒</span>
     </button>
+    <button id="installAppBtn" type="button" onclick="installYeranFood()"
+      style="display:none;margin:10px auto 0;background:#1D1D1F;color:#fff;border:1px solid #1D1D1F;border-radius:999px;padding:10px 17px;font-size:13px;font-weight:700;cursor:pointer;align-items:center;justify-content:center;gap:8px">
+      <svg class="yf-inline-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 17v3h16v-3"/></svg><span id="installAppLabel">添加到主屏幕</span>
+    </button>
   </header>
 
   <main class="container">
@@ -3357,6 +3361,8 @@
         periodBreakfast: '早餐',
         periodDrink: '饮料',
         notifyEnable: '开启点餐提醒',
+        installApp: '添加到主屏幕',
+        installIOS: '请点击 Safari 底部的分享按钮，再选择“添加到主屏幕”。',
         notifyEnabled: '点餐提醒已开启',
         notifyDenied: '通知已关闭',
         notifyUnsupported: '此浏览器不支持通知',
@@ -3417,6 +3423,8 @@
         periodBreakfast: 'Breakfast',
         periodDrink: 'Drinks',
         notifyEnable: 'Enable ordering reminders',
+        installApp: 'Add to Home Screen',
+        installIOS: 'In Safari, tap the Share button, then choose “Add to Home Screen”.',
         notifyEnabled: 'Ordering reminders are on',
         notifyDenied: 'Notifications are blocked',
         notifyUnsupported: 'Notifications are not supported',
@@ -3756,6 +3764,8 @@
       document.getElementById('viewFeedbackBtn').querySelector('span').textContent = t.viewFeedback;
       document.getElementById('feedbackListTitle').textContent = t.feedbackListTitle;
       document.getElementById('feedbackListClose').textContent = t.feedbackListClose;
+      const installLabel = document.getElementById('installAppLabel');
+      if (installLabel) installLabel.textContent = t.installApp;
       const notifyBtn = document.getElementById('notifyBtn');
       if (notifyBtn) refreshPushButton();
       renderOptions();
@@ -5032,6 +5042,55 @@ body::before{content:""!important;display:block!important;position:fixed!importa
 @media(prefers-reduced-motion:reduce){body::before{transition:none!important}}
 
 </style>
+
+<script>
+  // PWA installation: native prompt on supported Android browsers; guided steps on iOS.
+  let deferredInstallPrompt = null;
+  const installAppButton = document.getElementById('installAppBtn');
+  const isStandaloneApp = () =>
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+
+  function refreshInstallButton() {
+    if (!installAppButton) return;
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    installAppButton.style.display = isStandaloneApp() ? 'none' : 'inline-flex';
+    installAppButton.dataset.ios = isIOS ? '1' : '0';
+  }
+
+  window.addEventListener('beforeinstallprompt', event => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    refreshInstallButton();
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    refreshInstallButton();
+  });
+
+  async function installYeranFood() {
+    if (isStandaloneApp()) {
+      refreshInstallButton();
+      return;
+    }
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      refreshInstallButton();
+      return;
+    }
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    alert(isIOS ? text[lang].installIOS :
+      (lang === 'zh'
+        ? '请使用浏览器菜单中的“安装应用”或“添加到主屏幕”。'
+        : 'Open your browser menu and choose “Install app” or “Add to Home Screen”.'));
+  }
+
+  refreshInstallButton();
+  window.addEventListener('pageshow', refreshInstallButton);
+</script>
 </body>
 
 </html>
