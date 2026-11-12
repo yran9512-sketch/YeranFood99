@@ -2580,7 +2580,20 @@
       }
     }
 
-  </style>
+  
+/* 顾客端底部导航：轻量图标 Dock */
+@media(max-width:700px){
+  body #bottomNav{display:flex!important;align-items:center!important;justify-content:space-around!important;gap:8px!important;min-height:72px!important;padding:8px 18px calc(8px + env(safe-area-inset-bottom,0px))!important;background:rgba(255,255,255,.98)!important;background-image:none!important;border:0!important;border-top:1px solid #E9E9ED!important;border-radius:20px 20px 0 0!important;box-shadow:0 -5px 24px rgba(29,29,31,.07)!important;backdrop-filter:blur(18px)!important;-webkit-backdrop-filter:blur(18px)!important}
+  body #bottomNav .navBtn{flex:1 1 0!important;min-width:0!important;min-height:54px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:5px!important;margin:0!important;padding:4px 6px!important;border:0!important;border-radius:14px!important;background:transparent!important;background-image:none!important;color:#8A8A91!important;box-shadow:none!important;font:600 11px/1.15 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;-webkit-tap-highlight-color:transparent;transition:color .18s ease,background-color .18s ease,transform .18s ease!important}
+  body #bottomNav .navBtn .navIcon{width:32px!important;height:30px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:10px!important;color:inherit!important;background:transparent!important;transition:background-color .18s ease,transform .18s ease!important}
+  body #bottomNav .navBtn .navIcon svg{display:block!important;width:22px!important;height:22px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.7!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+  body #bottomNav .navBtn .navLabel{display:block!important;color:inherit!important;font-size:11px!important;line-height:1.2!important;letter-spacing:.1px!important;white-space:nowrap!important}
+  body #bottomNav .navBtn.active{color:#E8552F!important;background:transparent!important;font-weight:750!important}
+  body #bottomNav .navBtn.active .navIcon{background:#FFF0E9!important;color:#E8552F!important;transform:translateY(-1px)}
+  body #bottomNav .navBtn:active{transform:scale(.96)!important}
+}
+@media(prefers-reduced-motion:reduce){body #bottomNav .navBtn,body #bottomNav .navBtn .navIcon{transition:none!important}}
+</style>
 
 <style id="yf-customer-design-system">
   :root {
@@ -3212,18 +3225,18 @@
 
     </div>
   </div>
-  <nav id="bottomNav">
-    <button class="navBtn" onclick="scrollToTop()">
-      <div style="font-size:20px">🍱</div>
-      <div style="font-size:11px;margin-top:2px" id="navOrder">点餐</div>
+  <nav id="bottomNav" aria-label="点餐导航">
+    <button class="navBtn active" type="button" aria-current="page" onclick="scrollToTop()">
+      <span class="navIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1z"/></svg></span>
+      <span class="navLabel" id="navOrder">点餐</span>
     </button>
-    <button class="navBtn" onclick="location.href='/orders.html'">
-      <div style="font-size:20px">📋</div>
-      <div style="font-size:11px;margin-top:2px" id="navMyOrders">订单</div>
+    <button class="navBtn" type="button" onclick="location.href='/orders.html'">
+      <span class="navIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3.5h8l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1zM15 3.5V8h4M9 12h6M9 16h6"/></svg></span>
+      <span class="navLabel" id="navMyOrders">订单</span>
     </button>
-    <button class="navBtn" onclick="openFeedback()">
-      <div style="font-size:20px">💬</div>
-      <div style="font-size:11px;margin-top:2px" id="navFeedback">反馈</div>
+    <button class="navBtn" type="button" onclick="openFeedback()">
+      <span class="navIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-3 2v-5.2A7.5 7.5 0 1 1 20 11.5Z M8.5 11.5h7M8.5 14.5h4"/></svg></span>
+      <span class="navLabel" id="navFeedback">反馈</span>
     </button>
   </nav>
   <script>
