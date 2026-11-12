@@ -5017,10 +5017,12 @@ body:not(.dark) header .lang button.active{
 }
 
 
-/* 顶部页眉延伸至屏幕安全区，消除最上方白边 */
+
+/* 顶部安全区延伸为页眉色；页面主体铺满视口，避免底部露出 html 黑底 */
 html{min-height:100%;background:#1D1D1F!important}
-body{margin:0;background:#F5F5F7}
-header{background:#1D1D1F!important;padding-top:calc(32px + env(safe-area-inset-top,0px))!important}
+body{margin:0;min-height:100vh;min-height:100svh;background:#F5F5F7}
+header{position:relative;background:#1D1D1F!important;padding-top:calc(32px + env(safe-area-inset-top,0px))!important}
+header::before{content:"";position:absolute;left:0;right:0;top:calc(-1 * env(safe-area-inset-top,0px));height:env(safe-area-inset-top,0px);background:#1D1D1F;pointer-events:none}
 
 </style>
 </body>
