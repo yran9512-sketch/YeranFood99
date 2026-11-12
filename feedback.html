@@ -15,9 +15,6 @@
     header{padding:calc(24px + env(safe-area-inset-top,0px)) 18px 22px;background:#1D1D1F;color:#fff;text-align:center}
     header h1{margin:0;font-size:27px;letter-spacing:-.5px}
     header p{margin:7px 0 0;color:#C7C7CC;font-size:13px}
-    .lang{display:flex;justify-content:center;gap:8px;margin-top:15px}
-    .lang button{min-width:68px;padding:8px 14px;border:1px solid #555;border-radius:999px;background:#303034;color:#fff;font-size:13px}
-    .lang button.active{background:#fff;color:#1D1D1F;border-color:#fff}
     main{width:min(100% - 32px,680px);margin:22px auto 30px}
     .intro{margin:0 2px 16px;color:#6E6E73;font-size:14px;line-height:1.55}
     .card{background:#fff;border:1px solid #E5E5EA;border-radius:17px;padding:20px;margin-bottom:15px;box-shadow:0 2px 10px rgba(0,0,0,.035)}
@@ -56,9 +53,7 @@
 </head>
 <body>
 <header>
-  <h1>YeranFood</h1>
-  <p id="pageSubtitle">反馈与建议</p>
-  <div class="lang"><button id="zhBtn" type="button">中文</button><button id="enBtn" type="button">English</button></div>
+  <h1 id="pageTitle">反馈</h1>
 </header>
 <main>
   <p class="intro" id="introText">你的意见能帮助我们持续改善菜单与服务。感谢你的支持。</p>
@@ -87,20 +82,17 @@
 <script>
 const supabaseClient=supabase.createClient('https://kbzspuxrwsuxoyozmvjb.supabase.co','sb_publishable_oC0S_vWgBt_X8N4Xu4cG4g_ekhGwKXB');
 const translations={
- zh:{subtitle:'反馈与建议',intro:'你的意见能帮助我们持续改善菜单与服务。感谢你的支持。',form:'留下评价',name:'姓名',namePh:'请输入姓名',content:'反馈内容',contentPh:'写下你的建议或意见...',submit:'提交反馈',sending:'提交中…',sent:'✓ 已提交，谢谢你的反馈！审核通过后会公开显示。',required:'请填写姓名和反馈内容。',failed:'提交失败，请稍后重试。',list:'大家的反馈',loading:'加载中…',empty:'目前还没有公开的反馈。',loadFail:'反馈加载失败，请稍后重试。',order:'点餐',orders:'我的订单',feedback:'反馈'},
- en:{subtitle:'Feedback & Suggestions',intro:'Your feedback helps us improve our menu and service. Thank you for your support.',form:'Leave a Review',name:'Name',namePh:'Enter your name',content:'Your Feedback',contentPh:'Share your suggestions or comments...',submit:'Submit Feedback',sending:'Submitting…',sent:'✓ Submitted. Thank you! It will appear here after approval.',required:'Please enter your name and feedback.',failed:'Submission failed. Please try again later.',list:'Community Feedback',loading:'Loading…',empty:'There is no public feedback yet.',loadFail:'Could not load feedback. Please try again later.',order:'Order',orders:'My Orders',feedback:'Feedback'}
+ zh:{pageTitle:'反馈',intro:'你的意见能帮助我们持续改善菜单与服务。感谢你的支持。',form:'留下评价',name:'姓名',namePh:'请输入姓名',content:'反馈内容',contentPh:'写下你的建议或意见...',submit:'提交反馈',sending:'提交中…',sent:'✓ 已提交，谢谢你的反馈！审核通过后会公开显示。',required:'请填写姓名和反馈内容。',failed:'提交失败，请稍后重试。',list:'大家的反馈',loading:'加载中…',empty:'目前还没有公开的反馈。',loadFail:'反馈加载失败，请稍后重试。',order:'点餐',orders:'我的订单',feedback:'反馈'},
+ en:{pageTitle:'Feedback',intro:'Your feedback helps us improve our menu and service. Thank you for your support.',form:'Leave a Review',name:'Name',namePh:'Enter your name',content:'Your Feedback',contentPh:'Share your suggestions or comments...',submit:'Submit Feedback',sending:'Submitting…',sent:'✓ Submitted. Thank you! It will appear here after approval.',required:'Please enter your name and feedback.',failed:'Submission failed. Please try again later.',list:'Community Feedback',loading:'Loading…',empty:'There is no public feedback yet.',loadFail:'Could not load feedback. Please try again later.',order:'Order',orders:'My Orders',feedback:'Feedback'}
 };
 let lang=localStorage.getItem('lang')==='en'?'en':'zh';
 function escapeHtml(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 function applyLang(){
  const t=translations[lang];document.documentElement.lang=lang==='zh'?'zh-CN':'en';
- const ids={pageSubtitle:'subtitle',introText:'intro',formTitle:'form',nameLabel:'name',contentLabel:'content',submitBtn:'submit',listTitle:'list',loadingText:'loading',navOrder:'order',navOrders:'orders',navFeedback:'feedback'};
+ const ids={pageTitle:'pageTitle',introText:'intro',formTitle:'form',nameLabel:'name',contentLabel:'content',submitBtn:'submit',listTitle:'list',loadingText:'loading',navOrder:'order',navOrders:'orders',navFeedback:'feedback'};
  Object.entries(ids).forEach(([id,key])=>document.getElementById(id).textContent=t[key]);
  document.getElementById('fbName').placeholder=t.namePh;document.getElementById('fbContent').placeholder=t.contentPh;
- document.getElementById('zhBtn').classList.toggle('active',lang==='zh');document.getElementById('enBtn').classList.toggle('active',lang==='en');
 }
-document.getElementById('zhBtn').addEventListener('click',()=>{lang='zh';localStorage.setItem('lang',lang);applyLang();loadFeedback()});
-document.getElementById('enBtn').addEventListener('click',()=>{lang='en';localStorage.setItem('lang',lang);applyLang();loadFeedback()});
 document.getElementById('feedbackForm').addEventListener('submit',async e=>{
  e.preventDefault();const t=translations[lang],name=document.getElementById('fbName').value.trim(),content=document.getElementById('fbContent').value.trim(),msg=document.getElementById('formMsg'),btn=document.getElementById('submitBtn');
  if(!name||!content){msg.style.color='#C0392B';msg.textContent=t.required;return}
