@@ -44,19 +44,6 @@
       font-size: 13px
     }
 
-    .back {
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: transparent;
-      border: 0;
-      color: #fff;
-      font-size: 20px;
-      cursor: pointer;
-      padding: 8px
-    }
-
     .container {
       max-width: 620px;
       margin: 24px auto;
@@ -337,7 +324,6 @@
     @media(max-width:640px) {
       header { padding:24px 12px; border-radius:0 0 22px 22px; }
       header h1 { font-size:22px; }
-      .back { left:8px; }
       .container { margin-top:16px; padding:0 12px; }
       .card { padding:21px 16px; border-radius:18px; }
       .orderCard { padding:15px; border-radius:14px; overflow-wrap:anywhere; }
@@ -472,7 +458,6 @@
     background: var(--yf-primary-soft) !important;
     border-color: transparent !important;
   }
-  body:not(.dark) .back,
 
   </style>
 
@@ -547,7 +532,6 @@
 <body>
 
   <header>
-    <button class="back" onclick="location.href='/'">←</button>
     <h1 id="pageTitle">我的订单</h1>
     <p id="pageSub">My Orders</p>
   </header>
