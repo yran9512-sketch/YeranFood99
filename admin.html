@@ -243,7 +243,7 @@
     body { background:radial-gradient(ellipse at 10% 0%,rgba(255,214,192,.35),transparent 28%),#fff8f4; color:var(--yf-ink); -webkit-font-smoothing:antialiased; }
     header { background:linear-gradient(115deg,#b92525,#ed4632 58%,#ff743b); padding:22px 20px; box-shadow:0 8px 24px rgba(185,37,37,.15); }
     header h1 { letter-spacing:-.4px; }
-    header h1:before { content:"✦"; color:#ffe1a7; margin-right:9px; }
+    header h1:before { content:none !important; }
     .container { max-width:1120px; }
     .card { border:1px solid var(--yf-line); border-radius:18px; box-shadow:0 8px 24px rgba(96,43,27,.055); }
     .card h2 { color:#38221d; letter-spacing:-.3px; }
@@ -1337,8 +1337,8 @@
       <div class="kitchen-top-actions" style="float:right;display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;justify-content:flex-end"><button onclick="enableKitchenPush()" id="kitchenPushBtn" style="margin:0">开启新订单提醒</button><button onclick="adminLogout()" style="margin:0">退出登录</button></div>
 
       <nav class="kitchen-bottom-nav" aria-label="厨师端页面导航">
-        <button type="button" data-kitchen-page="orders" class="active" onclick="setKitchenPage('orders')"><span aria-hidden="true">▤</span><span>订单</span></button>
-        <button type="button" data-kitchen-page="feedback" onclick="setKitchenPage('feedback')"><span aria-hidden="true">♡</span><span>反馈</span></button>
+        <button type="button" data-kitchen-page="orders" class="active" onclick="setKitchenPage('orders')"><span class="yf-admin-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h10l3 3v15H4V3h3Z M8 8h8M8 12h8M8 16h5"/></svg></span><span>订单</span></button>
+        <button type="button" data-kitchen-page="feedback" onclick="setKitchenPage('feedback')"><span class="yf-admin-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-4.8a8.5 8.5 0 1 1 16.1-4.7Z"/><path d="M8 11h8M8 14h5"/></svg></span><span>反馈</span></button>
       </nav>
       <div class="period-switch" style="margin-bottom:16px">
         <button id="btnLunch" class="primary" onclick="switchPeriod('lunch')">午餐</button>
@@ -2290,6 +2290,11 @@ body>header{background:#1D1D1F!important;color:#fff!important;background-image:n
 }
 </style>
 
+
+<style id="yf-admin-svg-icons">
+.kitchen-bottom-nav .yf-admin-nav-icon{display:grid!important;place-items:center!important;width:24px!important;height:24px!important;font-size:0!important;line-height:0!important}
+.kitchen-bottom-nav .yf-admin-nav-icon svg{display:block!important;width:22px!important;height:22px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.7!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+</style>
 </body>
 
 </html>
