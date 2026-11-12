@@ -538,14 +538,7 @@
 
   <main class="container">
 
-    <div class="card">
-      <h2 id="searchTitle">查订单</h2>
-      <input id="codeInput" onkeydown="if(event.key==='Enter')search()">
-      <button class="primary" id="searchBtn" onclick="search()">查询</button>
-    </div>
-
-    <section class="card" id="deviceOrdersCard"><h2 id="deviceOrdersTitle">本设备的订单</h2><div id="deviceOrdersList"><div class="noorders">正在加载…</div></div></section>
-    <div id="resultBox"></div>
+    <section class="card" id="deviceOrdersCard"<h2 id="deviceOrdersTitle">本设备的订单</h2><div id="deviceOrdersList"><div class="noorders">正在加载…</div></div></section>
 
   </main>
 
@@ -621,15 +614,8 @@
       zh: {
         pageTitle: '我的订单',
         pageSub: 'My Orders',
-        searchTitle: '查订单',
         deviceOrdersTitle: '本设备的订单',
         deviceOrdersEmpty: '这台设备暂时没有订单。',
-        inputPh: '输入订单号（如 YF-123456）',
-        searchBtn: '查询',
-        searchEmpty: '请输入订单号',
-        searching: '查询中…',
-        notFound: '没找到这个订单号',
-        queryFail: '查询失败：',
         labelTime: '时间',
         labelName: '姓名',
         labelOption: '选项',
@@ -648,15 +634,8 @@
       en: {
         pageTitle: 'My Orders',
         pageSub: '',
-        searchTitle: 'Search Order',
         deviceOrdersTitle: 'Orders on this device',
         deviceOrdersEmpty: 'No orders found on this device yet.',
-        inputPh: 'Order code (e.g. YF-123456)',
-        searchBtn: 'Search',
-        searchEmpty: 'Please enter order code',
-        searching: 'Searching…',
-        notFound: 'Order not found',
-        queryFail: 'Error: ',
         labelTime: 'Time',
         labelName: 'Name',
         labelOption: 'Option',
@@ -678,10 +657,7 @@
       const t = text[lang];
       document.getElementById('pageTitle').textContent = t.pageTitle;
       document.getElementById('pageSub').textContent = t.pageSub;
-      document.getElementById('searchTitle').textContent = t.searchTitle;
       document.getElementById('deviceOrdersTitle').textContent = t.deviceOrdersTitle;
-      document.getElementById('codeInput').placeholder = t.inputPh;
-      document.getElementById('searchBtn').textContent = t.searchBtn;
       document.getElementById('navOrder').textContent = t.navOrder;
       document.getElementById('navMyOrder').textContent = t.navMyOrder;
       document.getElementById('navFeedback').textContent = t.navFeedback;
@@ -726,73 +702,6 @@
       } catch (err) {
         console.error('设备订单读取失败:', err);
         list.innerHTML = '<div class="noorders">' + (lang === 'zh' ? '订单加载失败，请刷新重试。' : 'Could not load orders. Please refresh.') + '</div>';
-      }
-    }
-
-    let searchRequestSeq = 0;
-
-    async function search() {
-      const t = text[lang];
-      const code = document.getElementById('codeInput').value.trim().toUpperCase();
-      const box = document.getElementById('resultBox');
-      const btn = document.getElementById('searchBtn');
-      const requestSeq = ++searchRequestSeq;
-
-      if (code) sessionStorage.setItem('lastOrderCode', code);
-      if (!code) {
-        box.innerHTML = '<div class="card noorders">' + t.searchEmpty + '</div>';
-        return;
-      }
-
-      btn.disabled = true;
-      btn.textContent = t.searching;
-      box.innerHTML = '<div class="card noorders">' + t.searching + '</div>';
-
-      try {
-        const res = await supabaseClient.rpc('get_order_by_code', { p_order_code: code });
-        // 忽略较早发出的查询，防止旧结果覆盖最新输入。
-        if (requestSeq !== searchRequestSeq) return;
-
-        if (res.error) {
-          console.error(res.error);
-          box.innerHTML = '<div class="card noorders">' + t.queryFail + (lang === 'zh' ? '请检查网络后重试。' : ' Please check your connection and try again.') + '</div>';
-          return;
-        }
-        if (!res.data || !res.data.length) {
-          box.innerHTML = '<div class="card noorders">' + t.notFound + '</div>';
-          return;
-        }
-
-        const o = res.data[0];
-        const statusTag = o.paid
-          ? '<span class="tag paid">' + t.tagPaid + '</span>'
-          : '<span class="tag unpaid">' + t.tagUnpaid + '</span>';
-        const payTag = o.payment_method === 'cash'
-          ? '<span class="tag cash">' + t.tagCash + '</span>'
-          : '<span class="tag online">' + t.tagOnline + '</span>';
-
-        const html = '<div class="card">' +
-          '<div class="orderCard">' +
-          '<div class="oid">' + escapeHtml(o.order_code || '') + ' ' + statusTag + '</div>' +
-          '<div class="row"><span class="label">' + t.labelTime + '</span><span class="value">' + fmtTime(o.created_at) + '</span></div>' +
-          '<div class="row"><span class="label">' + t.labelName + '</span><span class="value">' + escapeHtml(o.name || '') + '</span></div>' +
-          '<div class="row"><span class="label">' + t.labelOption + '</span><span class="value">' + escapeHtml(o.meal_type || '') + '</span></div>' +
-          '<div class="row"><span class="label">' + t.labelQty + '</span><span class="value">' + Number(o.quantity || 0) + '</span></div>' +
-          '<div class="row"><span class="label">' + t.labelTotal + '</span><span class="value">RM ' + Number(o.total || 0).toFixed(2) + '</span></div>' +
-          '<div class="row"><span class="label">' + t.labelPayment + '</span><span class="value">' + payTag + '</span></div>' +
-          (o.note ? '<div class="row"><span class="label">' + t.labelNote + '</span><span class="value">' + escapeHtml(o.note) + '</span></div>' : '') +
-          '</div>' +
-          '</div>';
-        box.innerHTML = html;
-      } catch (err) {
-        if (requestSeq !== searchRequestSeq) return;
-        console.error(err);
-        box.innerHTML = '<div class="card noorders">' + t.queryFail + (lang === 'zh' ? '请检查网络后重试。' : ' Please check your connection and try again.') + '</div>';
-      } finally {
-        if (requestSeq === searchRequestSeq) {
-          btn.disabled = false;
-          btn.textContent = t.searchBtn;
-        }
       }
     }
 
