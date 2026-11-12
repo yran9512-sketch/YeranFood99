@@ -50,6 +50,10 @@
     #bottomNav .navBtn.active .navIcon svg{stroke:#E8552F!important}
     #bottomNav .navBtn:focus-visible{outline:2px solid #E8552F;outline-offset:2px}
 </style>
+
+  <!-- 预加载底部导航目标页面，减少切换等待 -->
+  <link rel="prefetch" href="/" as="document">
+  <link rel="prefetch" href="/orders.html" as="document">
 </head>
 <body>
 <header>
