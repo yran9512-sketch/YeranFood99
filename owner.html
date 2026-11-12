@@ -2349,10 +2349,30 @@
         const el = document.getElementById(id);
         if (el) el.style.display = pages[validPage].includes(id) ? '' : 'none';
       });
-      document.querySelectorAll('.owner-quick-nav [data-owner-page]').forEach(function(button) {
+      const ownerNav = document.querySelector('nav.owner-quick-nav');
+      if (ownerNav) {
+        ownerNav.style.setProperty('background-color', '#FFFFFF', 'important');
+        ownerNav.style.setProperty('background-image', 'none', 'important');
+        ownerNav.style.setProperty('opacity', '1', 'important');
+      }
+      document.querySelectorAll('nav.owner-quick-nav [data-owner-page]').forEach(function(button) {
         const active = button.dataset.ownerPage === validPage;
         button.classList.toggle('active', active);
         button.setAttribute('aria-current', active ? 'page' : 'false');
+
+        // 使用内联 important 固定按钮状态，避免历史 CSS 在页面切换时覆盖选中态。
+        button.style.setProperty('background-color', active ? '#1D1D1F' : 'transparent', 'important');
+        button.style.setProperty('background-image', 'none', 'important');
+        button.style.setProperty('color', active ? '#FFFFFF' : '#6E6E73', 'important');
+        button.style.setProperty('-webkit-text-fill-color', active ? '#FFFFFF' : '#6E6E73', 'important');
+        button.style.setProperty('opacity', '1', 'important');
+        button.style.setProperty('filter', 'none', 'important');
+        button.querySelectorAll('span').forEach(function(label) {
+          label.style.setProperty('color', active ? '#FFFFFF' : '#6E6E73', 'important');
+          label.style.setProperty('-webkit-text-fill-color', active ? '#FFFFFF' : '#6E6E73', 'important');
+          label.style.setProperty('filter', 'none', 'important');
+          label.style.setProperty('opacity', '1', 'important');
+        });
       });
       window.scrollTo({top: 0, behavior: 'auto'});
     }
