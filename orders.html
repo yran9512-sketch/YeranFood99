@@ -608,7 +608,7 @@
     // Never put a Supabase service_role key or a real admin password in this file.
     
 
-    let lang = localStorage.getItem('lang') || 'zh';
+    let lang = localStorage.getItem('lang') === 'en' ? 'en' : 'zh';
 
     const text = {
       zh: {
