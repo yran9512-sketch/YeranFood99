@@ -4808,6 +4808,11 @@
     document.body.classList.remove('dark');
     localStorage.removeItem('darkMode');
     setLang(lang);
+    // 从我的订单页进入反馈时，自动打开首页反馈弹窗。
+    if (new URLSearchParams(window.location.search).get('openFeedback') === '1') {
+      window.history.replaceState({}, document.title, window.location.pathname);
+      window.setTimeout(openFeedback, 120);
+    }
     initPushNotifications();
     function scrollToTop() {
       window.scrollTo({top: 0, behavior: 'smooth'});
