@@ -3244,6 +3244,25 @@
     const SUPABASE_KEY = 'sb_publishable_oC0S_vWgBt_X8N4Xu4cG4g_ekhGwKXB';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    // Device-scoped order history. The raw token stays on this browser; only its SHA-256 hash is sent.
+    const DEVICE_ORDER_TOKEN_KEY = 'yf_device_order_token_v1';
+    function getDeviceOrderToken() {
+      let token = localStorage.getItem(DEVICE_ORDER_TOKEN_KEY);
+      if (!token) {
+        const bytes = new Uint8Array(32);
+        crypto.getRandomValues(bytes);
+        token = Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+        localStorage.setItem(DEVICE_ORDER_TOKEN_KEY, token);
+      }
+      return token;
+    }
+    async function getDeviceOrderHash() {
+      const token = getDeviceOrderToken();
+      const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(token));
+      return Array.from(new Uint8Array(digest), b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+
     // Frontend hardening: never inject database/user text into HTML without escaping it.
     function escapeHtml(value) {
       return String(value ?? '')
@@ -4556,7 +4575,7 @@
 
     }
 
-    function goToPayment() {
+    async function goToPayment() {
       if (window._orderSubmitting) return;
       if (menu && menu.stockUnavailable) {
         alert(lang === 'zh' ? '库存暂时无法读取，请刷新页面后重试。' : 'Stock is unavailable. Please refresh and try again.');
@@ -4588,6 +4607,7 @@
       const requestController = new AbortController();
       const requestTimeout = setTimeout(() => requestController.abort(), 25000);
 
+      const deviceKeyHash = await getDeviceOrderHash();
       supabaseClient.rpc('create_online_order_pending', {
         p_request_id: requestId,
         p_name: name,
@@ -4596,7 +4616,8 @@
         p_meal_date: getMealDate(),
         p_meal_period: currentPeriod,
         p_product_id: menu.id,
-        p_option_id: selectedOptionId
+        p_option_id: selectedOptionId,
+        p_device_key_hash: deviceKeyHash
       }).abortSignal(requestController.signal).then(function (res) {
         clearTimeout(requestTimeout);
         window._orderSubmitting = false;
@@ -4648,7 +4669,7 @@
           : 'Request timed out or network error. We could not confirm whether your order was created. Please check your order first before retrying.');
       });
     }
-    function submitCashOrder() {
+    async function submitCashOrder() {
       if (window._orderSubmitting) return;
       if (menu && menu.stockUnavailable) {
         alert(lang === 'zh' ? '库存暂时无法读取，请刷新页面后重试。' : 'Stock is unavailable. Please refresh and try again.');
@@ -4676,6 +4697,7 @@
       const requestController = new AbortController();
       const requestTimeout = setTimeout(() => requestController.abort(), 25000);
 
+      const deviceKeyHash = await getDeviceOrderHash();
       supabaseClient.rpc('create_order_v2', {
         p_request_id: requestId,
         p_name: name,
@@ -4685,7 +4707,8 @@
         p_meal_period: currentPeriod,
         p_payment_method: 'cash',
         p_product_id: menu.id,
-        p_option_id: selectedOptionId
+        p_option_id: selectedOptionId,
+        p_device_key_hash: deviceKeyHash
       }).abortSignal(requestController.signal).then(function (res) {
         clearTimeout(requestTimeout);
         window._orderSubmitting = false;
