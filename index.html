@@ -9,6 +9,7 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#1D1D1F">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="YeranFood">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>YeranFood｜校园点餐</title>
@@ -5018,11 +5019,17 @@ body:not(.dark) header .lang button.active{
 
 
 
-/* 顶部安全区延伸为页眉色；页面主体铺满视口，避免底部露出 html 黑底 */
-html{min-height:100%;background:#1D1D1F!important}
-body{margin:0;min-height:100vh;min-height:100svh;background:#F5F5F7}
-header{position:relative;background:#1D1D1F!important;padding-top:calc(32px + env(safe-area-inset-top,0px))!important}
-header::before{content:"";position:absolute;left:0;right:0;top:calc(-1 * env(safe-area-inset-top,0px));height:env(safe-area-inset-top,0px);background:#1D1D1F;pointer-events:none}
+/* 顶部安全区与页面背景：统一黑色页眉、浅灰主体 */
+html,body{margin:0!important;min-height:100%!important;background:#F5F5F7!important}
+body{min-height:100vh!important;min-height:100svh!important;box-sizing:border-box!important;background-color:#F5F5F7!important;color:#1D1D1F}
+header{position:relative!important;z-index:1!important;box-sizing:border-box!important;margin-top:0!important;padding:28px 18px 24px!important;padding-top:calc(28px + env(safe-area-inset-top,0px))!important;background:#1D1D1F!important;background-image:none!important;color:#fff!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+header::before,header::after{content:none!important;display:none!important}
+header h1,header h2,header p{color:#fff!important}
+header .lang button,header .lang a{color:#fff!important;border-color:rgba(255,255,255,.38)!important;background:rgba(255,255,255,.10)!important}
+header .lang button.active,header .lang a.active{color:#1D1D1F!important;background:#fff!important;border-color:#fff!important}
+/* 仅覆盖设备安全区，不改变页面主体底部背景 */
+body::before{content:""!important;display:block!important;position:fixed!important;z-index:9999!important;top:0!important;left:0!important;right:0!important;height:env(safe-area-inset-top,0px)!important;min-height:0!important;background:#1D1D1F!important;pointer-events:none!important}
+@media(prefers-reduced-motion:reduce){body::before{transition:none!important}}
 
 </style>
 </body>
