@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#F5F5F7">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1D1D1F">
   <title>YeranFood · 我的订单</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
@@ -867,6 +867,12 @@ body:not(.dark) #bottomNav{background:rgba(255,255,255,.97)!important;border-top
 body:not(.dark) #bottomNav .navBtn.active{color:var(--yf-accent)!important;background:#FFF2ED!important}
 @media(max-width:640px){body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))!important}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* 顶部页眉延伸至屏幕安全区，消除最上方白边 */
+html{min-height:100%;background:#1D1D1F!important}
+body{margin:0;background:#F5F5F7}
+header{background:#1D1D1F!important;padding-top:calc(24px + env(safe-area-inset-top,0px))!important}
+
 </style>
 </body>
 
