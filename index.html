@@ -3235,7 +3235,7 @@
       <span class="navIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3.5h8l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1zM15 3.5V8h4M9 12h6M9 16h6"/></svg></span>
       <span class="navLabel" id="navMyOrders">订单</span>
     </button>
-    <button class="navBtn" type="button" onclick="openFeedback()">
+    <button class="navBtn" type="button" onclick="openFeedbackHub()">
       <span class="navIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-3 2v-5.2A7.5 7.5 0 1 1 20 11.5Z M8.5 11.5h7M8.5 14.5h4"/></svg></span>
       <span class="navLabel" id="navFeedback">反馈</span>
     </button>
@@ -3916,7 +3916,16 @@
 
       return false;
     }
+    function openFeedbackHub() {
+      document.getElementById('feedbackHubModal').style.display = 'flex';
+    }
+
+    function closeFeedbackHub() {
+      document.getElementById('feedbackHubModal').style.display = 'none';
+    }
+
     function openFeedback() {
+      closeFeedbackHub();
       document.getElementById('feedbackModal').style.display = 'flex';
       document.getElementById('fbMsg').textContent = '';
     }
@@ -3961,6 +3970,7 @@
       });
     }
     function openFeedbackList() {
+      closeFeedbackHub();
       const modal = document.getElementById('feedbackListModal');
       const list = document.getElementById('feedbackList');
 
@@ -4812,7 +4822,7 @@
     // 从我的订单页进入反馈时，自动打开首页反馈弹窗。
     if (new URLSearchParams(window.location.search).get('openFeedback') === '1') {
       window.history.replaceState({}, document.title, window.location.pathname);
-      window.setTimeout(openFeedback, 120);
+      window.setTimeout(openFeedbackHub, 120);
     }
     initPushNotifications();
     function scrollToTop() {
