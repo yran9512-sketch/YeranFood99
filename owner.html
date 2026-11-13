@@ -2095,7 +2095,7 @@
 
     <section id="main" class="hidden">
 
-      <nav class="owner-quick-nav" aria-label="管理员页面导航">
+      <nav class="owner-quick-nav liquid-glass-nav" aria-label="管理员页面导航">
         <button type="button" data-owner-page="orders" class="active" onclick="setOwnerPage('orders')"><span class="yf-owner-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h10l3 3v15H4V3h3Z M8 8h8M8 12h8M8 16h5"/></svg></span><span>订单</span></button>
         <button type="button" data-owner-page="menu" onclick="setOwnerPage('menu')"><span class="yf-owner-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span><span>菜单</span></button>
         <button type="button" data-owner-page="options" onclick="setOwnerPage('options')"><span class="yf-owner-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="9" cy="6" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="18" r="2"/></svg></span><span>选项</span></button>
@@ -4646,6 +4646,67 @@ html body nav.owner-quick-nav button:after{display:none!important;content:none!i
 }
 @media(prefers-reduced-transparency:reduce){
   html body nav.owner-quick-nav{background:#F9F9FB!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+}
+</style>
+
+
+<style id="yf-owner-liquid-glass-user-style">
+/* 按用户提供的 Liquid Glass 参数应用到管理员端导航 */
+html body nav.owner-quick-nav.liquid-glass-nav{
+  position:fixed!important;left:12px!important;right:12px!important;
+  bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;
+  width:auto!important;height:auto!important;min-height:68px!important;
+  margin:0!important;padding:8px 10px!important;box-sizing:border-box!important;
+  display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  align-items:stretch!important;gap:4px!important;overflow:hidden!important;
+  background:rgba(255,255,255,.08)!important;
+  background-color:rgba(255,255,255,.08)!important;background-image:none!important;
+  -webkit-backdrop-filter:blur(18px) saturate(1.6)!important;
+  backdrop-filter:blur(18px) saturate(1.6)!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+  border-radius:20px!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25),
+    inset 0 -1px 0 rgba(255,255,255,.06),
+    0 8px 32px rgba(0,0,0,.35)!important;
+  z-index:1000!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav:before{display:none!important;content:none!important}
+html body nav.owner-quick-nav.liquid-glass-nav button,
+html body nav.owner-quick-nav.liquid-glass-nav button:not(.active){
+  position:relative!important;z-index:1!important;min-width:0!important;min-height:52px!important;
+  display:flex!important;flex-direction:column!important;align-items:center!important;
+  justify-content:center!important;gap:4px!important;padding:4px 2px!important;margin:0!important;
+  border:1px solid transparent!important;border-radius:13px!important;
+  background:transparent!important;box-shadow:none!important;
+  color:#6E6E73!important;-webkit-text-fill-color:#6E6E73!important;
+  font:500 10px/1.15 -apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button.active,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"]{
+  background:rgba(255,255,255,.18)!important;
+  border-color:rgba(255,255,255,.22)!important;
+  color:#E8552F!important;-webkit-text-fill-color:#E8552F!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22)!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon{width:25px!important;height:25px!important;flex:0 0 25px!important}
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg{
+  width:23px!important;height:23px!important;stroke:currentColor!important;fill:none!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button span:last-child{
+  color:inherit!important;-webkit-text-fill-color:inherit!important;font-size:10px!important;
+}
+@media(max-width:700px){
+  body{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))!important}
+  html body nav.owner-quick-nav.liquid-glass-nav{
+    left:10px!important;right:10px!important;
+    bottom:calc(9px + env(safe-area-inset-bottom,0px))!important;
+  }
+}
+@media(prefers-reduced-transparency:reduce){
+  html body nav.owner-quick-nav.liquid-glass-nav{
+    background:rgba(255,255,255,.94)!important;
+    -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+  }
 }
 </style>
 
