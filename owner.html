@@ -2342,18 +2342,7 @@
       if (!nav) return;
       const activeButton = nav.querySelector('[data-owner-page].active');
       if (!activeButton) return;
-      const navRect = nav.getBoundingClientRect();
-      const buttonRect = activeButton.getBoundingClientRect();
-      nav.style.setProperty('--yf-owner-indicator-left', (buttonRect.left - navRect.left) + 'px');
-      nav.style.setProperty('--yf-owner-indicator-width', buttonRect.width + 'px');
-    }
-
-    let ownerNavResizeObserver = null;
-    function observeOwnerNavSize() {
-      const nav = document.querySelector('nav.owner-quick-nav.liquid-glass-nav');
-      if (!nav || ownerNavResizeObserver || typeof ResizeObserver === 'undefined') return;
-      ownerNavResizeObserver = new ResizeObserver(syncOwnerNavIndicator);
-      ownerNavResizeObserver.observe(nav);
+      // 选中态由按钮自身绘制，不再依赖伪元素坐标。
     }
 
     function setOwnerPage(page) {
@@ -2378,7 +2367,6 @@
         button.classList.toggle('active', active);
         button.setAttribute('aria-current', active ? 'page' : 'false');
       });
-      observeOwnerNavSize();
       syncOwnerNavIndicator();
       window.scrollTo({top: 0, behavior: 'auto'});
     }
@@ -4843,14 +4831,84 @@ html body nav.owner-quick-nav.liquid-glass-nav button:not(.active):not([aria-cur
 </style>
 
 
-<style id="yf-owner-liquid-glass-v2-geometry-fix">
-/* 使用真实按钮坐标定位选中玻璃块，避免不兼容的 CSS calc 乘法 */
+<style id="yf-owner-liquid-glass-v3-stable">
+/* 稳定版：取消伪元素滑块，选中态直接绘制在按钮本身，避免空白卡片及坐标错位 */
 html body nav.owner-quick-nav.liquid-glass-nav:after {
-  left:var(--yf-owner-indicator-left,10px)!important;
-  right:auto!important;
-  width:var(--yf-owner-indicator-width,calc((100% - 20px)/4))!important;
-  transform:translateX(0)!important;
-  transition:left .42s cubic-bezier(.2,.85,.25,1),width .42s cubic-bezier(.2,.85,.25,1)!important;
+  content:none!important;
+  display:none!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button,
+html body nav.owner-quick-nav.liquid-glass-nav button:not(.active) {
+  position:relative!important;
+  z-index:1!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:5px!important;
+  min-width:0!important;
+  min-height:56px!important;
+  width:100%!important;
+  margin:0!important;
+  padding:5px 2px!important;
+  border:1px solid transparent!important;
+  border-radius:15px!important;
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  color:#737780!important;
+  -webkit-text-fill-color:#737780!important;
+  opacity:1!important;
+  filter:none!important;
+  transform:none!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button.active,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] {
+  color:#FFFFFF!important;
+  -webkit-text-fill-color:#FFFFFF!important;
+  background:linear-gradient(145deg,rgba(48,49,54,.96),rgba(25,26,30,.92))!important;
+  border:1px solid rgba(255,255,255,.24)!important;
+  box-shadow:0 3px 12px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.18)!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button.active span,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] span,
+html body nav.owner-quick-nav.liquid-glass-nav button.active svg,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] svg {
+  color:#FFFFFF!important;
+  -webkit-text-fill-color:#FFFFFF!important;
+  stroke:#FFFFFF!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon {
+  display:grid!important;
+  place-items:center!important;
+  width:25px!important;
+  height:25px!important;
+  flex:0 0 25px!important;
+  margin:0!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg {
+  display:block!important;
+  width:23px!important;
+  height:23px!important;
+  fill:none!important;
+  stroke:currentColor!important;
+  stroke-width:1.8!important;
+  stroke-linecap:round!important;
+  stroke-linejoin:round!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button span:last-child {
+  display:block!important;
+  color:inherit!important;
+  -webkit-text-fill-color:inherit!important;
+  font-size:10px!important;
+  line-height:1.15!important;
+  white-space:nowrap!important;
+}
+@media(max-width:700px) {
+  html body nav.owner-quick-nav.liquid-glass-nav {
+    padding-left:7px!important;
+    padding-right:7px!important;
+  }
 }
 </style>
 
