@@ -3162,6 +3162,16 @@ html body #bottomNav > .navBtn > span:last-child {
   @media (prefers-reduced-motion: reduce) {
     #productList > button.yf-product-card, .breakfast-option { transition: none !important; }
   }
+
+
+/* 暂停接单时彻底隐藏订单表单，避免只剩字段标题 */
+#orderCard.is-ordering-paused > label,
+#orderCard.is-ordering-paused > input,
+#orderCard.is-ordering-paused > textarea,
+#orderCard.is-ordering-paused > .opt,
+#orderCard.is-ordering-paused > #checkoutBar {
+  display: none !important;
+}
 </style>
 
 </head>
@@ -4481,6 +4491,7 @@ html body #bottomNav > .navBtn > span:last-child {
       // 恢复正常显示状态
       // =========================
 
+      document.getElementById('orderCard').classList.remove('is-ordering-paused');
       document.getElementById('closedBox').style.display = 'none';
       document.getElementById('menuTitle').style.display = 'block';
 
@@ -4521,6 +4532,7 @@ html body #bottomNav > .navBtn > span:last-child {
 
       if (!isOrderingOpen()) {
 
+        document.getElementById('orderCard').classList.add('is-ordering-paused');
         document.getElementById('closedBox').style.display = 'block';
 
         if (isWeekendBreak()) {
