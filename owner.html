@@ -4821,6 +4821,23 @@ html body nav.owner-quick-nav.liquid-glass-nav button:not(.active):not([aria-cur
 }
 </style>
 
+
+<style id="yf-owner-liquid-glass-v2-geometry-fix">
+/* 修正选中玻璃块与四个等宽导航按钮的间距计算 */
+html body nav.owner-quick-nav.liquid-glass-nav:after {
+  left:10px!important;
+  right:auto!important;
+  width:calc((100% - 32px)/4)!important;
+  transform:translateX(calc(var(--yf-owner-tab-index,0) * (100% + 4px)))!important;
+}
+@media(max-width:700px) {
+  html body nav.owner-quick-nav.liquid-glass-nav:after {
+    left:7px!important;
+    width:calc((100% - 26px)/4)!important;
+  }
+}
+</style>
+
 </body>
 
 </html>
