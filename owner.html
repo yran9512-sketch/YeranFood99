@@ -2350,35 +2350,14 @@
         if (el) el.style.display = pages[validPage].includes(id) ? '' : 'none';
       });
       const ownerNav = document.querySelector('nav.owner-quick-nav');
+      const ownerNavPages = ['orders', 'menu', 'options', 'feedback'];
       if (ownerNav) {
-        ownerNav.style.setProperty('background-color', 'rgba(238,240,246,.62)', 'important');
-        ownerNav.style.setProperty('background-image', 'linear-gradient(145deg, rgba(255,255,255,.82), rgba(235,238,246,.42))', 'important');
-        ownerNav.style.setProperty('opacity', '1', 'important');
+        ownerNav.style.setProperty('--yf-owner-tab-index', String(Math.max(0, ownerNavPages.indexOf(validPage))));
       }
       document.querySelectorAll('nav.owner-quick-nav [data-owner-page]').forEach(function(button) {
         const active = button.dataset.ownerPage === validPage;
         button.classList.toggle('active', active);
         button.setAttribute('aria-current', active ? 'page' : 'false');
-
-        // 使用内联 important 固定按钮状态，避免历史 CSS 在页面切换时覆盖选中态。
-        const navColor = active ? '#1D1D1F' : '#626873';
-        button.style.setProperty('background-color', active ? 'rgba(255,255,255,.76)' : 'transparent', 'important');
-        button.style.setProperty('background-image', 'none', 'important');
-        button.style.setProperty('color', navColor, 'important');
-        button.style.setProperty('-webkit-text-fill-color', navColor, 'important');
-        button.style.setProperty('opacity', '1', 'important');
-        button.style.setProperty('filter', 'none', 'important');
-        button.querySelectorAll('span').forEach(function(label) {
-          label.style.setProperty('color', navColor, 'important');
-          label.style.setProperty('-webkit-text-fill-color', navColor, 'important');
-          label.style.setProperty('filter', 'none', 'important');
-          label.style.setProperty('opacity', '1', 'important');
-        });
-        button.querySelectorAll('svg').forEach(function(icon) {
-          icon.style.setProperty('stroke', navColor, 'important');
-          icon.style.setProperty('fill', 'none', 'important');
-          icon.style.setProperty('filter', 'none', 'important');
-        });
       });
       window.scrollTo({top: 0, behavior: 'auto'});
     }
@@ -4706,6 +4685,97 @@ html body nav.owner-quick-nav.liquid-glass-nav button span:last-child{
   html body nav.owner-quick-nav.liquid-glass-nav{
     background:rgba(255,255,255,.94)!important;
     -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+  }
+}
+</style>
+
+
+<style id="yf-owner-liquid-glass-v2">
+/* Owner navigation v2 — full-width iOS-style glass tab bar with a moving selection lens */
+html body nav.owner-quick-nav.liquid-glass-nav {
+  position:fixed!important; left:0!important; right:0!important; bottom:0!important; top:auto!important;
+  z-index:1000!important; width:100%!important; height:auto!important;
+  min-height:calc(76px + env(safe-area-inset-bottom,0px))!important;
+  margin:0!important; padding:9px 10px calc(9px + env(safe-area-inset-bottom,0px))!important;
+  box-sizing:border-box!important; display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important; align-items:stretch!important;
+  gap:4px!important; overflow:hidden!important; isolation:isolate!important;
+  border:0!important; border-top:1px solid rgba(255,255,255,.58)!important;
+  border-radius:22px 22px 0 0!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.56),rgba(242,244,248,.76))!important;
+  background-color:rgba(245,246,250,.62)!important;
+  box-shadow:0 -8px 30px rgba(20,28,45,.10), inset 0 1px 0 rgba(255,255,255,.9)!important;
+  -webkit-backdrop-filter:blur(30px) saturate(190%)!important;
+  backdrop-filter:blur(30px) saturate(190%)!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav:before {
+  content:""!important; display:block!important; position:absolute!important; z-index:0!important;
+  inset:0!important; pointer-events:none!important; border-radius:inherit!important;
+  background:linear-gradient(115deg,rgba(255,255,255,.46),rgba(255,255,255,.08) 38%,transparent 68%,rgba(255,255,255,.2))!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav:after {
+  content:""!important; display:block!important; position:absolute!important; z-index:0!important;
+  left:10px!important; top:8px!important; bottom:calc(8px + env(safe-area-inset-bottom,0px))!important;
+  width:calc((100% - 20px)/4)!important; border-radius:16px!important; pointer-events:none!important;
+  transform:translateX(calc(var(--yf-owner-tab-index,0) * 100%))!important;
+  transition:transform .42s cubic-bezier(.2,.85,.25,1)!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.92),rgba(255,255,255,.48))!important;
+  border:1px solid rgba(255,255,255,.88)!important;
+  box-shadow:0 3px 12px rgba(30,40,58,.10),inset 0 1px 0 rgba(255,255,255,.98),inset 0 -1px 0 rgba(210,216,228,.25)!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button,
+html body nav.owner-quick-nav.liquid-glass-nav button:not(.active) {
+  position:relative!important; z-index:1!important; display:flex!important;
+  flex-direction:column!important; align-items:center!important; justify-content:center!important;
+  gap:5px!important; min-width:0!important; min-height:56px!important; width:100%!important;
+  margin:0!important; padding:5px 2px!important; border:1px solid transparent!important;
+  border-radius:15px!important; background:transparent!important; background-image:none!important;
+  box-shadow:none!important; color:#737780!important; -webkit-text-fill-color:#737780!important;
+  font:500 10px/1.15 -apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif!important;
+  opacity:1!important; filter:none!important; transform:none!important;
+  transition:color .22s ease!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button.active,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] {
+  background:transparent!important; border-color:transparent!important;
+  color:#E8552F!important; -webkit-text-fill-color:#E8552F!important; font-weight:650!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon {
+  display:grid!important; place-items:center!important; flex:0 0 25px!important;
+  width:25px!important; height:25px!important; margin:0!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg {
+  display:block!important; width:23px!important; height:23px!important;
+  fill:none!important; stroke:currentColor!important; stroke-width:1.8!important;
+  stroke-linecap:round!important; stroke-linejoin:round!important;
+  transition:transform .28s cubic-bezier(.2,.8,.2,1)!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button.active .yf-owner-nav-icon svg {
+  transform:scale(1.08)!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button span:last-child {
+  display:block!important; color:inherit!important; -webkit-text-fill-color:inherit!important;
+  font-size:10px!important; line-height:1.15!important; font-weight:inherit!important;
+  white-space:nowrap!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button:after { display:none!important; content:none!important; }
+@media(max-width:700px) {
+  body { padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))!important; }
+  html body nav.owner-quick-nav.liquid-glass-nav {
+    padding-left:7px!important; padding-right:7px!important;
+    padding-bottom:calc(8px + env(safe-area-inset-bottom,0px))!important;
+  }
+  html body nav.owner-quick-nav.liquid-glass-nav:after {
+    left:7px!important; width:calc((100% - 14px)/4)!important;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  html body nav.owner-quick-nav.liquid-glass-nav:after,
+  html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg { transition:none!important; }
+}
+@media(prefers-reduced-transparency:reduce) {
+  html body nav.owner-quick-nav.liquid-glass-nav {
+    background:#F5F5F7!important; -webkit-backdrop-filter:none!important; backdrop-filter:none!important;
   }
 }
 </style>
