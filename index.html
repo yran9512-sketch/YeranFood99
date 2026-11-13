@@ -590,50 +590,10 @@
       color: #fff
     }
 
-    #bottomNav {
-      display: none
-    }
-
     @media (max-width:640px) {
-      #bottomNav {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: #fff;
-        border-top: 1px solid #eee;
-        justify-content: space-around;
-        padding: 8px 0;
-        z-index: 100;
-        box-shadow: 0 -2px 12px rgba(0, 0, 0, .04)
-      }
-
-      .navBtn {
-        background: transparent;
-        border: 0;
-        color: #999;
-        cursor: pointer;
-        padding: 6px 20px;
-        font-family: inherit;
-        transition: color .2s
-      }
-
-      .navBtn.active {
-        color: #111
-      }
 
       body {
         padding-bottom: 70px
-      }
-
-      body.dark #bottomNav {
-        background: #1a1a1a;
-        border-top-color: #2a2a2a
-      }
-
-      body.dark .navBtn.active {
-        color: #fff
       }
     }
 
@@ -1370,9 +1330,6 @@
     }
     @media (max-width: 700px) {
       button { touch-action: manipulation; }
-      #bottomNav {
-        padding-bottom: max(8px, env(safe-area-inset-bottom));
-      }
     }
 
   
@@ -1552,13 +1509,6 @@
       font-weight: 700;
     }
     .checkoutBar .submit:hover, .submit:hover { background: #333336; }
-    #bottomNav {
-      background: rgba(255,255,255,.94);
-      border-top: 1px solid rgba(0,0,0,.08);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-    }
-    #bottomNav a, #bottomNav button { color: #6e6e73; }
     body.dark {
       --yf-text: #f5f5f7;
       --yf-muted: #a1a1a6;
@@ -1579,7 +1529,6 @@
     body.dark .breakfast-option, body.dark .opt > label { background: #2c2c2e !important; border-color: #48484a; }
     body.dark #name, body.dark #note { background: #2c2c2e; border-color: #48484a; color: #f5f5f7; }
     body.dark .checkoutBar { background: rgba(28,28,30,.96); border-color: #38383a; }
-    body.dark #bottomNav { background: rgba(28,28,30,.94); border-top-color: #38383a; }
 
     /* ===== 第三轮学生端视觉升级：1-4 全部 ===== */
     :root {
@@ -2153,10 +2102,6 @@
       body {
         padding-bottom: 145px;
       }
-
-      #bottomNav {
-        z-index: 100;
-      }
     }
 
     @media (max-width: 380px) {
@@ -2265,11 +2210,6 @@
       backdrop-filter: blur(16px);
     }
     .checkoutTotalValue { color: #d83b2c; }
-    #bottomNav {
-      border-top-color: #f3ddd5;
-      box-shadow: 0 -6px 22px rgba(105, 45, 27, .06);
-    }
-    #bottomNav .navBtn.active { color: #e33e30; }
     .feedbackBtn { border-color: #f1d4ca; color: #a64a3c; }
     .feedbackBtn:hover { border-color: #f04b35; color: #d83b2c; }
     body.dark {
@@ -2281,7 +2221,6 @@
     body.dark #productList > button.yf-product-card.yf-selected { background: linear-gradient(145deg,#35221e,#2a1d1a) !important; }
     body.dark .breakfast-product-card { background: linear-gradient(145deg,#2b201d,#211918); border-color: #58352d; }
     body.dark .breakfast-option:has(input:checked), body.dark .opt label:has(input:checked) { background: #38231f !important; border-color: #f04b35 !important; }
-    body.dark #bottomNav { background: #181413; border-top-color: #382620; }
     @media (min-width: 900px) {
       #productList > button.yf-product-card { min-height: 158px; }
       .yf-product-image { width: 96px; height: 96px; flex-basis: 96px; }
@@ -2388,11 +2327,6 @@
     body.dark .breakfast-choice-title,
     body.dark .breakfast-option-name {
       color: #f5f5f7 !important;
-    }
-    body.dark #bottomNav,
-    body.dark .checkoutBar {
-      background: rgba(28,28,30,.97) !important;
-      border-color: #38383a !important;
     }
 
 
@@ -2592,7 +2526,7 @@
   body #bottomNav .navBtn.active .navIcon{background:#FFF0E9!important;color:#E8552F!important;transform:translateY(-1px)}
   body #bottomNav .navBtn:active{transform:scale(.96)!important}
 }
-@media(prefers-reduced-motion:reduce){body #bottomNav .navBtn,body #bottomNav .navBtn .navIcon{transition:none!important}}
+@media(prefers-reduced-motion:reduce){}
 </style>
 
 <style id="yf-customer-design-system">
@@ -2873,10 +2807,6 @@
   }
   .checkoutTotalLabel { color: var(--yf-muted) !important; font-size: 13px !important; }
   .checkoutTotalValue { font-size: 23px !important; font-weight: 800 !important; }
-
-  #bottomNav {
-    display: none;
-  }
   @media (max-width: 700px) {
     .container { width: calc(100% - 24px) !important; margin: 13px auto !important; }
     #orderCard, #payCard, #successCard {
@@ -2903,40 +2833,6 @@
     .checkoutTotal { flex: 1 1 auto; min-width: 0; }
     .checkoutTotalValue { font-size: 21px !important; }
     .checkoutBar .submit { flex: 0 0 auto; min-width: 124px; }
-    #bottomNav {
-      display: flex !important;
-      position: fixed !important;
-      left: 0 !important; right: 0 !important; bottom: 0 !important;
-      z-index: 100 !important;
-      justify-content: space-around !important;
-      align-items: center !important;
-      padding: 7px 0 calc(7px + env(safe-area-inset-bottom, 0px)) !important;
-      background: rgba(255,255,255,.97) !important;
-      border-top: 1px solid var(--yf-line) !important;
-      box-shadow: 0 -3px 14px rgba(0,0,0,.035) !important;
-      backdrop-filter: blur(16px) !important;
-      -webkit-backdrop-filter: blur(16px) !important;
-    }
-    #bottomNav .navBtn {
-      display: flex !important;
-      flex: 1 1 0;
-      flex-direction: column !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 2px !important;
-      padding: 5px 0 !important;
-      background: transparent !important;
-      border: 0 !important;
-      border-radius: 10px !important;
-      color: #8E8E93 !important;
-      box-shadow: none !important;
-      font-weight: 500 !important;
-    }
-    #bottomNav .navBtn.active {
-      color: var(--yf-ink) !important;
-      background: #F2F2F5 !important;
-      font-weight: 750 !important;
-    }
     body { padding-bottom: calc(190px + env(safe-area-inset-bottom, 0px)) !important; }
   }
 
@@ -2958,7 +2854,6 @@
     }
   }
   @media (prefers-reduced-transparency: reduce) {
-    #bottomNav { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; background: #fff !important; }
   }
 
   /* Final mobile checkout layout: keep payment choices and checkout in normal flow. */
@@ -2994,6 +2889,77 @@
   <!-- 预加载底部导航目标页面，减少切换等待 -->
   <link rel="prefetch" href="/orders.html" as="document">
   <link rel="prefetch" href="/feedback.html" as="document">
+
+<style id="yf-customer-nav-single-source">
+/* 顾客端三页面统一液态玻璃底部导航 */
+html body #bottomNav {
+ position:fixed!important;left:12px!important;right:12px!important;
+ top:auto!important;bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;
+ z-index:1000!important;box-sizing:border-box!important;
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ align-items:stretch!important;gap:4px!important;
+ width:auto!important;min-height:72px!important;height:auto!important;
+ margin:0!important;padding:8px!important;overflow:hidden!important;isolation:isolate!important;
+ border:1px solid rgba(255,255,255,.38)!important;border-radius:22px!important;
+ background:rgba(248,248,250,.78)!important;background-image:none!important;
+ box-shadow:0 8px 28px rgba(25,32,45,.16),inset 0 1px 0 rgba(255,255,255,.65)!important;
+ -webkit-backdrop-filter:blur(26px) saturate(170%)!important;
+ backdrop-filter:blur(26px) saturate(170%)!important;
+}
+html body #bottomNav::before,html body #bottomNav::after{content:none!important;display:none!important}
+html body #bottomNav > .navBtn {
+ appearance:none!important;-webkit-appearance:none!important;
+ display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+ gap:5px!important;min-width:0!important;min-height:54px!important;width:100%!important;
+ margin:0!important;padding:5px 2px!important;box-sizing:border-box!important;
+ border:1px solid transparent!important;border-radius:15px!important;
+ background:transparent!important;background-image:none!important;box-shadow:none!important;
+ opacity:1!important;filter:none!important;text-decoration:none!important;
+ color:#626873!important;-webkit-text-fill-color:#626873!important;
+ font:600 10px/1.15 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+ text-align:center!important;cursor:pointer!important;
+}
+html body #bottomNav > .navBtn.active,
+html body #bottomNav > .navBtn[aria-current="page"] {
+ background:#292B30!important;background-image:linear-gradient(145deg,#383A40,#202126)!important;
+ border-color:rgba(255,255,255,.22)!important;
+ box-shadow:0 3px 12px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.16)!important;
+ color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;
+}
+html body #bottomNav .navIcon {
+ display:grid!important;place-items:center!important;flex:0 0 25px!important;
+ width:25px!important;height:25px!important;margin:0!important;padding:0!important;
+ font-size:0!important;line-height:0!important;opacity:1!important;visibility:visible!important;filter:none!important;
+}
+html body #bottomNav .navIcon svg {
+ display:block!important;width:23px!important;height:23px!important;overflow:visible!important;
+ fill:none!important;stroke:#626873!important;stroke-width:1.8!important;
+ stroke-linecap:round!important;stroke-linejoin:round!important;
+ opacity:1!important;visibility:visible!important;filter:none!important;
+}
+html body #bottomNav > .navBtn.active .navIcon svg,
+html body #bottomNav > .navBtn[aria-current="page"] .navIcon svg {stroke:#FFFFFF!important}
+html body #bottomNav .navIcon svg path,
+html body #bottomNav .navIcon svg rect,
+html body #bottomNav .navIcon svg circle {
+ fill:none!important;stroke:inherit!important;stroke-width:1.8!important;opacity:1!important;filter:none!important;
+}
+html body #bottomNav > .navBtn > span:last-child {
+ display:block!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;
+ color:inherit!important;-webkit-text-fill-color:inherit!important;font:inherit!important;
+ line-height:1.15!important;white-space:nowrap!important;
+}
+@media(max-width:700px) {
+ html body #bottomNav {left:8px!important;right:8px!important}
+ body {padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))!important}
+}
+@media(prefers-reduced-transparency:reduce) {
+ html body #bottomNav {background:#F2F2F4!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+}
+@media(prefers-reduced-motion:reduce) {
+ html body #bottomNav * {transition:none!important}
+}
+</style>
 </head>
 
 <body>
@@ -4900,8 +4866,6 @@ body:not(.dark) .submit,body:not(.dark) .uploadBtn{background:var(--yf-primary)!
 body:not(.dark) .submit:disabled{background:#C7C7CC!important;border-color:#C7C7CC!important}
 body:not(.dark) .checkoutBar{position:static!important;inset:auto!important;transform:none!important;margin:18px 0 0!important;border:1px solid var(--yf-line)!important;border-radius:16px!important;background:#fff!important;box-shadow:0 4px 16px rgba(0,0,0,.06)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 body:not(.dark) .checkoutTotalValue,body:not(.dark) #payPageAmount{color:var(--yf-accent)!important}
-body:not(.dark) #bottomNav{background:rgba(255,255,255,.97)!important;border-top:1px solid var(--yf-line)!important;box-shadow:0 -3px 14px rgba(0,0,0,.04)!important;backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important}
-body:not(.dark) #bottomNav .navBtn.active{color:var(--yf-accent)!important;background:#FFF2ED!important}
 body:not(.dark) .feedbackBtn{background:#fff!important;border:1px solid var(--yf-line)!important;color:var(--yf-ink)!important;border-radius:11px!important}
 @media(max-width:640px){body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))!important}#checkoutBar{position:static!important;z-index:auto!important}#payCard{margin-top:16px!important}}
 body:not(.dark) .opt label:has(input:checked){border:1px solid #E8552F!important;background:#FFF2ED!important;box-shadow:0 2px 8px rgba(232,85,47,.10)!important;color:#1D1D1F!important}
@@ -4942,7 +4906,6 @@ body:not(.dark) .breakfast-option:focus-within{
   outline-offset:2px;
 }
 @media(prefers-reduced-transparency:reduce){
-  body:not(.dark) #bottomNav{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:#fff!important}
 }
 
 /* 付款方式与结账区：手机端保持清晰、可点按 */
