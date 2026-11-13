@@ -490,20 +490,6 @@
     .kitchen-top-actions button { border-radius:11px !important; min-height:40px; }
     #kitchenPushBtn { background:#fff !important; }
     .kitchen-refresh { border-radius:9px !important; min-height:34px; }
-    .kitchen-bottom-nav { position:fixed; left:0; right:0; bottom:0; z-index:100; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; padding:8px 16px calc(8px + env(safe-area-inset-bottom)); border-top:1px solid #e5e5ea; background:rgba(255,255,255,.95); box-shadow:0 -8px 28px #0000000a; backdrop-filter:blur(22px); }
-    .kitchen-bottom-nav button { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; min-height:52px; border:0; border-radius:12px; background:transparent; color:#77777c; font:600 11px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; cursor:pointer; }
-    .kitchen-bottom-nav button span:first-child { font-size:21px; line-height:1; font-weight:400; }
-    /* 未选中菜单提高文字对比度，保持液态玻璃风格 */
-    .kitchen-bottom-nav button,
-    .kitchen-bottom-nav button:hover,
-    .kitchen-bottom-nav button:active {
-      color: #5b5670 !important;
-    }
-    .kitchen-bottom-nav button span {
-      color: inherit !important;
-    }
-    .kitchen-bottom-nav button.active { background:#f0f0f3; color:#1d1d1f; }
-    .kitchen-bottom-nav button:focus-visible { outline:2px solid #007aff; outline-offset:2px; }
     #main > .card[hidden], #main > [hidden] { display:none !important; }
     @media(max-width:700px) {
       body { padding-bottom:calc(80px + env(safe-area-inset-bottom)); }
@@ -766,31 +752,9 @@
     /* 修复导航遮挡：恢复底部紧凑导航，不覆盖内容 */
     header { position:relative !important; z-index:1 !important; }
     html { scroll-padding-top: 16px; }
-    .kitchen-bottom-nav {
-      position:fixed !important; top:auto !important; bottom:0 !important;
-      left:0 !important; right:0 !important; z-index:100 !important;
-      display:flex !important; justify-content:center !important; gap:8px !important;
-      width:100% !important; margin:0 !important;
-      padding:7px 12px calc(7px + env(safe-area-inset-bottom)) !important;
-      border-top:1px solid #e5e5ea !important; border-radius:0 !important;
-      background:rgba(255,255,255,.96) !important;
-      box-shadow:0 -4px 16px rgba(0,0,0,.06) !important;
-      backdrop-filter:blur(14px) !important; -webkit-backdrop-filter:blur(14px) !important;
-    }
-    .kitchen-bottom-nav button, .kitchen-bottom-nav button:hover, .kitchen-bottom-nav button:active {
-      display:inline-flex !important; flex:1 1 0 !important; flex-direction:row !important;
-      align-items:center !important; justify-content:center !important; gap:7px !important;
-      min-height:42px !important; padding:8px 12px !important;
-      border:0 !important; border-radius:10px !important;
-      background:#f5f5f7 !important; color:#424245 !important;
-      font:650 13px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif !important;
-    }
-    .kitchen-bottom-nav button.active { background:#202124 !important; color:#fff !important; }
-    .kitchen-bottom-nav button span { color:inherit !important; }
     body { padding-bottom:calc(66px + env(safe-area-inset-bottom)) !important; }
     @media(max-width:700px) {
       body { padding-bottom:calc(66px + env(safe-area-inset-bottom)) !important; }
-      .kitchen-bottom-nav { padding:6px 10px calc(6px + env(safe-area-inset-bottom)) !important; }
     }
 
   
@@ -904,13 +868,6 @@
     color: #fff !important;
     box-shadow: 0 6px 16px rgba(101,88,245,.16);
   }
-  body:not(.dark) .period-switch button.primary,
-  body:not(.dark) .period-switch button[aria-pressed="true"],
-  body:not(.dark) .kitchen-bottom-nav button.active {
-    background: var(--yf-primary-soft) !important;
-    border-color: #DCD8FF !important;
-    color: var(--yf-primary) !important;
-  }
   body:not(.dark) .kitchen-top-actions button {
     border-radius: 11px;
   }
@@ -1013,15 +970,6 @@
       border-color: #1d1d1f !important;
       box-shadow: none !important;
     }
-    #bottomNav, .kitchen-bottom-nav {
-      background: rgba(255,255,255,.94) !important;
-      border-top: 1px solid var(--staff-line) !important;
-      box-shadow: 0 -4px 16px rgba(0,0,0,.04) !important;
-      backdrop-filter: blur(18px) !important;
-      -webkit-backdrop-filter: blur(18px) !important;
-    }
-    .kitchen-bottom-nav button { background: transparent !important; color: #6e6e73 !important; border: 0 !important; }
-    .kitchen-bottom-nav button.active { background: #f5f5f7 !important; color: #1d1d1f !important; }
     @media (max-width: 700px) {
       .container { padding: 0 12px !important; margin: 14px auto !important; }
       .card, #main > .card { border-radius: 15px !important; }
@@ -1150,13 +1098,6 @@
       color: #fff !important;
       box-shadow: 0 7px 18px rgba(111,94,220,.25), inset 0 1px 0 rgba(255,255,255,.4) !important;
     }
-    #bottomNav, .kitchen-bottom-nav {
-      background: rgba(250,249,255,.58) !important;
-      border-top: 1px solid rgba(255,255,255,.82) !important;
-      box-shadow: 0 -10px 32px rgba(88,64,140,.08) !important;
-      backdrop-filter: blur(30px) saturate(200%) !important;
-      -webkit-backdrop-filter: blur(30px) saturate(200%) !important;
-    }
     @supports not ((backdrop-filter: blur(2px))) {
       #main > .card, #main .card, #adminLogin, .kitchen-order,
       .order-card, .panel, .stat-card, .summary > div, header {
@@ -1167,71 +1108,10 @@
       #main > .card, #main .card { padding: 16px !important; border-radius: 18px !important; }
       header { background: rgba(248,247,255,.78) !important; }
     }
-
-
-    /* ===== 厨师端底部导航：对齐管理员端磨砂玻璃导航 ===== */
-    .kitchen-bottom-nav {
-      position: fixed !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      z-index: 1000 !important;
-      display: grid !important;
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      gap: 6px !important;
-      margin: 0 !important;
-      padding: 8px 12px calc(8px + env(safe-area-inset-bottom)) !important;
-      border: 0 !important;
-      border-top: 1px solid rgba(255,255,255,.82) !important;
-      border-radius: 22px 22px 0 0 !important;
-      background: rgba(250,249,255,.62) !important;
-      box-shadow: 0 -10px 32px rgba(88,64,140,.10) !important;
-      backdrop-filter: blur(30px) saturate(200%) !important;
-      -webkit-backdrop-filter: blur(30px) saturate(200%) !important;
-    }
-    .kitchen-bottom-nav button,
-    .kitchen-bottom-nav button:hover,
-    .kitchen-bottom-nav button:active {
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 4px !important;
-      min-width: 0 !important;
-      min-height: 54px !important;
-      margin: 0 !important;
-      padding: 6px 4px !important;
-      border: 1px solid transparent !important;
-      border-radius: 13px !important;
-      background: transparent !important;
-      background-image: none !important;
-      box-shadow: none !important;
-      color: #777087 !important;
-      font: 600 11px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-      transform: none !important;
-      filter: none !important;
-    }
-    .kitchen-bottom-nav button span:first-child {
-      font-size: 21px !important;
-      line-height: 1 !important;
-      font-weight: 400 !important;
-    }
-    .kitchen-bottom-nav button.active {
-      background: linear-gradient(135deg, rgba(120,107,255,.16), rgba(173,104,232,.13)) !important;
-      border-color: rgba(255,255,255,.85) !important;
-      color: #6558e8 !important;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 3px 10px rgba(98,82,235,.08) !important;
-    }
-    .kitchen-bottom-nav button:focus-visible {
-      outline: 2px solid rgba(105,91,245,.55) !important;
-      outline-offset: 2px !important;
-    }
     @media (max-width: 700px) {
       body { padding-bottom: calc(82px + env(safe-area-inset-bottom)) !important; }
-      .kitchen-bottom-nav { padding-left: 12px !important; padding-right: 12px !important; }
     }
     @media (prefers-reduced-transparency: reduce) {
-      .kitchen-bottom-nav { background: rgba(248,247,255,.96) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
     }
 
 
@@ -1267,51 +1147,87 @@
     }
   }
   @media (prefers-reduced-transparency: reduce) {
-    .kitchen-bottom-nav {
-      background: rgba(248,245,255,.94) !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-    }
   }
-
-  
-    /* 厨师端底部导航与管理员端统一，保留订单/反馈功能 */
-    .kitchen-bottom-nav {
-      position:fixed !important; left:10px !important; right:10px !important;
-      bottom:calc(8px + env(safe-area-inset-bottom)) !important; z-index:1000 !important;
-      display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important;
-      gap:4px !important; width:auto !important; margin:0 !important;
-      padding:8px !important; border:1px solid rgba(255,255,255,.86) !important;
-      border-radius:28px !important;
-      background:rgba(247,242,255,.42) !important;
-      box-shadow:0 12px 42px rgba(76,55,130,.16),inset 0 1px 0 rgba(255,255,255,.98),inset 0 -1px 0 rgba(255,255,255,.35) !important;
-      backdrop-filter:blur(38px) saturate(220%) !important;
-      -webkit-backdrop-filter:blur(38px) saturate(220%) !important;
-    }
-    .kitchen-bottom-nav button {
-      display:flex !important; flex-direction:column !important; align-items:center !important;
-      justify-content:center !important; gap:4px !important; min-width:0 !important;
-      min-height:54px !important; padding:6px 4px !important;
-      border:1px solid transparent !important; border-radius:20px !important;
-      background:rgba(255,255,255,.12) !important; color:#6c6484 !important;
-      box-shadow:none !important; font:600 11px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif !important;
-    }
-    .kitchen-bottom-nav button span:first-child { font-size:21px !important; line-height:1 !important; }
-    .kitchen-bottom-nav button.active {
-      background:linear-gradient(145deg,rgba(255,255,255,.84),rgba(225,213,255,.48)) !important;
-      border-color:rgba(255,255,255,.9) !important; color:#7755db !important;
-      box-shadow:0 5px 18px rgba(112,84,197,.15),inset 0 1px 0 #fff !important;
-    }
     body { padding-bottom:calc(104px + env(safe-area-inset-bottom)) !important; }
     @media(max-width:700px) {
-      .kitchen-bottom-nav { left:10px !important; right:10px !important; }
       body { padding-bottom:calc(104px + env(safe-area-inset-bottom)) !important; }
     }
     @media(prefers-reduced-transparency:reduce) {
-      .kitchen-bottom-nav { backdrop-filter:none !important; -webkit-backdrop-filter:none !important; background:rgba(248,245,255,.94) !important; }
     }
 
   </style>
+
+<style id="yf-admin-nav-single-source">
+/* 厨师端底部导航：与 Owner 管理员端统一的浅银白液态玻璃 */
+html body #main nav.kitchen-bottom-nav {
+ position:fixed!important;left:12px!important;right:12px!important;
+ top:auto!important;bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;
+ z-index:1000!important;box-sizing:border-box!important;
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ align-items:stretch!important;gap:4px!important;
+ width:auto!important;min-height:72px!important;height:auto!important;
+ margin:0!important;padding:8px!important;overflow:hidden!important;isolation:isolate!important;
+ border:1px solid rgba(255,255,255,.38)!important;border-radius:22px!important;
+ background:rgba(248,248,250,.78)!important;background-image:none!important;
+ box-shadow:0 8px 28px rgba(25,32,45,.16),inset 0 1px 0 rgba(255,255,255,.65)!important;
+ -webkit-backdrop-filter:blur(26px) saturate(170%)!important;
+ backdrop-filter:blur(26px) saturate(170%)!important;
+}
+html body #main nav.kitchen-bottom-nav::before,
+html body #main nav.kitchen-bottom-nav::after {content:none!important;display:none!important}
+html body #main nav.kitchen-bottom-nav > button,
+html body #main nav.kitchen-bottom-nav > button:not(.active) {
+ appearance:none!important;-webkit-appearance:none!important;
+ display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+ gap:5px!important;min-width:0!important;min-height:54px!important;width:100%!important;
+ margin:0!important;padding:5px 2px!important;box-sizing:border-box!important;
+ border:1px solid transparent!important;border-radius:15px!important;
+ background:transparent!important;background-image:none!important;box-shadow:none!important;
+ opacity:1!important;filter:none!important;
+ color:#626873!important;-webkit-text-fill-color:#626873!important;
+ font:600 10px/1.15 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;text-align:center!important;
+}
+html body #main nav.kitchen-bottom-nav > button.active,
+html body #main nav.kitchen-bottom-nav > button[aria-current="page"] {
+ background:#292B30!important;background-image:linear-gradient(145deg,#383A40,#202126)!important;
+ border-color:rgba(255,255,255,.22)!important;
+ box-shadow:0 3px 12px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.16)!important;
+ color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;
+}
+html body #main nav.kitchen-bottom-nav .yf-admin-nav-icon {
+ display:grid!important;place-items:center!important;flex:0 0 25px!important;
+ width:25px!important;height:25px!important;margin:0!important;padding:0!important;
+ font-size:0!important;line-height:0!important;opacity:1!important;visibility:visible!important;filter:none!important;
+}
+html body #main nav.kitchen-bottom-nav .yf-admin-nav-icon svg {
+ display:block!important;width:23px!important;height:23px!important;overflow:visible!important;
+ fill:none!important;stroke:#626873!important;stroke-width:1.8!important;
+ stroke-linecap:round!important;stroke-linejoin:round!important;
+ opacity:1!important;visibility:visible!important;filter:none!important;
+}
+html body #main nav.kitchen-bottom-nav > button.active .yf-admin-nav-icon svg,
+html body #main nav.kitchen-bottom-nav > button[aria-current="page"] .yf-admin-nav-icon svg {stroke:#FFFFFF!important}
+html body #main nav.kitchen-bottom-nav .yf-admin-nav-icon svg path,
+html body #main nav.kitchen-bottom-nav .yf-admin-nav-icon svg rect,
+html body #main nav.kitchen-bottom-nav .yf-admin-nav-icon svg circle {
+ fill:none!important;stroke:inherit!important;stroke-width:1.8!important;opacity:1!important;filter:none!important;
+}
+html body #main nav.kitchen-bottom-nav > button > span:last-child {
+ display:block!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;
+ color:inherit!important;-webkit-text-fill-color:inherit!important;font:inherit!important;
+ line-height:1.15!important;white-space:nowrap!important;
+}
+@media(max-width:700px) {
+ html body #main nav.kitchen-bottom-nav {left:8px!important;right:8px!important}
+ body {padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))!important}
+}
+@media(prefers-reduced-transparency:reduce) {
+ html body #main nav.kitchen-bottom-nav {background:#F2F2F4!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+}
+@media(prefers-reduced-motion:reduce) {
+ html body #main nav.kitchen-bottom-nav * {transition:none!important}
+}
+</style>
 </head>
 
 <body>
@@ -1777,19 +1693,12 @@ button.red { background:#C43D4B !important; border-color:#C43D4B !important; col
 .kitchen-table tbody tr:nth-child(even) { background:#FAFAFB !important; }
 input,select,textarea { border:1px solid var(--yf-line) !important; border-radius:11px !important; }
 input:focus,select:focus,textarea:focus { border-color:var(--yf-primary) !important; box-shadow:0 0 0 3px rgba(232,85,47,.12) !important; outline:0; }
-.kitchen-bottom-nav {
-  background:rgba(255,255,255,.96) !important; border:1px solid var(--yf-line) !important;
-  box-shadow:0 8px 28px rgba(0,0,0,.09) !important; backdrop-filter:blur(16px) !important;
-  -webkit-backdrop-filter:blur(16px) !important;
-}
 @media(max-width:700px) {
   body { padding-bottom:calc(76px + env(safe-area-inset-bottom)) !important; }
-  .kitchen-bottom-nav { padding-bottom:calc(7px + env(safe-area-inset-bottom)) !important; }
   .kitchen-top-actions { grid-template-columns:1fr 1fr !important; }
   .summary .num { font-size:24px !important; }
 }
 @media(prefers-reduced-transparency:reduce) {
-  .kitchen-bottom-nav { backdrop-filter:none !important; -webkit-backdrop-filter:none !important; background:#fff !important; }
 }
 </style>
 <style id="yf-admin-glass-batch-1">
@@ -1892,14 +1801,6 @@ button:hover, button.primary:hover { background:#333336 !important; }
 }
 .payment-pill.is-paid { background:#E8F5E9 !important; color:#21845A !important; }
 .payment-pill.is-unpaid { background:#FFF1EB !important; color:#C97800 !important; }
-.kitchen-bottom-nav button {
-  background:transparent !important; background-image:none !important;
-  color:#8E8E93 !important; border:0 !important; box-shadow:none !important;
-}
-.kitchen-bottom-nav button.active {
-  background:rgba(0,0,0,.06) !important; color:#1D1D1F !important;
-}
-.kitchen-bottom-nav button span:first-child { font-size:20px !important; }
 .summary { grid-template-columns:repeat(auto-fit,minmax(120px,1fr)) !important; }
 @media(max-width:800px) {
   .summary { grid-template-columns:repeat(auto-fit,minmax(120px,1fr)) !important; }
@@ -1925,25 +1826,6 @@ button.primary,
   background:rgba(255,255,255,.8) !important;
   color:#1D1D1F !important;
   border:1px solid #E5E5EA !important;
-}
-/* 2. 底部导航统一中性色 */
-.kitchen-bottom-nav button,
-.kitchen-bottom-nav button.active {
-  background:transparent !important;
-  border:none !important;
-  box-shadow:none !important;
-}
-.kitchen-bottom-nav button { color:#8E8E93 !important; }
-.kitchen-bottom-nav button.active {
-  background:rgba(0,0,0,.06) !important;
-  color:#1D1D1F !important;
-}
-.kitchen-bottom-nav button span:first-child {
-  font-size:20px !important;
-  filter:grayscale(100%) opacity(.6) !important;
-}
-.kitchen-bottom-nav button.active span:first-child {
-  filter:grayscale(100%) opacity(1) !important;
 }
 /* 3. 汇总卡片铺满整行 */
 .summary {
@@ -2061,39 +1943,6 @@ button.primary,
     font-weight: 700 !important;
   }
 
-  /* 底部导航：纯白底，不使用玻璃模糊 */
-  .kitchen-bottom-nav {
-    background: #FFF !important;
-    border: 0 !important;
-    border-top: 1px solid #E5E5EA !important;
-    box-shadow: 0 -4px 18px rgba(0,0,0,.04) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  .kitchen-bottom-nav button,
-  .kitchen-bottom-nav button.active {
-    background: transparent !important;
-    background-image: none !important;
-    border: none !important;
-    box-shadow: none !important;
-  }
-
-  .kitchen-bottom-nav button { color: #8E8E93 !important; }
-  .kitchen-bottom-nav button.active {
-    background: rgba(0,0,0,.05) !important;
-    color: #1D1D1F !important;
-  }
-
-  .kitchen-bottom-nav button span:first-child {
-    font-size: 20px !important;
-    filter: grayscale(100%) opacity(.6) !important;
-  }
-
-  .kitchen-bottom-nav button.active span:first-child {
-    filter: grayscale(100%) opacity(1) !important;
-  }
-
   /* 汇总卡片铺满可用宽度 */
   .summary {
     display: grid !important;
@@ -2122,39 +1971,6 @@ button.primary,
     color: #1D1D1F !important;
     border: 1px solid #E5E5EA !important;
     box-shadow: none !important;
-  }
-
-  /* 2. 干掉底部导航的紫底和橙底 */
-  .kitchen-bottom-nav,
-  .kitchen-bottom-nav button,
-  .kitchen-bottom-nav button.active,
-  .kitchen-bottom-nav button[data-kitchen-page="orders"],
-  .kitchen-bottom-nav button[data-kitchen-page="feedback"] {
-    background: transparent !important;
-    background-image: none !important;
-    box-shadow: none !important;
-    border: none !important;
-    color: #8E8E93 !important;
-  }
-
-  /* 底部导航父容器白底 */
-  .kitchen-bottom-nav {
-    background: #FFFFFF !important;
-    border-top: 1px solid #E5E5EA !important;
-  }
-
-  /* 选中状态：浅灰底、黑字 */
-  .kitchen-bottom-nav button.active {
-    background: #F2F2F7 !important;
-    color: #1D1D1F !important;
-  }
-
-  .kitchen-bottom-nav button span:first-child {
-    filter: grayscale(100%) !important;
-  }
-
-  .kitchen-bottom-nav button.active span:first-child {
-    filter: grayscale(100%) brightness(0.5) !important;
   }
 
   /* 3. 午餐选中状态：白底黑字 */
@@ -2210,43 +2026,6 @@ button.primary,
     font-weight:700 !important;
   }
 
-  /* 3. 底部导航：悬浮胶囊卡片 */
-  .kitchen-bottom-nav {
-    background:#FFFFFF !important;
-    background-image:none !important;
-    border:1px solid #E5E5EA !important;
-    border-radius:24px !important;
-    box-shadow:0 8px 24px rgba(0,0,0,.08) !important;
-    backdrop-filter:blur(16px) !important;
-    -webkit-backdrop-filter:blur(16px) !important;
-    left:16px !important;
-    right:16px !important;
-    bottom:calc(12px + env(safe-area-inset-bottom)) !important;
-    padding:6px !important;
-    display:flex !important;
-    gap:6px !important;
-  }
-  :is(#main,body) .kitchen-bottom-nav button,
-  :is(#main,body) .kitchen-bottom-nav button.active {
-    flex:1 !important;
-    border-radius:16px !important;
-    background:transparent !important;
-    background-image:none !important;
-    color:#8E8E93 !important;
-    border:0 !important;
-    box-shadow:none !important;
-  }
-  :is(#main,body) .kitchen-bottom-nav button.active {
-    background:#F2F2F7 !important;
-    color:#1D1D1F !important;
-  }
-  .kitchen-bottom-nav button span:first-child {
-    filter:grayscale(100%) opacity(.6) !important;
-  }
-  .kitchen-bottom-nav button.active span:first-child {
-    filter:grayscale(100%) opacity(1) !important;
-  }
-
   /* 4. 为悬浮导航预留内容空间 */
   body {
     padding-bottom:calc(100px + env(safe-area-inset-bottom)) !important;
@@ -2261,14 +2040,9 @@ body>header{background:#1D1D1F!important;color:#fff!important;background-image:n
 #main>.card,#main .card,.kitchen-order,.summary>div{background:#fff!important;border:1px solid var(--yf-line)!important;border-radius:16px!important;box-shadow:0 2px 10px rgba(0,0,0,.035)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 #main input,#main select,#main textarea{background:#fff!important;border:1px solid var(--yf-line)!important;border-radius:10px!important;color:var(--yf-ink)!important}
 #main button.primary{background:#1D1D1F!important;background-image:none!important;border-color:#1D1D1F!important;color:#fff!important;box-shadow:none!important}
-.kitchen-bottom-nav{position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:100!important;width:100%!important;margin:0!important;border:0!important;border-top:1px solid var(--yf-line)!important;border-radius:0!important;padding:7px 12px calc(7px + env(safe-area-inset-bottom,0px))!important;background:rgba(255,255,255,.97)!important;box-shadow:0 -3px 14px rgba(0,0,0,.04)!important;backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important}
-.kitchen-bottom-nav button,.kitchen-bottom-nav button:hover,.kitchen-bottom-nav button:active{background:transparent!important;background-image:none!important;color:var(--yf-muted)!important;border:0!important;border-radius:10px!important;box-shadow:none!important}
-.kitchen-bottom-nav button.active{background:#F2F2F5!important;color:var(--yf-ink)!important}
 @media(max-width:700px){body{padding-bottom:calc(78px + env(safe-area-inset-bottom,0px))!important}}
-  .kitchen-bottom-nav button.active{background:#FFF2ED!important;color:#E8552F!important}
-  .kitchen-bottom-nav button:focus-visible{outline:3px solid rgba(232,85,47,.28)!important;outline-offset:2px!important}
   #main button:focus-visible,#main a:focus-visible,#main input:focus-visible,#main select:focus-visible,#main textarea:focus-visible{outline:3px solid rgba(232,85,47,.25)!important;outline-offset:2px!important}
-  @media(prefers-reduced-transparency:reduce){.kitchen-bottom-nav{background:#fff!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}}
+  @media(prefers-reduced-transparency:reduce){}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 
@@ -2292,11 +2066,9 @@ body>header{background:#1D1D1F!important;color:#fff!important;background-image:n
 
 
 <style id="yf-admin-svg-icons">
-.kitchen-bottom-nav .yf-admin-nav-icon{display:grid!important;place-items:center!important;width:24px!important;height:24px!important;font-size:0!important;line-height:0!important}
-.kitchen-bottom-nav .yf-admin-nav-icon svg{display:block!important;width:22px!important;height:22px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.7!important;stroke-linecap:round!important;stroke-linejoin:round!important}
 </style>
 
-<style id="yf-fast-bottom-nav">.kitchen-bottom-nav,.kitchen-bottom-nav button,.kitchen-bottom-nav button *{transition:none!important;animation:none!important}</style>
+<style id="yf-fast-bottom-nav"></style>
 </body>
 
 </html>
