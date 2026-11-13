@@ -4780,6 +4780,47 @@ html body nav.owner-quick-nav.liquid-glass-nav button:after { display:none!impor
 }
 </style>
 
+
+<style id="yf-owner-liquid-glass-v2-active-fix">
+/* 稳定选中态：深色玻璃高亮，图标与文字统一白色，避免闪白和橙色文字 */
+html body nav.owner-quick-nav.liquid-glass-nav:after {
+  background:linear-gradient(145deg,rgba(48,49,54,.94),rgba(25,26,30,.88))!important;
+  border:1px solid rgba(255,255,255,.24)!important;
+  box-shadow:0 3px 12px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.18),inset 0 -1px 0 rgba(0,0,0,.12)!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button.active,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] {
+  color:#FFFFFF!important;
+  -webkit-text-fill-color:#FFFFFF!important;
+  background:transparent!important;
+  background-color:transparent!important;
+  border-color:transparent!important;
+  opacity:1!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button.active span,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] span {
+  color:#FFFFFF!important;
+  -webkit-text-fill-color:#FFFFFF!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button.active svg,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] svg {
+  color:#FFFFFF!important;
+  stroke:#FFFFFF!important;
+  fill:none!important;
+  opacity:1!important;
+  filter:none!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button:not(.active):not([aria-current="page"]) {
+  color:#737780!important;
+  -webkit-text-fill-color:#737780!important;
+}
+@media(prefers-reduced-transparency:reduce) {
+  html body nav.owner-quick-nav.liquid-glass-nav:after {
+    background:#303136!important;
+  }
+}
+</style>
+
 </body>
 
 </html>
