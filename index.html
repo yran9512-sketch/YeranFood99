@@ -5067,7 +5067,7 @@ html body:not(.dark) #menuTitle{
   margin-bottom:14px!important;
 }
 html body:not(.dark) #periodSwitch{
-  display:flex!important;
+  /* 保留 JS 对 display:none / flex 的控制，避免非营业时段仍显示分类导航 */
   gap:8px!important;
   padding:4px!important;
   border:1px solid #E5E5EA!important;
