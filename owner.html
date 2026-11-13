@@ -2351,8 +2351,8 @@
       });
       const ownerNav = document.querySelector('nav.owner-quick-nav');
       if (ownerNav) {
-        ownerNav.style.setProperty('background-color', '#FFFFFF', 'important');
-        ownerNav.style.setProperty('background-image', 'none', 'important');
+        ownerNav.style.setProperty('background-color', 'rgba(238,240,246,.62)', 'important');
+        ownerNav.style.setProperty('background-image', 'linear-gradient(145deg, rgba(255,255,255,.82), rgba(235,238,246,.42))', 'important');
         ownerNav.style.setProperty('opacity', '1', 'important');
       }
       document.querySelectorAll('nav.owner-quick-nav [data-owner-page]').forEach(function(button) {
@@ -2361,8 +2361,8 @@
         button.setAttribute('aria-current', active ? 'page' : 'false');
 
         // 使用内联 important 固定按钮状态，避免历史 CSS 在页面切换时覆盖选中态。
-        const navColor = active ? '#E8552F' : '#6E6E73';
-        button.style.setProperty('background-color', active ? '#FFF2ED' : 'transparent', 'important');
+        const navColor = active ? '#1D1D1F' : '#626873';
+        button.style.setProperty('background-color', active ? 'rgba(255,255,255,.76)' : 'transparent', 'important');
         button.style.setProperty('background-image', 'none', 'important');
         button.style.setProperty('color', navColor, 'important');
         button.style.setProperty('-webkit-text-fill-color', navColor, 'important');
@@ -4539,6 +4539,55 @@ html body nav.owner-quick-nav button:after{display:none!important;content:none!i
 
 
 <style id="yf-fast-bottom-nav">nav.owner-quick-nav,nav.owner-quick-nav button,nav.owner-quick-nav button *{transition:none!important;animation:none!important}</style>
+
+<style id="yf-owner-liquid-glass-nav">
+/* iOS 风格液态玻璃底部导航 */
+html body nav.owner-quick-nav{
+  position:fixed!important;
+  left:12px!important;right:12px!important;
+  bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;
+  width:auto!important;margin:0!important;box-sizing:border-box!important;
+  min-height:76px!important;height:auto!important;
+  padding:8px 10px!important;
+  border:1px solid rgba(255,255,255,.78)!important;
+  border-radius:26px!important;
+  background:linear-gradient(145deg,rgba(255,255,255,.82),rgba(235,238,246,.42))!important;
+  background-color:rgba(238,240,246,.62)!important;
+  box-shadow:0 8px 30px rgba(24,32,48,.13),0 2px 7px rgba(24,32,48,.07),inset 0 1px 0 rgba(255,255,255,.95),inset 0 -1px 0 rgba(255,255,255,.28)!important;
+  -webkit-backdrop-filter:blur(28px) saturate(190%)!important;
+  backdrop-filter:blur(28px) saturate(190%)!important;
+  overflow:hidden!important;
+}
+html body nav.owner-quick-nav:before{
+  content:""!important;position:absolute!important;inset:0!important;
+  border-radius:inherit!important;pointer-events:none!important;
+  background:linear-gradient(115deg,rgba(255,255,255,.38),transparent 42%,rgba(255,255,255,.12))!important;
+}
+html body nav.owner-quick-nav button,
+html body nav.owner-quick-nav button:not(.active){
+  position:relative!important;z-index:1!important;
+  border-radius:18px!important;
+  color:#626873!important;-webkit-text-fill-color:#626873!important;
+}
+html body nav.owner-quick-nav button.active,
+html body nav.owner-quick-nav button[aria-current="page"]{
+  background:rgba(255,255,255,.76)!important;
+  border:1px solid rgba(255,255,255,.92)!important;
+  color:#1D1D1F!important;-webkit-text-fill-color:#1D1D1F!important;
+  box-shadow:0 3px 10px rgba(25,35,50,.10),inset 0 1px 0 rgba(255,255,255,.95)!important;
+}
+html body nav.owner-quick-nav button.active span,
+html body nav.owner-quick-nav button[aria-current="page"] span{color:#1D1D1F!important;-webkit-text-fill-color:#1D1D1F!important}
+html body nav.owner-quick-nav button.active svg,
+html body nav.owner-quick-nav button[aria-current="page"] svg{stroke:#1D1D1F!important;filter:none!important}
+@media(max-width:700px){
+  html body nav.owner-quick-nav{left:10px!important;right:10px!important;bottom:calc(9px + env(safe-area-inset-bottom,0px))!important}
+  body{padding-bottom:calc(108px + env(safe-area-inset-bottom,0px))!important}
+}
+@media(prefers-reduced-transparency:reduce){
+  html body nav.owner-quick-nav{background:#F5F5F7!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+}
+</style>
 </body>
 
 </html>
