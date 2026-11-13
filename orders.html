@@ -287,18 +287,7 @@
   
     /* Removed system-dark override to preserve light theme. */
   
-/* 我的订单页：与点餐首页统一的底部导航 */
-@media(max-width:700px){
-  body #bottomNav{display:flex!important;align-items:center!important;justify-content:space-around!important;gap:8px!important;min-height:72px!important;padding:8px 18px calc(8px + env(safe-area-inset-bottom,0px))!important;background:rgba(255,255,255,.98)!important;background-image:none!important;border:0!important;border-top:1px solid #E9E9ED!important;border-radius:20px 20px 0 0!important;box-shadow:0 -5px 24px rgba(29,29,31,.07)!important;backdrop-filter:blur(18px)!important;-webkit-backdrop-filter:blur(18px)!important}
-  body #bottomNav .navBtn{flex:1 1 0!important;min-width:0!important;min-height:54px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:5px!important;margin:0!important;padding:4px 6px!important;border:0!important;border-radius:14px!important;background:transparent!important;background-image:none!important;color:#8A8A91!important;box-shadow:none!important;font:600 11px/1.15 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;-webkit-tap-highlight-color:transparent;transition:color .18s ease,background-color .18s ease,transform .18s ease!important}
-  body #bottomNav .navBtn .navIcon{width:32px!important;height:30px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:10px!important;color:inherit!important;background:transparent!important;transition:background-color .18s ease,transform .18s ease!important}
-  body #bottomNav .navBtn .navIcon svg{display:block!important;width:22px!important;height:22px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.7!important;stroke-linecap:round!important;stroke-linejoin:round!important}
-  body #bottomNav .navBtn .navLabel{display:block!important;color:inherit!important;font-size:11px!important;line-height:1.2!important;letter-spacing:.1px!important;white-space:nowrap!important}
-  body #bottomNav .navBtn.active{color:#E8552F!important;background:transparent!important;font-weight:750!important}
-  body #bottomNav .navBtn.active .navIcon{background:#FFF0E9!important;color:#E8552F!important;transform:translateY(-1px)}
-  body #bottomNav .navBtn:active{transform:scale(.96)!important}
-}
-@media(prefers-reduced-motion:reduce){}
+
 </style>
   <link rel="stylesheet" href="/animations.css">
 
@@ -479,12 +468,12 @@
 /* 顾客端三页面统一液态玻璃底部导航 */
 html body #bottomNav {
  position:fixed!important;left:12px!important;right:12px!important;
- top:auto!important;bottom:env(safe-area-inset-bottom,0px)!important;
+ top:auto!important;bottom:0!important;
  z-index:1000!important;box-sizing:border-box!important;
  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
  align-items:stretch!important;gap:4px!important;
  width:auto!important;min-height:72px!important;height:auto!important;
- margin:0!important;padding:8px!important;overflow:hidden!important;isolation:isolate!important;
+ margin:0!important;padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px))!important;overflow:hidden!important;isolation:isolate!important;
  border:1px solid rgba(255,255,255,.38)!important;border-radius:22px!important;
  background:rgba(248,248,250,.78)!important;background-image:none!important;
  box-shadow:0 8px 28px rgba(25,32,45,.16),inset 0 1px 0 rgba(255,255,255,.65)!important;
@@ -514,7 +503,7 @@ html body #bottomNav > .navBtn[aria-current="page"] {
 html body #bottomNav .navIcon {
  display:grid!important;place-items:center!important;flex:0 0 25px!important;
  width:25px!important;height:25px!important;margin:0!important;padding:0!important;
- font-size:0!important;line-height:0!important;opacity:1!important;visibility:visible!important;filter:none!important;
+ font-size:0!important;line-height:0!important;opacity:1!important;visibility:visible!important;filter:none!important;background:transparent!important;transform:none!important;
 }
 html body #bottomNav .navIcon svg {
  display:block!important;width:23px!important;height:23px!important;overflow:visible!important;
@@ -523,19 +512,16 @@ html body #bottomNav .navIcon svg {
  opacity:1!important;visibility:visible!important;filter:none!important;
 }
 html body #bottomNav > .navBtn.active .navIcon svg,
-html body #bottomNav > .navBtn.active .navIcon svg,
 html body #bottomNav > .navBtn[aria-current="page"] .navIcon svg,
-html body #bottomNav > .navBtn.active .navIcon svg *,
-html body #bottomNav > .navBtn[aria-current="page"] .navIcon svg * {
- color:#FFFFFF!important;
+html body #bottomNav > .navBtn.active .navIcon svg path,
+html body #bottomNav > .navBtn.active .navIcon svg rect,
+html body #bottomNav > .navBtn.active .navIcon svg circle,
+html body #bottomNav > .navBtn[aria-current="page"] .navIcon svg path,
+html body #bottomNav > .navBtn[aria-current="page"] .navIcon svg rect,
+html body #bottomNav > .navBtn[aria-current="page"] .navIcon svg circle {
  fill:none!important;
  stroke:#FFFFFF!important;
- -webkit-text-fill-color:#FFFFFF!important;
-}
-html body #bottomNav .navIcon svg path,
-html body #bottomNav .navIcon svg rect,
-html body #bottomNav .navIcon svg circle {
- fill:none!important;stroke:inherit!important;stroke-width:1.8!important;opacity:1!important;filter:none!important;
+ color:#FFFFFF!important;
 }
 html body #bottomNav > .navBtn > span:last-child {
  display:block!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;
