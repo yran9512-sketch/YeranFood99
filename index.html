@@ -5052,6 +5052,152 @@ body::before{content:""!important;display:block!important;position:fixed!importa
   refreshInstallButton();
   window.addEventListener('pageshow', refreshInstallButton);
 </script>
+
+<style id="yf-index-visual-refinement-2026">
+/* 顾客点餐端第一轮视觉打磨：只调整样式，不改变结构与业务逻辑 */
+html body:not(.dark) #orderCard{
+  border-radius:20px!important;
+  box-shadow:0 3px 14px rgba(29,29,31,.045)!important;
+}
+html body:not(.dark) #menuTitle{
+  color:#343438!important;
+  font-size:15px!important;
+  font-weight:750!important;
+  letter-spacing:.4px!important;
+  margin-bottom:14px!important;
+}
+html body:not(.dark) #periodSwitch{
+  display:flex!important;
+  gap:8px!important;
+  padding:4px!important;
+  border:1px solid #E5E5EA!important;
+  border-radius:15px!important;
+  background:#F0F0F3!important;
+}
+html body:not(.dark) #periodSwitch .periodBtn{
+  flex:1 1 0!important;
+  min-width:0!important;
+  min-height:42px!important;
+  margin:0!important;
+  padding:9px 8px!important;
+  border:1px solid transparent!important;
+  border-radius:11px!important;
+  background:transparent!important;
+  color:#66666D!important;
+  font-size:14px!important;
+  font-weight:650!important;
+  box-shadow:none!important;
+  transform:none!important;
+}
+html body:not(.dark) #periodSwitch .periodBtn.active{
+  background:#fff!important;
+  color:#E8552F!important;
+  border-color:rgba(232,85,47,.18)!important;
+  box-shadow:0 2px 7px rgba(29,29,31,.07)!important;
+  font-weight:750!important;
+}
+html body:not(.dark) #productList > button.yf-product-card{
+  border-radius:17px!important;
+  border-color:#E3E3E8!important;
+  box-shadow:0 1px 3px rgba(29,29,31,.025)!important;
+  transition:border-color .18s ease,background-color .18s ease,box-shadow .18s ease,transform .18s ease!important;
+}
+html body:not(.dark) #productList > button.yf-product-card.yf-selected{
+  border:1.5px solid #E8552F!important;
+  background:#FFF7F4!important;
+  box-shadow:0 2px 9px rgba(232,85,47,.07)!important;
+}
+html body:not(.dark) #productList .yf-product-image,
+html body:not(.dark) #productList .yf-product-icon{
+  border-radius:14px!important;
+}
+@media(hover:hover) and (pointer:fine){
+  html body:not(.dark) #productList > button.yf-product-card:hover:not(:disabled){
+    border-color:#E9A18E!important;
+    box-shadow:0 4px 12px rgba(29,29,31,.055)!important;
+    transform:translateY(-1px)!important;
+  }
+}
+html body:not(.dark) .qty{
+  gap:9px!important;
+  padding:4px!important;
+  background:#F3F3F5!important;
+  border-color:#E4E4E8!important;
+}
+html body:not(.dark) .qty button{
+  width:38px!important;
+  height:38px!important;
+  border-color:#E4E4E8!important;
+  font-size:19px!important;
+  font-weight:600!important;
+  transition:background-color .16s ease,border-color .16s ease,transform .16s ease!important;
+}
+html body:not(.dark) .qty button:active{
+  background:#FFF0EB!important;
+  color:#E8552F!important;
+  border-color:#F2C2B5!important;
+  transform:scale(.94)!important;
+}
+html body:not(.dark) .opt > label:has(input:checked),
+html body:not(.dark) .breakfast-option:has(input:checked){
+  border:1.5px solid #E8552F!important;
+  background:#FFF3EF!important;
+  box-shadow:0 2px 8px rgba(232,85,47,.075)!important;
+}
+html body:not(.dark) .opt > label input[type="radio"],
+html body:not(.dark) .breakfast-option input[type="radio"]{
+  accent-color:#E8552F!important;
+}
+html body:not(.dark) #checkoutBar{
+  align-items:center!important;
+  padding:15px 16px!important;
+  border:1px solid #E5E5EA!important;
+  border-radius:17px!important;
+  background:#fff!important;
+  box-shadow:0 5px 18px rgba(29,29,31,.065)!important;
+}
+html body:not(.dark) .checkoutTotalLabel{
+  color:#77777E!important;
+  font-size:13px!important;
+  font-weight:600!important;
+}
+html body:not(.dark) .checkoutTotalValue,
+html body:not(.dark) #total{
+  color:#E8552F!important;
+  font-size:23px!important;
+  font-weight:800!important;
+  font-variant-numeric:tabular-nums!important;
+}
+html body:not(.dark) #checkoutBar .submit{
+  min-height:48px!important;
+  border:1px solid #E8552F!important;
+  border-radius:13px!important;
+  background:#E8552F!important;
+  color:#fff!important;
+  box-shadow:0 3px 9px rgba(232,85,47,.16)!important;
+  transition:background-color .16s ease,box-shadow .16s ease,transform .16s ease!important;
+}
+html body:not(.dark) #checkoutBar .submit:active{
+  background:#D94A27!important;
+  transform:scale(.98)!important;
+  box-shadow:none!important;
+}
+html body:not(.dark) #checkoutBar .submit:disabled{
+  background:#C7C7CC!important;
+  border-color:#C7C7CC!important;
+  box-shadow:none!important;
+}
+@media(max-width:640px){
+  html body:not(.dark) #orderCard{padding:22px 17px!important}
+  html body:not(.dark) #periodSwitch .periodBtn{font-size:13px!important;padding:9px 5px!important}
+  html body:not(.dark) #checkoutBar{padding:12px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  #productList > button.yf-product-card,
+  #checkoutBar .submit,.qty button{transition:none!important}
+}
+</style>
+
 </body>
 
 </html>
