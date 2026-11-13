@@ -1228,6 +1228,65 @@ html body #main nav.kitchen-bottom-nav > button > span:last-child {
  html body #main nav.kitchen-bottom-nav * {transition:none!important}
 }
 </style>
+
+<style id="yf-admin-login-refresh">
+  body:has(#adminLogin:not([style*="display: none"])) {
+    min-height:100vh!important;
+    background:radial-gradient(ellipse at 50% 18%,rgba(232,85,47,.13),transparent 36%),linear-gradient(145deg,#f4f4f5 0%,#e9eaed 100%)!important;
+    display:flex!important;flex-direction:column!important;
+  }
+  body:has(#adminLogin:not([style*="display: none"])) header {
+    display:none!important;
+  }
+  body:has(#adminLogin:not([style*="display: none"])) .container {
+    width:100%!important;max-width:100%!important;min-height:100svh!important;
+    margin:0!important;padding:32px 20px!important;
+    display:flex!important;align-items:center!important;justify-content:center!important;
+  }
+  body:has(#adminLogin:not([style*="display: none"])) #adminLogin {
+    position:relative!important;width:min(100%,430px)!important;max-width:430px!important;
+    margin:0!important;padding:42px 38px 36px!important;
+    border:1px solid rgba(255,255,255,.9)!important;border-radius:26px!important;
+    background:rgba(255,255,255,.88)!important;
+    box-shadow:0 28px 80px rgba(24,28,35,.12),inset 0 1px 0 #fff!important;
+    backdrop-filter:blur(24px)!important;-webkit-backdrop-filter:blur(24px)!important;
+  }
+  body:has(#adminLogin:not([style*="display: none"])) #adminLogin:before {
+    content:"YERANFOOD  /  KITCHEN";display:block;margin-bottom:22px;
+    color:#e8552f;font-size:11px;font-weight:800;letter-spacing:2.4px;
+  }
+  body:has(#adminLogin:not([style*="display: none"])) #adminLogin:after {
+    content:"厨房工作台 · 安全登录";display:block;margin-top:22px;padding-top:17px;
+    border-top:1px solid #ececef;color:#8b8d94;font-size:12px;letter-spacing:.3px;
+  }
+  body:has(#adminLogin:not([style*="display: none"])) #adminLogin h2 {
+    margin:0 0 27px!important;color:#191a1d!important;font-size:27px!important;
+    font-weight:760!important;letter-spacing:-1px!important;
+  }
+  body:has(#adminLogin:not([style*="display: none"])) #adminLogin input {
+    width:100%!important;height:52px!important;margin:0 0 14px!important;padding:0 16px!important;
+    border:1px solid #e2e3e7!important;border-radius:13px!important;
+    background:#f7f7f8!important;color:#202126!important;font-size:15px!important;
+    box-shadow:none!important;transition:border-color .2s,box-shadow .2s!important;
+  }
+  body:has(#adminLogin:not([style*="display: none"])) #adminLogin input:focus {
+    border-color:#e8552f!important;box-shadow:0 0 0 4px rgba(232,85,47,.10)!important;outline:none!important;
+  }
+  body:has(#adminLogin:not([style*="display: none"])) #adminLogin button {
+    width:100%!important;height:52px!important;margin-top:5px!important;
+    border:0!important;border-radius:13px!important;background:#202124!important;
+    color:#fff!important;font-size:15px!important;font-weight:700!important;
+    box-shadow:0 8px 18px rgba(24,25,28,.16)!important;transition:transform .2s,background .2s!important;
+  }
+  body:has(#adminLogin:not([style*="display: none"])) #adminLogin button:hover {
+    background:#e8552f!important;opacity:1!important;transform:translateY(-1px)!important;
+  }
+  @media(max-width:520px){
+    body:has(#adminLogin:not([style*="display: none"])) .container{padding:20px!important}
+    body:has(#adminLogin:not([style*="display: none"])) #adminLogin{padding:34px 24px 28px!important;border-radius:22px!important}
+    body:has(#adminLogin:not([style*="display: none"])) #adminLogin h2{font-size:24px!important}
+  }
+</style>
 </head>
 
 <body>
