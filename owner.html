@@ -4393,71 +4393,10 @@ nav.owner-quick-nav button:focus-visible,
 </style>
 
 
-<style id="yf-owner-bottom-nav-active-white">
-  /* 底部导航选中：深色按钮，图标与文字统一白色 */
-  html body nav.owner-quick-nav button.active {
-    background:#1D1D1F !important;
-    background-color:#1D1D1F !important;
-    color:#FFFFFF !important;
-    -webkit-text-fill-color:#FFFFFF !important;
-    font-weight:700 !important;
-  }
-  html body nav.owner-quick-nav button.active span,
-  html body nav.owner-quick-nav button.active img,
-  html body nav.owner-quick-nav button.active svg {
-    color:#FFFFFF !important;
-    fill:#FFFFFF !important;
-    -webkit-text-fill-color:#FFFFFF !important;
-    filter:grayscale(1) brightness(0) invert(1) !important;
-  }
-</style>
 
 
-<style id="yf-owner-bottom-nav-stable-state">
-  /* 固定导航栏底色，避免页面切换/样式刷新时整条导航闪白 */
-  html body nav.owner-quick-nav {
-    background:#FFFFFF !important;
-    background-color:#FFFFFF !important;
-    background-image:none !important;
-    opacity:1 !important;
-  }
-  html body nav.owner-quick-nav button,
-  html body nav.owner-quick-nav button:not(.active):not([aria-current="page"]) {
-    background:transparent !important;
-    background-color:transparent !important;
-    color:#6E6E73 !important;
-    -webkit-text-fill-color:#6E6E73 !important;
-    opacity:1 !important;
-    filter:none !important;
-  }
-  /* 同时依据 active 和 aria-current 判断当前页面，防止状态短暂不同步 */
-  html body nav.owner-quick-nav button.active,
-  html body nav.owner-quick-nav button[aria-current="page"] {
-    background:#1D1D1F !important;
-    background-color:#1D1D1F !important;
-    background-image:none !important;
-    color:#FFFFFF !important;
-    -webkit-text-fill-color:#FFFFFF !important;
-    font-weight:700 !important;
-    opacity:1 !important;
-    filter:none !important;
-  }
-  html body nav.owner-quick-nav button.active span,
-  html body nav.owner-quick-nav button[aria-current="page"] span {
-    color:#FFFFFF !important;
-    -webkit-text-fill-color:#FFFFFF !important;
-    filter:none !important;
-    opacity:1 !important;
-  }
-  html body nav.owner-quick-nav button.active img,
-  html body nav.owner-quick-nav button.active svg,
-  html body nav.owner-quick-nav button[aria-current="page"] img,
-  html body nav.owner-quick-nav button[aria-current="page"] svg {
-    filter:brightness(0) invert(1) !important;
-    fill:#FFFFFF !important;
-    opacity:1 !important;
-  }
-</style>
+
+
 
 
 <style id="yf-owner-svg-icons">
@@ -4952,6 +4891,103 @@ html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] .yf-o
   stroke:#FFFFFF!important;
   fill:none!important;
   filter:none!important;
+}
+</style>
+
+<style id="yf-owner-nav-cascade-cleanup">
+/* 单一最终规则：清除旧版白底/反色规则造成的级联冲突 */
+html body nav.owner-quick-nav.liquid-glass-nav {
+  position:fixed!important;
+  left:12px!important;right:12px!important;top:auto!important;
+  bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;
+  width:auto!important;height:auto!important;min-height:72px!important;
+  box-sizing:border-box!important;z-index:1000!important;
+  display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  align-items:stretch!important;gap:4px!important;
+  margin:0!important;padding:8px 8px!important;
+  overflow:hidden!important;isolation:isolate!important;
+  border:1px solid rgba(255,255,255,.34)!important;
+  border-radius:22px!important;
+  background:rgba(218,222,231,.78)!important;
+  background-color:rgba(218,222,231,.78)!important;
+  background-image:linear-gradient(145deg,rgba(248,249,252,.48),rgba(205,211,222,.28))!important;
+  box-shadow:0 8px 28px rgba(25,32,45,.16),inset 0 1px 0 rgba(255,255,255,.65)!important;
+  -webkit-backdrop-filter:blur(26px) saturate(170%)!important;
+  backdrop-filter:blur(26px) saturate(170%)!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav:before,
+html body nav.owner-quick-nav.liquid-glass-nav:after {
+  content:none!important;display:none!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button,
+html body nav.owner-quick-nav.liquid-glass-nav button:not(.active):not([aria-current="page"]) {
+  position:relative!important;z-index:1!important;
+  display:flex!important;flex-direction:column!important;
+  align-items:center!important;justify-content:center!important;
+  gap:5px!important;width:100%!important;min-width:0!important;min-height:54px!important;
+  margin:0!important;padding:5px 2px!important;box-sizing:border-box!important;
+  border:1px solid transparent!important;border-radius:15px!important;
+  background:transparent!important;background-color:transparent!important;
+  background-image:none!important;box-shadow:none!important;
+  color:#626873!important;-webkit-text-fill-color:#626873!important;
+  opacity:1!important;filter:none!important;transform:none!important;
+  animation:none!important;transition:none!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button.active,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] {
+  background:linear-gradient(145deg,rgba(48,49,54,.97),rgba(25,26,30,.94))!important;
+  background-color:#303136!important;background-image:linear-gradient(145deg,rgba(48,49,54,.97),rgba(25,26,30,.94))!important;
+  border:1px solid rgba(255,255,255,.26)!important;
+  color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;
+  box-shadow:0 3px 12px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.18)!important;
+  opacity:1!important;filter:none!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon {
+  display:grid!important;place-items:center!important;
+  flex:0 0 25px!important;width:25px!important;height:25px!important;
+  margin:0!important;padding:0!important;visibility:visible!important;
+  opacity:1!important;filter:none!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg {
+  display:block!important;width:23px!important;height:23px!important;
+  overflow:visible!important;fill:none!important;stroke:currentColor!important;
+  stroke-width:1.8!important;stroke-linecap:round!important;stroke-linejoin:round!important;
+  visibility:visible!important;opacity:1!important;filter:none!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg path,
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg rect,
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg circle,
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg line,
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg polyline {
+  fill:none!important;stroke:currentColor!important;stroke-width:1.8!important;
+  opacity:1!important;filter:none!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button.active .yf-owner-nav-icon svg,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] .yf-owner-nav-icon svg,
+html body nav.owner-quick-nav.liquid-glass-nav button.active .yf-owner-nav-icon svg path,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] .yf-owner-nav-icon svg path,
+html body nav.owner-quick-nav.liquid-glass-nav button.active .yf-owner-nav-icon svg rect,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] .yf-owner-nav-icon svg rect,
+html body nav.owner-quick-nav.liquid-glass-nav button.active .yf-owner-nav-icon svg circle,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] .yf-owner-nav-icon svg circle {
+  color:#FFFFFF!important;stroke:#FFFFFF!important;fill:none!important;filter:none!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button span:last-child {
+  display:block!important;position:static!important;width:auto!important;height:auto!important;
+  margin:0!important;padding:0!important;color:inherit!important;
+  -webkit-text-fill-color:inherit!important;font-size:10px!important;
+  line-height:1.15!important;font-weight:600!important;white-space:nowrap!important;
+  filter:none!important;opacity:1!important;
+}
+@media(max-width:700px) {
+  html body nav.owner-quick-nav.liquid-glass-nav {left:8px!important;right:8px!important;}
+}
+@media(prefers-reduced-transparency:reduce) {
+  html body nav.owner-quick-nav.liquid-glass-nav {
+    background:#E5E7EC!important;background-color:#E5E7EC!important;
+    background-image:none!important;
+    -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+  }
 }
 </style>
 
