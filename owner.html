@@ -2337,6 +2337,25 @@
     let paymentFilter = 'all';
     let ordersLoadSeq = 0;
 
+    function syncOwnerNavIndicator() {
+      const nav = document.querySelector('nav.owner-quick-nav.liquid-glass-nav');
+      if (!nav) return;
+      const activeButton = nav.querySelector('[data-owner-page].active');
+      if (!activeButton) return;
+      const navRect = nav.getBoundingClientRect();
+      const buttonRect = activeButton.getBoundingClientRect();
+      nav.style.setProperty('--yf-owner-indicator-left', (buttonRect.left - navRect.left) + 'px');
+      nav.style.setProperty('--yf-owner-indicator-width', buttonRect.width + 'px');
+    }
+
+    let ownerNavResizeObserver = null;
+    function observeOwnerNavSize() {
+      const nav = document.querySelector('nav.owner-quick-nav.liquid-glass-nav');
+      if (!nav || ownerNavResizeObserver || typeof ResizeObserver === 'undefined') return;
+      ownerNavResizeObserver = new ResizeObserver(syncOwnerNavIndicator);
+      ownerNavResizeObserver.observe(nav);
+    }
+
     function setOwnerPage(page) {
       const pages = {
         orders: ['summaryBox', 'ownerOrders'],
@@ -2359,6 +2378,8 @@
         button.classList.toggle('active', active);
         button.setAttribute('aria-current', active ? 'page' : 'false');
       });
+      observeOwnerNavSize();
+      syncOwnerNavIndicator();
       window.scrollTo({top: 0, behavior: 'auto'});
     }
 
@@ -4823,18 +4844,13 @@ html body nav.owner-quick-nav.liquid-glass-nav button:not(.active):not([aria-cur
 
 
 <style id="yf-owner-liquid-glass-v2-geometry-fix">
-/* 修正选中玻璃块与四个等宽导航按钮的间距计算 */
+/* 使用真实按钮坐标定位选中玻璃块，避免不兼容的 CSS calc 乘法 */
 html body nav.owner-quick-nav.liquid-glass-nav:after {
-  left:10px!important;
+  left:var(--yf-owner-indicator-left,10px)!important;
   right:auto!important;
-  width:calc((100% - 32px)/4)!important;
-  transform:translateX(calc(var(--yf-owner-tab-index,0) * (100% + 4px)))!important;
-}
-@media(max-width:700px) {
-  html body nav.owner-quick-nav.liquid-glass-nav:after {
-    left:7px!important;
-    width:calc((100% - 26px)/4)!important;
-  }
+  width:var(--yf-owner-indicator-width,calc((100% - 20px)/4))!important;
+  transform:translateX(0)!important;
+  transition:left .42s cubic-bezier(.2,.85,.25,1),width .42s cubic-bezier(.2,.85,.25,1)!important;
 }
 </style>
 
