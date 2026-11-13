@@ -479,7 +479,7 @@
 /* 顾客端三页面统一液态玻璃底部导航 */
 html body #bottomNav {
  position:fixed!important;left:12px!important;right:12px!important;
- top:auto!important;bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;
+ top:auto!important;bottom:env(safe-area-inset-bottom,0px)!important;
  z-index:1000!important;box-sizing:border-box!important;
  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
  align-items:stretch!important;gap:4px!important;
@@ -523,7 +523,15 @@ html body #bottomNav .navIcon svg {
  opacity:1!important;visibility:visible!important;filter:none!important;
 }
 html body #bottomNav > .navBtn.active .navIcon svg,
-html body #bottomNav > .navBtn[aria-current="page"] .navIcon svg {stroke:#FFFFFF!important}
+html body #bottomNav > .navBtn.active .navIcon svg,
+html body #bottomNav > .navBtn[aria-current="page"] .navIcon svg,
+html body #bottomNav > .navBtn.active .navIcon svg *,
+html body #bottomNav > .navBtn[aria-current="page"] .navIcon svg * {
+ color:#FFFFFF!important;
+ fill:none!important;
+ stroke:#FFFFFF!important;
+ -webkit-text-fill-color:#FFFFFF!important;
+}
 html body #bottomNav .navIcon svg path,
 html body #bottomNav .navIcon svg rect,
 html body #bottomNav .navIcon svg circle {
