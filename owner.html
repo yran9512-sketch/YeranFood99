@@ -4588,6 +4588,67 @@ html body nav.owner-quick-nav button[aria-current="page"] svg{stroke:#1D1D1F!imp
   html body nav.owner-quick-nav{background:#F5F5F7!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 }
 </style>
+
+<style id="yf-owner-appstore-tabbar">
+/* App Store 风格：全宽半透明系统 Tab Bar，不使用悬浮胶囊 */
+html body nav.owner-quick-nav{
+  position:fixed!important;left:0!important;right:0!important;top:auto!important;
+  bottom:0!important;width:100%!important;height:auto!important;min-height:calc(68px + env(safe-area-inset-bottom,0px))!important;
+  margin:0!important;box-sizing:border-box!important;z-index:1000!important;
+  display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  align-items:stretch!important;gap:0!important;
+  padding:7px 8px calc(7px + env(safe-area-inset-bottom,0px))!important;
+  overflow:visible!important;border:0!important;border-top:1px solid rgba(60,60,67,.18)!important;
+  border-radius:0!important;
+  background:rgba(249,249,251,.76)!important;background-color:rgba(249,249,251,.76)!important;
+  background-image:none!important;
+  box-shadow:0 -1px 8px rgba(0,0,0,.035)!important;
+  -webkit-backdrop-filter:saturate(180%) blur(24px)!important;
+  backdrop-filter:saturate(180%) blur(24px)!important;
+}
+html body nav.owner-quick-nav:before{display:none!important;content:none!important}
+html body nav.owner-quick-nav button,
+html body nav.owner-quick-nav button:not(.active){
+  position:relative!important;display:flex!important;flex-direction:column!important;
+  align-items:center!important;justify-content:center!important;gap:4px!important;
+  width:100%!important;min-width:0!important;min-height:54px!important;
+  margin:0!important;padding:4px 2px!important;border:0!important;border-radius:10px!important;
+  background:transparent!important;background-image:none!important;box-shadow:none!important;
+  color:#8E8E93!important;-webkit-text-fill-color:#8E8E93!important;
+  font:500 10px/1.15 -apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif!important;
+  opacity:1!important;filter:none!important;transform:none!important;
+}
+html body nav.owner-quick-nav button.active,
+html body nav.owner-quick-nav button[aria-current="page"]{
+  background:transparent!important;background-color:transparent!important;
+  color:#E8552F!important;-webkit-text-fill-color:#E8552F!important;
+  font-weight:600!important;
+}
+html body nav.owner-quick-nav button .yf-owner-nav-icon{
+  display:grid!important;place-items:center!important;flex:0 0 25px!important;
+  width:25px!important;height:25px!important;margin:0!important;padding:0!important;
+}
+html body nav.owner-quick-nav button .yf-owner-nav-icon svg{
+  display:block!important;width:23px!important;height:23px!important;
+  fill:none!important;stroke:currentColor!important;stroke-width:1.8!important;
+  stroke-linecap:round!important;stroke-linejoin:round!important;
+}
+html body nav.owner-quick-nav button span:last-child{
+  display:block!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;
+  color:inherit!important;-webkit-text-fill-color:inherit!important;
+  font-size:10px!important;line-height:1.15!important;font-weight:inherit!important;
+  white-space:nowrap!important;
+}
+html body nav.owner-quick-nav button:after{display:none!important;content:none!important}
+@media(max-width:700px){
+  body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))!important}
+  html body nav.owner-quick-nav{padding-left:6px!important;padding-right:6px!important}
+}
+@media(prefers-reduced-transparency:reduce){
+  html body nav.owner-quick-nav{background:#F9F9FB!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+}
+</style>
+
 </body>
 
 </html>
