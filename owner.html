@@ -4912,6 +4912,49 @@ html body nav.owner-quick-nav.liquid-glass-nav button span:last-child {
 }
 </style>
 
+
+<style id="yf-owner-nav-svg-final-visibility-fix">
+/* 最终图标可见性修复：移除旧版反色/填充滤镜，统一使用描边 SVG */
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon,
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg {
+  display:grid!important;
+  visibility:visible!important;
+  opacity:1!important;
+  filter:none!important;
+  mix-blend-mode:normal!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg {
+  display:block!important;
+  overflow:visible!important;
+  fill:none!important;
+  stroke:currentColor!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg path,
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg rect,
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg circle,
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg line,
+html body nav.owner-quick-nav.liquid-glass-nav button .yf-owner-nav-icon svg polyline {
+  fill:none!important;
+  stroke:currentColor!important;
+  stroke-width:1.8!important;
+  opacity:1!important;
+  filter:none!important;
+}
+html body nav.owner-quick-nav.liquid-glass-nav button.active .yf-owner-nav-icon svg,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] .yf-owner-nav-icon svg,
+html body nav.owner-quick-nav.liquid-glass-nav button.active .yf-owner-nav-icon svg path,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] .yf-owner-nav-icon svg path,
+html body nav.owner-quick-nav.liquid-glass-nav button.active .yf-owner-nav-icon svg rect,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] .yf-owner-nav-icon svg rect,
+html body nav.owner-quick-nav.liquid-glass-nav button.active .yf-owner-nav-icon svg circle,
+html body nav.owner-quick-nav.liquid-glass-nav button[aria-current="page"] .yf-owner-nav-icon svg circle {
+  color:#FFFFFF!important;
+  stroke:#FFFFFF!important;
+  fill:none!important;
+  filter:none!important;
+}
+</style>
+
 </body>
 
 </html>
