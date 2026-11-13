@@ -4572,6 +4572,48 @@ html body #main nav.owner-quick-nav.liquid-glass-nav .yf-owner-nav-icon svg {
 }
 </style>
 
+
+<style id="yf-owner-nav-restore-original">
+/* 恢复管理员端原来的深色选中导航样式 */
+html body #main nav.owner-quick-nav.liquid-glass-nav > button {
+  color:#626873 !important;
+  -webkit-text-fill-color:#626873 !important;
+  background:transparent !important;
+  background-image:none !important;
+  border:1px solid transparent !important;
+  box-shadow:none !important;
+}
+html body #main nav.owner-quick-nav.liquid-glass-nav > button.active,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button[aria-current="page"] {
+  color:#FFFFFF !important;
+  -webkit-text-fill-color:#FFFFFF !important;
+  background:#292B30 !important;
+  background-image:linear-gradient(145deg,#383A40,#202126) !important;
+  border-color:rgba(255,255,255,.22) !important;
+  box-shadow:0 3px 12px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.16) !important;
+}
+html body #main nav.owner-quick-nav.liquid-glass-nav .yf-owner-nav-icon svg,
+html body #main nav.owner-quick-nav.liquid-glass-nav .yf-owner-nav-icon svg path,
+html body #main nav.owner-quick-nav.liquid-glass-nav .yf-owner-nav-icon svg rect,
+html body #main nav.owner-quick-nav.liquid-glass-nav .yf-owner-nav-icon svg circle {
+  fill:none !important;
+  stroke:#626873 !important;
+  stroke-width:1.8 !important;
+  stroke-linecap:round !important;
+  stroke-linejoin:round !important;
+}
+html body #main nav.owner-quick-nav.liquid-glass-nav > button.active .yf-owner-nav-icon svg,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button[aria-current="page"] .yf-owner-nav-icon svg,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button.active .yf-owner-nav-icon svg path,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button.active .yf-owner-nav-icon svg rect,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button.active .yf-owner-nav-icon svg circle,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button[aria-current="page"] .yf-owner-nav-icon svg path,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button[aria-current="page"] .yf-owner-nav-icon svg rect,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button[aria-current="page"] .yf-owner-nav-icon svg circle {
+  stroke:#FFFFFF !important;
+}
+</style>
+
 </body>
 
 </html>
