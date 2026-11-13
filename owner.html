@@ -4380,6 +4380,188 @@ body > header h1 { color:#FFFFFF !important; font-weight:750 !important; letter-
 }
 </style>
 
+
+<style id="yf-owner-orders-nav-refinement">
+/* 订单区：压缩筛选区，优先展示订单内容 */
+#main #ownerOrders > h2 {
+  display:flex;
+  align-items:center;
+  min-height:32px;
+  margin:0 0 13px !important;
+  font-size:22px !important;
+  line-height:1.25 !important;
+  font-weight:780 !important;
+  letter-spacing:-.55px !important;
+  color:#1D1D1F !important;
+}
+#main #ownerOrders .order-filters {
+  display:flex !important;
+  flex-wrap:nowrap !important;
+  align-items:center !important;
+  gap:8px !important;
+  width:100%;
+  min-width:0;
+  margin:0 0 14px !important;
+  padding:8px 10px !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+  background:#F8F8FA !important;
+  border:1px solid #ECECF0 !important;
+  border-radius:13px !important;
+  box-shadow:none !important;
+}
+#main #ownerOrders .order-filters::-webkit-scrollbar { display:none; }
+#main #ownerOrders .filter-group {
+  display:flex !important;
+  flex:0 0 auto !important;
+  flex-wrap:nowrap !important;
+  align-items:center !important;
+  gap:5px !important;
+  width:auto !important;
+  margin:0 !important;
+  white-space:nowrap;
+}
+#main #ownerOrders .filter-group > span {
+  display:inline-flex !important;
+  flex:0 0 auto !important;
+  width:auto !important;
+  margin:0 2px 0 0 !important;
+  color:#85858C !important;
+  font-size:11px !important;
+  font-weight:700 !important;
+}
+#main #ownerOrders .filter-btn {
+  flex:0 0 auto !important;
+  min-width:0 !important;
+  min-height:32px !important;
+  padding:6px 10px !important;
+  border:1px solid #E5E5EA !important;
+  border-radius:999px !important;
+  background:#FFFFFF !important;
+  color:#55555C !important;
+  font-size:12px !important;
+  line-height:1.2 !important;
+  font-weight:600 !important;
+  white-space:nowrap !important;
+  box-shadow:none !important;
+}
+#main #ownerOrders .filter-btn.active {
+  background:#1D1D1F !important;
+  color:#FFFFFF !important;
+  border-color:#1D1D1F !important;
+}
+#main #ownerOrders .refresh-btn {
+  display:inline-flex !important;
+  flex:0 0 36px !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:36px !important;
+  min-width:36px !important;
+  height:36px !important;
+  min-height:36px !important;
+  margin:0 0 0 auto !important;
+  padding:0 !important;
+  border:1px solid #E5E5EA !important;
+  border-radius:50% !important;
+  background:#FFFFFF !important;
+  color:#55555C !important;
+  box-shadow:none !important;
+}
+#main #ownerOrders .refresh-btn .yf-owner-refresh-icon {
+  display:inline-flex !important;
+  margin:0 !important;
+}
+#main #ownerOrders .refresh-btn .yf-owner-refresh-icon svg {
+  width:17px !important;
+  height:17px !important;
+}
+#main #ownerOrders .refresh-btn > span:last-child {
+  position:absolute !important;
+  width:1px !important;
+  height:1px !important;
+  padding:0 !important;
+  margin:-1px !important;
+  overflow:hidden !important;
+  clip:rect(0,0,0,0) !important;
+  white-space:nowrap !important;
+  border:0 !important;
+}
+#main #ownerOrders .refresh-btn:hover {
+  background:#F2F2F7 !important;
+  transform:none !important;
+}
+#main #ownerOrders .refresh-btn:active { transform:scale(.94) !important; }
+
+/* 底部导航：轻量选中态，四枚图标统一为线性 SVG */
+html body #main nav.owner-quick-nav.liquid-glass-nav > button,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button:not(.active) {
+  color:#626873 !important;
+  background:transparent !important;
+  border:1px solid transparent !important;
+  box-shadow:none !important;
+}
+html body #main nav.owner-quick-nav.liquid-glass-nav > button.active,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button[aria-current="page"] {
+  color:#D94A2F !important;
+  -webkit-text-fill-color:#D94A2F !important;
+  background:rgba(232,85,47,.12) !important;
+  background-image:none !important;
+  border:1px solid rgba(232,85,47,.12) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.72) !important;
+}
+html body #main nav.owner-quick-nav.liquid-glass-nav .yf-owner-nav-icon svg,
+html body #main nav.owner-quick-nav.liquid-glass-nav .yf-owner-nav-icon svg path,
+html body #main nav.owner-quick-nav.liquid-glass-nav .yf-owner-nav-icon svg rect,
+html body #main nav.owner-quick-nav.liquid-glass-nav .yf-owner-nav-icon svg circle {
+  fill:none !important;
+  stroke:#626873 !important;
+  stroke-width:1.8 !important;
+  stroke-linecap:round !important;
+  stroke-linejoin:round !important;
+}
+html body #main nav.owner-quick-nav.liquid-glass-nav > button.active .yf-owner-nav-icon svg,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button[aria-current="page"] .yf-owner-nav-icon svg,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button.active .yf-owner-nav-icon svg path,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button.active .yf-owner-nav-icon svg rect,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button.active .yf-owner-nav-icon svg circle,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button[aria-current="page"] .yf-owner-nav-icon svg path,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button[aria-current="page"] .yf-owner-nav-icon svg rect,
+html body #main nav.owner-quick-nav.liquid-glass-nav > button[aria-current="page"] .yf-owner-nav-icon svg circle {
+  stroke:#D94A2F !important;
+}
+html body #main nav.owner-quick-nav.liquid-glass-nav .yf-owner-nav-icon svg {
+  width:22px !important;
+  height:22px !important;
+}
+@media(max-width:700px) {
+  #main #ownerOrders > h2 {
+    font-size:21px !important;
+    margin-bottom:11px !important;
+  }
+  #main #ownerOrders .order-filters {
+    gap:7px !important;
+    padding:7px 8px !important;
+    margin-bottom:12px !important;
+  }
+  #main #ownerOrders .filter-group { gap:4px !important; }
+  #main #ownerOrders .filter-group > span { font-size:10px !important; }
+  #main #ownerOrders .filter-btn {
+    min-height:30px !important;
+    padding:5px 9px !important;
+    font-size:11px !important;
+  }
+  #main #ownerOrders .refresh-btn {
+    flex-basis:34px !important;
+    width:34px !important;
+    min-width:34px !important;
+    height:34px !important;
+    min-height:34px !important;
+  }
+}
+</style>
+
 </body>
 
 </html>
