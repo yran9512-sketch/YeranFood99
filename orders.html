@@ -199,38 +199,7 @@
       font-size: 13px
     }
 
-    #bottomNav {
-      display: none
-    }
-
     @media (max-width:640px) {
-      #bottomNav {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: #fff;
-        border-top: 1px solid #eee;
-        justify-content: space-around;
-        padding: 8px 0;
-        z-index: 100;
-        box-shadow: 0 -2px 12px rgba(0, 0, 0, .04)
-      }
-
-      .navBtn {
-        background: transparent;
-        border: 0;
-        color: #999;
-        cursor: pointer;
-        padding: 6px 20px;
-        font-family: inherit;
-        transition: color .2s
-      }
-
-      .navBtn.active {
-        color: #111
-      }
     }
 
     body.dark {
@@ -270,15 +239,6 @@
     body.dark .row .value {
       color: #eee
     }
-
-    body.dark #bottomNav {
-      background: #1a1a1a;
-      border-top-color: #2a2a2a
-    }
-
-    body.dark .navBtn.active {
-      color: #fff
-    }
   
     /* ===== 全局 UI 稳定性增强 ===== */
     button, input, textarea, select { -webkit-tap-highlight-color: transparent; }
@@ -296,9 +256,6 @@
     }
     @media (max-width: 700px) {
       button { touch-action: manipulation; }
-      #bottomNav {
-        padding-bottom: max(8px, env(safe-area-inset-bottom));
-      }
     }
 
   
@@ -319,15 +276,12 @@
     .tag.unpaid { background:#ffe4dd; color:#b92f29; }
     .tag.cash { background:#fff2d7; color:#925b13; }
     .tag.online { background:#fff0e9; color:#bd3c2e; }
-    #bottomNav { border-top-color:#f1ddd5; box-shadow:0 -6px 22px rgba(96,43,27,.07); }
-    .navBtn.active { color:#e64431; }
     @media(max-width:640px) {
       header { padding:24px 12px; border-radius:0 0 22px 22px; }
       header h1 { font-size:22px; }
       .container { margin-top:16px; padding:0 12px; }
       .card { padding:21px 16px; border-radius:18px; }
       .orderCard { padding:15px; border-radius:14px; overflow-wrap:anywhere; }
-      #bottomNav { padding-bottom:max(8px,env(safe-area-inset-bottom)); }
     }
 
   
@@ -344,7 +298,7 @@
   body #bottomNav .navBtn.active .navIcon{background:#FFF0E9!important;color:#E8552F!important;transform:translateY(-1px)}
   body #bottomNav .navBtn:active{transform:scale(.96)!important}
 }
-@media(prefers-reduced-motion:reduce){body #bottomNav .navBtn,body #bottomNav .navBtn .navIcon{transition:none!important}}
+@media(prefers-reduced-motion:reduce){}
 </style>
   <link rel="stylesheet" href="/animations.css">
 
@@ -453,11 +407,6 @@
     box-shadow: 0 7px 18px rgba(101,88,245,.18);
   }
   body:not(.dark) button.primary:hover { background: #5547E8 !important; }
-  body:not(.dark) .navBtn.active {
-    color: var(--yf-primary) !important;
-    background: var(--yf-primary-soft) !important;
-    border-color: transparent !important;
-  }
 
   </style>
 
@@ -519,18 +468,83 @@
       color: #fff2eb !important;
       border-color: var(--yf-dark-accent) !important;
     }
-    body.dark #bottomNav, body.dark .checkoutBar {
-      background: var(--yf-dark-header) !important;
-      border-color: var(--yf-dark-border) !important;
-    }
-    body.dark .navBtn { color: var(--yf-dark-muted) !important; }
-    body.dark .navBtn.active { color: var(--yf-dark-accent) !important; background: var(--yf-dark-accent-bg) !important; }
   </style>
 
 
   <!-- 预加载底部导航目标页面，减少切换等待 -->
   <link rel="prefetch" href="/" as="document">
   <link rel="prefetch" href="/feedback.html" as="document">
+
+<style id="yf-customer-nav-single-source">
+/* 顾客端三页面统一液态玻璃底部导航 */
+html body #bottomNav {
+ position:fixed!important;left:12px!important;right:12px!important;
+ top:auto!important;bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;
+ z-index:1000!important;box-sizing:border-box!important;
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ align-items:stretch!important;gap:4px!important;
+ width:auto!important;min-height:72px!important;height:auto!important;
+ margin:0!important;padding:8px!important;overflow:hidden!important;isolation:isolate!important;
+ border:1px solid rgba(255,255,255,.38)!important;border-radius:22px!important;
+ background:rgba(248,248,250,.78)!important;background-image:none!important;
+ box-shadow:0 8px 28px rgba(25,32,45,.16),inset 0 1px 0 rgba(255,255,255,.65)!important;
+ -webkit-backdrop-filter:blur(26px) saturate(170%)!important;
+ backdrop-filter:blur(26px) saturate(170%)!important;
+}
+html body #bottomNav::before,html body #bottomNav::after{content:none!important;display:none!important}
+html body #bottomNav > .navBtn {
+ appearance:none!important;-webkit-appearance:none!important;
+ display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+ gap:5px!important;min-width:0!important;min-height:54px!important;width:100%!important;
+ margin:0!important;padding:5px 2px!important;box-sizing:border-box!important;
+ border:1px solid transparent!important;border-radius:15px!important;
+ background:transparent!important;background-image:none!important;box-shadow:none!important;
+ opacity:1!important;filter:none!important;text-decoration:none!important;
+ color:#626873!important;-webkit-text-fill-color:#626873!important;
+ font:600 10px/1.15 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+ text-align:center!important;cursor:pointer!important;
+}
+html body #bottomNav > .navBtn.active,
+html body #bottomNav > .navBtn[aria-current="page"] {
+ background:#292B30!important;background-image:linear-gradient(145deg,#383A40,#202126)!important;
+ border-color:rgba(255,255,255,.22)!important;
+ box-shadow:0 3px 12px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.16)!important;
+ color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;
+}
+html body #bottomNav .navIcon {
+ display:grid!important;place-items:center!important;flex:0 0 25px!important;
+ width:25px!important;height:25px!important;margin:0!important;padding:0!important;
+ font-size:0!important;line-height:0!important;opacity:1!important;visibility:visible!important;filter:none!important;
+}
+html body #bottomNav .navIcon svg {
+ display:block!important;width:23px!important;height:23px!important;overflow:visible!important;
+ fill:none!important;stroke:#626873!important;stroke-width:1.8!important;
+ stroke-linecap:round!important;stroke-linejoin:round!important;
+ opacity:1!important;visibility:visible!important;filter:none!important;
+}
+html body #bottomNav > .navBtn.active .navIcon svg,
+html body #bottomNav > .navBtn[aria-current="page"] .navIcon svg {stroke:#FFFFFF!important}
+html body #bottomNav .navIcon svg path,
+html body #bottomNav .navIcon svg rect,
+html body #bottomNav .navIcon svg circle {
+ fill:none!important;stroke:inherit!important;stroke-width:1.8!important;opacity:1!important;filter:none!important;
+}
+html body #bottomNav > .navBtn > span:last-child {
+ display:block!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;
+ color:inherit!important;-webkit-text-fill-color:inherit!important;font:inherit!important;
+ line-height:1.15!important;white-space:nowrap!important;
+}
+@media(max-width:700px) {
+ html body #bottomNav {left:8px!important;right:8px!important}
+ body {padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))!important}
+}
+@media(prefers-reduced-transparency:reduce) {
+ html body #bottomNav {background:#F2F2F4!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+}
+@media(prefers-reduced-motion:reduce) {
+ html body #bottomNav * {transition:none!important}
+}
+</style>
 </head>
 
 <body>
@@ -727,8 +741,6 @@ body:not(.dark) .card,body:not(.dark) .order-card{background:#fff!important;bord
 body:not(.dark) button.primary{background:#1D1D1F!important;background-image:none!important;border-color:#1D1D1F!important;color:#fff!important;box-shadow:none!important}
 body:not(.dark) input:not([type=checkbox]):not([type=radio]),body:not(.dark) select,body:not(.dark) textarea{background:#fff!important;border:1px solid var(--yf-border)!important;color:var(--yf-text)!important}
 body:not(.dark) input:focus,body:not(.dark) select:focus,body:not(.dark) textarea:focus{border-color:#8E8E93!important;box-shadow:0 0 0 3px rgba(29,29,31,.08)!important}
-body:not(.dark) #bottomNav{background:rgba(255,255,255,.97)!important;border-top:1px solid var(--yf-border)!important;box-shadow:0 -3px 14px rgba(0,0,0,.04)!important;backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important}
-body:not(.dark) #bottomNav .navBtn.active{color:var(--yf-accent)!important;background:#FFF2ED!important}
 @media(max-width:640px){body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))!important}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
