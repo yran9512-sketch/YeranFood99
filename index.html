@@ -3259,6 +3259,32 @@ html body #bottomNav > .navBtn > span:last-child {
 }
 
 </style>
+<style id="yf-unified-card-finish">
+/* YeranFood unified card finish */
+:root{--yf-card-radius:18px;--yf-card-border:#E5E5EA;--yf-card-shadow:0 3px 14px rgba(29,29,31,.055);--yf-card-shadow-hover:0 7px 20px rgba(29,29,31,.085)}
+html body:not(.dark) .card,
+html body:not(.dark) #orderCard,
+html body:not(.dark) #payCard,
+html body:not(.dark) #successCard,
+html body:not(.dark) .breakfast-product-card{
+  border:1px solid var(--yf-card-border)!important;border-radius:var(--yf-card-radius)!important;
+  box-shadow:var(--yf-card-shadow)!important;background:#fff!important;
+}
+html body:not(.dark) #productList>.yf-product-card{
+  border-radius:17px!important;box-shadow:0 2px 10px rgba(29,29,31,.045)!important;
+}
+html body:not(.dark) #productList>.yf-product-card.yf-selected{
+  box-shadow:0 0 0 3px rgba(232,85,47,.075)!important;
+}
+html body:not(.dark) .card:focus-within,
+html body:not(.dark) #orderCard:focus-within,
+html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
+@media(hover:hover){
+ html body:not(.dark) #productList>.yf-product-card:hover,
+ html body:not(.dark) .breakfast-product-card:hover{transform:translateY(-2px);box-shadow:var(--yf-card-shadow-hover)!important}
+}
+@media(prefers-reduced-motion:reduce){html body:not(.dark) #productList>.yf-product-card,html body:not(.dark) .breakfast-product-card{transition:none!important}}
+</style>
 </head>
 
 <body>
