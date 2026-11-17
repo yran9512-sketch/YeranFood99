@@ -5548,6 +5548,114 @@ html body:not(.dark) #checkoutBar .submit:disabled{
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
 })();
 </script>
+
+<style id="yf-index-header-polish-2026">
+/* Index 页眉精修：品牌层级、背景融合与轻量滚动收缩 */
+html body:not(.dark) > header{
+  position:sticky!important;
+  top:0!important;
+  z-index:80!important;
+  padding:30px 18px 23px!important;
+  background:#1D1D1F!important;
+  background-image:none!important;
+  border:0!important;
+  border-radius:0 0 20px 20px!important;
+  box-shadow:0 5px 18px rgba(0,0,0,.10)!important;
+  transition:padding .24s ease,border-radius .24s ease,box-shadow .24s ease!important;
+}
+html body:not(.dark) > header h1{
+  font-size:clamp(27px,5vw,32px)!important;
+  font-weight:800!important;
+  letter-spacing:1.1px!important;
+  line-height:1.12!important;
+  transition:font-size .24s ease,letter-spacing .24s ease!important;
+}
+html body:not(.dark) > header p{
+  margin-top:7px!important;
+  color:rgba(255,255,255,.66)!important;
+  font-size:12px!important;
+  letter-spacing:.45px!important;
+  transition:opacity .2s ease,margin .2s ease,height .2s ease!important;
+}
+html body:not(.dark) > header .lang{
+  gap:7px!important;
+  margin-top:12px!important;
+}
+html body:not(.dark) > header .lang button{
+  min-height:36px!important;
+  min-width:70px!important;
+  padding:7px 14px!important;
+  border-color:rgba(255,255,255,.22)!important;
+  background:rgba(255,255,255,.075)!important;
+  transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease!important;
+}
+html body:not(.dark) > header .lang button.active{
+  background:#fff!important;
+  color:#1D1D1F!important;
+  border-color:#fff!important;
+}
+html body:not(.dark) > header .lang button:active{transform:scale(.97)!important}
+html body:not(.dark) > header #notifyBtn,
+html body:not(.dark) > header #installAppBtn{
+  transition:margin .22s ease,padding .22s ease,transform .22s ease!important;
+}
+html body:not(.dark) > header.yf-header-compact{
+  padding:13px 18px 12px!important;
+  border-radius:0 0 15px 15px!important;
+  box-shadow:0 4px 14px rgba(0,0,0,.085)!important;
+}
+html body:not(.dark) > header.yf-header-compact h1{
+  font-size:25px!important;
+  letter-spacing:.75px!important;
+}
+html body:not(.dark) > header.yf-header-compact p{
+  margin-top:3px!important;
+  font-size:11px!important;
+}
+html body:not(.dark) > header.yf-header-compact .lang{
+  margin-top:7px!important;
+}
+html body:not(.dark) > header.yf-header-compact .lang button{
+  min-height:31px!important;
+  padding:5px 12px!important;
+  font-size:12px!important;
+}
+html body:not(.dark) > header.yf-header-compact #notifyBtn{
+  margin-top:7px!important;
+  padding:7px 13px!important;
+}
+html body:not(.dark) > header.yf-header-compact #installAppBtn{
+  margin-top:6px!important;
+  padding:7px 13px!important;
+}
+@media(max-width:640px){
+  html body:not(.dark) > header{padding:25px 16px 19px!important}
+  html body:not(.dark) > header.yf-header-compact{padding:11px 16px 10px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  html body:not(.dark) > header,
+  html body:not(.dark) > header *{transition:none!important}
+}
+</style>
+<script id="yf-index-header-scroll-shrink">
+(function(){
+  var header=document.querySelector('body > header');
+  if(!header)return;
+  var ticking=false;
+  function update(){
+    header.classList.toggle('yf-header-compact',window.scrollY>36);
+    ticking=false;
+  }
+  window.addEventListener('scroll',function(){
+    if(!ticking){
+      ticking=true;
+      window.requestAnimationFrame(update);
+    }
+  },{passive:true});
+  update();
+})();
+</script>
+
 </body>
 
 </html>
