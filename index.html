@@ -5645,12 +5645,35 @@ html body:not(.dark) > header.yf-header-compact #installAppBtn{
   html body:not(.dark) > header *{transition:none!important}
 }
 
-/* 收缩状态仅显示品牌名称 */
+/* 收缩状态仅显示品牌名称，并使用渐隐与高度过渡 */
+html body:not(.dark) > header > p,
+html body:not(.dark) > header > .lang,
+html body:not(.dark) > header > #notifyBtn,
+html body:not(.dark) > header > #installAppBtn{
+  opacity:1;
+  visibility:visible;
+  max-height:56px;
+  overflow:hidden;
+  transform:translateY(0);
+  transition:opacity .24s ease, max-height .28s ease, margin .28s ease,
+             padding .28s ease, transform .24s ease, visibility 0s linear 0s!important;
+}
 html body:not(.dark) > header.yf-header-compact > p,
 html body:not(.dark) > header.yf-header-compact > .lang,
 html body:not(.dark) > header.yf-header-compact > #notifyBtn,
 html body:not(.dark) > header.yf-header-compact > #installAppBtn{
-  display:none!important;
+  opacity:0!important;
+  visibility:hidden!important;
+  max-height:0!important;
+  margin-top:0!important;
+  margin-bottom:0!important;
+  padding-top:0!important;
+  padding-bottom:0!important;
+  border-width:0!important;
+  transform:translateY(-5px)!important;
+  pointer-events:none!important;
+  transition:opacity .18s ease, max-height .28s ease, margin .28s ease,
+             padding .28s ease, transform .24s ease, visibility 0s linear .28s!important;
 }
 html body:not(.dark) > header.yf-header-compact{
   padding:6px 16px!important;
