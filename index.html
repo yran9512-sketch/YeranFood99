@@ -5644,6 +5644,24 @@ html body:not(.dark) > header.yf-header-compact #installAppBtn{
   html body:not(.dark) > header,
   html body:not(.dark) > header *{transition:none!important}
 }
+
+/* 收缩状态仅显示品牌名称 */
+html body:not(.dark) > header.yf-header-compact > p,
+html body:not(.dark) > header.yf-header-compact > .lang,
+html body:not(.dark) > header.yf-header-compact > #notifyBtn,
+html body:not(.dark) > header.yf-header-compact > #installAppBtn{
+  display:none!important;
+}
+html body:not(.dark) > header.yf-header-compact{
+  padding:6px 16px!important;
+  min-height:0!important;
+}
+html body:not(.dark) > header.yf-header-compact h1{
+  margin:0!important;
+}
+@media(max-width:640px){
+  html body:not(.dark) > header.yf-header-compact{padding:6px 16px!important}
+}
 </style>
 <script id="yf-index-header-scroll-shrink">
 (function(){
