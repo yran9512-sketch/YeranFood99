@@ -5548,6 +5548,93 @@ html body:not(.dark) #checkoutBar .submit:disabled{
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
 })();
 </script>
+
+<style id="yf-index-light-header-2026">
+/* 顾客端页眉：取消大面积深色背景，改为轻量品牌区 */
+html body:not(.dark) > header{
+  background:#F5F5F7!important;
+  background-image:none!important;
+  color:#1D1D1F!important;
+  padding:27px 18px 23px!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  text-align:center!important;
+}
+html body:not(.dark) > header h1{
+  margin:0!important;
+  color:#1D1D1F!important;
+  font-size:29px!important;
+  font-weight:800!important;
+  letter-spacing:.2px!important;
+  line-height:1.15!important;
+  text-shadow:none!important;
+}
+html body:not(.dark) > header p{
+  margin:7px 0 0!important;
+  color:#8E8E93!important;
+  font-size:12px!important;
+  letter-spacing:.35px!important;
+}
+html body:not(.dark) > header .lang{
+  display:flex!important;
+  justify-content:center!important;
+  gap:7px!important;
+  margin-top:15px!important;
+}
+html body:not(.dark) > header .lang button{
+  min-height:34px!important;
+  padding:6px 15px!important;
+  margin:0!important;
+  color:#3A3A3C!important;
+  background:#E9E9ED!important;
+  border:1px solid transparent!important;
+  border-radius:999px!important;
+  font-size:12px!important;
+  font-weight:600!important;
+  box-shadow:none!important;
+}
+html body:not(.dark) > header .lang button.active{
+  color:#1D1D1F!important;
+  background:#FFFFFF!important;
+  border-color:#E5E5EA!important;
+  box-shadow:0 1px 3px rgba(0,0,0,.07)!important;
+}
+html body:not(.dark) > header #notifyBtn{
+  min-height:38px!important;
+  margin:14px auto 0!important;
+  padding:9px 17px!important;
+  color:#FFFFFF!important;
+  background:#E8552F!important;
+  border:0!important;
+  border-radius:999px!important;
+  box-shadow:0 3px 9px rgba(232,85,47,.16)!important;
+  font-size:13px!important;
+  font-weight:650!important;
+}
+html body:not(.dark) > header #installAppBtn{
+  min-height:38px!important;
+  margin:9px auto 0!important;
+  padding:8px 16px!important;
+  color:#3A3A3C!important;
+  background:#FFFFFF!important;
+  border:1px solid #E5E5EA!important;
+  border-radius:999px!important;
+  box-shadow:none!important;
+  font-size:13px!important;
+  font-weight:600!important;
+}
+html body:not(.dark) > header #notifyBtn:active,
+html body:not(.dark) > header #installAppBtn:active,
+html body:not(.dark) > header .lang button:active{
+  transform:scale(.98)!important;
+}
+@media(max-width:640px){
+  html body:not(.dark) > header{padding:24px 16px 20px!important}
+  html body:not(.dark) > header h1{font-size:28px!important}
+}
+</style>
+
 </body>
 
 </html>
