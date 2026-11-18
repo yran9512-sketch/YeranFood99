@@ -3948,13 +3948,6 @@ html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
         priceLabel.textContent = lang === 'zh' ? '单价' : 'Unit price';
       }
 
-      const choiceTitle = document.getElementById('breakfastChoiceTitle');
-      if (choiceTitle) {
-        choiceTitle.textContent = menuOptions.length
-          ? (lang === 'zh' ? '选择口味 / 选项' : 'Choose option')
-          : (lang === 'zh' ? '商品' : 'Product');
-      }
-
       const qtyTitle = document.getElementById('breakfastQtyTitle');
       if (qtyTitle) {
         qtyTitle.textContent = lang === 'zh' ? '数量' : 'Quantity';
