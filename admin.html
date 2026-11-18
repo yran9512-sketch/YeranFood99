@@ -1878,7 +1878,7 @@ html body:not(.dark) .kitchen-order{border-radius:14px!important;box-shadow:0 2p
         const optionText = Array.from(group.options.entries()).map(function (entry) {
           return escapeHtml(entry[0]) + ' ' + entry[1];
         }).join('　');
-        summaryHtml += '<div><div class="num">' + group.total + '</div><div class="lbl"><strong>' + escapeHtml(productName) + '</strong><br>' + optionText + '　总份数 ' + group.total + '</div></div>';
+        summaryHtml += '<div><div class="lbl"><strong style="display:block;font-size:18px;line-height:1.35;margin-bottom:6px">' + escapeHtml(productName) + '</strong><span style="font-size:13px;line-height:1.6">' + optionText + '</span><br><span style="font-size:13px;font-weight:600">总份数 ' + group.total + '</span></div></div>';
       });
       document.getElementById('summaryBox').innerHTML = summaryHtml;
       renderOrderRows(currentOrders);
