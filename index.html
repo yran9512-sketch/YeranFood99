@@ -3389,7 +3389,7 @@ html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
         </div>
       </div>
 
-      <label id="typeLabel" style="display:none">选择</label>
+      <label id="typeLabel" hidden aria-hidden="true" style="display:none!important">选择</label>
       <div class="opt" id="mealOptionsBox">
         <div class="skeleton sk-row"></div>
         <div class="skeleton sk-row"></div>
@@ -5568,9 +5568,13 @@ html body:not(.dark) #checkoutBar .submit:disabled{
 
 /* 隐藏多余的 Choice 标题，保留实际菜品选项 */
 #typeLabel,
+#typeLabel[hidden],
 #breakfastChoiceTitle,
 .breakfast-choice-title {
   display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  min-height: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
 }
