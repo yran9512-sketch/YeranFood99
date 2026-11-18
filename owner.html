@@ -2691,7 +2691,7 @@ window.scrollTo({top: 0, behavior: 'auto'});
         box.innerHTML = '<div class="noorders">目前还没有菜品需求。</div>';
         return;
       }
-      const labels = {new:'待处理', considering:'考虑中', adopted:'已采纳'};
+      const labels = {new:'待处理', considering:'待处理', adopted:'已通过'};
       let html = '<div class="food-requests-table-wrap"><table class="food-requests-table"><thead><tr><th>菜品</th><th>需求次数</th><th>最近提交</th><th>状态</th><th>操作</th></tr></thead><tbody>';
       items.forEach(function(item) {
         html += '<tr><td><strong>' + escapeHtml(item.name) + '</strong></td>' +
@@ -2699,17 +2699,16 @@ window.scrollTo({top: 0, behavior: 'auto'});
           '<td>' + fmtTime(item.last) + '</td>' +
           '<td><span class="food-request-status status-' + item.status + '">' + labels[item.status] + '</span></td>' +
           '<td class="food-request-actions">' +
-          '<button class="small gray" type="button" data-food-status="new" data-food-key="' + escapeHtml(item.key) + '">待处理</button> ' +
-          '<button class="small" type="button" data-food-status="considering" data-food-key="' + escapeHtml(item.key) + '">考虑中</button> ' +
-          '<button class="small green" type="button" data-food-status="adopted" data-food-key="' + escapeHtml(item.key) + '">已采纳</button> ' +
+          (item.status === 'adopted' ? '<span class="food-request-status status-adopted">已通过</span> ' :
+          '<button class="small green" type="button" data-food-approve="1" data-food-key="' + escapeHtml(item.key) + '">通过</button> ') +
           '<button class="small red" type="button" data-food-delete="1" data-food-key="' + escapeHtml(item.key) + '">删除</button>' +
           '</td></tr>';
       });
       html += '</tbody></table></div>';
       box.innerHTML = html;
-      box.querySelectorAll('[data-food-status]').forEach(function(button) {
+      box.querySelectorAll('[data-food-approve]').forEach(function(button) {
         button.addEventListener('click', function() {
-          updateFoodRequestStatus(button.dataset.foodKey, button.dataset.foodStatus);
+          updateFoodRequestStatus(button.dataset.foodKey, 'adopted');
         });
       });
       box.querySelectorAll('[data-food-delete]').forEach(function(button) {
