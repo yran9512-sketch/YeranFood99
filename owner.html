@@ -2143,7 +2143,7 @@ html body #main nav.owner-quick-nav.liquid-glass-nav > button > span:last-child 
 @media (max-width: 700px) {
   body { padding-bottom: calc(116px + env(safe-area-inset-bottom,0px)) !important; }
   #main nav.owner-quick-nav {
-    --yf-nav-count:4;
+    --yf-nav-count:5;
     position:fixed!important;
     left:5.5%!important;right:5.5%!important;
     bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;
@@ -2168,7 +2168,7 @@ html body #main nav.owner-quick-nav.liquid-glass-nav > button > span:last-child 
   #main nav.owner-quick-nav::before {
     content:""!important;display:block!important;position:absolute!important;
     z-index:-1!important;left:8px!important;top:8px!important;bottom:8px!important;
-    width:calc((100% - 16px)/4)!important;
+    width:calc((100% - 16px)/5)!important;
     border-radius:999px!important;
     background:rgba(13,13,14,.96)!important;
     box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 2px 10px rgba(0,0,0,.16)!important;
@@ -2266,6 +2266,7 @@ html body:not(.dark) #main .option-card{box-shadow:0 2px 9px rgba(29,29,31,.045)
         <button type="button" data-owner-page="menu" onclick="setOwnerPage('menu')"><span class="yf-owner-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></span><span>菜单</span></button>
         <button type="button" data-owner-page="options" onclick="setOwnerPage('options')"><span class="yf-owner-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="9" cy="6" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="18" r="2"/></svg></span><span>选项</span></button>
         <button type="button" data-owner-page="feedback" onclick="setOwnerPage('feedback')"><span class="yf-owner-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-4.8a8.5 8.5 0 1 1 16.1-4.7Z"/><path d="M8 11h8M8 14h5"/></svg></span><span>反馈</span></button>
+        <button type="button" data-owner-page="foodRequests" onclick="setOwnerPage('foodRequests')"><span class="yf-owner-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H9l-5 4V5Z"/><path d="M8 9h8M8 13h5"/></svg></span><span>菜品需求</span></button>
       </nav>
 
 
@@ -2310,6 +2311,15 @@ html body:not(.dark) #main .option-card{box-shadow:0 2px 9px rgba(29,29,31,.045)
         <div id="approvedFeedbackBox">
           <div class="noorders">加载中…</div>
         </div>
+      </div>
+
+      <div class="card" id="ownerFoodRequests">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px">
+          <h2 style="margin:0">菜品需求</h2>
+          <button class="small" type="button" onclick="loadFoodRequests()">刷新</button>
+        </div>
+        <p style="margin:0 0 12px;color:#777;font-size:13px">相同菜品会自动合并，并按顾客提交次数统计。</p>
+        <div id="foodRequestsBox"><div class="noorders">加载中…</div></div>
       </div>
 
       <div class="dashboard" id="summaryBox"></div>
@@ -2509,15 +2519,16 @@ html body:not(.dark) #main .option-card{box-shadow:0 2px 9px rgba(29,29,31,.045)
         orders: ['summaryBox', 'ownerOrders'],
         menu: ['ownerProducts'],
         options: ['ownerOptions'],
-        feedback: ['ownerPendingFeedback', 'ownerApprovedFeedback']
+        feedback: ['ownerPendingFeedback', 'ownerApprovedFeedback'],
+        foodRequests: ['ownerFoodRequests']
       };
       const validPage = Object.prototype.hasOwnProperty.call(pages, page) ? page : 'orders';
-      ['summaryBox', 'ownerOrders', 'ownerProducts', 'ownerOptions', 'ownerPendingFeedback', 'ownerApprovedFeedback'].forEach(function(id) {
+      ['summaryBox', 'ownerOrders', 'ownerProducts', 'ownerOptions', 'ownerPendingFeedback', 'ownerApprovedFeedback', 'ownerFoodRequests'].forEach(function(id) {
         const el = document.getElementById(id);
         if (el) el.style.display = pages[validPage].includes(id) ? '' : 'none';
       });
       const ownerNav = document.querySelector('nav.owner-quick-nav');
-      const ownerNavPages = ['orders', 'menu', 'options', 'feedback'];
+      const ownerNavPages = ['orders', 'menu', 'options', 'feedback', 'foodRequests'];
       if (ownerNav) {
 }
       document.querySelectorAll('nav.owner-quick-nav [data-owner-page]').forEach(function(button) {
@@ -2573,6 +2584,7 @@ window.scrollTo({top: 0, behavior: 'auto'});
       await loadProducts();
       await loadFeedback();
       await loadOptions();
+      await loadFoodRequests();
     }
 
     async function logout() {
@@ -2644,6 +2656,80 @@ window.scrollTo({top: 0, behavior: 'auto'});
       const hh = String(d.getHours()).padStart(2, '0');
       const mi = String(d.getMinutes()).padStart(2, '0');
       return mm + '-' + dd + ' ' + hh + ':' + mi;
+    }
+
+
+    async function loadFoodRequests() {
+      const box = document.getElementById('foodRequestsBox');
+      if (!box) return;
+      box.innerHTML = '<div class="noorders">加载中…</div>';
+      const {data, error} = await supabaseClient
+        .from('food_requests')
+        .select('id,dish_name,dish_key,status,created_at')
+        .order('created_at', {ascending:false});
+      if (error) {
+        console.error('Food requests load failed:', error);
+        box.innerHTML = '<div class="noorders">菜品需求加载失败，请稍后重试。</div>';
+        return;
+      }
+      const grouped = new Map();
+      (data || []).forEach(function(row) {
+        const key = row.dish_key;
+        if (!grouped.has(key)) grouped.set(key, {key:key,name:row.dish_name,count:0,status:row.status,last:row.created_at});
+        const item = grouped.get(key);
+        item.count += 1;
+        if (new Date(row.created_at) > new Date(item.last)) {
+          item.last = row.created_at;
+          item.name = row.dish_name;
+          item.status = row.status;
+        }
+      });
+      const items = Array.from(grouped.values()).sort(function(a,b) {
+        return b.count-a.count || new Date(b.last)-new Date(a.last);
+      });
+      if (!items.length) {
+        box.innerHTML = '<div class="noorders">目前还没有菜品需求。</div>';
+        return;
+      }
+      const labels = {new:'待处理', considering:'考虑中', adopted:'已采纳'};
+      let html = '<div class="food-requests-table-wrap"><table class="food-requests-table"><thead><tr><th>菜品</th><th>需求次数</th><th>最近提交</th><th>状态</th><th>操作</th></tr></thead><tbody>';
+      items.forEach(function(item) {
+        html += '<tr><td><strong>' + escapeHtml(item.name) + '</strong></td>' +
+          '<td><span class="food-request-count">' + item.count + '</span></td>' +
+          '<td>' + fmtTime(item.last) + '</td>' +
+          '<td><span class="food-request-status status-' + item.status + '">' + labels[item.status] + '</span></td>' +
+          '<td class="food-request-actions">' +
+          '<button class="small gray" type="button" data-food-status="new" data-food-key="' + escapeHtml(item.key) + '">待处理</button> ' +
+          '<button class="small" type="button" data-food-status="considering" data-food-key="' + escapeHtml(item.key) + '">考虑中</button> ' +
+          '<button class="small green" type="button" data-food-status="adopted" data-food-key="' + escapeHtml(item.key) + '">已采纳</button> ' +
+          '<button class="small red" type="button" data-food-delete="1" data-food-key="' + escapeHtml(item.key) + '">删除</button>' +
+          '</td></tr>';
+      });
+      html += '</tbody></table></div>';
+      box.innerHTML = html;
+      box.querySelectorAll('[data-food-status]').forEach(function(button) {
+        button.addEventListener('click', function() {
+          updateFoodRequestStatus(button.dataset.foodKey, button.dataset.foodStatus);
+        });
+      });
+      box.querySelectorAll('[data-food-delete]').forEach(function(button) {
+        button.addEventListener('click', function() {
+          deleteFoodRequestGroup(button.dataset.foodKey);
+        });
+      });
+    }
+
+    async function updateFoodRequestStatus(key, status) {
+      const {error} = await supabaseClient.from('food_requests').update({status:status}).eq('dish_key', key);
+      if (error) { console.error(error); alert('状态更新失败，请稍后重试。'); return; }
+      await loadFoodRequests();
+    }
+
+    async function deleteFoodRequestGroup(key) {
+      if (!confirm('确定删除这项菜品需求及其全部重复提交吗？')) return;
+      const {error} = await supabaseClient.from('food_requests').delete().eq('dish_key', key);
+      if (error) { console.error(error); alert('删除失败，请稍后重试。'); return; }
+      await loadFoodRequests();
     }
 
     function loadFeedback() {
@@ -4733,6 +4819,20 @@ html body #main nav.owner-quick-nav.liquid-glass-nav > button[aria-current="page
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
 })();
 </script>
+
+
+<style id="yf-owner-food-requests">
+.food-requests-table-wrap{width:100%;overflow-x:auto}
+.food-requests-table{min-width:680px}
+.food-request-count{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 8px;border-radius:10px;background:#FFF0EB;color:#D94F2C;font-weight:800}
+.food-request-status{display:inline-block;padding:5px 9px;border-radius:999px;background:#F2F2F5;color:#626873;font-size:12px;font-weight:700;white-space:nowrap}
+.food-request-status.status-considering{background:#FFF4E5;color:#A66A12}
+.food-request-status.status-adopted{background:#E8F5E9;color:#21845A}
+.food-request-actions{min-width:260px;white-space:nowrap}
+.food-request-actions button{margin:2px!important}
+@media(max-width:700px){.food-requests-table{min-width:700px}}
+</style>
+
 </body>
 
 </html>
