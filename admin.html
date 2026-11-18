@@ -2361,6 +2361,9 @@ body>header{background:#1D1D1F!important;color:#fff!important;background-image:n
 </script>
 
   <style id="dish-summary-layout">
+    /* Feedback page must not show the order summary; override the layout display rule. */
+    #summaryBox.summary[hidden] { display:none !important; }
+
     #summaryBox.summary { display:block !important; }
     #summaryBox .dish-summary-row {
       display:block;
