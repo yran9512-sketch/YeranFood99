@@ -5709,7 +5709,7 @@ async function submitFoodRequest(event){
   const honeypot=document.getElementById('foodRequestWebsite');
   const button=document.getElementById('foodRequestSubmit');
   const message=document.getElementById('foodRequestMessage');
-  const value=(input.value||'').trim().replace(/\\s+/g,' ');
+  const value=(input.value||'').trim().replace(/\s+/g,' ');
   if(honeypot.value)return;
   const t=text[lang];
   if(value.length<2||value.length>80){message.style.color='#C43D2B';message.textContent=t.foodRequestInvalid;return;}
