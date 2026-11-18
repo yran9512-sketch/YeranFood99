@@ -1876,9 +1876,9 @@ html body:not(.dark) .kitchen-order{border-radius:14px!important;box-shadow:0 2p
       let summaryHtml = '';
       productGroups.forEach(function (group, productName) {
         const optionText = Array.from(group.options.entries()).map(function (entry) {
-          return escapeHtml(entry[0]) + ' ' + entry[1];
-        }).join('　');
-        summaryHtml += '<div><div class="lbl"><strong style="display:block;font-size:18px;line-height:1.35;margin-bottom:6px">' + escapeHtml(productName) + '</strong><span style="font-size:13px;line-height:1.6">' + optionText + '</span><br><span style="font-size:13px;font-weight:600">总份数 ' + group.total + '</span></div></div>';
+          return '<span class="dish-summary-option">' + escapeHtml(entry[0]) + '：' + entry[1] + '</span>';
+        }).join('');
+        summaryHtml += '<div class="dish-summary-row"><strong class="dish-summary-name">' + escapeHtml(productName) + '</strong><div class="dish-summary-options">' + optionText + '</div><div class="dish-summary-total">总份数：' + group.total + '</div></div>';
       });
       document.getElementById('summaryBox').innerHTML = summaryHtml;
       renderOrderRows(currentOrders);
@@ -2359,6 +2359,41 @@ body>header{background:#1D1D1F!important;color:#fff!important;background-image:n
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
 })();
 </script>
+
+  <style id="dish-summary-layout">
+    #summaryBox.summary { display:block !important; }
+    #summaryBox .dish-summary-row {
+      display:block;
+      padding:12px 2px 13px;
+      border-bottom:1px solid rgba(120,120,120,.22);
+    }
+    #summaryBox .dish-summary-row:first-child { padding-top:2px; }
+    #summaryBox .dish-summary-row:last-child { border-bottom:0; padding-bottom:2px; }
+    #summaryBox .dish-summary-name {
+      display:block;
+      margin:0 0 7px;
+      color:#252525;
+      font-size:18px;
+      line-height:1.4;
+      font-weight:700;
+    }
+    #summaryBox .dish-summary-options {
+      display:flex;
+      flex-wrap:wrap;
+      column-gap:22px;
+      row-gap:4px;
+      color:#555;
+      font-size:14px;
+      line-height:1.65;
+    }
+    #summaryBox .dish-summary-option { white-space:nowrap; }
+    #summaryBox .dish-summary-total {
+      margin-top:5px;
+      color:#333;
+      font-size:13px;
+      font-weight:600;
+    }
+  </style>
 </body>
 
 </html>
