@@ -1435,7 +1435,7 @@ html body:not(.dark) .kitchen-order{border-radius:14px!important;box-shadow:0 2p
           <div class="noorders">加载中…</div>
         </div>
         <div id="approvedFoodRequestsCard" style="margin-top:22px;padding-top:18px;border-top:1px solid #E5E5EA">
-          <h2>已通过的菜品需求 <button class="kitchen-refresh" onclick="loadApprovedFoodRequests()" style="float:right;font-size:13px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#333">刷新</button></h2>
+          <h2>菜品需求 <button class="kitchen-refresh" onclick="loadApprovedFoodRequests()" style="float:right;font-size:13px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#333">刷新</button></h2>
           <div id="approvedFoodRequestsBox"><div class="noorders">加载中…</div></div>
         </div>
       </div>
@@ -1704,7 +1704,7 @@ html body:not(.dark) .kitchen-order{border-radius:14px!important;box-shadow:0 2p
         return new Date(b.last)-new Date(a.last);
       });
       if (!items.length) {
-        box.innerHTML = '<div class="noorders">暂无已通过的菜品需求。</div>';
+        box.innerHTML = '<div class="noorders">暂无菜品需求。</div>';
         return;
       }
       let html = '<div class="food-requests-approved-list">';
