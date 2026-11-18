@@ -3398,6 +3398,25 @@ html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
         <div class="skeleton sk-row"></div>
         <div class="skeleton sk-row"></div>
       </div>
+
+      <section class="food-request-panel" aria-labelledby="foodRequestTitle">
+        <div class="food-request-heading">
+          <div>
+            <h3 id="foodRequestTitle">想吃什么？</h3>
+            <p id="foodRequestHint">告诉我们你希望下次推出什么菜品</p>
+          </div>
+          <span class="food-request-mark" aria-hidden="true">＋</span>
+        </div>
+        <form id="foodRequestForm" onsubmit="submitFoodRequest(event)">
+          <input id="foodRequestInput" type="text" maxlength="80" minlength="2"
+            placeholder="例如：咖喱鸡、炒面、日式咖喱饭" autocomplete="off" required>
+          <input id="foodRequestWebsite" type="text" tabindex="-1" autocomplete="off" aria-hidden="true"
+            style="position:absolute;left:-10000px;width:1px;height:1px;opacity:0">
+          <button id="foodRequestSubmit" type="submit">提交建议</button>
+        </form>
+        <p id="foodRequestMessage" class="food-request-message" role="status" aria-live="polite"></p>
+      </section>
+
       <label id="nameLabel" for="name">姓名</label>
       <input id="name" placeholder="请输入姓名">
 
@@ -3608,6 +3627,14 @@ html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
       zh: {
         subtitle: '校园点餐 · School Food Ordering',
         menu: '今日菜单',
+        foodRequestTitle: '想吃什么？',
+        foodRequestHint: '告诉我们你希望下次推出什么菜品',
+        foodRequestPlaceholder: '例如：咖喱鸡、炒面、日式咖喱饭',
+        foodRequestSubmit: '提交建议',
+        foodRequestSubmitting: '提交中…',
+        foodRequestSuccess: '✓ 已收到你的建议，谢谢！',
+        foodRequestError: '提交失败，请稍后重试。',
+        foodRequestInvalid: '请输入 2–80 个字。',
         name: '姓名', namePh: '请输入姓名',
         total: '总计', submit: '提交订单', soldOutBtn: '已售完',
         success: '订单已提交', save: '请保存你的订单编号。',
@@ -3666,6 +3693,14 @@ html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
       en: {
         subtitle: 'School Food Ordering',
         menu: "Today's Menu",
+        foodRequestTitle: 'What would you like to eat?',
+        foodRequestHint: 'Tell us what dish you would like to see on the menu.',
+        foodRequestPlaceholder: 'e.g. curry chicken, fried noodles',
+        foodRequestSubmit: 'Submit request',
+        foodRequestSubmitting: 'Submitting…',
+        foodRequestSuccess: '✓ Request received. Thank you!',
+        foodRequestError: 'Could not submit. Please try again.',
+        foodRequestInvalid: 'Please enter 2–80 characters.',
         name: 'Name', namePh: 'Enter your name',
         total: 'Total', submit: 'Place Order', soldOutBtn: 'Sold Out',
         success: 'Order Submitted', save: 'Please keep your order number.',
@@ -4017,6 +4052,10 @@ html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
       const t = text[l];
       document.getElementById('subtitle').textContent = t.subtitle;
       document.getElementById('menuTitle').textContent = t.menu;
+      document.getElementById('foodRequestTitle').textContent = t.foodRequestTitle;
+      document.getElementById('foodRequestHint').textContent = t.foodRequestHint;
+      document.getElementById('foodRequestInput').placeholder = t.foodRequestPlaceholder;
+      document.getElementById('foodRequestSubmit').textContent = t.foodRequestSubmit;
       document.getElementById('nameLabel').textContent = t.name;
       document.getElementById('name').placeholder = t.namePh;
       document.getElementById('totalLabel').textContent = t.total;
@@ -5640,6 +5679,54 @@ html body:not(.dark) > header .lang button:active{
   html body:not(.dark) > header h1{font-size:28px!important}
 }
 </style>
+
+
+
+<style id="yf-food-request-panel">
+.food-request-panel{
+  margin:20px 0 22px;
+  padding:17px;
+  border:1px solid #E5E5EA;
+  border-radius:16px;
+  background:#F8F8FA;
+}
+.food-request-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.food-request-heading h3{margin:0;color:#1D1D1F;font-size:17px;font-weight:750;letter-spacing:-.2px}
+.food-request-heading p{margin:5px 0 0;color:#8E8E93;font-size:12px;line-height:1.5}
+.food-request-mark{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:#FFF0EB;color:#E8552F;font-size:22px;font-weight:500}
+#foodRequestForm{display:flex;gap:8px;align-items:stretch;margin-top:13px}
+#foodRequestForm input#foodRequestInput{min-width:0;flex:1;padding:12px 13px!important;border:1px solid #E5E5EA!important;border-radius:11px!important;background:#fff!important;font-size:14px!important}
+#foodRequestForm button{flex:0 0 auto;min-height:44px;padding:0 15px;border:1px solid #E8552F;border-radius:11px;background:#E8552F;color:#fff;font-size:13px;font-weight:700;white-space:nowrap}
+#foodRequestForm button:disabled{opacity:.6}
+.food-request-message{min-height:0;margin:8px 0 0;font-size:12px;color:#21845A}
+.food-request-message:empty{display:none}
+@media(max-width:420px){#foodRequestForm{flex-direction:column}#foodRequestForm button{width:100%}}
+</style>
+<script id="yf-food-request-submit">
+async function submitFoodRequest(event){
+  if(event)event.preventDefault();
+  const input=document.getElementById('foodRequestInput');
+  const honeypot=document.getElementById('foodRequestWebsite');
+  const button=document.getElementById('foodRequestSubmit');
+  const message=document.getElementById('foodRequestMessage');
+  const value=(input.value||'').trim().replace(/\\s+/g,' ');
+  if(honeypot.value)return;
+  const t=text[lang];
+  if(value.length<2||value.length>80){message.style.color='#C43D2B';message.textContent=t.foodRequestInvalid;return;}
+  button.disabled=true;button.textContent=t.foodRequestSubmitting;message.textContent='';
+  try{
+    const {error}=await supabaseClient.from('food_requests').insert({dish_name:value});
+    if(error)throw error;
+    input.value='';
+    message.style.color='#21845A';message.textContent=t.foodRequestSuccess;
+  }catch(error){
+    console.error('Food request submission failed:',error);
+    message.style.color='#C43D2B';message.textContent=t.foodRequestError;
+  }finally{
+    button.disabled=false;button.textContent=t.foodRequestSubmit;
+  }
+}
+</script>
 
 </body>
 
