@@ -3420,6 +3420,24 @@ html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
         </div>
         <button class="submit" onclick="goToPayment()" id="submitBtn">下一步：付款</button>
       </div>
+
+      <section class="food-request-panel" aria-labelledby="foodRequestTitle">
+        <div class="food-request-heading">
+          <div>
+            <h3 id="foodRequestTitle">想吃什么？</h3>
+            <p id="foodRequestHint">告诉我们你希望下次推出什么菜品</p>
+          </div>
+          <span class="food-request-mark" aria-hidden="true">＋</span>
+        </div>
+        <form id="foodRequestForm" onsubmit="submitFoodRequest(event)">
+          <input id="foodRequestInput" type="text" maxlength="80" minlength="2"
+            placeholder="例如：咖喱鸡、炒面、日式咖喱饭" autocomplete="off" required>
+          <input id="foodRequestWebsite" type="text" tabindex="-1" autocomplete="off" aria-hidden="true"
+            style="position:absolute;left:-10000px;width:1px;height:1px;opacity:0">
+          <button id="foodRequestSubmit" type="submit">提交建议</button>
+        </form>
+        <p id="foodRequestMessage" class="food-request-message" role="status" aria-live="polite"></p>
+      </section>
     </section>
 
     <section class="card" id="payCard" style="display:none">
@@ -3466,23 +3484,7 @@ html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
       <button class="submit" onclick="newOrder()" id="newBtn">再次点餐</button>
     </section>
 
-      <section class="food-request-panel" aria-labelledby="foodRequestTitle">
-        <div class="food-request-heading">
-          <div>
-            <h3 id="foodRequestTitle">想吃什么？</h3>
-            <p id="foodRequestHint">告诉我们你希望下次推出什么菜品</p>
-          </div>
-          <span class="food-request-mark" aria-hidden="true">＋</span>
-        </div>
-        <form id="foodRequestForm" onsubmit="submitFoodRequest(event)">
-          <input id="foodRequestInput" type="text" maxlength="80" minlength="2"
-            placeholder="例如：咖喱鸡、炒面、日式咖喱饭" autocomplete="off" required>
-          <input id="foodRequestWebsite" type="text" tabindex="-1" autocomplete="off" aria-hidden="true"
-            style="position:absolute;left:-10000px;width:1px;height:1px;opacity:0">
-          <button id="foodRequestSubmit" type="submit">提交建议</button>
-        </form>
-        <p id="foodRequestMessage" class="food-request-message" role="status" aria-live="polite"></p>
-      </section>
+
 
   </main>
   <footer>© 2026 YeranFood</footer>
