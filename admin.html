@@ -1429,14 +1429,16 @@ html body:not(.dark) .kitchen-order{border-radius:14px!important;box-shadow:0 2p
 
       
       <div class="card" id="kitchenFeedbackPage">
-        <h2>意见反馈 <button onclick="loadFeedback()"
-            style="float:right;font-size:13px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer">刷新</button></h2>
-        <div id="feedbackBox">
-          <div class="noorders">加载中…</div>
-        </div>
-        <div id="approvedFoodRequestsCard" style="margin-top:22px;padding-top:18px;border-top:1px solid #E5E5EA">
+        <div id="approvedFoodRequestsCard">
           <h2>菜品需求 <button class="kitchen-refresh" onclick="loadApprovedFoodRequests()" style="float:right;font-size:13px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#333">刷新</button></h2>
           <div id="approvedFoodRequestsBox"><div class="noorders">加载中…</div></div>
+        </div>
+        <div style="margin-top:22px;padding-top:18px;border-top:1px solid #E5E5EA">
+          <h2>意见反馈 <button onclick="loadFeedback()"
+              style="float:right;font-size:13px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer">刷新</button></h2>
+          <div id="feedbackBox">
+            <div class="noorders">加载中…</div>
+          </div>
         </div>
       </div>
 
