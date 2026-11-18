@@ -1427,6 +1427,11 @@ html body:not(.dark) .kitchen-order{border-radius:14px!important;box-shadow:0 2p
         </div>
       </div>
 
+      <div class="card" id="approvedFoodRequestsCard">
+        <h2>已通过的菜品需求 <button class="kitchen-refresh" onclick="loadApprovedFoodRequests()" style="float:right;font-size:13px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;color:#333">刷新</button></h2>
+        <div id="approvedFoodRequestsBox"><div class="noorders">加载中…</div></div>
+      </div>
+
       <div class="card" id="kitchenFeedbackPage">
         <h2>意见反馈 <button onclick="loadFeedback()"
             style="float:right;font-size:13px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer">刷新</button></h2>
@@ -1559,6 +1564,7 @@ html body:not(.dark) .kitchen-order{border-radius:14px!important;box-shadow:0 2p
       setKitchenPage('orders');
       loadOrders();
       loadFeedback();
+      loadApprovedFoodRequests();
       initKitchenPush();
       initKitchenRealtimeOrders();
     }
@@ -1568,9 +1574,10 @@ html body:not(.dark) .kitchen-order{border-radius:14px!important;box-shadow:0 2p
       const period = document.querySelector('#main .period-switch');
       const summary = document.getElementById('summaryBox');
       const orderCard = document.getElementById('ordersBox')?.closest('.card');
+      const approvedFoodCard = document.getElementById('approvedFoodRequestsCard');
       const isFeedback = page === 'feedback';
       if (feedback) feedback.hidden = !isFeedback;
-      [period, summary, orderCard].forEach(function(el) {
+      [period, summary, orderCard, approvedFoodCard].forEach(function(el) {
         if (el) el.hidden = isFeedback;
       });
       document.querySelectorAll('.kitchen-bottom-nav [data-kitchen-page]').forEach(function(button) {
@@ -1668,6 +1675,46 @@ html body:not(.dark) .kitchen-order{border-radius:14px!important;box-shadow:0 2p
       const hh = String(d.getHours()).padStart(2, '0');
       const mm = String(d.getMinutes()).padStart(2, '0');
       return hh + ':' + mm;
+    }
+
+    async function loadApprovedFoodRequests() {
+      const box = document.getElementById('approvedFoodRequestsBox');
+      if (!box) return;
+      box.innerHTML = '<div class="noorders">加载中…</div>';
+      const {data, error} = await supabaseClient
+        .from('food_requests')
+        .select('dish_name,dish_key,created_at')
+        .eq('status', 'adopted')
+        .order('created_at', {ascending:false});
+      if (error) {
+        console.error('Approved food requests load failed:', error);
+        box.innerHTML = '<div class="noorders">菜品需求加载失败，请稍后重试。</div>';
+        return;
+      }
+      const grouped = new Map();
+      (data || []).forEach(function(row) {
+        if (!grouped.has(row.dish_key)) grouped.set(row.dish_key, {name:row.dish_name,count:0,last:row.created_at});
+        const item = grouped.get(row.dish_key);
+        item.count += 1;
+        if (new Date(row.created_at) > new Date(item.last)) {
+          item.last = row.created_at;
+          item.name = row.dish_name;
+        }
+      });
+      const items = Array.from(grouped.values()).sort(function(a,b) {
+        return new Date(b.last)-new Date(a.last);
+      });
+      if (!items.length) {
+        box.innerHTML = '<div class="noorders">暂无已通过的菜品需求。</div>';
+        return;
+      }
+      let html = '<div class="food-requests-approved-list">';
+      items.forEach(function(item) {
+        html += '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #eee">' +
+          '<strong>' + escapeHtml(item.name) + '</strong>' +
+          '<span style="color:#6E6E73;font-size:13px;white-space:nowrap">需求 ' + item.count + ' 次</span></div>';
+      });
+      box.innerHTML = html + '</div>';
     }
 
     function loadFeedback() {
