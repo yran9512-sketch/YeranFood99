@@ -1709,11 +1709,11 @@ html body:not(.dark) .kitchen-order{border-radius:14px!important;box-shadow:0 2p
         box.innerHTML = '<div class="noorders">暂无菜品需求。</div>';
         return;
       }
-      let html = '<div class="food-requests-approved-list" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">';
+      let html = '<div class="food-requests-approved-list">';
       items.forEach(function(item) {
-        html += '<div style="display:flex;flex-direction:column;justify-content:space-between;gap:8px;min-width:0;padding:14px;background:#F7F7F8;border:1px solid #E5E5EA;border-radius:12px">' +
-          '<strong style="overflow-wrap:anywhere">' + escapeHtml(item.name) + '</strong>' +
-          '<span style="color:#6E6E73;font-size:13px">需求 ' + item.count + ' 次</span></div>';
+        html += '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #eee">' +
+          '<strong>' + escapeHtml(item.name) + '</strong>' +
+          '<span style="color:#6E6E73;font-size:13px;white-space:nowrap">需求 ' + item.count + ' 次</span></div>';
       });
       box.innerHTML = html + '</div>';
     }
@@ -1779,7 +1779,7 @@ html body:not(.dark) .kitchen-order{border-radius:14px!important;box-shadow:0 2p
       const loadSeq = ++ordersLoadSeq;
       const targetDate = getMealDate();
       return supabaseClient.from('orders')
-        .select('*')
+        .select('*, menu_products(name_zh,name_en), product_options(label_zh,label_en)')
         .eq('meal_date', targetDate)
         .eq('meal_period', currentPeriod)
         .order('created_at', {ascending: true})
@@ -1861,17 +1861,25 @@ html body:not(.dark) .kitchen-order{border-radius:14px!important;box-shadow:0 2p
       currentOrders = (orders || []).slice().sort(function (a, b) {
         return new Date(b.created_at) - new Date(a.created_at);
       });
-      const counts = {};
+      const productGroups = new Map();
       currentOrders.forEach(function (o) {
-        const k = o.meal_type || '未知';
-        counts[k] = (counts[k] || 0) + Number(o.quantity || 0);
+        const product = o.menu_products || {};
+        const option = o.product_options || {};
+        const productName = product.name_zh || product.name_en || o.meal_type || '未知菜品';
+        const optionName = option.label_zh || option.label_en || '其他';
+        if (!productGroups.has(productName)) productGroups.set(productName, {options:new Map(), total:0});
+        const group = productGroups.get(productName);
+        const qty = Number(o.quantity || 0);
+        group.options.set(optionName, (group.options.get(optionName) || 0) + qty);
+        group.total += qty;
       });
       let summaryHtml = '';
-      Object.keys(counts).forEach(function (k) {
-        summaryHtml += '<div><div class="num">' + counts[k] + '</div><div class="lbl">' + escapeHtml(k) + '</div></div>';
+      productGroups.forEach(function (group, productName) {
+        const optionText = Array.from(group.options.entries()).map(function (entry) {
+          return escapeHtml(entry[0]) + ' ' + entry[1];
+        }).join('　');
+        summaryHtml += '<div><div class="num">' + group.total + '</div><div class="lbl"><strong>' + escapeHtml(productName) + '</strong><br>' + optionText + '　总份数 ' + group.total + '</div></div>';
       });
-      const totalQty = currentOrders.reduce(function (s, o) { return s + Number(o.quantity || 0); }, 0);
-      summaryHtml += '<div><div class="num">' + totalQty + '</div><div class="lbl">总份数</div></div>';
       document.getElementById('summaryBox').innerHTML = summaryHtml;
       renderOrderRows(currentOrders);
     }
