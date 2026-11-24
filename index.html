@@ -3774,7 +3774,30 @@ html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
     }
     function currentPayMethod() {return document.querySelector('input[name="payMethod"]:checked').value;}
     function maxPortions() {return (menu && menu.max_portions) ? menu.max_portions : 15;}
-    function portionsLeft() {return Math.max(0, maxPortions() - orderedQty);}
+    let optionStockCache = {};
+    let optionStockRequestSeq = 0;
+    function currentOptionStock() {
+      const key = selectedOptionId == null ? null : String(selectedOptionId);
+      return key && optionStockCache[key] != null ? Number(optionStockCache[key]) : null;
+    }
+    function portionsLeft() {
+      const optionLeft = currentOptionStock();
+      return optionLeft != null ? Math.max(0, optionLeft) : Math.max(0, maxPortions() - orderedQty);
+    }
+    function loadSelectedOptionStock(optionId) {
+      if (optionId == null) return;
+      const key = String(optionId);
+      if (optionStockCache[key] != null) return;
+      const seq = ++optionStockRequestSeq;
+      supabaseClient.rpc('get_option_stock', { p_option_id: optionId, p_meal_date: getMealDate(currentPeriod) }).then(function(res) {
+        if (seq !== optionStockRequestSeq || Number(optionId) !== Number(selectedOptionId)) return;
+        if (res.error || !res.data || !res.data.length) return;
+        optionStockCache[key] = Number(res.data[0].remaining || 0);
+        if (qty > optionStockCache[key]) qty = Math.max(1, optionStockCache[key]);
+        renderMenu();
+        updateTotal();
+      });
+    }
 
     function updateTotal() {
       const unitPrice = currentPrice();
@@ -3953,18 +3976,14 @@ html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
 
       renderOptions();
       renderStock();
+      if (selectedOptionId != null && currentOptionStock() == null) loadSelectedOptionStock(selectedOptionId);
 
       const breakfastStock = document.getElementById('breakfastStock');
       const left = portionsLeft();
-
-      if (left <= 0) {
-        breakfastStock.innerHTML = '<div class="breakfast-price-label">' + (lang === 'zh' ? '库存' : 'Stock') + '</div><div class="breakfast-price stock-zero">' + text[lang].soldOut + '</div>';
-        breakfastStock.className = 'breakfast-price-block breakfast-stock-price stock-zero';
-      } else {
-        breakfastStock.innerHTML = '<div class="breakfast-price-label">' + text[lang].stock + '</div><div class="breakfast-price stock-value' + (left <= 5 ? ' stock-low' : '') + '">' + left + (lang === 'zh' ? ' 份' : '') + '</div>';
-        breakfastStock.className = 'breakfast-price-block breakfast-stock-price' + (left <= 5 ? ' stock-low' : '');
-        if (left > 5) breakfastStock.style.color = '#2e7d32';
-      }
+      const stockLabel = lang === 'zh' ? '剩余' : 'Left';
+      const leftText = currentOptionStock() == null ? '—' : String(left);
+      breakfastStock.innerHTML = '<div class="breakfast-price-label">' + stockLabel + '</div><div class="breakfast-price stock-value' + (left <= 5 ? ' stock-low' : '') + '">' + leftText + '</div>';
+      breakfastStock.className = 'breakfast-price-block breakfast-stock-price' + (left <= 5 ? ' stock-low' : '');
     }
     function changeBreakfastQty(productId, change) {
 
@@ -4528,6 +4547,8 @@ html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
     }
     function selectOption(id) {
       selectedOptionId = id;
+      loadSelectedOptionStock(id);
+      renderMenu();
       updateTotal();
     }
 
@@ -5741,11 +5762,11 @@ html body:not(.dark) .card{margin-bottom:20px!important}
 .breakfast-price-row{display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:18px!important}
 .breakfast-price-block{display:flex!important;flex-direction:column!important;align-items:flex-start!important;min-width:0}
 .breakfast-stock-price{margin-left:auto!important;text-align:right!important;align-items:flex-end!important}
-.breakfast-stock-price .breakfast-price-label{color:#77777E!important;font-size:13px!important;font-weight:600!important}
-.breakfast-stock-price .breakfast-price{font-size:23px!important;font-weight:800!important;line-height:1.25!important;color:#248A52!important;white-space:nowrap!important}
+.breakfast-stock-price .breakfast-price-label{font-size:12px!important;color:#999!important;font-weight:400!important;margin-bottom:2px!important}
+.breakfast-stock-price .breakfast-price{font-size:25px!important;font-weight:800!important;line-height:normal!important;color:#248A52!important;white-space:nowrap!important}
 .breakfast-stock-price.stock-low .breakfast-price{color:#A66A12!important}
 .breakfast-stock-price.stock-zero .breakfast-price{color:#C43D2B!important}
-@media(max-width:380px){.breakfast-price-row{gap:12px!important}.breakfast-stock-price .breakfast-price{font-size:21px!important}}
+@media(max-width:380px){.breakfast-price-row{gap:12px!important}}
 </style>
 </body>
 
