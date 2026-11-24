@@ -2393,7 +2393,6 @@ html body:not(.dark) #main .option-card{box-shadow:0 2px 9px rgba(29,29,31,.045)
         <div><label>英文名称</label><input id="productEn" placeholder="例如：Steamed Bun"></div>
         <div><label>中文描述</label><textarea id="productDescZh"></textarea></div>
         <div><label>英文描述</label><textarea id="productDescEn"></textarea></div>
-        <div><label>价格（RM）</label><input id="productPrice" type="number" min="0" step="0.01"></div>
         <div><label>最大份数</label><input id="productMax" type="number" min="1" step="1" value="15"></div>
         <div class="full">
           <label>菜单图片</label>
@@ -2426,7 +2425,6 @@ html body:not(.dark) #main .option-card{box-shadow:0 2px 9px rgba(29,29,31,.045)
         <div><label>英文名称</label><input id="editProductEn" placeholder="例如：Steamed Bun"></div>
         <div><label>中文描述</label><textarea id="editProductDescZh"></textarea></div>
         <div><label>英文描述</label><textarea id="editProductDescEn"></textarea></div>
-        <div><label>价格（RM）</label><input id="editProductPrice" type="number" min="0" step="0.01"></div>
         <div><label>最大份数</label><input id="editProductMax" type="number" min="1" step="1"></div>
         <div><label>排序</label><input id="editProductSort" type="number" min="0" step="1"></div>
         <div class="full">
@@ -2835,8 +2833,7 @@ window.scrollTo({top: 0, behavior: 'auto'});
                 '<div class="menu-product-info">' +
                 '<div class="menu-product-name">' + escapeHtml(p.name_zh || '未命名商品') + '</div>' +
                 '<div class="menu-product-en">' + escapeHtml(p.name_en || '') + '</div>' +
-                '<div class="menu-product-meta">RM ' + Number(p.price || 0).toFixed(2) +
-                ' · 最大 ' + Number(p.max_portions || 0) + ' 份 · 排序 ' + Number(p.sort || 0) + '</div>' +
+                '<div class="menu-product-meta">最大 ' + Number(p.max_portions || 0) + ' 份 · 排序 ' + Number(p.sort || 0) + '</div>' +
                 '<div class="menu-product-status ' + (p.active ? 'on' : 'off') + '">' +
                 (p.active ? '已启用' : '已停用') + '</div>' +
                 '</div>' +
@@ -2883,7 +2880,6 @@ window.scrollTo({top: 0, behavior: 'auto'});
           document.getElementById('editProductEn').value = p.name_en || '';
           document.getElementById('editProductDescZh').value = p.desc_zh || '';
           document.getElementById('editProductDescEn').value = p.desc_en || '';
-          document.getElementById('editProductPrice').value = Number(p.price || 0);
           document.getElementById('editProductMax').value = Number(p.max_portions || 15);
           document.getElementById('editProductSort').value = Number(p.sort || 0);
           document.getElementById('editProductActive').checked = !!p.active;
@@ -2986,8 +2982,6 @@ window.scrollTo({top: 0, behavior: 'auto'});
       const en = document.getElementById('editProductEn').value.trim() || zh;
       const descZh = document.getElementById('editProductDescZh').value.trim();
       const descEn = document.getElementById('editProductDescEn').value.trim();
-      const price = readPriceInput('editProductPrice');
-      if (price === null) return;
       const maxPortions = Math.max(1, parseInt(document.getElementById('editProductMax').value, 10) || 15);
       const sort = Math.max(0, parseInt(document.getElementById('editProductSort').value, 10) || 0);
       const active = document.getElementById('editProductActive').checked;
@@ -3013,7 +3007,6 @@ window.scrollTo({top: 0, behavior: 'auto'});
           name_en: en,
           desc_zh: descZh,
           desc_en: descEn,
-          price: price,
           max_portions: maxPortions,
           sort: sort,
           active: active
@@ -3115,8 +3108,6 @@ window.scrollTo({top: 0, behavior: 'auto'});
       const en = document.getElementById('productEn').value.trim() || zh;
       const descZh = document.getElementById('productDescZh').value.trim();
       const descEn = document.getElementById('productDescEn').value.trim();
-      const price = readPriceInput('productPrice');
-      if (price === null) return;
       const maxPortions = Math.max(1, parseInt(document.getElementById('productMax').value, 10) || 15);
       const imageFile = document.getElementById('productImage').files[0] || null;
       const saveBtn = document.getElementById('productSaveBtn');
@@ -3148,7 +3139,7 @@ window.scrollTo({top: 0, behavior: 'auto'});
           name_en: en,
           desc_zh: descZh,
           desc_en: descEn,
-          price: price,
+             price: 0,
           max_portions: maxPortions,
           active: true,
           sort: nextSort
