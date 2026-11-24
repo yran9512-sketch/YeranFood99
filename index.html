@@ -3354,15 +3354,13 @@ html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
           </div>
 
           <div class="breakfast-price-row">
-            <div>
+            <div class="breakfast-price-block">
               <div class="breakfast-price-label">
                 <span id="breakfastPriceLabel">价格</span>
               </div>
-
-              <div id="breakfastPrice" class="breakfast-price">
-                RM 0
-              </div>
+              <div id="breakfastPrice" class="breakfast-price">RM 0</div>
             </div>
+            <div id="breakfastStock" class="breakfast-price-block breakfast-stock-price"></div>
           </div>
 
           <div class="breakfast-section">
@@ -3383,8 +3381,6 @@ html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
               <button onclick="changeQty(1)">+</button>
             </div>
           </div>
-
-          <div id="breakfastStock"></div>
 
         </div>
       </div>
@@ -3962,11 +3958,11 @@ html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
       const left = portionsLeft();
 
       if (left <= 0) {
-        breakfastStock.textContent = text[lang].soldOut;
-        breakfastStock.className = 'stock-zero';
+        breakfastStock.innerHTML = '<div class="breakfast-price-label">' + (lang === 'zh' ? '库存' : 'Stock') + '</div><div class="breakfast-price stock-zero">' + text[lang].soldOut + '</div>';
+        breakfastStock.className = 'breakfast-price-block breakfast-stock-price stock-zero';
       } else {
-        breakfastStock.textContent = text[lang].stock + ' ' + left + ' ' + text[lang].stockLeft;
-        breakfastStock.className = left <= 5 ? 'stock-low' : '';
+        breakfastStock.innerHTML = '<div class="breakfast-price-label">' + text[lang].stock + '</div><div class="breakfast-price stock-value' + (left <= 5 ? ' stock-low' : '') + '">' + left + (lang === 'zh' ? ' 份' : '') + '</div>';
+        breakfastStock.className = 'breakfast-price-block breakfast-stock-price' + (left <= 5 ? ' stock-low' : '');
         if (left > 5) breakfastStock.style.color = '#2e7d32';
       }
     }
@@ -5740,6 +5736,16 @@ html body:not(.dark) #successCard{
   box-shadow:0 2px 10px rgba(29,29,31,.035)!important;
 }
 html body:not(.dark) .card{margin-bottom:20px!important}
+</style>
+<style id="yf-unitprice-stock-inline">
+.breakfast-price-row{display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:18px!important}
+.breakfast-price-block{display:flex!important;flex-direction:column!important;align-items:flex-start!important;min-width:0}
+.breakfast-stock-price{margin-left:auto!important;text-align:right!important;align-items:flex-end!important}
+.breakfast-stock-price .breakfast-price-label{color:#77777E!important;font-size:13px!important;font-weight:600!important}
+.breakfast-stock-price .breakfast-price{font-size:23px!important;font-weight:800!important;line-height:1.25!important;color:#248A52!important;white-space:nowrap!important}
+.breakfast-stock-price.stock-low .breakfast-price{color:#A66A12!important}
+.breakfast-stock-price.stock-zero .breakfast-price{color:#C43D2B!important}
+@media(max-width:380px){.breakfast-price-row{gap:12px!important}.breakfast-stock-price .breakfast-price{font-size:21px!important}}
 </style>
 </body>
 
