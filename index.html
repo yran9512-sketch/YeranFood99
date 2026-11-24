@@ -3777,7 +3777,7 @@ html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
     let optionStockCache = {};
     let optionStockRequestSeq = 0;
     function currentOptionStock() {
-      const key = selectedOptionId == null ? null : String(selectedOptionId);
+      const key = selectedOptionId == null ? null : String(selectedOptionId) + '|' + getMealDate(currentPeriod);
       return key && optionStockCache[key] != null ? Number(optionStockCache[key]) : null;
     }
     function portionsLeft() {
@@ -3786,10 +3786,11 @@ html body:not(.dark) #payCard:focus-within{border-color:#D9D9E0!important}
     }
     function loadSelectedOptionStock(optionId) {
       if (optionId == null) return;
-      const key = String(optionId);
+      const date = getMealDate(currentPeriod);
+      const key = String(optionId) + '|' + date;
       if (optionStockCache[key] != null) return;
       const seq = ++optionStockRequestSeq;
-      supabaseClient.rpc('get_option_stock', { p_option_id: optionId, p_meal_date: getMealDate(currentPeriod) }).then(function(res) {
+      supabaseClient.rpc('get_option_stock', { p_option_id: optionId, p_meal_date: date }).then(function(res) {
         if (seq !== optionStockRequestSeq || Number(optionId) !== Number(selectedOptionId)) return;
         if (res.error || !res.data || !res.data.length) return;
         optionStockCache[key] = Number(res.data[0].remaining || 0);
